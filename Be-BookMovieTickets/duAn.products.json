@@ -1,0 +1,241 @@
+[{
+  "_id": {
+    "$oid": "668b3b2fa5edaeb2d5af0d96"
+  },
+  "image": "./src/assets/img/trending1.jpg",
+  "name": "Avatar",
+  "hotdeal": "1",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3b7ca5edaeb2d5af0d97"
+  },
+  "image": "./src/assets/img/trending2.jpg",
+  "name": "John Wich",
+  "hotdeal": "1",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3bdca5edaeb2d5af0d98"
+  },
+  "image": "./src/assets/img/trending3.jpg",
+  "name": "Queen of tear",
+  "hotdeal": "1",
+  "category": {
+    "$oid": "66963e2f184be8709b305daa"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3c08a5edaeb2d5af0d99"
+  },
+  "image": "./src/assets/img/trending4.jpg",
+  "name": "Batman | Story",
+  "hotdeal": "1",
+  "category": {
+    "$oid": "66963e2f184be8709b305daa"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3c30a5edaeb2d5af0d9a"
+  },
+  "image": "./src/assets/img/trending5.jpg",
+  "name": "King Kong",
+  "hotdeal": "1",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3c5ea5edaeb2d5af0d9b"
+  },
+  "image": "./src/assets/img/trending6.jpg",
+  "name": "Bố già",
+  "hotdeal": "1",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3cb5a5edaeb2d5af0d9c"
+  },
+  "image": "./src/assets/img/updating8.jpg",
+  "name": "Nevertheless",
+  "description": "The K-drama follows the romance between art students Yoo Na-bi and Park Jae-eon .",
+  "hotdeal": "2",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3d4aa5edaeb2d5af0d9d"
+  },
+  "image": "./src/assets/img/updating2.jpg",
+  "name": "My Name",
+  "hotdeal": "2\n",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3d8fa5edaeb2d5af0d9e"
+  },
+  "image": "./src/assets/img/updating1.jpg",
+  "name": "Fast And Furious 10r",
+  "hotdeal": "2",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3db8a5edaeb2d5af0d9f"
+  },
+  "image": "./src/assets/img/updating3.jpg",
+  "name": "The Marvel",
+  "hotdeal": "2",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3e14a5edaeb2d5af0da0"
+  },
+  "image": "./src/assets/img/updating4.jpg",
+  "name": "Elemental",
+  "hotdeal": "2",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3e98a5edaeb2d5af0da1"
+  },
+  "image": "./src/assets/img/updating5.jpg",
+  "name": "The Little Mermaid",
+  "hotdeal": "2",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3ec2a5edaeb2d5af0da2"
+  },
+  "image": "./src/assets/img/updating6.jpg",
+  "name": "Transformers",
+  "hotdeal": "2",
+  "category": {
+    "$oid": "66963def184be8709b305da9"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3ef0a5edaeb2d5af0da3"
+  },
+  "image": "./src/assets/img/recoment1.webp",
+  "name": "Spider-Man",
+  "hotdeal": "3",
+  "category": {
+    "$oid": "66963e2f184be8709b305daa"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3f29a5edaeb2d5af0da4"
+  },
+  "image": "./src/assets/img/recoment2.webp",
+  "name": "The Black Demon",
+  "hotdeal": "3"
+},
+{
+  "_id": {
+    "$oid": "668b3f51a5edaeb2d5af0da5"
+  },
+  "image": "./src/assets/img/recoment3.webp",
+  "name": "The Super Mario Bros",
+  "hotdeal": "3",
+  "category": {
+    "$oid": "66963e2f184be8709b305daa"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3f74a5edaeb2d5af0da6"
+  },
+  "image": "./src/assets/img/recoment4.webp",
+  "name": "The Flash",
+  "hotdeal": "3",
+  "category": {
+    "$oid": "66963e45184be8709b305dab"
+  }
+},
+{
+  "_id": {
+    "$oid": "668b3fe1a5edaeb2d5af0da7"
+  },
+  "director": "Stan Lee ",
+  "image": "./src/assets/img/imgToptrend1.jpg",
+  "hotdeal": "4"
+},
+{
+  "_id": {
+    "$oid": "668b4068a5edaeb2d5af0da8"
+  },
+  "director": "John Doe",
+  "image": "./src/assets/img/imgToptrend2.jpg",
+  "hotdeal": "4"
+},
+{
+  "_id": {
+    "$oid": "668b40a1a5edaeb2d5af0da9"
+  },
+  "director": "Shigeru Miyamoto",
+  "name": "./src/assets/img/imgToptrend3.jpg",
+  "hotdeal": "4"
+},
+{
+  "_id": {
+    "$oid": "668b40d4a5edaeb2d5af0daa"
+  },
+  "derector": "Robert Kanigher",
+  "name": "./src/assets/img/imgToptrend4.jpg",
+  "topTrending": "4"
+},
+{
+  "_id": {
+    "$oid": "668b40fca5edaeb2d5af0dab"
+  },
+  "director": "Michael Bay",
+  "image": "./src/assets/img/imgToptrend6.jpg",
+  "topTrending": "4"
+},
+{
+  "_id": {
+    "$oid": "668cfc560cb2945f1886680c"
+  },
+  "director": "Shiii To",
+  "name": "",
+  "hotdeal": "4"
+},
+{
+  "_id": {
+    "$oid": "668cfc790cb2945f1886680d"
+  },
+  "director": "Shiii",
+  "name": "",
+  "hotdeal": "4"
+}]

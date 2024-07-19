@@ -1,0 +1,2797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/logo2.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@100;200;300;400;500&family=Josefin+Sans:wght@100;200;300;400;500&family=Poppins:wght@100;200;300;400;500;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.1.1-web/css/all.min.css">
+    <title>Shop</title>
+</head>
+<body>
+    <div class="app">
+        <header class="header grid wide">
+            <div class="header__nav row">
+                <div class="header__nav-left l-8 m-9 c-8">
+                    <ul class="header__left-list">
+                        <li class="header__left-item header__nav-language">
+                            <img src="/img/header/language/vn.png" alt="" class="header__nav-language-img">
+                            <a class="header__left-item-link" href="#">VietNam
+                                <i class="header__icon-dow fa-solid fa-chevron-down"></i>
+                                <ul class="header__language-list">
+                                    <li class="header__language-list-item">
+                                        <a class="header__language-list-item-link" href="#">
+                                            <img src="/img/header/language/en.jpg" class="header__language-list-item-img" alt="">
+                                            <span>English</span>    
+                                        </a>
+                                    </li>
+                                    <li class="header__language-list-item">
+                                        <a class="header__language-list-item-link" href="#">
+                                            <img src="/img/header/language/fr.jpg" class="header__language-list-item-img" alt="">
+                                            <span>French</span> 
+                                        </a>
+                                    </li>
+                                </ul>
+                            </a>
+                            
+                        </li>
+                        <li class="header__left-item header__nav-price">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                            <a class="header__left-item-link" href="#">VNĐ
+                            <i class="header__icon-dow fa-solid fa-chevron-down"></i>
+                            <ul class="header__price-list">
+                                <li class="header__price-list-item">
+                                    <a class="header__price-list-item-link" href="#">
+                                        <i class="fa-solid fa-sterling-sign"></i>
+                                        <span>EUR</span>    
+                                    </a>
+                                </li>
+                                <li class="header__price-list-item">
+                                    <a class="header__price-list-item-link" href="#">
+                                        <i class="fa-solid fa-euro-sign"></i>
+                                        <span>GBP</span> 
+                                    </a>
+                                </li>
+                            </ul>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header__nav-right l-4 m-0 c-0">
+                    <ul class="header__right-list">
+                        <li class="header__right-item">
+                            <a class="header__right-item-link" href="#"><i class="fa-solid fa-user"></i>
+                               <span>Tài khoản </span> 
+                            </a>
+                        </li>
+                        <li class="header__right-item">
+                            <a class="header__right-item-link" href="#"><i class="fa-regular fa-heart"></i>
+                                yêu thích</a>
+                        </li>
+                        <li class="header__right-item">
+                            <a class="header__right-item-link" href="#"><i class="fa-regular fa-circle-check"></i>
+                               Thanh Toán</a>
+                        </li>
+                        <li class="header__right-item">
+                            <a class="header__right-item-link" href="#">
+                                <i class="fa-solid fa-unlock"></i>
+                                Đăng nhập
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+         
+            <!-- run text -->
+            <div id="header">
+                <h1 id="welcome-text">Website SonMuczik Chào Bạn !</h1>
+            </div>
+            <!--  -->
+            <div class="strikethrough"></div>
+            <div class="header__search row">
+                <div class="header__search-logo col l-3 m-9 c-9">
+                    <a href="#" class="header__search-logo-link">
+                        <img src="/img/header/logo/logo.png" alt="" class="header__search-logo-img">
+                    </a>
+                </div>
+                <div class="header__search-search col l-6 m-0 c-0">
+                    <form class="header__search-search-form" action="">
+                        <input class="header__search-search-input" type="text" placeholder="Tìm sản phẩm" id="search">
+                        <label class="header__search-search-icon" for="search">
+                            <a class="header__search-search-icon-link" href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
+                        </label>
+                    </form>
+                </div>
+                <div class="header__search-tell col l-2 m-0 c-0">
+                    <a class="header__search-tell-link" href="tel:(+84)99998943">
+                        <img src="/img/header/contact/phone.png" alt="" class="header__search-tell-img">
+                        <div class="header__search-tell-text">
+                            <h1>Gọi chúng tôi</h1>
+                            <span>(+84)058.632.3296</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="header__search-cart col l-1 m-3 c-3">
+                    <a class="header__search-cart-link" href="#">
+                        <img src="/img/header/contact/cart.png" alt="" class="header__search-cart-img">   
+                        <div class="header__search-cart-text">
+                            <h1>Giỏ hàng </h1>
+                            <span>0(VNĐ)</span>
+                        </div>
+                    </a>
+                    <div class="header__search-cart-list">
+                        <h1>Giỏ hàng </h1>
+                        <span> 0 đơn hàng</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="header__search-mobile grid wide l-0">
+            <div class="header__search-mobile-container">
+                <a class="header__search-search-icon-link header__search-search-icon-link-mobile" href="#">
+                    <i class="header__search-search-icon-mobile fa-solid fa-magnifying-glass"></i>
+                    <form  class="header__search-search-form header__search-search-form-moible" action="">
+                        <input class="header__search-search-input" type="text" placeholder="Search for product" id="search">
+                        <label class="header__search-search-icon" for="search">
+                            <a class="header__search-search-icon-link" href="#"></a>
+                        </label>
+                    </form>
+                </a>
+            </div>
+            
+        </div>
+        <div class="roll">
+            <a href="#" class="back-home">
+                <i class="fa-solid fa-arrow-up"></i>
+            </a>
+            <div class="container grid wide">
+                <div class="slide1 row no-gutters">
+                    <div class="slide1__category col l-3 m-0 c-0">
+                        <div class="slide1__category-header">
+                            <h3>
+                            <i class="slide1__category-header-icon fa-solid fa-bars-staggered"></i>
+                           DANH MỤC</h3>
+                        </div>
+                        <ul class="slide1__category-list">
+                            
+                            <li class="slide1__category-item">
+                                    <a href="#" class="slide1__category-item-link">
+                                        <img src="/img/container/slide1/icon category/taylor2.jpg" alt="" class="slide1__category-item-icon">
+                                        <span>Đàn dành cho người mới chơi</span> 
+                                    </a>
+                            </li>
+    
+                            <li class="slide1__category-item ">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/taylor1.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Guitar Accoustic</span> 
+                                    <i class="slide1__category-icon-load-more fa-solid fa-angle-right"></i>
+                                </a>
+                                <div class="slide1__item-kitchen row">
+                                    <div class="slide1__item-kitchen-container col l-4">
+                                        <h3 class="slide1__item-kitchen-header">
+                                            <span>Guitar Acoustic Dreadnought</span>
+                                        </h3>
+                                        <ul class="slide1__item-kitchen-list">
+                                            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Martin D-28
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Taylor 210
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Gibson J-45
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                    Guitar Yamaha FG830
+                                                </a>
+                                            </li>
+            
+                                        </ul>
+    
+                                    </div>
+                                    <div class="slide1__item-kitchen-container col l-4">
+                                        <h3 class="slide1__item-kitchen-header">
+                                            <span>Guitar Acoustic Concert</span>
+                                        </h3>
+                                        <ul class="slide1__item-kitchen-list">
+                                            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Taylor 712ce
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Martin 00-18
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Gibson L-00
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Yamaha AC3R
+                                                </a>
+                                            </li>
+            
+                                        </ul>
+    
+                                    </div>
+                                    <div class="slide1__item-kitchen-container col l-4">
+                                        <h3 class="slide1__item-kitchen-header">
+                                            <span>Guitar Acoustic Parlor</span> 
+                                        </h3>
+                                        <ul class="slide1__item-kitchen-list">
+                                            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                    Guitar Martin 0-28VS
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Taylor GS Mini
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                    Guitar Gibson L-1
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-kitchen-sub">
+                                                <a href="#" class="slide1__item-kitchen-link">
+                                                   Guitar Fender CP-60S
+                                                </a>
+                                            </li>
+            
+                                        </ul>
+    
+                                    </div>
+                                    <div class="slide1">
+                                       <!-- img vào -->
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="slide1__category-item">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/tawylor3.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Guitar Classic</span> 
+                                </a>
+                            </li>
+    
+                            <li class="slide1__category-item">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/taylor2.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Guitar Electric</span>  
+                                    <i class="slide1__category-icon-load-more fa-solid fa-angle-right"></i>
+                                </a>
+                                <div class="slide1__item-bedroom row">
+                                    <div class="slide1__item-bedroom-container col l-4">
+                                        
+                                        <a href="#" class="slide1__item-bedroom-link-img">
+                                        <img class="slide1__item-bedroom-img" src="/img/container/slide1/category-bedroom/banner4.png" alt="">
+                                        </a>
+                                        <div class="slide1__item-bedroom-page slide1__item-bedroom-page--current"></div>
+                                        <div class="slide1__item-bedroom-page"></div>
+                                    </div>
+                                    <div class="slide1__item-bedroom-container col l-4">
+                                        <h3 class="slide1__item-bedroom-header">
+                                            <span>Guitar Fender</span>
+                                        </h3>
+                                        <ul class="slide1__item-bedroom-list">
+                                            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                   Guitar Stratocaster
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                    Guitar Telecaster
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                   Guitar Jazzmaster
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                    Guitar Jaguar
+                                                </a>
+                                            </li>
+                                            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                    Guitar Mustang
+                                                </a>
+                                            </li>
+    
+                                         
+            
+                                        </ul>
+    
+                                    </div>
+    
+                                    <div class="slide1__item-bedroom-container col l-4">
+                                        <h3 class="slide1__item-bedroom-header">
+                                            <span>Guitar Ibanez</span> 
+                                        </h3>
+                                        <ul class="slide1__item-bedroom-list">
+                                            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                    Guitar Ibanez RG Series
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                    Guitar Ibanez S Series
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                    Guitar Ibanez Artcore Series
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-bedroom-sub">
+                                                <a href="#" class="slide1__item-bedroom-link">
+                                                    Guitar Ibanez Acoustic Series
+                                                </a>
+                                            </li>
+            
+                                        </ul>
+    
+                                    </div>
+                                   
+                                </div>
+                            </li>
+    
+                            <li class="slide1__category-item">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/taylor1.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Guitar cao cấp</span>  
+                                    <i class="slide1__category-icon-load-more fa-solid fa-angle-right"></i>
+                                </a>
+                                <div class="slide1__item-living-room row">
+                                    <div class="slide1__item-living-room-container col l-4">
+                                        <h3 class="slide1__item-living-room-header">
+                                            <span>Guitar Gibson</span>
+                                        </h3>
+                                        <ul class="slide1__item-living-room-list">
+                                            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    Gibson Les Paul
+                                                </a>
+                                            </li>
+                                            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    Gibson ES-335
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    Gibson Flying V
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    Gibson Explorer
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    Gibson Hummingbird
+                                                </a>
+                                            </li>
+            
+                                        </ul>
+    
+                                    </div>
+                                    <div class="slide1__item-living-room-container col l-4">
+                                        <h3 class="slide1__item-living-room-header">
+                                            <span>Guitar PRS</span>
+                                        </h3>
+                                        <ul class="slide1__item-living-room-list">
+                                            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    PRS Custom 24
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    PRS SE Custom 24
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    PRS S2 Custom 24
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    PRS Tremonti
+                                                </a>
+                                            </li>
+    
+                                            <li class="slide1__item-living-room-sub">
+                                                <a href="#" class="slide1__item-living-room-link">
+                                                    PRS Santana
+                                                </a>
+                                            </li>
+            
+                                        </ul>
+    
+                                    </div>
+                                    <div class="slide1__item-living-room-container col l-4">
+                                        <h3 class="slide1__item-living-room-header">
+                                            <span>Sản phẩm mới</span> 
+                                            <div class="slide1__item-living-room-header-icon">
+                                                <i class="slide1__item-living-room-header-icon fa-solid fa-arrow-right"></i>
+                                                <i class="slide1__item-living-room-header-icon fa-solid fa-arrow-left"></i> 
+                                            </div>
+                                        </h3>
+                                        
+                                        <div class="slide1__item-living-room-item slide1__item-living-room-item-strikethrough row">
+                                            <a href="#" class="slide1__item-living-room-link col l-3">
+                                                <img class="pro1" src="./assets/img/container/slide1/category-livingroom/product5.jpg" alt="" class="slide1__item-living-room-img">
+                                            </a>
+                                            <div class="slide1__item-living-room-description col l-8">
+                                                <h3>Mauris at euismod lectus lacus</h3>
+                                                <span class="slide1__item-living-room-price">$18.00</span>
+                                                <span class="slide1__item-living-room-price slide1__item-living-room-price--current">$16.00</span>
+                                            </div>
+                                        </div>
+    
+                                        <div class="slide1__item-living-room-item row">
+                                            <a href="#" class="slide1__item-living-room-link col l-3">
+                                                <img class="pro1" src="/img/container/slide1/category-livingroom/product4.jpg" alt="" class="slide1__item-living-room-img">
+                                            </a>
+                                            <div class="slide1__item-living-room-description col l-8">
+                                                <h3>Sed varius mauris eu elemen</h3>
+                                                <!-- <span class="slide1__item-living-room-price">$ 18.00</span> -->
+                                                <span class="slide1__item-living-room-price slide1__item-living-room-price--current">$ 17.00</span>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </li>
+    
+                            <li class="slide1__category-item">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/tawylor3.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Guitar Ukulele</span>  
+                                    <i class="slide1__category-icon-load-more fa-solid fa-angle-right"></i>
+                                </a>
+    
+                                <div class="slide1__item-bath-room">
+                                    <div class="slide1__item-bath-room-container">
+                                        <ul class="slide1__item-bath-room-list">
+                                            
+                                            <li class="slide1__item-bath-room-sub">
+                                                <a href="#" class="slide1__item-bath-room-link">
+                                                    Soprano Ukulele
+                                                </a>
+                                            </li>
+                                            
+                                            <li class="slide1__item-bath-room-sub">
+                                                <a href="#" class="slide1__item-bath-room-link">
+                                                    Concert Ukulele
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-bath-room-sub">
+                                                <a href="#" class="slide1__item-bath-room-link">
+                                                    Tenor Ukulele
+                                                </a>
+                                            </li>
+            
+                                            <li class="slide1__item-bath-room-sub">
+                                                <a href="#" class="slide1__item-bath-room-link">
+                                                    Baritone Ukulele
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+    
+                            <li class="slide1__category-item">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/tawylor3.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Amply Guitar</span> 
+                                </a>
+                            </li>
+    
+                            <li class="slide1__category-item">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/taylor2.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Guitar Fender</span> 
+                                </a>
+                            </li>
+    
+                            <li class="slide1__category-item">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/taylor1.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Guitar Taylor</span>  
+                                </a>
+                            </li>
+    
+                            <li class="slide1__category-item">
+                                <a href="#" class="slide1__category-item-link">
+                                    <img src="/img/container/slide1/icon category/tải xuống.jpg" alt="" class="slide1__category-item-icon">
+                                    <span>Guitar Takemina</span>  
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <nav class="slide1__sidebar-mobile m-1 c-1">
+                        <label for="slide1__sidebar-mobile-check" class="slide__sidebar-mobile-header">
+                            <i class="slide__sidebar-mobile-header-icon fa-solid fa-arrows-left-right-to-line"></i>
+                            <i class="slide1__content-sidebar-itemslide__sidebar-mobile-header-icon-2 fa-solid fa-bars"></i>
+                        </label>
+                        <input hidden class="slide1__sidebar-mobile-input" id="slide1__sidebar-mobile-check" type="checkbox">
+                        <ul class="slide1__sidebar-mobile-list">
+                            <li class="slide1__sidebar-mobile-item">
+                                <a class="slide1__sidebar-mobile-item-link slide1__sidebar-mobile-item-link--current" href="#">
+                                    <i class="slide1__sidebar-mobile-item-icon fa-solid fa-house-chimney "></i>
+                                    <ul class="slide1__sidebar-home-list slide1__sidebar-home-list-2">
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Home Page 1
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Home Page 2
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Home Page 3
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Home Page 4
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Home Page 5
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Home Page 6
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Home Page 7
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </a>       
+                            </li>
+                            <li class="slide1__sidebar-mobile-item">
+                                <a class="slide1__sidebar-mobile-item-link slide1__sidebar-mobile-item-link--current" href="#">
+                                    <i class="slide1__sidebar-mobile-item-icon fa-solid fa-briefcase"></i>
+                                    <ul class="slide1__sidebar-home-list slide1__sidebar-home-list-2">
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Default
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Default
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Default
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Default
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Default
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Default
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Default
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </a>
+                            </li>
+                            <li class="slide1__sidebar-mobile-item">
+                                <a class="slide1__sidebar-mobile-item-link slide1__sidebar-mobile-item-link--current" href="#">
+                                    <i class="slide1__sidebar-mobile-item-icon fa-solid fa-bag-shopping"></i>
+                                    <ul class="slide1__sidebar-home-list slide1__sidebar-home-list-2">
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                404 Not Found
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                404 Not Found
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                404 Not Found
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                404 Not Found
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                404 Not Found
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                404 Not Found
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                404 Not Found
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </a>
+                            </li>
+                            <li class="slide1__sidebar-mobile-item">
+                                <a class="slide1__sidebar-mobile-item-link slide1__sidebar-mobile-item-link--current" href="#">
+                                    <i class="slide1__sidebar-mobile-item-icon fa-solid fa-book"></i>
+                                    <ul class="slide1__sidebar-home-list slide1__sidebar-home-list-2">
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Coming Soon
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Coming Soon
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Coming Soon
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Coming Soon
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Coming Soon
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Coming Soon
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Coming Soon
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </a>
+                            </li>
+                            <li class="slide1__sidebar-mobile-item">
+                                <a class="slide1__sidebar-mobile-item-link slide1__sidebar-mobile-item-link--current" href="#">
+                                    <i class="slide1__sidebar-mobile-item-icon fa-solid fa-mug-hot"></i>
+                                    <ul class="slide1__sidebar-home-list slide1__sidebar-home-list-2">
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Mansory
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Mansory
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Mansory
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Mansory
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Mansory
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Mansory
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Blog Mansory
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        
+                        <label for="slide1__sidebar-mobile-check" class="slide1__sidebar-mobile-overlay">  
+                    </nav>
+                    <div class="slide1__content col l-9 m-11 c-11">
+                        <div class="slide1__content-sidebar col l-12 m-0 c-0">
+                            <ul class="slide1__content-sidebar-list">
+                                <li class="slide1__content-sidebar-item">
+                                    <a class="slide1__content-sidebar-item-link slide1__content-sidebar-item-link--current" href="#">
+                                        <i class="slide1__content-sidebar-item-icon fa-solid fa-house"></i>
+                                        <span>TRANG CHỦ</span>
+                                    </a>
+                                    <ul class="slide1__sidebar-home-list">
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                               Trang  1
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Trang   2
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Trang    3
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Trang    4
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Trang    5
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Trang    6
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-home-item">
+                                            <a href="#" class="slide1__sidebar-home-link">
+                                                Trang    7
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="slide1__content-sidebar-item">
+                                    <a class="slide1__content-sidebar-item-link" href="#">
+                                        <i class="slide1__content-sidebar-item-icon fa-solid fa-warehouse"></i>
+                                        <span>Kho Hàng</span>
+                                    </a>
+                                    <ul class="slide1__sidebar-blog-list">
+                                        <li class="slide1__sidebar-blog-item">
+                                            <a href="#" class="slide1__sidebar-blog-link">
+                                                Kho 1
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-blog-item">
+                                            <a href="#" class="slide1__sidebar-blog-link">
+                                               Kho 2
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-blog-item">
+                                            <a href="#" class="slide1__sidebar-blog-link">
+                                               Kho 3
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-blog-item">
+                                            <a href="#" class="slide1__sidebar-blog-link">
+                                               Kho 4
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="slide1__content-sidebar-item">
+                                    <a class="slide1__content-sidebar-item-link" href="./product/index.html">
+                                        <i class="slide1__content-sidebar-item-icon fa-solid fa-guitar"></i>
+                                        <span>SHOW PRODUCT</span>
+                                    </a> 
+                                    <!-- <div class="slide1__sidebar-shop-pages-list row">
+                                        <div class="slide1__sidebar-shop-page-item col l-3">
+                                            <h3 class="slide1__sidebar-shop-page-header">
+                                                <span>PRODUCT CATEGORIES</span>
+                                            </h3>
+                                            <ul class="slide1__sidebar-shop-page-list-sub">
+                                                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <img src="./assets/img/container/slide1/icon category/living room.png" alt="" class="slide1__sidebar-shop-page-icon">
+                                                        <span>Living Room</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <img src="./assets/img/container/slide1/icon category/Bed room.png" alt="" class="slide1__sidebar-shop-page-icon">
+                                                        <span>Bed Room</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <img src="./assets/img/container/slide1/icon category/bath room.png" alt="" class="slide1__sidebar-shop-page-icon">
+                                                        <span>Bath Room</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <img src="./assets/img/container/slide1/icon category/kitchen.png" alt="" class="slide1__sidebar-shop-page-icon">
+                                                        <span>Kitchen</span> 
+                                                    </a>
+                                                </li>
+    
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <img src="./assets/img/container/slide1/icon category/accessiries.png" alt="" class="slide1__sidebar-shop-page-icon">
+                                                        <span>Dining Room</span> 
+                                                    </a>
+                                                </li>
+                
+                                            </ul>
+        
+                                        </div>
+                                        <div class="slide1__sidebar-shop-page-item col l-3">
+                                            <h3 class="slide1__sidebar-shop-page-header">
+                                                <span>SHOP PAGES</span>
+                                            </h3>
+                                            <ul class="slide1__sidebar-shop-page-list-sub">
+                                                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Shop with right sidebar</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Shop without sidebar</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Product Tag</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Product Page – Simple type</span> 
+                                                    </a>
+                                                </li>
+    
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>404 Page</span> 
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="slide1__sidebar-shop-page-item col l-3">
+                                            <h3 class="slide1__sidebar-shop-page-header">
+                                                <span>PRODUCT TYPE</span>
+                                            </h3>
+                                            <ul class="slide1__sidebar-shop-page-list-sub">
+                                                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Variable Product 1</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Variable Product 2 – Color</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Variable Product 3 – Image</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Variable Product 4 – Image Thumb</span> 
+                                                    </a>
+                                                </li>
+    
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>Grouped Product</span> 
+                                                    </a>
+                                                </li>
+                                                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <span>External/Affiliate product</span> 
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="slide1__sidebar-shop-page-item col l-3">
+                                            <h3 class="slide1__sidebar-shop-page-header">
+                                                <span>PRODUCT CONFIG</span>
+                                            </h3>
+                                            <ul class="slide1__sidebar-shop-page-list-sub">
+                                                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <i class="slide1__sidebar-shop-page-link-icon fa-solid fa-image"></i>
+                                                        <span>Product Vertical Gallery</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <i class="slide1__sidebar-shop-page-link-icon fa-regular fa-clock"></i>
+                                                        <span>Product Sale Count Down</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <i class="slide1__sidebar-shop-page-link-icon fa-solid fa-play"></i>
+                                                        <span>Product Has Video</span> 
+                                                    </a>
+                                                </li>
+                
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <i class="slide1__sidebar-shop-page-link-icon fa-regular fa-circle"></i>
+                                                        <span>Lens Zoom</span> 
+                                                    </a>
+                                                </li>
+    
+                                                <li class="slide1__sidebar-shop-page-list-sub-item">
+                                                    <a href="#" class="slide1__sidebar-shop-page-link">
+                                                        <i class="slide1__sidebar-shop-page-link-icon fa-solid fa-expand"></i>
+                                                        <span>Inner Zoom</span> 
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div> -->
+                                </li>
+                                <li class="slide1__content-sidebar-item">
+                                    <a class="slide1__content-sidebar-item-link" href="#">
+                                        <i class="slide1__content-sidebar-item-icon fa-solid fa-tag"></i>
+                                        <span>KHUYẾN MÃI</span>
+                                    </a>
+                                    <!-- <ul class="slide1__sidebar-pages-list">
+                                        <li class="slide1__sidebar-pages-item">
+                                            <a href="#" class="slide1__sidebar-pages-link">
+                                                Order Tracking
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-pages-item">
+                                            <a href="#" class="slide1__sidebar-pages-link">
+                                                Comming Soon
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-pages-item">
+                                            <a href="#" class="slide1__sidebar-pages-link">
+                                                404 Not found
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-pages-item">
+                                            <a href="#" class="slide1__sidebar-pages-link">
+                                                My Wishlist
+                                            </a>
+                                        </li>
+                                        <li class="slide1__sidebar-pages-item">
+                                            <a href="#" class="slide1__sidebar-pages-link">
+                                                Terms and conditions
+                                            </a>
+                                        </li>
+                                    </ul> -->
+                                </li>
+                                <li class="slide1__content-sidebar-item">
+                                    <a class="slide1__content-sidebar-item-link" href="#">
+                                        <i class="slide1__content-sidebar-item-icon fa-regular fa-newspaper"></i>
+                                        <span>TIN TỨC</span>
+                                    </a> 
+                                </li>
+                                <li class="slide1__content-sidebar-item">
+                                    <a class="slide1__content-sidebar-item-link" href="#">
+                                        <i class="slide1__content-sidebar-item-icon fa-solid fa-earth-africa"></i>
+                                        <span>LIÊN HỆ</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="slide1__content-home m-12 c-12">
+                            <div class="slide1__content-home-content">
+                                <span>Âm nhạc</span>
+                                <h3>Kết nối đam mê</h3>
+                                <form action="">
+                                    <button class="slide1__content-home-content-btn slide1__content-home-content-btn--current">
+                                        READ MORE
+                                    </button>
+                                    <button class="slide1__content-home-content-btn">
+                                        BUY NOW
+                                    </button>
+                                </form>
+                                    <div class="slide1__content-home-content-page ">
+                         
+                                    </div>
+                                    <div class="slide1__content-home-content-page ">
+                                    
+                                    </div>
+                                    <div class="slide1__content-home-content-page slide1__content-home-content-page-lar slide1__content-home-content-page--current"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide1__footer row">
+                    <div class="slide1__footer-item col l-4 m-6 c-10">
+                        <div class="slide1__footer-item-cover">
+                            <img src="./assets/img/container/slide1/footer/shipping.png" alt="" class="slide1__footer-icon">
+                            <div class="slide1__footer-description">
+                                <a href="#">
+                                    <h3>SHIPPING & RETURNS</h3>
+                                </a>
+                                <span>World wide shipping to selected countries</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide1__footer-item col l-4 m-6 c-10">
+                        <div class="slide1__footer-item-cover">
+                            <img src="./assets/img/container/slide1/footer/money.png" alt="" class="slide1__footer-icon">
+                            <div class="slide1__footer-description">
+                                <a href="#">
+                                    <h3>SHIPPING & RETURNS</h3>
+                                </a>
+                                <span>World wide shipping to selected countries</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide1__footer-item col l-4 m-6 c-10">
+                        <div class="slide1__footer-item-cover">
+                            <img src="./assets/img/container/slide1/footer/support.png" alt="" class="slide1__footer-icon">
+                            <div class="slide1__footer-description">
+                                <a href="#">
+                                    <h3>SHIPPING & RETURNS</h3>
+                                </a>
+                                <span>World wide shipping to selected countries</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide2">
+                    <div class="slide2__header row">
+                        <div class="slide2__header-title col l-2 m-12">
+                            <h2>
+                                Hot products</h2>
+                        </div>
+                        <div class="slide2__header-selection col l-7 l-o-2 m-0 c-0">
+                            <a href="#" class="slide2__header-selection-link slide2__header-selection-link-current">
+                                <i class="slide2__header-selection-icon fa-regular fa-clock"></i>
+                                <span>Best</span>  
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-regular fa-circle-check"></i>
+                                <span>SellerTop</span>  
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-solid fa-signal"></i>
+                                <span>Rated</span> 
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-solid fa-star"></i>
+                                <span>Special</span> 
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-brands fa-affiliatetheme"></i>
+                                <span>Featured</span> 
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slide2__container">
+                        <ul class="slide2__category-list c-0">
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Lighting">
+                                   Guitar Electric
+                                </a>
+                            </li
+                            >
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Living Room Lighting">
+                                    Guitar Accoustic
+                                </a>
+                            </li
+                            >
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Living Room Storage">
+                                    Guitar  Classic
+                                </a>
+                            </li
+                            >
+                            <li class="slide2__category-item" title="Sofas & Armchairs">
+                                <a href="#" class="slide2__category-link">
+                                   Ampli Fender
+                                </a>
+                            </li
+                            >
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="TV & media furniture">
+                                     Ukulele
+                                </a>
+                            </li
+                            >
+                        </ul>
+                        <div class="slide2__product row">
+                            <div class="slide2__product-lar col l-4 m-8 c-0 ">
+                                <a href="#" class="slide2__product-lar-link">
+                                    <img src="/img/container/slide2/guitar3.webp" alt="" class="slide2__product-lar-img">
+                                    <div class="coating"></div>
+                                </a>
+                            </div>
+                            
+                            <div class="slide2__product-medium col l-8 m-4 c-12">
+                                <div class="slide2__product-medium-list row">
+                                    <a class="slide2__product-medium-up-link" href="#first-product">
+                                        <i class="slide2__product-medium-up-icon fa-solid fa-up-long"></i>
+                                    </a>
+                                    <a class="slide2__product-medium-down-link" href="#last-product">
+                                        <i class="slide2__product-medium-down-icon fa-solid fa-down-long"></i>
+                                    </a>
+                                    <a name="first-product"></a>
+                                    <div id="" class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/guitar4.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3> Silent Acoustic ENYA NEXG</h3>
+                                                <span class="slide2__product-price">$18.00</span>
+                                                <span class="slide2__product-price slide2__product-price--current">$16.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/guitar5.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Silent Acoustic ENYA NEXG</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$16.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/guitar6.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Silent Acoustic ENYA NEXG</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$13.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/guitar9.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Silent Acoustic ENYA NEXG</h3>
+                                                <!-- <span class="slide2__product-price">$101.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$16.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/guitar7.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Sed varius mauris eu elemen</h3>
+                                                <!-- <span class="slide2__product-price">$17.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$17.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/guitar8.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Fusce et congue doloR lorem</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$14.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/ukulele2.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Nam efficitur nisl in convallis</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$15.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/ukulele1.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            
+                                            <div class="slide2__product-description">
+                                                <h3>Mauris at euismod lectus lacus</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">45.00 - $78.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/amply1.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Aenean inter dum dui sed</h3>
+                                                <span class="slide2__product-price">$18.00</span>
+                                                <span class="slide2__product-price slide2__product-price--current">$16.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/ukulele3.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Morbi odio eros lacinia sit</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$16.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/amply2.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Lorem ipsum dolor sit amet</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$13.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/ukulele4.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Etiam ultricies eu lorem et</h3>
+                                                <!-- <span class="slide2__product-price">$101.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$16.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/amply3.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Sed varius mauris eu elemen</h3>
+                                                <!-- <span class="slide2__product-price">$17.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$17.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/ukulele5.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Fusce et congue doloR lorem</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$14.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/amply4.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Nam efficitur nisl in convallis</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$15.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide2/ukulele6.jpg" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            
+                                            <div class="slide2__product-description">
+                                                <h3>Mauris at euismod lectus lacus</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">45.00 - $78.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <a name="last-product"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide3">
+                    <div class="slide2__header row">
+                        <div class="slide2__header-title col l-2 m-12">
+                            <h2>Guitar Accoustic</h2>
+                        </div>
+                        <div class="slide2__header-selection col l-7 l-o-2 m-0 c-0">
+                            <a href="#" class="slide2__header-selection-link slide2__header-selection-link-current">
+                                <i class="slide2__header-selection-icon fa-regular fa-clock"></i>
+                                <span>Best</span>  
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-regular fa-circle-check"></i>
+                                <span>SellerTop</span>  
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-solid fa-signal"></i>
+                                <span>Rated</span> 
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-solid fa-star"></i>
+                                <span>Special</span> 
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-brands fa-affiliatetheme"></i>
+                                <span>Featured</span> 
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slide2__container">
+                        <ul class="slide2__category-list c-0">
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Bed Room">
+                                    Guitar Martin D-28
+                                </a>
+                            </li>
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Bedding">
+                                    Guitar Taylor 210
+                                </a>
+                            </li>
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Beds">
+                                    Guitar Gibson J-45
+                                </a>
+                            </li>
+                            <li class="slide2__category-item" title="Chair reading">
+                                <a href="#" class="slide2__category-link">
+                                    Guitar Yamaha FG830
+                                </a>
+                            </li>
+                          
+                        </ul>
+                        <!-- slide 3  -->
+                        <div class="slide2__product row">
+                            <div class="slide2__product-lar slide3-order col l-4 m-8 c-0">
+                                <a href="#" class="slide2__product-lar-link">
+                                    <img src="/img/container/slide3/background9.webp" alt="" class="slide2__product-lar-img">
+                                    <div class="coating"></div>
+                                </a>
+                            </div>
+                            
+                            <div class="slide2__product-medium col l-8 m-4 c-12">
+                                <div class="slide2__product-medium-list row">
+                                    <a class="slide2__product-medium-up-link" href="#first-product-2">
+                                        <i class="slide2__product-medium-up-icon fa-solid fa-up-long"></i>
+                                    </a>
+                                    <a class="slide2__product-medium-down-link" href="#last-product-2">
+                                        <i class="slide2__product-medium-down-icon fa-solid fa-down-long"></i>
+                                    </a>
+                                    <a name="first-product-2"></a>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc12.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Vivamus amet sit erat sapien</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$15.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc11.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Sed aliquam at lacus eu feugiat</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$99.00 - $112.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc10.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Lorem ipsum amet dolor sit</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$25.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc9.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Integer aliquet tincidunt</h3>
+                                                <!-- <span class="slide2__product-price">$101.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$84.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc8.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Lorem censes amet vita quo</h3>
+                                                <!-- <span class="slide2__product-price">$17.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$28.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc7.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Lorem ipsum amet elit sit</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$23.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc6.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Vivamus luctus sempe acu</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">59.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item slide2__product-medium-item--out col l-3 m-0 c-0 ">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc4.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            
+                                            <div class="slide2__product-description">
+                                                <h3>Hàng đã hết</h3>
+                                                <span class="slide2__product-price">$18.00</span>
+                                                <span class="slide2__product-price slide2__product-price--current">45.00 - $78.00</span>
+                                            </div>
+                                            <div class="slide2__product-action slide2__product-action--out">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc4.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Vivamus amet sit erat sapien</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$15.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                              
+                               
+                                   
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc3.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Lorem ipsum amet elit sit</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$23.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc2.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Vivamus luctus sempe acu</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">59.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item slide2__product-medium-item--out col l-3 m-0 c-0 ">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide3/guitar-acc1.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            
+                                            <div class="slide2__product-description">
+                                                <h3>Hàng đã hết</h3>
+                                                <span class="slide2__product-price">$18.00</span>
+                                                <span class="slide2__product-price slide2__product-price--current">45.00 - $78.00</span>
+                                            </div>
+                                            <div class="slide2__product-action slide2__product-action--out">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <a name="last-product-2"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide4">
+                    <div class="slide2__header row">
+                        <div class="slide2__header-title col l-2 m-12">
+                            <h2>Guitar Electric</h2>
+                        </div>
+                        <div class="slide2__header-selection col l-7 l-o-2 m-0 c-0">
+                            <a href="#" class="slide2__header-selection-link slide2__header-selection-link-current">
+                                <i class="slide2__header-selection-icon fa-regular fa-clock"></i>
+                                <span>Best</span>  
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-regular fa-circle-check"></i>
+                                <span>SellerTop</span>  
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-solid fa-signal"></i>
+                                <span>Rated</span> 
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-solid fa-star"></i>
+                                <span>Special</span> 
+                            </a>
+                            <a href="#" class="slide2__header-selection-link">
+                                <i class="slide2__header-selection-icon fa-brands fa-affiliatetheme"></i>
+                                <span>Featured</span> 
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slide2__container">
+                        <ul class="slide2__category-list c-0">
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Shower">
+                                    Guitar Stratocaster
+                                </a>
+                            </li>
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Soap & shampoo">
+                                    Guitar Telecaster
+                                </a>
+                            </li>
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Toaster">
+                                    Guitar Jazzmaster
+                                </a>
+                            </li>
+                            <li class="slide2__category-item" title="Toilet">
+                                <a href="#" class="slide2__category-link">
+                                    Guitar Jaguar
+                                </a>
+                            </li>
+                            <li class="slide2__category-item">
+                                <a href="#" class="slide2__category-link" title="Washcloths & towel">
+                                    Guitar Mustang
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="slide2__product row">
+                            <div class="slide2__product-lar col l-4 m-8 c-0">
+                                <a href="#" class="slide2__product-lar-link">
+                                    <img src="/img/container/slide4/background1.jpg" alt="" class="slide2__product-lar-img">
+                                    <div class="coating"></div>
+                                </a>
+                            </div>
+    
+                            <div class="slide2__product-medium col l-8 m-4 c-12">
+                                <div class="slide2__product-medium-list row">
+                                    <a class="slide2__product-medium-up-link" href="#first-product-3">
+                                        <i class="slide2__product-medium-up-icon fa-solid fa-up-long"></i>
+                                    </a>
+                                    <a class="slide2__product-medium-down-link" href="#last-product-3">
+                                        <i class="slide2__product-medium-down-icon fa-solid fa-down-long"></i>
+                                    </a>
+                                    <a name="first-product-3"></a>
+
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien1.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Aenean cras vel luctus saneu</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$17.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien2.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Cras purus purus males uada</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$14.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien3.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Proin at lacus blandit lectus</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$17.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien4.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Aenean orci mi accum saneu</h3>
+                                                <!-- <span class="slide2__product-price">$101.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$12.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien5.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Nunc sodales orciuis enim</h3>
+                                                <!-- <span class="slide2__product-price">$17.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$16.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien6.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Vivamus velit mattis enim nec</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$58.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien7.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Vivamus luctus semper acc</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$12.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien8.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            
+                                            <div class="slide2__product-description">
+                                                <h3>Praesent lacinia mauris non</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$7.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien9.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Aenean cras vel luctus saneu</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$17.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien10.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Cras purus purus males uada</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$14.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien11.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Proin at lacus blandit lectus</h3>
+                                                <!-- <span class="slide2__product-price">$18.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$17.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="slide2__product-medium-item col l-3 c-6 m-12">
+                                        <a class="slide2__product-medium-item-link">
+                                            <div class="cover">
+                                                <img src="/img/container/slide4/dien12.webp" alt="" class="slide2__product-medium-img">
+                                                <div class="coating"></div>
+                                            </div>
+                                            <div class="slide2__product-description">
+                                                <h3>Aenean orci mi accum saneu</h3>
+                                                <!-- <span class="slide2__product-price">$101.00</span> -->
+                                                <span class="slide2__product-price slide2__product-price--current">$12.00</span>
+                                            </div>
+                                            <div class="slide2__product-action">
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-cart-shopping"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </div>
+                                                <div class="slide2__product-action-btn">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                   
+                                    
+                              
+                                  
+                                    <a name="last-product-3"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide4___footer row">
+                    <div class="slide4___footer-banner col l-8 m-8 c-12">
+                        <a class="slide4___footer-banner-link">
+                            <img src="/img/container/slide4/footer25.jpg" alt="" class="slide4___footer-banner-img">
+                        </a>
+                        <div class="coating2"></div>
+                    </div>
+                    <div class="slide4___footer-banner col l-4 m-4 c-0">
+                        <a class="slide4___footer-banner-link">
+                            <img src="/img/container/slide4/footer23.jpg" alt="" class="slide4___footer-banner-img">
+                        </a>
+                    </div>
+                </div>
+                <div class="slide__hotdeal">
+                    <div class="slide__hotdeal__header">
+                        <div class="slide__hotdeal__header-title">
+                            <h2>Amply Hot</h2>
+                        </div>
+                        <div class="slide2__header-selection m-0">
+                                
+                        </div>
+                    </div>
+                    <div class="slide__hotdeal-list row">
+                        <div class="slide__hotdeal-item col l-3 m-6 c-12">
+                            <div class="slide__hotdeal-product">
+                                <a class="slide__hotdeal-img-link">
+                                    <img src="/img/container/slide-hotdeal/amplyhot1.webp" alt="" class="slide__hotdeal-img">
+                                
+                                </a>
+                                <div class="slide__hotdeal-description">
+                                    <h3>Amply Fender 62 PRINCETON </h3>
+                                    <span class="slide1__item-living-room-price">$35.00</span>
+                                    <span class="slide1__item-living-room-price slide1__item-living-room-price--current">$32.00</span>
+                                </div>
+                                <div class="slide-hotdeal__product-action">
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="time-sale"> 
+                                <h4 class="time-count"></h4>
+                            </div>
+                           
+                        </div>
+
+                        <div class="slide__hotdeal-item col l-3 m-6 c-12">
+                            <div class="slide__hotdeal-product">
+                                <a class="slide__hotdeal-img-link">
+                                    <img src="/img/container/slide-hotdeal/amplyhot9.webp" alt="" class="slide__hotdeal-img">
+                                
+                                </a>
+                                <div class="slide__hotdeal-description">
+                                    <h3>Donec conse in luctus lacus</h3>
+                                    <span class="slide1__item-living-room-price">$35.00</span>
+                                    <span class="slide1__item-living-room-price slide1__item-living-room-price--current">$32.00</span>
+                                </div>
+                                <div class="slide-hotdeal__product-action">
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="time-sale"> 
+                                <h4 class="time-count"></h4>
+                            </div>
+                           
+                        </div>
+    
+                        <div class="slide__hotdeal-item col l-3 m-6 c-12">
+                            <div class="slide__hotdeal-product">
+                                <a class="slide__hotdeal-img-link">
+                                    <img src="/img/container/slide-hotdeal/amplyhot6.webp" alt="" class="slide__hotdeal-img">
+                                
+                                </a>
+                                <div class="slide__hotdeal-description">
+                                    <h3>Donec conse in luctus lacus</h3>
+                                    <span class="slide1__item-living-room-price">$35.00</span>
+                                    <span class="slide1__item-living-room-price slide1__item-living-room-price--current">$32.00</span>
+                                </div>
+                                <div class="slide-hotdeal__product-action">
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="time-sale"> 
+                                <h4 class="time-count"></h4>
+                            </div>
+                           
+                        </div>
+    
+                        <div class="slide__hotdeal-item col l-3 m-6 c-12">
+                            <div class="slide__hotdeal-product">
+                                <a class="slide__hotdeal-img-link">
+                                    <img src="/img/container/slide-hotdeal/amplyhot5.webp" alt="" class="slide__hotdeal-img">
+                                
+                                </a>
+                                <div class="slide__hotdeal-description">
+                                    <h3>Donec conse in luctus lacus</h3>
+                                    <span class="slide1__item-living-room-price">$35.00</span>
+                                    <span class="slide1__item-living-room-price slide1__item-living-room-price--current">$32.00</span>
+                                </div>
+                                <div class="slide-hotdeal__product-action">
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                    </div>
+                                    <div class="slide-hotdeal__product-action-btn">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="time-sale"> 
+                                <h4 class="time-count"></h4>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="footer__tag">
+                <div class="footer__tag-container grid wide">
+                    <p>Guitar Accoustic:
+                        <a href="#">Guitar Acoustic Dreadnought</a> <span>/</span>
+                        <a href="#">Guitar Martin D-28</a> <span>/</span>
+                        <a href="#">Guitar Taylor 210</a> <span>/</span>
+                        <a href="#">Guitar Gibson J-45</a> <span>/</span>
+                        <a href="#">Guitar Yamaha FG830</a> <span>/</span>
+                        <a href="#">Guitar Acoustic Concert</a> <span>/</span>
+                        <a href="#">Guitar Martin 00-18</a> <span>/</span>
+                        <a href="#">Guitar Gibson L-00</a> <span></span>
+                    
+                   
+                    </p>
+                    <p>Guitar Electric:
+                        <a href="#">Guitar Stratocaster</a> <span>/</span>
+                        <a href="#">Guitar Telecaster</a> <span>/</span>
+                        <a href="#">Guitar Jazzmaster</a> <span>/</span>
+                        <a href="#">Guitar Jaguar</a> <span>/</span>
+                        <a href="#">Guitar Mustang</a> <span>/</span>
+                        <a href="#">Guitar Ibanez RG Series</a> <span>/</span>
+                        <a href="#">Guitar Ibanez S Series</a> <span>/</span>
+                        <a href="#">Guitar Ibanez Artcore Series</a> <span></span>
+                    
+                        <a href="#">    Guitar Ibanez Acoustic Series</a> <span></span>
+                        
+                     
+                    </p>
+                    <p>Ukulele:
+                        <a href="#">Soprano Ukulele</a> <span>/</span>
+                        <a href="#">Concert Ukulele</a> <span>/</span>
+                        <a href="#">Tenor Ukulele</a> <span>/</span>
+                        <a href="#">Baritone Ukulele</a> <span></span>
+                        
+                    </p>
+                    <p>Guitar Classic:
+                        <a href="#">Taylor Guitars</a> <span>/</span>
+                        <a href="#">Gibson</a> <span>/</span>
+                        <a href="#">Fender</a> <span>/</span>
+                        <a href="#">Yamaha</a> <span>/</span>
+                        <a href="#">Takamine</a> <span>/</span>
+                        <a href="#">Epiphone</a> <span>/</span>
+                        <a href="#">Guild Guitars</a> <span>/</span>
+                        <a href="#">Seagull Guitars</a> <span>/</span>
+                        <a href="#">Alvarez Guitars</a> <span>/</span>
+                        <a href="#">Martin & Co. (Martin Guitar)</a> <span></span>
+                      
+                    </p>
+                    <p>Amply :
+                        <a href="#">Fender</a> <span>/</span>
+                        <a href="#">Marshall</a> <span>/</span>
+                        <a href="#">Vox</a> <span>/</span>
+                        <a href="#">Peavey</a> <span>/</span>
+                        <a href="#">Orange</a> <span>/</span>
+                        <a href="#">Line 6</a> <span>/</span>
+                        <a href="#">Roland</a> <span>/</span>
+                        <a href="#">Blackstar</a> <span>/</span>
+                        <a href="#">Mesa Boogie</a> <span>/</span>
+                        <a href="#">Yamaha</a> <span>/</span>
+               
+                    </p>
+                 
+                </div>
+            </div>
+            <footer class="footer grid wide">
+                <div class="slide1__footer row">
+                    <div class="slide1__footer-item col l-3 m-6">
+                        <div class="slide1__footer-item-cover">
+                            <img src="./assets/img/footer/freeship.png" alt="" class="slide1__footer-icon">
+                            <div class="slide1__footer-description">
+                                <a href="#">
+                                    <h3>FREE SHIPPING</h3>
+                                </a>
+                                <span>Free shipping on oder over $100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide1__footer-item col l-3 m-6">
+                        <div class="slide1__footer-item-cover">
+                            <img src="./assets/img/footer/secure.png" alt="" class="slide1__footer-icon">
+                            <div class="slide1__footer-description">
+                                <a href="#">
+                                    <h3>SECURE PAYMENT</h3>
+                                </a>
+                                <span>Vestib ulum tortor quam feugiat</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide1__footer-item col l-3 m-6">
+                        <div class="slide1__footer-item-cover">
+                            <img src="./assets/img/footer/support.png" alt="" class="slide1__footer-icon">
+                            <div class="slide1__footer-description">
+                                <a href="#">
+                                    <h3>SUPPORT ONLINE</h3>
+                                </a>
+                                <span>10% off 24/7 + more good stuff</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide1__footer-item col l-3 m-6">
+                        <div class="slide1__footer-item-cover">
+                            <img src="./assets/img/footer/paymen.png" alt="" class="slide1__footer-icon">
+                            <div class="slide1__footer-description">
+                                <a href="#">
+                                    <h3>PAYMENT ON DELIVERY</h3>
+                                </a>
+                                <span>Morbi feugiat nisl ut ultr icies</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>© 2024 <span>SonMuczik</span>Host:12c3tvknguyenvanson@gmail.com <span>Phone:0586323296</span> (Liên hệ<a href="https://www.facebook.com/profile.php?id=100085089146524&locale=vi_VN"> Nguyễn Văn Sơn</a>)</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+        <script>
+            let sale_counters = document.querySelectorAll(".time-count")
+sale_counters.forEach(sale => {
+    let days = Math.floor(Math.random() * 10), hours = Math.floor(Math.random() * 24), minutes = Math.floor(Math.random() * 60), seconds = Math.floor(Math.random() * 60);
+    sale.innerHTML = `<span>${days < 10 ? '0' + days : days}d</span> : <span>${hours < 10 ? '0' + hours : hours}h</span> : <span>${minutes < 10 ? '0' + minutes : minutes}m</span> : <span>${seconds < 10 ? '0' + seconds : seconds}s</span>`
+ const interval =  setInterval(() => {
+        if (seconds == 0) {
+            if (minutes == 0) {
+                if (hours == 0) {
+                    if (days == 0) {
+                        seconds = 0;     
+                        }
+                    else {
+                        days--;
+                        hours = 23;
+                        minutes = 59;
+                        seconds = 59;
+                    }
+                }
+                else {
+                    hours--;
+                    minutes = 59;
+                    seconds = 59;
+                }
+            }
+            else {
+                minutes--;
+                seconds = 59;
+            }
+        }
+        else {
+            seconds--;
+        }
+        let html = `<span>${days < 10 ? '0' + days : days}d</span> : <span>${hours < 10 ? '0' + hours : hours}h</span> : <span>${minutes < 10 ? '0' + minutes : minutes}m</span> : <span>${seconds < 10 ? '0' + seconds : seconds}s</span>`
+        sale.innerHTML = html
+    }, 1000)
+    setTimeout(() => {
+        sale.innerHTML =`<span class="btn-sale">End of discount hours</span>`
+        clearInterval(interval);
+    }, (days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds) * 1000);
+})
+        </script>
+
+        <script src="./total-js/runText.js"></script>
+</body>
+</html>

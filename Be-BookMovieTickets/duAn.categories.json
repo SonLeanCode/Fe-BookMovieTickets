@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "66963def184be8709b305da9"
+  },
+  "name": "Đang Chiếu"
+},
+{
+  "_id": {
+    "$oid": "66963e2f184be8709b305daa"
+  },
+  "name": "Sắp Chiếu"
+},
+{
+  "_id": {
+    "$oid": "66963e45184be8709b305dab"
+  },
+  "name": "Phim IMAX"
+}]
