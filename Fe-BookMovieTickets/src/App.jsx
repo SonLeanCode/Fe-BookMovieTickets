@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Index from "./Home/Home";
-import { DetaiTicKet } from "./Detail/DetaiTicket";
-import { ListProDuct } from "./ListPro/List";
-import HeaderPage from "./Header/HeaderWeb";
-import FooterPage from "./Footer/FooterWeb";
+import Index from "./pages/Home/Home";
+
+import { ListProDuct } from "./pages/ListPro/List"
+import HeaderPage from "./components/Header/HeaderWeb";
+import FooterPage from "./components/Footer/FooterWeb"
+import { DetaiTicKet } from  "./pages/Detail/DetaiTicket"
 
 function App() {
   return (
@@ -12,7 +13,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         {/*   <Route path="/detail/:id" component={DetailPage} /> */}
-
         <Route path="/detail" element={<DetaiTicKet />} />
         <Route path="/prolist" element={<ListProDuct />} />
       </Routes>
