@@ -3,8 +3,9 @@ import TodayDate from "./Day/Day";
 import VideoPopup from "./video/Video";
 // import { useEffect, useState } from "react";
 // import { useLocation } from "react-router-dom";
-
+import Title from "../../components/BuyTickets/Title";
 export const DetaiTicKet = () => {
+   const titleData = "Welcome to Details Page"
   // const { id } = useParams;
   // const [move, setMove] = useState;
   // useEffect(() => {
@@ -45,6 +46,10 @@ export const DetaiTicKet = () => {
       ></iframe> */}
       <VideoPopup />
       {/* {move.id && ( */}
+      <div className="w-full m-20 text-black p-10">
+        <Title titleName={titleData} />
+      </div>
+      
       <div className="flex h-[1800px] bg-[#161616] px-[120px] py-[55px]">
         <div className="mr-10">
           <img

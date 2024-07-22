@@ -4,8 +4,10 @@ import "./style.css";
 // import { useHistory } from "react-router-dom";
 import { GetApi } from "./ApiGet";
 
+
 function Index() {
   // const history = useHistory();
+ 
   const data = GetApi();
   if (!data) {
     return <div>Loanding......</div>;
@@ -25,6 +27,7 @@ function Index() {
   // };
   return (
     <div>
+      
       <div className="container">
         <div className="row">
           <div className="col">
