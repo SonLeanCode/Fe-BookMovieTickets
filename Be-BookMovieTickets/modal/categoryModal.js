@@ -11,7 +11,6 @@ const  category = new Schema({
         minLength:3,
         maxLength:50,
         default:'No name'
-        
     }
 })
 module.exports = mongoose.models.category || mongoose.model("category",category)

@@ -1,13 +1,11 @@
-import { useState } from "react";
+import Title from "../../components/BuyTickets/Title";
 
 const BuyTickets = () => {
-    const [count, setCount] = useState(0);
+    const titleData = "Welcome to Buy Tickets Page";
 
     return (
-        <div>
-            <p>123</p>
-            <button onClick={() => setCount(count + 1)}>Click me</button>
-            <p>You clicked {count} times</p>
+        <div className="w-full m-20 text-black p-10">
+            <Title titleName={titleData} />
         </div>
     );
 }
