@@ -1,24 +1,22 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Index from "./pages/Home/Home";
 
-import { ListProDuct } from "./pages/ListPro/List"
-import HeaderPage from "./components/Header/HeaderWeb";
-import FooterPage from "./components/Footer/FooterWeb"
-import { DetaiTicKet } from  "./pages/Detail/DetaiTicket"
-import BuyTickets from "./pages/BuyTickets/BuyTickets";
+import Home from "./pages/Home/Home";
+// import { ListProDuct } from "./pages/ListPro/List"
+import HeaderWeb from "./components/Header/HeaderWeb";
+// import FooterPage from "./components/Footer/FooterWeb"
+// import { DetaiTicKet } from  "./pages/Detail/DetaiTicket"
 
 function App() {
   return (
     <Router>
-      <HeaderPage />
+      <HeaderWeb />
       <Routes>
-        <Route path="/" element={<Index />} />
-        {/*   <Route path="/detail/:id" component={DetailPage} /> */}
-        <Route path="/detail" element={<DetaiTicKet />} />
-        <Route path="/prolist" element={<ListProDuct />} />
-        <Route path="/buytickets" element={<BuyTickets />} />
+        <Route path="/" element={<Home />} />
+        {/*  <Route path="/detail/:id" component={DetailPage} /> */}
+        {/* <Route path="/detail" element={<DetaiTicKet />} /> */}
+        {/* <Route path="/prolist" element={<ListProDuct />} /> */}
       </Routes>
-      <FooterPage />
+      {/* <FooterPage /> */}
     </Router>
   );
 }

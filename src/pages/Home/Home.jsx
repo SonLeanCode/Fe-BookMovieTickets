@@ -1,195 +1,128 @@
-// Index.jsx
-// import { useHistory } from "react-router-dom";
-import "./style.css";
-// import { useHistory } from "react-router-dom";
-import { GetApi } from "./ApiGet";
+import { useState, useEffect } from "react";
+import { Button, Input, Card, Carousel } from "react-daisyui";
+import { FaCalendarAlt, FaClock, FaTicketAlt } from "react-icons/fa";
 
+const Home = () => {
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
-function Index() {
-  // const history = useHistory();
- 
-  const data = GetApi();
-  if (!data) {
-    return <div>Loanding......</div>;
-  }
-  // hotdeal 1
-  const filterData = data.filter((item) => item.hotdeal === "1");
-  const filterData2 = data.filter((item) => item.hotdeal === "2");
-  const filterData3 = data.filter((item) => item.hotdeal === "3");
-  const filterData4 = data.filter((item) => item.hotdeal === "4");
+  const movies = [
+    { id: 1, title: "Inception", image: "https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg", rating: "8.8" },
+    { id: 2, title: "The Dark Knight", image: "https://cms-assets.webediamovies.pro/cdn-cgi/image/dpr=1,fit=scale-down,gravity=auto,metadata=none,quality=85,width=2500/production/4756/da6d320019b0cffcb187e7a20bf9cdcb.jpg", rating: "9.0" },
+    { id: 3, title: "Interstellar", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS9maE7-yWPpULS8xay8yVKGnVZctnXkOXMg&s", rating: "8.6" },
+    { id: 4, title: "Pulp Fiction", image: "https://www.theoriginalunderground.com/cdn/shop/products/pulp-fiction-film-poster-print-281196_1024x.jpg?v=1661524235", rating: "8.9" },
+    { id: 5, title: "The Matrix", image: "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg", rating: "8.7" },
+  ];
 
-  // chuye trang
-  // const handleBuyTicket = (item) => {
-  //   history.push({
-  //     pathname: `/detail/${item.id}`,
-  //     state: { item },
-  //   });
-  // };
+  const banners = [
+    { id: 1, image: "https://dianaurban.com/wp-content/uploads/2010/07/inception.jpg", title: "Now Showing: Inception" },
+    { id: 2, image: "https://images.savoysystems.co.uk/MCB/223274.jpg", title: "Coming Soon: The Dark Knight" },
+    { id: 3, image: "https://edgroom-blogs.s3.ap-south-1.amazonaws.com/202310071805064792540_38983_u23h.jpg", title: "Special Screening: Interstellar" },
+  ];
+
+  // Automatically change the carousel banner every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % banners.length);
+    }, 3000); // 3000ms = 3 seconds
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, [banners.length]);
+
   return (
-    <div>
-      
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <h3 className="move">
-              MOVE <span>ORIGINAL</span>
-            </h3>
-            <h1 className="title-mov">TRANGER THINGS</h1>
-            <div className="imformation">
-              <p className="text-font1">97% Match</p>
-              <div className="year">
-                <p className="text-font">2017</p>
-              </div>
-              <div className="tv">
-                <p className="text-font3">TV-20</p>
-              </div>
-              <div className="secons">
-                <p className="text-font">2 Seasons</p>
-              </div>
-              <div className="hd">
-                <p className="text-font5">HD</p>
-              </div>
-            </div>
-            <p className="description">
-              Movie Hub is a one-stop destination for movie <br />
-              enthusiasts. Our website offers a wide selection of movies from
-              <br />
-              different genres, eras, and languages
-            </p>
-
-            <button className="ex" type="button">
-              Explore
-            </button>
-            {/* trending */}
-          </div>
-        </div>
-
-        <div className="toptrending">
-          <h3 className="trending font-bold">
-            <span className="colorTrend"> | </span> Trending Now
-          </h3>
-          <div className="row-trend">
-            {/* prev */}
-            <span className="controll-prev prev">
-              <i className="fa-solid fa-angle-left"></i>
-            </span>
-            {/* */}
-            {filterData.map((item, index) => (
-              <div key={index} className="trend">
-                <img className="img-trend" src={item.image} alt={item.name} />
-                <div className="overlay">
-                  <button
-                    // onClick={() => handleBuyTicket(item)}
-                    className="btn-buy"
-                  >
-                    Mua vé
-                  </button>
-                  <button className="btn-trailer">Xem trailer</button>
-                </div>
-                <div className="name-move">{item.name}</div>
-              </div>
-            ))}
-            {/*next */}
-            <span className="controll-next next">
-              <i className="fa-solid fa-chevron-right"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="updating">
-        <h3 className="updating-title font-bold">
-          <span className="colorTrend"> | </span> Updating
-        </h3>
-        <div className="row-updating">
-          {filterData2.length > 0 && (
-            <div className="updating1">
-              <img
-                className="img-updating-back"
-                src={filterData2[0].image}
-                alt={filterData2[0].image}
-              />
-              <div className="imformation-upda">
-                <h4 className="name-updating">{filterData2[0].name}</h4>
-                <div className="description-updating pr-[30px]">
-                  {/* The K-drama follows the romance between art students
-                  <br />
-                  Yoo Na-bi and Park Jae-eon . */}
-                  {filterData2[0].description}
-                </div>
-              </div>
-            </div>
-          )}
-          {/* updating items */}
-          <div className="imformation-updating grid grid-cols-3 gap-3">
-            {filterData2.map((item, index) => (
-              <div key={index}>
-                <div className="row-threeUp">
-                  <div className="updating2">
-                    <img
-                      className="img-updating"
-                      src={item.image}
-                      alt={item.name}
-                    />
-                    <div className="name-updating">{item.name}</div>
+    <div className="min-h-screen bg-gray-900 text-gray-100">
+      <main className="container mx-auto px-4 py-8">
+        <section className="mb-12">
+          <Carousel className="w-full max-w-5xl mx-auto">
+            {banners.map((banner, index) => (
+              <Carousel.Item key={banner.id} className={currentBannerIndex === index ? 'block' : 'hidden'}>
+                <div className="relative h-[400px] w-full">
+                  <img
+                    src={banner.image}
+                    alt={banner.title}
+                    className="rounded-lg w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <h2 className="text-4xl font-bold text-white">{banner.title}</h2>
                   </div>
                 </div>
-                <br />
-              </div>
+              </Carousel.Item>
             ))}
-          </div>
-        </div>
+          </Carousel>
+        </section>
 
-        {/* recommend */}
-        <div className="recomend my-20">
-          <div className="recomend-title">
-            {/*  */}
-            <div className="left">
-              <h3 className="left-recoment font-bold">
-                <span className="colorTrend"> | </span> Recommend
-              </h3>
-              <div className="all-left grid grid-cols-4 gap-3">
-                {filterData3.map((item, index) => (
-                  <div key={index} className="recomend">
-                    <img
-                      className="img-recommend block"
-                      src={item.image}
-                      alt={item.name}
-                    />
-                    <div className="name-recommend mt-5">{item.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/*  */}
-            <div className="right">
-              <h3 className="Right-recoment font-bold">
-                <span className="colorTrend"> | </span> Top Trending
-              </h3>
-              <div className="topTrend">
-                <div className="numberList">
-                  <p>1</p>
-                  <p>2</p>
-                  <p>3</p>
-                  <p>4</p>
-                  <p>5</p>
-                </div>
-
-                <div className="author imgToptrend gap grid grid-cols-1">
-                  {filterData4.map((item, index) => (
-                    <div key={index} className="flex items-center">
-                      <p className="mx-6 mt-1">{item.director}</p>
-                      <img className="imgTop mr-4" src={item.image} alt="" />
-                    </div>
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">Mua vé nhanh</h2>
+          <Card className="bg-gray-800 p-6">
+            <form className="space-y-4">
+              <div>
+                <label htmlFor="movie" className="block text-sm font-medium text-gray-300">Select Movie</label>
+                <select
+                  id="movie"
+                  className="w-full p-2 bg-gray-700 rounded-md"
+                  onChange={(e) => setSelectedMovie(e.target.value)}
+                >
+                  <option value="">Choose a movie</option>
+                  {movies.map((movie) => (
+                    <option key={movie.id} value={movie.id}>
+                      {movie.title}
+                    </option>
                   ))}
+                </select>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label htmlFor="date" className="block text-sm font-medium text-gray-300">Date</label>
+                  <Input type="date" id="date" className="bg-gray-700" />
+                </div>
+                <div>
+                  <label htmlFor="time" className="block text-sm font-medium text-gray-300">Time</label>
+                  <Input type="time" id="time" className="bg-gray-700" />
+                  <FaClock />
+                </div>
+                <div>
+                  <label htmlFor="tickets" className="block text-sm font-medium text-gray-300">Number of Tickets</label>
+                  <Input type="number" id="tickets" min="1" className="bg-gray-700" />
                 </div>
               </div>
-            </div>
+              <Button className="w-full">
+                <FaTicketAlt className="mr-2 h-4 w-4" /> Purchase Tickets
+              </Button>
+            </form>
+          </Card>
+        </section>
+
+        <section>
+          <h2 className="text-3xl font-bold mb-6">Đang chiếu</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {movies.map((movie) => (
+              <Card key={movie.id} className="bg-gray-800">
+                <img
+                  src={movie.image}
+                  alt={movie.title}
+                  className="rounded-t-lg w-full h-[400px] object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="text-xl font-bold">{movie.title}</h3>
+                  <p className="text-sm text-gray-400">Rating: {movie.rating}/10</p>
+                </div>
+                <Button variant="outline" className="w-full">
+                  <FaCalendarAlt className="mr-2 h-4 w-4" /> View Showtimes
+                </Button>
+              </Card>
+            ))}
           </div>
+        </section>
+      </main>
+
+      <footer className="bg-gray-800 py-6 mt-12">
+        <div className="container mx-auto px-4 text-center text-gray-400">
+          <p>&copy; 2023 CineMax. All rights reserved.</p>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }
 
-export default Index;
+export default Home;
