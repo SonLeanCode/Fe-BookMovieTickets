@@ -34,7 +34,7 @@ const Home = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100">
       <main className="container mx-auto px-4 py-8">
         <section className="mb-12">
-          <Carousel className="w-full max-w-5xl mx-auto">
+          <Carousel className="w-full  mx-auto">
             {banners.map((banner, index) => (
               <Carousel.Item key={banner.id} className={currentBannerIndex === index ? 'block' : 'hidden'}>
                 <div className="relative h-[400px] w-full">
