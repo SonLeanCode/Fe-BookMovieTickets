@@ -1,0 +1,571 @@
+/* Hiệu ứng xuất hiện từ dưới lên */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-up {
+  animation: slide-up 2.5s ease-out forwards;
+}
+
+/* Đảm bảo hình ảnh banner phủ toàn bộ màn hình */
+.h-screen {
+  height: 100vh;
+}
+
+.h-full {
+  height: 100%;
+}
+
+/* Điều chỉnh kiểu chữ cho tiêu đề */
+
+@keyframes slide-line {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.movie-section h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 3rem;
+  color: #ff0000; /* Bright red for contrast */
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8); /* Adds a glowing red effect */
+  text-transform: uppercase;
+  margin-left: 8%;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 1.5rem; /* Đảm bảo có khoảng cách cho đường line */
+}
+
+/* Đường line dưới tiêu đề */
+.movie-section h3::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  bottom: 0;
+  height: 5px; /* Độ dày của đường line */
+  width: 10%; /* Chiều rộng của đường line */
+  background-color: aqua; /* Màu của đường line */
+  animation: slide-line 3s linear infinite; /* Hiệu ứng chuyển động */
+}
+
+/* Container để căn giữa các box phim và thêm hiệu ứng scroll ngang */
+.movie-container {
+  display: flex;
+  overflow-x: scroll; /* Vẫn cho phép cuộn ngang */
+  gap: 1.5rem; /* Khoảng cách giữa các box phim */
+  scroll-snap-type: x mandatory; /* Đảm bảo cuộn qua các box phim */
+  padding: 1rem;
+  position: relative;
+  
+  /* Ẩn thanh cuộn cho tất cả các trình duyệt */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer và Edge cũ */
+}
+
+.movie-container::-webkit-scrollbar {
+  display: none; /* Ẩn thanh cuộn trên Chrome, Safari và các trình duyệt WebKit */
+}
+
+/* Các kiểu cho Card */
+.movie-card {
+  position: relative;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  flex: 0 0 calc(21% - 1.6rem); /* Chiếm 20% chiều rộng trừ khoảng cách giữa các box phim */
+  max-width: calc(21% - 1.6rem); /* Kích thước tối đa cho mỗi Card */
+  scroll-snap-align: start; /* Căn giữa các box phim khi cuộn */
+  overflow: hidden;
+  max-height: fit-content;
+}
+
+/* Lớp phủ hiện ra khi hover */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.movie-card:hover .overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  color: #fff;
+}
+
+.movie-name {
+  color: #e60e0e;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.movie-rating {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.button-container {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.1rem;
+}
+
+.overlay-button {
+  clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+  background-color: #cd0404; /* Màu nền cho nút */
+  color: #ffffff;
+  border: none;
+  width: 100px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.overlay-button:hover {
+  clip-path: polygon(0 0, 73% 0, 100% 100%, 24% 100%);
+  background-color: #ff0000; /* Màu nền khi hover */
+}
+
+/* Nút yêu thích */
+.overlay-favorite {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: color 0.3s ease;
+}
+
+.overlay-favorite:hover {
+  color: #e60000;
+}
+
+/* Các nút điều hướng */
+.navigation-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ff0000; /* Màu nền cho nút */
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 1.5rem;
+}
+
+.navigation-button.left {
+  left: -50px;
+}
+
+.navigation-button.right {
+  right: -50px;
+}
+
+.navigation-button svg {
+  fill: #ffffff;
+}
+
+.separator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem 0; /* Khoảng cách giữa các section */
+}
+
+.separator-line {
+  width: 70%; /* Chiều rộng của đường phân cách */
+  height: 2px; /* Độ dày của đường phân cách */
+  background: linear-gradient(to right, #ff0000, #ff4500, #ff0000); /* Hiệu ứng gradient */
+  border-radius: 50px; /* Bo góc mềm mại */
+  animation: pulse 2s infinite; /* Hiệu ứng động cho phân cách */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(1.1);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+
+/* Section "Top Phim Hot" */
+.top-movie-section h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 3rem;
+  color: #ff0000;
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  margin-left: 8%;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+.top-movie-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Hiển thị 5 cột */
+  gap: 1.5rem; /* Khoảng cách giữa các box phim */
+  padding: 1rem;
+}
+.top-movie-container {
+  display: grid;
+  grid-template-columns: repeat(12); /* Lưới 12 cột */
+  gap: 1.5rem; /* Khoảng cách giữa các box phim */
+  padding: 1rem;
+  width: 80%;
+  margin-left: 10%;
+}
+
+
+.section-divider-animation {
+  height: 2px;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+  margin-left: 10%;
+  max-width: 80%;
+}
+
+.section-divider-animation::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  background-color: #00d0ff;
+  transform: scale(0);
+  transform-origin: center;
+  animation: zoom-in-out 1.5s infinite;
+}
+
+@keyframes zoom-in-out {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+}
+
+
+
+
+/* Card phim trong "Top Phim Hot" */
+.top-movie-card {
+  background-color: #2a2a2a; /* Màu nền tối hơn */
+  grid-column: span 2.4; /* Chiếm 2 cột trên lưới 12 cột */
+}
+
+/* Điều chỉnh kích thước hình ảnh cho phù hợp */
+.top-movie-card img {
+  height: 100%;
+  width: 100%; /* Chiếm toàn bộ chiều rộng của box */
+}
+/* CSS cho Card phim trong phần "Top Phim Hot" */
+.top-movie-card {
+  position: relative; /* Đảm bảo lớp phủ hoạt động đúng */
+  background-color: #2a2a2a;
+  border: 1px solid #ffffff;
+  overflow: hidden; 
+}
+.hot-monthly-movies {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+  color: #ff4500; /* Màu cam đỏ để nổi bật */
+  margin-left: 9%; /* Khoảng cách với phần trái */
+  margin-top: -2rem; /* Khoảng cách với phần dưới */
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 8px rgba(255, 69, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.8); /* Hiệu ứng ánh sáng */
+}
+/* Lớp phủ cho các phần tử phim */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.top-movie-card:hover .overlay {
+  opacity: 1;
+}
+
+
+.member-section {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.member-background {
+  background-image: url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.member-background h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #ff0000;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 5px rgba(34, 0, 255, 0.5);
+}
+
+.member-background h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 50px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.cards-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 1200px;
+  gap: 2rem;
+}
+
+.member-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 12px;
+  width: calc(50% - 2rem); /* Để thẻ chiếm 50% không gian và có khoảng cách giữa */
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.member-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.member-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.member-card h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.member-card p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.member-card button {
+  background-color: #ff0000;
+  background-image: linear-gradient(90deg, #ff0000 0%, #800080 100%);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-size: 200% 100%;
+  background-position: left;
+  transition: background-position 0.5s ease-out, transform 0.3s ease;
+}
+
+.member-card button:hover {
+  background-position: right;
+  transform: scale(1.1);
+}
+
+
+
+footer {
+  background: linear-gradient(135deg, #2c0145 0%, #612525 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.footer-logo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.footer-logo h1 {
+  font-size: 90px;
+  color: #b4000f;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgb(0, 0, 0);
+}
+
+.footer-logo strong {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #ccc;
+}
+
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icon {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.social-icon img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.social-icon img:hover {
+  transform: scale(1.1);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.footer-menu {
+  flex: 1;
+  margin: 0 15px;
+}
+
+.footer-menu h3 {
+  margin: 0 0 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #e60012;
+  border-bottom: 3px solid #e60012;
+  padding-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-menu h3::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background-color: #fff;
+  transition: width 0.3s ease;
+}
+
+.footer-menu h3:hover::before {
+  width: 100%;
+}
+
+.sub-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sub-menu li {
+  margin: 8px 0;
+}
+
+.sub-menu a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  display: block;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+  
+.footer-payment-methods {
+  text-align: center;
+}
+
+.footer-payment-methods strong {
+  margin: 0 0 10px;
+  font-weight: bold !important;
+  color: #ccc;
+}
+
+.payment-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.payment-icons img {
+  width: 50px;
+  height: 50px;
+}

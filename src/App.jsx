@@ -9,12 +9,12 @@ function App() {
   return (
     <Router>
       <HeaderWeb />
+
       <Routes>
         <Route path="/" element={<Home />} />
-        {/*  <Route path="/detail/:id" component={DetailPage} /> */}
         <Route path="/detail" element={<MovieDetailPage />} />
       </Routes>
-      {/* <FooterPage /> */}
+
     </Router>
   );
 }
