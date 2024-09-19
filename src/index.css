@@ -185,11 +185,11 @@
 }
 
 .navigation-button.left {
-  left: -50px;
+  left: -20px;
 }
 
 .navigation-button.right {
-  right: -50px;
+  right: -20px;
 }
 
 .navigation-button svg {

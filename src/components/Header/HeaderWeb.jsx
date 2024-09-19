@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './HeaderWeb.css'; // Đảm bảo bạn đã tạo file CSS này
 
 const HeaderWeb = () => {
@@ -22,7 +22,7 @@ const HeaderWeb = () => {
 
   return (
     <header 
-      className={` from-black fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
+      className={`from-black w-full fixed top-0 left-0 z-50 transition-colors duration-300 ${
         scrolled 
         ? 'bg-gradient-to-b from-black to-transparent' 
         : 'bg-gradient-to-b from-black to-transparent'
