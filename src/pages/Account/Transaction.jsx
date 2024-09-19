@@ -1,6 +1,6 @@
 const Transaction = () => {
     return (
-        <div>Đăng nhập</div>
+        <div>Lịch Sử Giao Dịch</div>
     )
 }
 
