@@ -46,7 +46,7 @@ const Home = () => {
       title: "Love in the City",
       author: "Emily Johnson",
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwK7JNM2aOr6TlKLy0OS-4LpRpQs1azHr0Cw&s",
+        "https://m.media-amazon.com/images/M/MV5BNWI4YTBjZjMtYzhiYS00YzcwLWE4NGUtNzM3ZjIzOWEwYmEwXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_.jpg",
       genres: ["Romance", "Comedy", "Drama"],
       seasons: 2,
       releaseYear: 1999,
@@ -59,7 +59,7 @@ const Home = () => {
       title: "Fantasy World",
       author: "William Brown",
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7fPTCqidRF-0tUVSjfsHNjXR5YdY8hifTedVVWCDZlVmqPyJjsDO3mMSxWTUkedgfxAE&usqp=CAU",
+        "https://m.media-amazon.com/images/M/MV5BNWI4YTBjZjMtYzhiYS00YzcwLWE4NGUtNzM3ZjIzOWEwYmEwXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_.jpg",
       genres: ["Fantasy", "Adventure"],
       seasons: 4,
       releaseYear: 2002,
@@ -72,7 +72,7 @@ const Home = () => {
       title: "Science Explorers",
       author: "Sarah Davis",
       image:
-        "https://musicart.xboxlive.com/7/4dcd5000-0000-0000-0000-000000000002/504/image.jpg?w=1920&h=1080",
+        "https://m.media-amazon.com/images/M/MV5BOWE1YWVhNzUtNDI0ZC00OGYzLWIwOTMtYWE1MDIxNDZjMDViXkEyXkFqcGdeQXVyNzc5MjA3OA@@._V1_.jpg",
       genres: ["Sci-Fi", "Adventure"],
       seasons: 5,
       releaseYear: 2008,
@@ -283,13 +283,13 @@ const Home = () => {
                 </h2>
                 <div>
                   <button
-                    className="relative top-1 mr-2 rounded-full border border-solid p-1"
+                    className="relative top-1 mr-2 rounded-full border border-solid p-1 hover:opacity-[0.5]"
                     onClick={goToPrevious}
                   >
-                    <AiOutlineLeft className="text-sm" />
+                    <AiOutlineLeft className="text-sm " />
                   </button>
                   <button
-                    className="relative top-1 mr-2 rounded-full border border-solid p-1"
+                    className="relative top-1 mr-2 rounded-full border border-solid p-1 hover:opacity-[0.5]"
                     onClick={goToNext}
                   >
                     <AiOutlineRight className="text-sm" />
@@ -312,10 +312,10 @@ const Home = () => {
                       <img
                         src={movie.image}
                         alt={movie.title}
-                        className="h-40 w-32 cursor-pointer rounded-md object-cover"
+                        className="h-[205px] w-40 cursor-pointer rounded-md object-fill"
                         onClick={() => handleBannerIndex(index)}
                       />
-                      <h2 className="mt-2 text-center">{movie.title}</h2>
+                      <h2 className="mt-2 text-center text-sm font-semibold text-gray-300 ">{movie.title}</h2>
                     </div>
                   </div>
                 ))}
