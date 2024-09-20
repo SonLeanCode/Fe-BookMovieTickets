@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { Button, Card, Carousel } from "react-daisyui";
+import { Button } from "react-daisyui";
 import {
-  FaCalendarAlt,
   FaArrowLeft,
   FaArrowRight,
   FaHeart,
@@ -25,6 +24,7 @@ const Home = () => {
       genres: ["Action", "Adventure", "Drama"],
       seasons: 3,
       releaseYear: 2020,
+      bannerUrl: "https://i.ytimg.com/vi/AXesMuuI0tE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAO0zNnWjtkmXgvcgIuPMFQitmgCQ",
       description:
         "Join the thrilling adventures of a group of heroes as they journey through unknown lands.",
     },
@@ -37,6 +37,7 @@ const Home = () => {
       genres: ["Mystery", "Thriller", "Horror"],
       seasons: 1,
       releaseYear: 2021,
+      bannerUrl: "https://m.media-amazon.com/images/M/MV5BODUzNzRhNjUtYjk4NC00ODY2LWI4NjktZmIyZjc3NjgzYjBhXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_.jpg",
       description:
         "A spine-chilling tale that will keep you on the edge of your seat. Discover the secrets hidden in the dark.",
     },
@@ -49,6 +50,7 @@ const Home = () => {
       genres: ["Romance", "Comedy", "Drama"],
       seasons: 2,
       releaseYear: 1999,
+      bannerUrl: "https://media.senscritique.com/media/000020087690/0/love_in_the_city.jpg",
       description:
         "A heartwarming story about love, friendship, and the journey of life in the bustling city.",
     },
@@ -61,6 +63,7 @@ const Home = () => {
       genres: ["Fantasy", "Adventure"],
       seasons: 4,
       releaseYear: 2002,
+      bannerUrl: "https://images.nightcafe.studio/jobs/0xu0X3VOF13QitP08kgP/0xu0X3VOF13QitP08kgP--1--hud01.jpg?tr=w-1600,c-at_max",
       description:
         "Step into a world of magic, dragons, and epic quests in this breathtaking fantasy series.",
     },
@@ -73,9 +76,10 @@ const Home = () => {
       genres: ["Sci-Fi", "Adventure"],
       seasons: 5,
       releaseYear: 2008,
+      bannerUrl: "https://media.senscritique.com/media/000017560335/0/explorers.jpg",
       description:
         "Explore the wonders of the universe with a group of young scientists on their quest for knowledge.",
-    },
+    }
   ];
 
   const movies = [
@@ -218,101 +222,104 @@ const Home = () => {
                     : "translate-x-full opacity-0"
                 }`}
                 style={{
-                  backgroundImage: `url(${banner.image})`,
+                  backgroundImage: `url(${banner.bannerUrl})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
               ></div>
             ))}
           </div>
-          {/* Giới thiệu phim */}
-          <div className="absolute top-[125px] ml-24 mt-8 h-48 w-2/5">
-            {carouselBanners.map((banner, index) => (
-              <div
-                key={banner.id}
-                className={`absolute transition-transform duration-1000 ease-in-out ${
-                  currentBannerIndex === index
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-full opacity-0"
-                }`}
-              >
-                <h2 className="text-lg font-semibold">
-                  {banner.genres.join(" | ")}
-                </h2>
-                <h5 className="mt-2 text-5xl font-bold">{banner.title}</h5>
-                <div className="mt-2 flex">
-                  <h2 className="mr-4">{banner.releaseYear}</h2> {" | "}
-                  <h2 className="ml-4 mr-4 flex">
-                    DIRECTOR:{" "}
-                    <p className="ml-2 text-gray-300">{banner.author}</p>
-                  </h2>
-                  {" | "}
-                  <h2 className="ml-4 flex">
-                    SEASONS:{" "}
-                    <p className="ml-2 text-gray-300">
-                      {banner.seasons} (26 Episodes)
-                    </p>
-                  </h2>
-                </div>
-                <p className="mt-2 text-gray-300">{banner.description}</p>
-                <div className="mt-4 flex">
-                  <button className="flex items-center rounded bg-red-600 px-6 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500">
-                    BOOK NOW <FaTicketAlt size={20} className="ml-2" />
-                  </button>
-                  <button className="ml-4 rounded border border-solid border-gray-300 px-6 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800">
-                    VIEW MORE
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
 
-          {/* Popular This Week */}
-          <div className="absolute top-[400px] ml-24 w-2/5 overflow-hidden">
-            <div className="flex items-center justify-between py-2">
-              <h2 className="text-md flex items-center font-bold">
-                {" "}
-                <FaStar className="mr-1" />
-                PHỔ BIẾN TRONG TUẦN
-              </h2>
-              <div>
-                <button
-                  className="relative top-1 mr-2 rounded-full border border-solid p-1"
-                  onClick={goToPrevious}
-                >
-                  <AiOutlineLeft className="text-sm" />
-                </button>
-                <button
-                  className="relative top-1 mr-6 rounded-full border border-solid p-1"
-                  onClick={goToNext}
-                >
-                  <AiOutlineRight className="text-sm" />
-                </button>
-              </div>
-            </div>
-            <div
-              className="mt-2 flex transition-transform duration-500"
-              style={{
-                transform: `translateX(-${currentIndex * (100 / visibleMoviesCount)}%)`,
-              }}
-            >
-              {carouselBanners.map((movie, index) => (
+          <div className="absolute top-0 h-screen w-1/2">
+            {/* Giới thiệu phim */}
+            <div className="absolute top-[125px] mt-8 h-48 w-full">
+              {carouselBanners.map((banner, index) => (
                 <div
-                  key={index}
-                  className="w-2/5 flex-none px-2"
-                  style={{ flex: `0 0 ${100 / visibleMoviesCount}%` }}
+                  key={banner.id}
+                  className={`absolute ml-20 transition-transform duration-1000 ease-in-out ${
+                    currentBannerIndex === index
+                      ? "translate-x-0 opacity-100"
+                      : "translate-x-full opacity-0"
+                  }`}
                 >
-                  <div className="flex flex-col items-center rounded-lg text-center">
-                    <img
-                      src={movie.image}
-                      alt={movie.title}
-                      className="h-36 w-24 rounded-md object-cover cursor-pointer"
-                      onClick={() => handleBannerIndex(index)}
-                    />
-                    <h2 className="mt-2 text-center">{movie.title}</h2>
+                  <h2 className="text-lg font-semibold">
+                    {banner.genres.join(" | ")}
+                  </h2>
+                  <h5 className="mt-2 text-5xl font-bold">{banner.title}</h5>
+                  <div className="mt-2 flex">
+                    <h2 className="mr-4">{banner.releaseYear}</h2> {" | "}
+                    <h2 className="ml-4 mr-4 flex">
+                      DIRECTOR:{" "}
+                      <p className="ml-2 text-gray-300">{banner.author}</p>
+                    </h2>
+                    {" | "}
+                    <h2 className="ml-4 flex">
+                      SEASONS:{" "}
+                      <p className="ml-2 text-gray-300">
+                        {banner.seasons} (26 Episodes)
+                      </p>
+                    </h2>
+                  </div>
+                  <p className="mt-2 text-gray-300">{banner.description}</p>
+                  <div className="mt-4 flex">
+                    <Button className="flex items-center rounded bg-red-600 px-6 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500">
+                      BOOK NOW <FaTicketAlt size={20} className="ml-2" />
+                    </Button>
+                    <Button className="ml-4 rounded border border-solid border-gray-300 px-6 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800">
+                      VIEW MORE
+                    </Button>
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Popular This Week */}
+            <div className="absolute top-[400px] ml-20 mr-4 overflow-hidden">
+              <div className="flex items-center justify-between py-2">
+                <h2 className="text-md flex items-center font-bold">
+                  {" "}
+                  <FaStar className="mr-1" />
+                  PHỔ BIẾN TRONG TUẦN
+                </h2>
+                <div>
+                  <button
+                    className="relative top-1 mr-2 rounded-full border border-solid p-1"
+                    onClick={goToPrevious}
+                  >
+                    <AiOutlineLeft className="text-sm" />
+                  </button>
+                  <button
+                    className="relative top-1 mr-2 rounded-full border border-solid p-1"
+                    onClick={goToNext}
+                  >
+                    <AiOutlineRight className="text-sm" />
+                  </button>
+                </div>
+              </div>
+              <div
+                className="mt-2 flex transition-transform duration-500"
+                style={{
+                  transform: `translateX(-${currentIndex * (100 / visibleMoviesCount)}%)`,
+                }}
+              >
+                {carouselBanners.map((movie, index) => (
+                  <div
+                    key={index}
+                    className="flex-none px-1"
+                    style={{ flex: `0 0 ${100 / visibleMoviesCount}%` }}
+                  >
+                    <div className="flex flex-col items-center rounded-lg text-center">
+                      <img
+                        src={movie.image}
+                        alt={movie.title}
+                        className="h-40 w-32 cursor-pointer rounded-md object-cover"
+                        onClick={() => handleBannerIndex(index)}
+                      />
+                      <h2 className="mt-2 text-center">{movie.title}</h2>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
