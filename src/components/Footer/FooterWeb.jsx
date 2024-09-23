@@ -4,8 +4,6 @@ import './FooterWeb.css'; // Đảm bảo bạn đã tạo file CSS này
 const FooterWeb = () => {
   return (
     <>
-      <footer >
-      </footer>
         <session>
           <footer>
             <div className="footer-container">

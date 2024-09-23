@@ -350,15 +350,111 @@ const Home = () => {
                         <FaHeart />
                       </button>
                       <div className="button-container">
-                        <button className="overlay-button">
+                        <Button className="overlay-button">
+                          <i className="fas fa-video"></i> Trailer
+                        </Button>
+                        <Button className="overlay-button flex items-center rounded bg-red-600 ">
+                          Mua vé <FaTicketAlt size={15} className="ml-1" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="section-divider-animation"></div>
+
+        <section className="container mx-auto my-10 flex justify-center w-full">
+          <div className="w-full update-section">
+            <h3 className="mx-10 mb-6 text-5xl font-bold"> | Phim mới cập nhật</h3>
+            <div className="flex flex-col lg:flex-row justify-center">
+              {/* Cột trái: 1 phim */}
+              <div className="lg:w-2/5 w-full p-4 mb-8 lg:mb-0 flex flex-col justify-center items-center">
+                <div className="shadow-lg rounded-lg overflow-hidden flex-1 flex flex-col relative" style={{ minHeight: "200px" }}>
+                  <img
+                    src="https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg"
+                    alt="Inception"
+                    className="w-full object-cover"
+                    style={{ height: "450px", width: "auto" }}
+                  />
+                  <div className="p-2 flex-1 flex items-center justify-center">
+                    <strong className="text-xl block">Inception</strong>
+                    <p className="mt-1 text-gray-500 text-sm text-center">
+                      Bộ phim kể về một nhóm người thực hiện những vụ trộm ý tưởng trong giấc mơ.
+                    </p> 
+                  </div>
+                  {/* Overlay buttons */}
+                  <div className="overlay-update">
+                    <button className="overlay-btn-update">
+                      <i className="fas fa-video"></i> Trailer
+                    </button>
+                    <button className="overlay-btn-update flex items-center rounded">
+                      Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Cột phải: 6 phim, nằm ngang */}
+              <div className="lg:w-3/5 w-full flex flex-wrap gap-4 justify-center p-4">
+                {movies.slice(1, 7).map((movie) => (
+                  <div key={movie.id} className="w-full sm:w-1/3 lg:w-1/4 p-2 flex flex-col">
+                    <div className="shadow-md rounded-lg overflow-hidden flex-1 flex flex-col relative" style={{ minHeight: "200px" }}>
+                      <img
+                        src={movie.image}
+                        alt={movie.name}
+                        className="w-full object-cover"
+                        style={{ height: "200px", width: "auto" }}
+                      />
+                      <div className="p-2 flex-1 flex items-center justify-center">
+                        <strong className="block text-sm group-hover:text-red-500 transition-colors duration-300">
+                          {movie.name}
+                        </strong>
+                      </div>
+                      {/* Overlay buttons */}
+                      <div className="overlay-update">
+                        <button className="overlay-btn-update">
                           <i className="fas fa-video"></i> Trailer
                         </button>
-                        <button className="overlay-button">
-                          Mua vé <i className="fas fa-arrow-right"></i>{" "}
+                        <button className="overlay-btn-update bg-red-600 text-white flex items-center rounded">
+                          Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
                         </button>
                       </div>
                     </div>
                   </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="section-divider-animation"></div>
+
+        <section className="container mx-auto my-10 flex flex-col lg:flex-row justify-between w-full">
+          <div className="lg:w-8/12 w-full p-4 flex flex-col">
+            <h3 className="text-3xl font-bold mb-6" style={{color: "red"}}>| PHIM GỢI Ý</h3>
+            <div className="grid grid-cols-3 gap-4 flex-grow">
+              {movies.slice(0, 6).map((movie) => (
+                <div key={movie.id} className="shadow-lg rounded-lg overflow-hidden" style={{ width: '200px' }}> 
+                  <img src={movie.image} alt={movie.name} className="w-full object-cover" style={{ height: "250px" }} />
+                  <div className="p-2">
+                    <strong className="block text-center">{movie.name}</strong>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="lg:w-4/12 w-full p-4 flex flex-col">
+            <h3 className="text-3xl font-bold mb-6" style={{color: "red"}}>| TOP TRENDING</h3>
+            <div className="flex flex-col gap-4 flex-grow">
+              {movies.slice(0, 6).map((movie, index) => (
+                <div key={movie.id} className="flex items-center p-2 shadow-lg rounded-lg">
+                  <span className={`text-2xl font-bold mr-4 number-color-${index + 1}`}>{index + 1}</span>
+                  <img src={movie.image} alt={movie.name} className="w-16 h-16 object-cover mr-4 rounded" />
+                  <strong>{movie.name}</strong>
                 </div>
               ))}
             </div>
@@ -390,9 +486,9 @@ const Home = () => {
                       <button className="overlay-button">
                         <i className="fas fa-video"></i> Trailer
                       </button>
-                      <button className="overlay-button">
-                        Mua vé <i className="fas fa-arrow-right"></i>
-                      </button>
+                      <Button className="overlay-button flex items-center rounded bg-red-600 ">
+                          Mua vé <FaTicketAlt size={15} className="ml-1" />
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -424,9 +520,20 @@ const Home = () => {
                 <p>Thẻ Vip sở hữu nhiều ưu đãi độc quyền</p>
                 <button>Tìm hiểu ngay</button>
               </div>
+              <div className="member-card">
+                <img
+                  src="https://bizweb.dktcdn.net/thumb/1024x1024/100/411/892/products/the-thanh-vien-vip-danh-cho-khach-hang-tai-salon-cao-cap.jpg?v=1611827787823"
+                  alt="Thành viên Vip"
+                />
+                <h2>Thành viên kì cựu</h2>
+                <p>Độc quyền cho các thành viên lâu năm!</p>
+                <button>Tìm hiểu ngay</button>
+              </div>
             </div>
           </div>
         </section>
+
+
       </main>
     </div>
   );

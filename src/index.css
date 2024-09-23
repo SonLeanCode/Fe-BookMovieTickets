@@ -43,7 +43,7 @@
 
 .movie-section h3 {
   font-family: 'Oswald', sans-serif;
-  font-size: 3rem;
+  font-size: 2rem;
   color: #ff0000; /* Bright red for contrast */
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8); /* Adds a glowing red effect */
   text-transform: uppercase;
@@ -59,21 +59,21 @@
   position: absolute;
   left: 10%;
   bottom: 0;
-  height: 5px; /* Độ dày của đường line */
-  width: 10%; /* Chiều rộng của đường line */
+  height: 3px; /* Độ dày của đường line */
+  width: 7%; /* Chiều rộng của đường line */
   background-color: aqua; /* Màu của đường line */
   animation: slide-line 3s linear infinite; /* Hiệu ứng chuyển động */
 }
 
 /* Container để căn giữa các box phim và thêm hiệu ứng scroll ngang */
 .movie-container {
+  margin-left: 0.4%;
   display: flex;
   overflow-x: scroll; /* Vẫn cho phép cuộn ngang */
-  gap: 1.5rem; /* Khoảng cách giữa các box phim */
+  gap: 1.38rem; /* Khoảng cách giữa các box phim */
   scroll-snap-type: x mandatory; /* Đảm bảo cuộn qua các box phim */
   padding: 1rem;
   position: relative;
-  
   /* Ẩn thanh cuộn cho tất cả các trình duyệt */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer và Edge cũ */
@@ -88,11 +88,11 @@
   position: relative;
   background-color: #1a1a1a;
   color: #ffffff;
-  flex: 0 0 calc(21% - 1.6rem); /* Chiếm 20% chiều rộng trừ khoảng cách giữa các box phim */
-  max-width: calc(21% - 1.6rem); /* Kích thước tối đa cho mỗi Card */
+  flex: 0 0 calc(20% - 1.6rem); /* Chiếm 20% chiều rộng trừ khoảng cách giữa các box phim */
+  max-width: calc(17.5% - 1.6rem); /* Kích thước tối đa cho mỗi Card */
   scroll-snap-align: start; /* Căn giữa các box phim khi cuộn */
   overflow: hidden;
-  max-height: fit-content;
+  height: 330px;
 }
 
 /* Lớp phủ hiện ra khi hover */
@@ -132,25 +132,25 @@
 }
 
 .button-container {
-  margin-top: 1rem;
+  width: 100%;
   display: flex;
-  gap: 0.1rem;
+  gap: 10px;
 }
 
 .overlay-button {
-  clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+  border-radius: 5px;
+  padding: 8px;
   background-color: #cd0404; /* Màu nền cho nút */
   color: #ffffff;
   border: none;
-  width: 100px;
-  padding: 10px;
+  width: 80px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.8rem;
   transition: background-color 0.3s ease;
 }
 
 .overlay-button:hover {
-  clip-path: polygon(0 0, 73% 0, 100% 100%, 24% 100%);
+  /* clip-path: polygon(0 0, 73% 0, 100% 100%, 24% 100%); */
   background-color: #ff0000; /* Màu nền khi hover */
 }
 
@@ -185,11 +185,11 @@
 }
 
 .navigation-button.left {
-  left: -20px;
+  left: -30px;
 }
 
 .navigation-button.right {
-  right: -20px;
+  right: -30px;
 }
 
 .navigation-button svg {
@@ -227,7 +227,7 @@
 /* Section "Top Phim Hot" */
 .top-movie-section h3 {
   font-family: 'Oswald', sans-serif;
-  font-size: 3rem;
+  font-size: 2rem;
   color: #ff0000;
   text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
   text-transform: uppercase;
@@ -299,8 +299,8 @@
 
 /* Điều chỉnh kích thước hình ảnh cho phù hợp */
 .top-movie-card img {
-  height: 100%;
-  width: 100%; /* Chiếm toàn bộ chiều rộng của box */
+  height: 90%;
+  width: 90%; /* Chiếm toàn bộ chiều rộng của box */
 }
 /* CSS cho Card phim trong phần "Top Phim Hot" */
 .top-movie-card {
@@ -351,7 +351,7 @@
   background-image: url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75');
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -360,7 +360,7 @@
 }
 
 .member-background h1 {
-  font-size: 3.5rem;
+  font-size:2.5rem;
   font-weight: bold;
   color: #ff0000;
   text-transform: uppercase;
@@ -369,7 +369,7 @@
 }
 
 .member-background h2 {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #fff;
   margin-bottom: 50px;
@@ -388,7 +388,7 @@
   background-color: rgba(255, 255, 255, 0.9);
   padding: 30px;
   border-radius: 12px;
-  width: calc(50% - 2rem); /* Để thẻ chiếm 50% không gian và có khoảng cách giữa */
+  width: calc(33.33% - 2rem); /* Để thẻ chiếm 50% không gian và có khoảng cách giữa */
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -401,6 +401,7 @@
 
 .member-card img {
   width: 100%;
+  height: 180px;
   border-radius: 8px;
   margin-bottom: 15px;
 }
@@ -433,6 +434,150 @@
 .member-card button:hover {
   background-position: right;
   transform: scale(1.1);
+}
+
+
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Hiệu ứng shadow cho các box */
+.shadow-lg {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-md {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 4px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Bo góc mềm mại cho các box */
+.rounded-lg {
+  border-radius: 12px;
+}
+
+/* Style box phim */
+.flex-1 {
+  flex: 1;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+/* Box phim hover effect */
+.shadow-md:hover, .shadow-lg:hover {
+  color: #ff0000;
+  transform: translateY(-5px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 12px 24px rgba(255, 0, 0, 0.192), 0 8px 8px rgb(0, 0, 0);
+}
+
+/* Text trong box phim */
+strong {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 800;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+}
+.update-section h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  color: #ff0000;
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  margin-left: -2%;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+/* Điều chỉnh ảnh */
+img {
+  border-radius: 8px;
+}
+
+
+/* Thiết kế overlay */
+.overlay-update {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0; /* Thêm dòng này để phủ toàn bộ box */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Căn giữa theo chiều dọc */
+  align-items: center; /* Căn giữa theo chiều ngang */
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.5s ease;
+}
+
+.overlay-btn-update {
+  margin: 10px 0;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(255, 0, 0);
+  background-color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.overlay-btn-update:hover {
+  background-color: rgb(250, 0, 0);
+  color: #ffffff;
+}
+
+.shadow-md:hover .overlay-update,
+.shadow-lg:hover .overlay-update {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.shadow-md:hover,
+.shadow-lg:hover {
+  transform: translateY(-10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Các nút */
+.overlay-btn-update i {
+  margin-right: 8px;
+}
+
+
+.flex-grow {
+  flex-grow: 1; /* Cho phép phần tử mở rộng để chiếm không gian còn lại */
+}
+
+.number-color-1 {
+  color: red; /* Màu cho số 1 */
+}
+
+.number-color-2 {
+  color: blue; /* Màu cho số 2 */
+}
+
+.number-color-3 {
+  color: green; /* Màu cho số 3 */
+}
+
+.number-color-4 {
+  color: orange; /* Màu cho số 4 */
+}
+
+.number-color-5 {
+  color: purple; /* Màu cho số 5 */
 }
 
 
