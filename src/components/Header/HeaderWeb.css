@@ -142,6 +142,41 @@
   gap: 1rem; /* Điều chỉnh khoảng cách giữa các menu */
 }
 
-.relative {
+.relativee {
   flex-grow: 1; /* Đảm bảo ô tìm kiếm chiếm không gian còn lại */
+}
+
+
+
+.cinema-corner-button {
+  position: relative;
+}
+
+.cinema-corner-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #333;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  width: 150px; /* Chiều rộng của dropdown */
+}
+
+.cinema-corner-item {
+  padding: 0.5rem 1rem;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  transition: background 0.3s ease;
+}
+
+.cinema-corner-item:hover {
+  background: #444;
+}
+
+.relative:hover .cinema-corner-menu {
+  display: block;
 }

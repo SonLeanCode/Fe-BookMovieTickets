@@ -1,4 +1,4 @@
-import { FaSearch } from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import './HeaderWeb.css'; // Đảm bảo bạn đã tạo file CSS này
@@ -6,6 +6,7 @@ import './HeaderWeb.css'; // Đảm bảo bạn đã tạo file CSS này
 const HeaderWeb = () => {
   const [scrolled, setScrolled] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const [cinemaCornerOpen, setCinemaCornerOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,10 +36,25 @@ const HeaderWeb = () => {
         <div className="flex items-center space-x-4 menu-container">
           <Link to="/buy-tickets" className="sticker-button">Mua vé</Link>
           <Link to="/movies" className="text-white font-medium hover:text-gray-300">Phim</Link>
-          <Link to="/cinema-corner" className="text-white font-medium hover:text-gray-300">Góc điện ảnh</Link>
+
+          <div className="relative">
+            <button 
+              onClick={() => setCinemaCornerOpen(!cinemaCornerOpen)} 
+              className="text-white font-medium hover:text-gray-300 cinema-corner-button"
+            >
+              Góc điện ảnh
+            </button>
+            {cinemaCornerOpen && (
+              <div className="cinema-corner-menu">
+                <Link to="/cinema-corner/genres" className="cinema-corner-item">Thể loại phim</Link>
+                <Link to="/cinema-corner/actors" className="cinema-corner-item">Diễn viên</Link>
+              </div>
+            )}
+          </div>
+
           <Link to="/events" className="text-white font-medium hover:text-gray-300">Sự kiện</Link>
           <Link to="/cheap-tickets" className="text-white font-medium hover:text-gray-300">Rạp/giá rẻ</Link>
-          <div className="relative flex-grow">
+          <div className="relativee flex-grow">
             <input 
               type="text" 
               placeholder="Tìm kiếm..." 
@@ -48,9 +64,6 @@ const HeaderWeb = () => {
                 : 'bg-gray-500'
               }`}
             />
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <FaSearch className={`text-white h-5 w-5 ${scrolled ? 'text-white' : 'text-gray-300'}`} />
-            </div>
           </div>
         </div>
 
