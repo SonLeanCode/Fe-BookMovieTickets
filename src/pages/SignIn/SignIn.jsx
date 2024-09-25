@@ -1,9 +1,52 @@
-import { useState } from "react"
-import { Button, Input, Checkbox } from "react-daisyui"
-import { MdMovie, MdLock, MdPerson } from "react-icons/md"
+import { useState } from "react";
+import { Button, Input, Checkbox } from "react-daisyui";
+import { MdMovie, MdLock, MdPerson } from "react-icons/md";
+import { useLoginMutation } from "../../services/auth/authService";
+import { useRegisterMutation } from "../../services/auth/authService";
 
 const SignIn = () => {
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(true);
+  const [login, { isLoading: isLoggingIn }] = useLoginMutation();
+  const [register, { isLoading: isRegistering }] = useRegisterMutation();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    username: '',
+    fullname: '',
+    role: 2,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (isLogin) {
+      try {
+        const response = await login({ email: formData.email, password: formData.password }).unwrap();
+        // Xử lý sau khi đăng nhập thành công, như lưu token vào localStorage
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await register({
+          useremail: formData.email,
+          password: formData.password,
+          fullname: formData.fullname,
+          role: formData.role,
+        }).unwrap();
+        // Xử lý sau khi đăng ký thành công, như thông báo cho người dùng
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -15,7 +58,7 @@ const SignIn = () => {
             {isLogin ? "Sign in to your account" : "Create your account"}
           </p>
         </div>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             {!isLogin && (
               <div>
@@ -27,6 +70,7 @@ const SignIn = () => {
                   name="username"
                   type="text"
                   required
+                  onChange={handleChange}
                   className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
                   placeholder="Username"
                 />
@@ -42,6 +86,7 @@ const SignIn = () => {
                 type="email"
                 autoComplete="email"
                 required
+                onChange={handleChange}
                 className={`input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500 ${
                   isLogin ? "rounded-t-md" : ""
                 }`}
@@ -58,10 +103,27 @@ const SignIn = () => {
                 type="password"
                 autoComplete="current-password"
                 required
+                onChange={handleChange}
                 className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
                 placeholder="Password"
               />
             </div>
+            {!isLogin && (
+              <div>
+                <label htmlFor="fullname" className="sr-only">
+                  Fullname
+                </label>
+                <Input
+                  id="fullname"
+                  name="fullname"
+                  type="text"
+                  required
+                  onChange={handleChange}
+                  className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
+                  placeholder="Fullname"
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex items-center justify-between">
@@ -89,6 +151,7 @@ const SignIn = () => {
             <Button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled={isLoggingIn || isRegistering} // Vô hiệu hóa nút khi đang xử lý
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 {isLogin ? (
@@ -111,7 +174,7 @@ const SignIn = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default SignIn
+export default SignIn;

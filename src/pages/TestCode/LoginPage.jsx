@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login as loginAction, logout as logoutAction } from '../../redux/slices/authSlice';
-import authService from '../../services/auth/authService';
+import { login, logout } from '../../redux/slices/authSlice';
+import { useLoginMutation } from '../../services/auth/authService';
+
 const LoginPage = () => {
+  const [loginApi] = useLoginMutation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -10,21 +12,19 @@ const LoginPage = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Ngăn chặn hành vi mặc định của form
-
+    e.preventDefault(); // Prevent default form submission
     try {
-      const data = await authService.login(username, password); // Sử dụng service để đăng nhập
-      dispatch(loginAction(data.user)); // Dispatch thông tin người dùng
-      setUsername('');
-      setPassword('');
-    } catch (err) {
-      alert('Invalid email or password'); // Thông báo lỗi nếu đăng nhập không thành công
+      const response = await loginApi({ username, password }).unwrap();
+      const { token, user } = response; // Assuming your API returns token and user info
+      dispatch(login({ token, user })); // Dispatch the login action
+    } catch (error) {
+      console.error('Login failed:', error);
     }
   };
 
   const handleLogout = () => {
-    authService.logout(); // Gọi service để đăng xuất
-    dispatch(logoutAction()); // Dispatch action logout
+    dispatch(logout()); // Dispatch the logout action
+    alert("You have been logged out."); // Optional: Notify the user
   };
 
   return (
@@ -67,7 +67,7 @@ const LoginPage = () => {
         ) : (
           <>
             <h2 className="text-2xl font-bold mb-4">Welcome, {userInfo.username}</h2>
-            <p className="mb-4">Email: {userInfo.username}</p>
+            <p className="mb-4">Email: {userInfo.email}</p>
             <button
               className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
               onClick={handleLogout}
