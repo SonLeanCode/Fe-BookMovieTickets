@@ -23,30 +23,34 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (isLogin) {
       try {
-        const response = await login({ email: formData.email, password: formData.password }).unwrap();
+        const response = await login({
+          email: formData.email,
+          password: formData.password,
+        }).unwrap();
         // Xử lý sau khi đăng nhập thành công, như lưu token vào localStorage
         console.log(response);
       } catch (error) {
-        console.error(error);
+        console.error("Login error:", error);
       }
     } else {
       try {
         const response = await register({
-          useremail: formData.email,
+          email: formData.email, // Sử dụng "email" thay vì "useremail"
           password: formData.password,
           fullname: formData.fullname,
-          role: formData.role,
+          role: formData.role, // Đảm bảo "role" được gửi đúng, mặc định là 2
         }).unwrap();
-        // Xử lý sau khi đăng ký thành công, như thông báo cho người dùng
+        // Xử lý sau khi đăng ký thành công
         console.log(response);
       } catch (error) {
-        console.error(error);
+        console.error("Register error:", error);
       }
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -61,7 +65,7 @@ const SignIn = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             {!isLogin && (
-              <div>
+              <div> 
                 <label htmlFor="username" className="sr-only">
                   Username
                 </label>
