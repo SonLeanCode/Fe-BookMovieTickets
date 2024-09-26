@@ -11,7 +11,7 @@ const SignIn = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    fullname: '',
+    fullname: '', // Keep fullname for registration
   });
 
   const handleChange = (e) => {
