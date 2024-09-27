@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Input, Checkbox } from "react-daisyui";
-import { MdMovie, MdLock, MdPerson } from "react-icons/md";
+import { MdMovie, MdLock } from "react-icons/md";
 import { useLoginMutation } from "../../services/auth/authService";
 import { useRegisterMutation } from "../../services/auth/authService";
 
@@ -11,9 +11,7 @@ const SignIn = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    username: '',
-    fullname: '',
-    role: 2,
+    fullname: '', // Keep fullname for registration
   });
 
   const handleChange = (e) => {
@@ -26,24 +24,26 @@ const SignIn = () => {
 
     if (isLogin) {
       try {
-        const response = await login({ email: formData.email, password: formData.password }).unwrap();
-        // Xử lý sau khi đăng nhập thành công, như lưu token vào localStorage
+        const response = await login({
+          email: formData.email,
+          password: formData.password,
+        }).unwrap();
+        // Handle successful login, like storing token in localStorage
         console.log(response);
       } catch (error) {
-        console.error(error);
+        console.error("Login error:", error);
       }
     } else {
       try {
         const response = await register({
-          useremail: formData.email,
+          email: formData.email,
           password: formData.password,
-          fullname: formData.fullname,
-          role: formData.role,
+          fullname: formData.fullname, // Use fullname during registration
         }).unwrap();
-        // Xử lý sau khi đăng ký thành công, như thông báo cho người dùng
+        // Handle successful registration
         console.log(response);
       } catch (error) {
-        console.error(error);
+        console.error("Register error:", error);
       }
     }
   };
@@ -53,29 +53,15 @@ const SignIn = () => {
       <div className="max-w-md w-full space-y-8 p-8 bg-gray-800 rounded-xl shadow-lg">
         <div className="text-center">
           <MdMovie className="mx-auto h-12 w-12 text-indigo-500" />
-          <h2 className="mt-6 text-3xl font-extrabold text-white">CineMax</h2>
+          <h2 className="mt-6 text-3xl font-extrabold text-white">
+            {isLogin ? "CineMax" : "Create your account"}
+          </h2>
           <p className="mt-2 text-sm text-gray-400">
             {isLogin ? "Sign in to your account" : "Create your account"}
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
-            {!isLogin && (
-              <div>
-                <label htmlFor="username" className="sr-only">
-                  Username
-                </label>
-                <Input
-                  id="username"
-                  name="username"
-                  type="text"
-                  required
-                  onChange={handleChange}
-                  className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
-                  placeholder="Username"
-                />
-              </div>
-            )}
             <div>
               <label htmlFor="email-address" className="sr-only">
                 Email address
@@ -151,14 +137,10 @@ const SignIn = () => {
             <Button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              disabled={isLoggingIn || isRegistering} // Vô hiệu hóa nút khi đang xử lý
+              disabled={isLoggingIn || isRegistering} // Disable button while processing
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                {isLogin ? (
-                  <MdLock className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
-                ) : (
-                  <MdPerson className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
-                )}
+                <MdLock className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
               </span>
               {isLogin ? "Sign in" : "Register"}
             </Button>
@@ -175,6 +157,6 @@ const SignIn = () => {
       </div>
     </div>
   );
-}
+};
 
 export default SignIn;

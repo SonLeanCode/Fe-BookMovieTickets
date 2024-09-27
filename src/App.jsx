@@ -1,42 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
+import { useLocation } from "react-router-dom";
+import PropTypes from 'prop-types';
 import HeaderWeb from "./components/Header/HeaderWeb";
-import MovieDetailPage from "./pages/Movies/MoviesDetail";
 import FooterWeb from "./components/Footer/FooterWeb";
-import SignIn from "./pages/SignIn/SignIn";
-import LoginPage from "./pages/TestCode/LoginPage";
-// import PrivateRoute from './components/PrivateRoute';
-function App() {
+function App({ children }) {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
-    <Router>
-        <HeaderWeb />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route 
-          path="/admin" 
-          element={
-            <PrivateRoute allowedRoles={['admin']}>
-              <AdminPage />
-            </PrivateRoute>
-          } 
-        /> */}
-        {/* <Route 
-          path="/user" 
-          element={
-            <PrivateRoute allowedRoles={['user', 'admin']}>
-              <UserPage />
-            </PrivateRoute>
-          } 
-        /> */}
-        <Route path="/detail" element={<MovieDetailPage />} />
-        <Route path="/login" element={<SignIn />} />
-        <Route path="/testlogin" element={<LoginPage />} />
-        <Route path="/unauthorized" element={<div>Unauthorized Access</div>} />
-      </Routes>
-      
-      <FooterWeb />
-    </Router>
+    <>
+      {!isAdminRoute && <HeaderWeb />}
+      {children}
+      {!isAdminRoute && <FooterWeb />}
+    </>
   );
 }
+
+App.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default App;
