@@ -1,8 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "react-daisyui";
 import {
-  FaArrowLeft,
-  FaArrowRight,
   FaHeart,
   FaStar,
   FaTicketAlt,
@@ -11,7 +9,6 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const Home = () => {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-  const movieContainerRef = useRef(null);
   const visibleMoviesCount = 4;
 
   const carouselBanners = [
@@ -175,17 +172,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [carouselBanners.length]);
 
-  const scrollLeft = () => {
-    if (movieContainerRef.current) {
-      movieContainerRef.current.scrollBy({ left: -1500, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (movieContainerRef.current) {
-      movieContainerRef.current.scrollBy({ left: 1500, behavior: "smooth" });
-    }
-  };
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -206,6 +192,21 @@ const Home = () => {
   const handleBannerIndex = (index) => {
     setCurrentBannerIndex(index);
   };
+
+  const handleScroll = (direction) => {
+    const container = document.getElementById('movie-list');
+    const boxWidth = container.querySelector('.movie-card').offsetWidth; // Lấy kích thước của 1 box phim
+    const scrollAmount = boxWidth * 5; // Cuộn qua 5 box phim
+  
+    if (direction === 'left') {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+  
+  
+  
 
   return (
     <div className="bg-black text-gray-100">
@@ -324,43 +325,59 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="movie-section">
-          <h3 className="mx-10 mb-6 text-5xl font-bold">| Xu hướng hiện nay</h3>
-          <div className="container relative mx-auto px-4">
-            <button className="navigation-button left" onClick={scrollLeft}>
-              <FaArrowLeft />
-            </button>
-            <button className="navigation-button right" onClick={scrollRight}>
-              <FaArrowRight />
-            </button>
-            <div className="movie-container" ref={movieContainerRef}>
-              {movies.map((movie) => (
-                <div key={movie.id} className="movie-card">
-                  <img
-                    src={movie.image}
-                    alt={movie.name}
-                    className="h-[400px] w-full rounded-t-lg object-cover"
-                  />
-                  <div className="overlay">
-                    <div className="overlay-content">
-                      <h4 className="movie-name">{movie.name}</h4>
-                      <p className="movie-rating">Đánh giá: {movie.rating}</p>
-                      Yêu thích{" "}
-                      <button className="overlay-favorite">
-                        <FaHeart />
-                      </button>
-                      <div className="button-container">
-                        <Button className="overlay-button">
-                          <i className="fas fa-video"></i> Trailer
-                        </Button>
-                        <Button className="overlay-button flex items-center rounded bg-red-600 ">
-                          Mua vé <FaTicketAlt size={15} className="ml-1" />
-                        </Button>
+        
+        <section className="movie-section relative">
+          <div className="containe mx-auto px-4"> 
+            <h3 className="section-title mb-6 text-4xl font-bold">| Xu hướng hiện nay</h3>
+            <div className="flex justify-center items-center px-8 relative" style={{ width: '90%', marginLeft: '5%' }}>
+              <button
+                className="absolute left-0 bg-red-600 text-white p-3 rounded-full z-10"
+                style={{ top: '50%', transform: 'translateY(-50%)', marginLeft: '-2%' }}
+                onClick={() => handleScroll('left')}
+              >
+                <AiOutlineLeft size={24} />
+              </button>
+
+              {/* Danh sách phim */}
+              <div className="flex overflow-x-auto hide-scrollbar w-full" id="movie-list" style={{ padding: '0 10px' }}>
+                <div className="flex space-x-9">
+                  {movies.slice(0, 10).map((movie) => (
+                    <div key={movie.id} className="movie-card flex-none relative overflow-hidden" style={{ width: 'calc(19% - 1rem)', flexShrink: 0 }}> 
+                      <img
+                        src={movie.image}
+                        alt={movie.name}
+                        className="h-[300px] w-full rounded-t-lg object-cover" 
+                      />
+                      <div className="overlay">
+                        <div className="overlay-content">
+                          <h4 className="movie-name">{movie.name}</h4>
+                          <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                          <button className="overlay-favorite">
+                            <FaHeart />
+                          </button>
+                          <div className="button-container">
+                            <button className="overlay-btn-update">
+                              <i className="fas fa-video"></i> Trailer
+                            </button>
+                            <button className="overlay-btn-update">
+                              Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {/* Nút phải */}
+              <button
+                className="absolute right-0 bg-red-600 text-white p-3 rounded-full z-10"
+                style={{ top: '50%', transform: 'translateY(-50%)', marginRight: '-2%'  }}
+                onClick={() => handleScroll('right')}
+              >
+                <AiOutlineRight size={24} />
+              </button>
             </div>
           </div>
         </section>
@@ -391,7 +408,7 @@ const Home = () => {
                     <button className="overlay-btn-update">
                       <i className="fas fa-video"></i> Trailer
                     </button>
-                    <button className="overlay-btn-update flex items-center rounded">
+                    <button className="overlay-btn-update">
                       Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
                     </button>
                   </div>
@@ -399,7 +416,7 @@ const Home = () => {
               </div>
 
               {/* Cột phải: 6 phim, nằm ngang */}
-              <div className="lg:w-3/5 w-full flex flex-wrap gap-4 justify-center p-4">
+              <div className="lg:w-3/5 w-full flex flex-wrap gap-4 justify-end p-4">
                 {movies.slice(1, 7).map((movie) => (
                   <div key={movie.id} className="w-full sm:w-1/3 lg:w-1/4 p-2 flex flex-col">
                     <div className="shadow-md rounded-lg overflow-hidden flex-1 flex flex-col relative" style={{ minHeight: "200px" }}>
@@ -419,7 +436,7 @@ const Home = () => {
                         <button className="overlay-btn-update">
                           <i className="fas fa-video"></i> Trailer
                         </button>
-                        <button className="overlay-btn-update bg-red-600 text-white flex items-center rounded">
+                        <button className="overlay-btn-update">
                           Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
                         </button>
                       </div>
@@ -435,7 +452,7 @@ const Home = () => {
 
         <section className="container mx-auto my-10 flex flex-col lg:flex-row justify-between w-full">
           <div className="lg:w-8/12 w-full p-4 flex flex-col">
-            <h3 className="text-3xl font-bold mb-6" style={{color: "red"}}>| PHIM GỢI Ý</h3>
+          <h3 className="gy-h3 mx-10 mb-6 text-5xl font-bold"> | Phim Gợi Ý</h3>
             <div className="grid grid-cols-3 gap-4 flex-grow">
               {movies.slice(0, 6).map((movie) => (
                 <div key={movie.id} className="shadow-lg rounded-lg overflow-hidden" style={{ width: '200px' }}> 
@@ -448,10 +465,10 @@ const Home = () => {
             </div>
           </div>
           <div className="lg:w-4/12 w-full p-4 flex flex-col">
-            <h3 className="text-3xl font-bold mb-6" style={{color: "red"}}>| TOP TRENDING</h3>
-            <div className="flex flex-col gap-4 flex-grow">
+          <h3 className="tt-h3 mx-10 mb-6 text-5xl font-bold"> | Top Trending</h3>
+            <div className="tt flex flex-col gap-4  flex-grow">
               {movies.slice(0, 6).map((movie, index) => (
-                <div key={movie.id} className="flex items-center p-2 shadow-lg rounded-lg">
+                <div key={movie.id} className="flex items-center justify-right p-2 shadow-lg rounded-lg">
                   <span className={`text-2xl font-bold mr-4 number-color-${index + 1}`}>{index + 1}</span>
                   <img src={movie.image} alt={movie.name} className="w-16 h-16 object-cover mr-4 rounded" />
                   <strong>{movie.name}</strong>
@@ -475,23 +492,22 @@ const Home = () => {
                   className="rounded-t-lg object-cover"
                 />
                 <div className="overlay">
-                  <div className="overlay-content">
-                    <h4 className="movie-name">{movie.name}</h4>
-                    <p className="movie-rating">Đánh giá: {movie.rating}</p>
-                    Yêu thích{" "}
-                    <button className="overlay-favorite">
-                      <FaHeart />
-                    </button>
-                    <div className="button-container">
-                      <button className="overlay-button">
-                        <i className="fas fa-video"></i> Trailer
-                      </button>
-                      <Button className="overlay-button flex items-center rounded bg-red-600 ">
-                          Mua vé <FaTicketAlt size={15} className="ml-1" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
+                        <div className="overlay-content">
+                          <h4 className="movie-name">{movie.name}</h4>
+                          <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                          <button className="overlay-favorite">
+                            <FaHeart />
+                          </button>
+                          <div className="button-container">
+                            <button className="overlay-btn-update">
+                              <i className="fas fa-video"></i> Trailer
+                            </button>
+                            <button className="overlay-btn-update flex items-center rounded">
+                              Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
               </div>
             ))}
           </div>
