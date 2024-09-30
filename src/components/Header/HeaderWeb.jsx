@@ -23,13 +23,13 @@ const HeaderWeb = () => {
 
   return (
     <header 
-      className={`from-black w-full fixed top-0 left-0 z-50 transition-colors duration-300 ${
+      className={`bg-black w-full fixed top-0 left-0 z-50 transition-colors duration-300 ${
         scrolled 
-        ? 'bg-gradient-to-b from-black to-transparent' 
-        : 'bg-gradient-to-b from-black to-transparent'
+        ? 'bg-gradient-to-b bg-black' 
+        : 'bg-gradient-to-b bg-black'
       }`}
     >
-      <div className="p-4 flex items-center justify-between">
+      <div className="p-2 flex items-center justify-between">
         <div className="flex items-center">
           <Link to="" className="logo-text">ST-FLIX</Link>
         </div>
@@ -73,7 +73,7 @@ const HeaderWeb = () => {
               className="language-button" 
               onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
             >
-              Ngôn ngữ
+              Ngôn ngữ <i className="fas fa-language"></i>
             </button>
             {languageMenuOpen && (
               <div className="language-menu">
