@@ -71,7 +71,7 @@
 
 /* Nút "Đăng nhập" */
 .login-button {
-  margin-right: 4rem;
+  margin-right: -10%;
   background: #cb0202; /* Màu nền đỏ */
   color: #FFFFFF; /* Màu chữ trắng */
   padding: 0.5rem 1rem;
@@ -79,9 +79,9 @@
   border: 1px solid #ff0000; /* Đường viền cùng màu nền */
   font-weight: bold;
   text-decoration: none;
-  display: inline-block;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
 }
 
 /* Hiệu ứng cho nút "Đăng nhập" khi hover */

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { Button } from "react-daisyui";
 import {
   FaHeart,
@@ -337,8 +338,6 @@ const Home = () => {
               >
                 <AiOutlineLeft size={24} />
               </button>
-
-              {/* Danh sách phim */}
               <div className="flex overflow-x-auto hide-scrollbar w-full" id="movie-list" style={{ padding: '0 10px' }}>
                 <div className="flex space-x-9">
                   {movies.slice(0, 10).map((movie) => (
@@ -350,18 +349,19 @@ const Home = () => {
                       />
                       <div className="overlay">
                         <div className="overlay-content">
-                          <h4 className="movie-name">{movie.name}</h4>
+                          <h4 className="movie-name" style={{color: 'red', fontWeight: 'bold'}}>{movie.name}</h4>
                           <p className="movie-rating">Đánh giá: {movie.rating}</p>
                           <button className="overlay-favorite">
-                            <FaHeart />
+                            <FaHeart /><br></br>
                           </button>
-                          <div className="button-container">
-                            <button className="overlay-btn-update">
-                              <i className="fas fa-video"></i> Trailer
-                            </button>
-                            <button className="overlay-btn-update">
-                              Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                            </button>
+                          <div className="button-container">                         
+                              <Link to="/detail" className="overlay-btn-update">
+                                <i className="fas fa-video"></i> Trailer
+                              </Link>
+                                <br></br><br></br>
+                              <Link to="/" className="overlay-btn-update">
+                                Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                              </Link>
                           </div>
                         </div>
                       </div>
