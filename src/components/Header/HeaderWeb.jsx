@@ -35,7 +35,7 @@ const HeaderWeb = () => {
         </div>
         <div className="flex items-center space-x-4 menu-container">
           <Link to="/buy-tickets" className="sticker-button">Mua vé</Link>
-          <Link to="/movies" className="text-white font-medium hover:text-gray-300">Phim</Link>
+          <Link to="/movie" className="text-white font-medium hover:text-gray-300">Phim</Link>
 
           <div className="relative">
             <button 
