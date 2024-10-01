@@ -17,7 +17,7 @@
 }
 
 .movies {
-    background-color: #181818;
+    
     margin-top: 120px;
     padding-top: 10px;
     text-align: center;
@@ -31,7 +31,7 @@
 
 
 .container {
-    background-color: #181818;
+    
     width: 80%;
     margin: 0 auto;
     display: flex;
@@ -84,6 +84,7 @@
 
 .bgcam {
     background-color: #F58020;
+    color: #ffffff;
 }
 
 .badge {
@@ -109,7 +110,7 @@
 }
 
 .movie {
-    background-color: #181818;
+    
     padding: 30px;
     text-align: center;
     font-weight: 700;

@@ -31,7 +31,7 @@ const Movie = () => {
                     <div className="overlay">
                         <button className="buysticket">mua vé</button>
                     </div>
-                    <div className="badge bgcam">T18</div>
+                    <div className="badge  bgcam text-white">T18</div>
                     <div className="rating">★★★★☆</div>
                 </div>
                 <div className="item group">
