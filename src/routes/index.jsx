@@ -6,7 +6,8 @@ import SignIn from "../pages/Auth/Login";
 import App from "../App";
 import MovieList from "../pages/TestApi/MovieList";
 import MovieDetail from "../pages/TestApi/MovieDetail";
-
+import SeatSelection from "../pages/TestApi/SeatSelection";
+import OrderSummary from "../pages/TestApi/OrderSummary ";
 
 export default function AppRoutes() {
   return (
@@ -22,6 +23,8 @@ export default function AppRoutes() {
           {/* Test api */}
           <Route path="/movies" element={<MovieList />} />
           <Route path="/movies/:id" element={<MovieDetail />} />
+          <Route path="/seat" element={<SeatSelection />} />
+          <Route path="/order" element={<OrderSummary />} />
         </Routes>
       </App>
     </Router>

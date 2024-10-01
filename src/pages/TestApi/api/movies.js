@@ -187,25 +187,137 @@ export const User = async () => {
   };
 
   export const Seat = async () => {
-    return [
-        {
-            "id": 1,
-            "room_id": 1,
-            "row": "A",
-            "number": 1,
-            "created_at": "2024-01-01T12:00:00Z",
-            "updated_at": "2024-01-01T12:00:00Z"
-          },
-          {
-            "id": 2,
-            "room_id": 1,
-            "row": "A",
-            "number": 2,
-            "created_at": "2024-01-01T12:00:00Z",
-            "updated_at": "2024-01-01T12:00:00Z"
-          }
+    const seatsRoom1 = [];
+    const seatsRoom2 = [];
+  
+    // Phòng 1
+    for (let row of ['A', 'B', 'C', 'D']) {
+      for (let number = 1; number <= 20; number++) {
+        const seat = {
+          id: seatsRoom1.length + 1,
+          room_id: 1,
+          row: row,
+          number: number,
+          type: 'regular', // Ghế thường
+          created_at: "2024-01-01T12:00:00Z",
+          updated_at: "2024-01-01T12:00:00Z",
+        };
+        seatsRoom1.push(seat);
+      }
+    }
+  
+    // Dãy E, F, G: ghế VIP
+    for (let row of ['E', 'F', 'G']) {
+      for (let number = 1; number <= 20; number++) {
+        const seat = {
+          id: seatsRoom1.length + 1,
+          room_id: 1,
+          row: row,
+          number: number,
+          type: 'vip', // Ghế VIP
+          created_at: "2024-01-01T12:00:00Z",
+          updated_at: "2024-01-01T12:00:00Z",
+        };
+        seatsRoom1.push(seat);
+      }
+    }
+  
+    // Dãy H: ghế sweetbox
+    for (let i = 1; i <= 8; i++) {
+      seatsRoom1.push({
+        id: seatsRoom1.length + 1,
+        room_id: 1,
+        row: 'H',
+        number: i,
+        type: 'sweetbox', // Ghế đôi
+        created_at: "2024-01-01T12:00:00Z",
+        updated_at: "2024-01-01T12:00:00Z",
+      });
+    }
+  
+    // Phòng 2
+    for (let row of ['A', 'B', 'C']) {
+      for (let number = 1; number <= 18; number++) {
+        const seat = {
+          id: seatsRoom2.length + 1,
+          room_id: 2,
+          row: row,
+          number: number,
+          type: 'regular', // Ghế thường
+          created_at: "2024-01-01T12:00:00Z",
+          updated_at: "2024-01-01T12:00:00Z",
+        };
+        seatsRoom2.push(seat);
+      }
+    }
+  
+    for (let row of ['D', 'E', 'F', 'G']) {
+      for (let number = 1; number <= 20; number++) {
+        const seat = {
+          id: seatsRoom2.length + 1,
+          room_id: 2,
+          row: row,
+          number: number,
+          type: 'vip', // Ghế thường
+          created_at: "2024-01-01T12:00:00Z",
+          updated_at: "2024-01-01T12:00:00Z",
+        };
+        seatsRoom2.push(seat);
+      }
+    }
+  
+    // Dãy H: ghế sweetbox
+    for (let i = 1; i < 8; i ++) {
+      seatsRoom2.push({
+        id: seatsRoom2.length + 1,
+        room_id: 2,
+        row: 'H',
+        number: i,
+        type: 'sweetbox', // Ghế đôi
+        created_at: "2024-01-01T12:00:00Z",
+        updated_at: "2024-01-01T12:00:00Z",
+      });
+    }
+  
+  
+  
+    // Thêm vài ghế đã đặt cho phòng 1
+    const bookedSeatsRoom1 = [
+      { id: 1, row: 'A', number: 1 },
+      { id: 2, row: 'B', number: 5 },
+      { id: 3, row: 'C', number: 10 },
+      { id: 4, row: 'E', number: 1 },
+      { id: 5, row: 'H', number: 1 },
     ];
+  
+    // Đánh dấu ghế đã đặt cho phòng 1
+    bookedSeatsRoom1.forEach(seat => {
+      const found = seatsRoom1.find(s => s.row === seat.row && s.number === seat.number);
+      if (found) {
+        found.status = 'booked';
+      }
+    });
+  
+    // Thêm vài ghế đã đặt cho phòng 2
+    const bookedSeatsRoom2 = [
+      { id: 1, row: 'A', number: 1 },
+      { id: 2, row: 'B', number: 4 },
+      { id: 3, row: 'C', number: 12 },
+      { id: 4, row: 'E', number: 1 },
+      { id: 5, row: 'H', number: 2 },
+    ];
+  
+    // Đánh dấu ghế đã đặt cho phòng 2
+    bookedSeatsRoom2.forEach(seat => {
+      const found = seatsRoom2.find(s => s.row === seat.row && s.number === seat.number);
+      if (found) {
+        found.status = 'booked';
+      }
+    });
+  
+    return [...seatsRoom1, ...seatsRoom2];
   };
+  
 
   export const Showtime = async () => {
     return [

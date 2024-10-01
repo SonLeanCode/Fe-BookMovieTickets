@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button, Input, Checkbox } from "react-daisyui";
 import { MdMovie, MdLock } from "react-icons/md";
@@ -13,6 +14,8 @@ const SignIn = () => {
     password: '',
     fullname: '',
   });
+
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -11,7 +11,8 @@ const SignIn = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    fullname: '', // Keep fullname for registration
+    fullname:''
+
   });
 
   const handleChange = (e) => {
@@ -38,7 +39,7 @@ const SignIn = () => {
         const response = await register({
           email: formData.email,
           password: formData.password,
-          fullname: formData.fullname, // Use fullname during registration
+          fullname:formData.fullname
         }).unwrap();
         // Handle successful registration
         console.log(response);
@@ -67,7 +68,7 @@ const SignIn = () => {
                 Email address
               </label>
               <Input
-                id="email-address"
+                id="email"
                 name="email"
                 type="email"
                 autoComplete="email"
@@ -79,6 +80,7 @@ const SignIn = () => {
                 placeholder="Email address"
               />
             </div>
+            
             <div>
               <label htmlFor="password" className="sr-only">
                 Password
@@ -110,6 +112,7 @@ const SignIn = () => {
                 />
               </div>
             )}
+         
           </div>
 
           <div className="flex items-center justify-between">
