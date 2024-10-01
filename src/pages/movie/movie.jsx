@@ -21,7 +21,8 @@ const Movie = () => {
                 <div className="item group">
                     <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-500_1723544375976.jpg" alt="item" />
                     <div className="overlay">
-                        <button className="buysticket">mua vé</button>
+                        
+                        <Link to="/detail" className="buysticket">  Mua vé</Link>
                     </div>
                     <div className="badge bgcam">T18</div>
                     <div className="rating">★★★★☆</div>

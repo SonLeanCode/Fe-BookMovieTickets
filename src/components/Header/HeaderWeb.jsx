@@ -31,6 +31,7 @@ const HeaderWeb = () => {
     >
       <div className="p-4 flex items-center justify-between">
         <div className="flex items-center">
+
           <Link to="" className="logo-text">ST-FLIX</Link>
         </div>
         <div className="flex items-center space-x-4 menu-container">

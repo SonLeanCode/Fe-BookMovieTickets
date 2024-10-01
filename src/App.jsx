@@ -1,27 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Movie from "./pages/movie/movie";
+import { useLocation } from "react-router-dom";
+import PropTypes from 'prop-types';
 import HeaderWeb from "./components/Header/HeaderWeb";
-import MovieDetailPage from "./pages/Movies/MoviesDetail";
 import FooterWeb from "./components/Footer/FooterWeb";
+function App({ children }) {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
-
-function App() {
   return (
-    <Router>
-      <HeaderWeb />
-
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movie" element={<Movie />} />
-        <Route path="/detail" element={<MovieDetailPage />} />
-      </Routes>
-      
-
-      <FooterWeb />
-    </Router>
+    <>
+      {!isAdminRoute && <HeaderWeb />}
+      {children}
+      {!isAdminRoute && <FooterWeb />}
+    </>
   );
 }
+
+App.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default App;
