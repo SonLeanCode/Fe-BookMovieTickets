@@ -3,41 +3,71 @@ import { Link } from "react-router-dom";
 const Movie = () => {
     return (
         <>
-            <div className="flex justify-center">
+            <div className="flex justify-center bg-black">
                 <div className="w-full">
-                    <div className="flex justify-center items-center mt-10">
-                        <div className="text-center text-gray-400 w-full border-b border-white">
-                            <div className="text-2xl font-semibold pb-2"><strong className="text-red-600 px-1">|</strong>Phim</div>
-                            <div className="flex justify-center space-x-4 mb-2">
-                                <Link className="text-red-600 active">Đang chiếu</Link>
-                                <Link className="text-white">Sắp chiếu</Link>
-                                <Link className="text-white">Phim IMAX</Link>
+                    <div className="flex justify-center items-center font-sans mx-auto mt-0">
+                        <div className="w-4/5 mt-28 pt-2 text-center font-semibold text-3xl text-gray-300 border-b border-white">
+                            <div className="inline-flex items-center">
+                                <strong className="text-red-600 px-2">|</strong>Phim
+                            </div>
+                            <div className="flex justify-center items-center space-x-4 my-2 text-sm">
+                                <Link className="text-red-600 cursor-pointer">Đang chiếu</Link>
+                                <Link className="text-white cursor-pointer">Sắp chiếu</Link>
+                                <Link className="text-white cursor-pointer">Phim IMAX</Link>
                             </div>
                         </div>
                     </div>
-                    <div className="container mx-auto grid grid-cols-4 gap-10 my-8">
-                        {Array(5).fill(0).map((_, i) => (
-                            <div key={i} className="relative group flex flex-col items-center">
-                                <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-500_1723544375976.jpg" alt="item" className="w-full h-auto" />
-                                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 flex items-center justify-center group-hover:opacity-100 transition-opacity">
-                                    <Link to="/detail" className="bg-orange-600 hover:bg-orange-700 text-white rounded px-4 py-2">Mua vé</Link>
-                                </div>
-                                <div className="absolute bottom-0 right-0 bg-orange-500 text-white p-2">T18</div>
-                                <div className="absolute bottom-12 right-2 text-yellow-400">★★★★☆</div>
+                    <div className="w-4/5 mx-auto flex flex-wrap justify-between mt-4">
+                        <div className="relative flex flex-col items-center group w-[calc(25%-10px)] my-2">
+                            <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-500_1723544375976.jpg" alt="item" className="w-full h-auto" />
+                            <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <Link to="/detail" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé</Link>
                             </div>
-                        ))}
+                            <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
+                            <div className="absolute bottom-12 right-2 text-yellow-400">★★★★☆</div>
+                        </div>
+
+                        <div className="relative flex flex-col items-center group w-[calc(25%-10px)] my-2">
+                            <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-500_1723544375976.jpg" alt="item" className="w-full h-auto" />
+                            <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé</button>
+                            </div>
+                            <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
+                            <div className="absolute bottom-12 right-2 text-yellow-400">★★★★☆</div>
+                        </div>
+
+                        <div className="relative flex flex-col items-center group w-[calc(25%-10px)] my-2">
+                            <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-500_1723544375976.jpg" alt="item" className="w-full h-auto" />
+                            <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé</button>
+                            </div>
+                            <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
+                            <div className="absolute bottom-12 right-2 text-yellow-400">★★★★☆</div>
+                        </div>
+
+                        <div className="relative flex flex-col items-center group w-[calc(25%-10px)] my-2">
+                            <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-500_1723544375976.jpg" alt="item" className="w-full h-auto" />
+                            <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé</button>
+                            </div>
+                            <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
+                            <div className="absolute bottom-12 right-2 text-yellow-400">★★★★☆</div>
+                        </div>
                     </div>
-                    <div className="text-center text-white mb-5 px-4">
-                        <h2 className="text-2xl font-bold mb-6">Phim đang chiếu</h2>
-                        <div className="text-sm">
-                            <div className="flex items-center space-x-2 font-semibold">
+
+                    <div className="flex flex-col w-4/5 justify-center m-auto text-white mb-2 px-5">
+                        <div className="w-full py-8 text-center font-semibold text-3xl text-gray-300 ">
+                            Phim đang chiếu
+                        </div>
+                        <div className="text-sm mt-4"> {/* Added mt-4 to create spacing below the title */}
+                            <div className="flex items-center space-x-2 font-bold">
                                 <div>1. Làm Giàu Với Ma</div>
-                                <div className="text-gray-400">– Kinh dị, Hài</div>
-                                <div className="text-gray-400">– 30.08</div>
+                                <div>– Kinh dị, Hài</div>
+                                <div>– 30.08</div>
                             </div>
-                            <p className="mt-2 text-justify">
-                                Làm Giàu Với Ma là tác phẩm đánh dấu sự trở lại của NSUT Hoài Linh sau thời gian dài vắng bóng trên màn ảnh rộng. Phim mang đề tài hài tâm linh...
-                            </p>
+                            <div className="mt-2">
+                                Làm Giàu Với Ma là tác phẩm đánh dấu sự trở lại của NSUT Hoài Linh sau thời gian dài vắng bóng trên màn ảnh rộng. Phim mang đề tài hài tâm linh được đạo diễn bởi Trung Lùn, cùng với sự tham gia của nam chính nghìn tỷ Tuấn Trần, bên cạnh đó còn có sự góp mặt của NSƯT Hữu Châu, Lê Giang, Diệp Bảo Ngọc,…
+                            </div>
                         </div>
                     </div>
                 </div>
