@@ -213,44 +213,54 @@ export const User = async () => {
             "id": 1,
             "movie_id": 1,
             "room_id": 1,
-            "cinema_id":1,
-            "start_time": "2024-05-02T14:00:00Z",
-            "end_time": "2024-05-02T16:00:00Z",
-            "created_at": "2024-01-01T12:00:00Z",
-            "updated_at": "2024-01-01T12:00:00Z"
-          },
-          {
+            "cinema_id": 1,
+            "start_time": "2024-05-02T21:00:00+07:00",
+            "end_time": "2024-05-02T23:00:00+07:00",
+            "created_at": "2024-01-01T19:00:00+07:00",
+            "updated_at": "2024-01-01T19:00:00+07:00"
+        },
+        {
             "id": 2,
             "movie_id": 1,
             "room_id": 1,
-            "cinema_id":2,
-            "start_time": "2024-05-02T17:00:00Z",
-            "end_time": "2024-05-02T19:00:00Z",
-            "created_at": "2024-01-01T12:00:00Z",
-            "updated_at": "2024-01-01T12:00:00Z"
-          },
-          {
+            "cinema_id": 2,
+            "start_time": "2024-05-02T00:00:00+07:00",
+            "end_time": "2024-05-03T02:00:00+07:00",
+            "created_at": "2024-01-01T19:00:00+07:00",
+            "updated_at": "2024-01-01T19:00:00+07:00"
+        },
+        {
             "id": 3,
             "movie_id": 2,
             "room_id": 2,
-            "cinema_id":1,
-            "start_time": "2024-06-02T18:00:00Z",
-            "end_time": "2024-06-02T19:30:00Z",
-            "created_at": "2024-01-01T12:00:00Z",
-            "updated_at": "2024-01-01T12:00:00Z"
-          },
-          {
-            "id": 3,
+            "cinema_id": 1,
+            "start_time": "2024-06-02T01:00:00+07:00",
+            "end_time": "2024-06-02T02:30:00+07:00",
+            "created_at": "2024-01-01T19:00:00+07:00",
+            "updated_at": "2024-01-01T19:00:00+07:00"
+        },
+        {
+            "id": 4,
             "movie_id": 2,
             "room_id": 2,
-            "cinema_id":2,
-            "start_time": "2024-06-02T20:00:00Z",
-            "end_time": "2024-06-02T21:30:00Z",
-            "created_at": "2024-01-01T12:00:00Z",
-            "updated_at": "2024-01-01T12:00:00Z"
-          }
+            "cinema_id": 2,
+            "start_time": "2024-06-02T03:00:00+07:00",
+            "end_time": "2024-06-02T04:30:00+07:00", 
+            "created_at": "2024-01-01T19:00:00+07:00",
+            "updated_at": "2024-01-01T19:00:00+07:00"
+        },
+        {
+          "id": 5,
+          "movie_id": 1,
+          "room_id": 2,
+          "cinema_id": 1,
+          "start_time": "2024-05-02T00:00:00+07:00",
+          "end_time": "2024-05-02T02:00:00+07:00",
+          "created_at": "2024-01-01T19:00:00+07:00",
+          "updated_at": "2024-01-01T19:00:00+07:00"
+      },
     ];
-  };
+};
 
   export const Ticket = async () => {
     return [

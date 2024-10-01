@@ -75,10 +75,19 @@ const MovieDetail = () => {
 
   const handleCinemaClick = async (cinemaId) => {
     setSelectedCinemaId(cinemaId); // Set the selected cinema
-    const fetchedShowtimes = await Showtime(cinemaId, id); // Fetch showtimes for selected cinema and movie
-    setShowtimes(fetchedShowtimes); // Set showtimes in state
-    console.log(fetchedShowtimes)
+    
+    // Fetch all showtimes
+    const allShowtimes = await Showtime();
+  
+    // Filter showtimes based on selected cinemaId and movieId
+    const filteredShowtimes = allShowtimes.filter(
+      (showtime) => showtime.cinema_id === cinemaId && showtime.movie_id === parseInt(id)
+    );
+  
+    setShowtimes(filteredShowtimes); // Set the filtered showtimes in state
+    console.log(filteredShowtimes);
   };
+  
 
   if (!movie) return <div>Loading...</div>;
 
