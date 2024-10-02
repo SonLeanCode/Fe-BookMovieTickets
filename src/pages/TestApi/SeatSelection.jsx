@@ -3,7 +3,7 @@ import { Seat } from "./api/movies";
 
 const SeatSelection = () => {
   const [seats, setSeats] = useState([]);
-
+  console.log(seats)
   useEffect(() => {
     const fetchSeats = async () => {
       const seatsData = await Seat();

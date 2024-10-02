@@ -411,7 +411,7 @@ export const User = async () => {
             "amount": 100000.00,
             "payment_method": "Credit card",
             "payment_date": "2024-01-01T12:00:00Z",
-            "status": "success",
+            "status": "success",  
             "created_at": "2024-01-01T12:00:00Z",
             "updated_at": "2024-01-01T12:00:00Z"
           }
