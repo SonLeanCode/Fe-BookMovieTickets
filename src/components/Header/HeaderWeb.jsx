@@ -35,8 +35,6 @@ const HeaderWeb = () => {
 
           <Link to="" className="logo-text">ST-FLIX</Link>
 
-        <Link to="/" className="logo-text">ST-FLIX</Link>
-
         </div>
         <div className="flex items-center space-x-4 menu-container">
           <Link to="/buy-tickets" className="sticker-button">Mua vé</Link>
