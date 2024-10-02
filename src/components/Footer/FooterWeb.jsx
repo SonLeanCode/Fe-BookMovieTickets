@@ -4,11 +4,15 @@ const FooterWeb = () => {
   return (
     <>
 
+
         <session>
           <footer>
 
             <div className="footer-container">
           
+
+      <footer></footer>
+
       <footer>
         <div className="footer-container">
           <div className="footer-logo">
@@ -22,6 +26,9 @@ const FooterWeb = () => {
             <strong>Email: Stflix@gmail.com</strong>
             <br></br>
             <strong>Điện thoại: (123) 456-7890</strong>
+
+
+
 
 
             <div className="social-icons">
@@ -138,9 +145,11 @@ const FooterWeb = () => {
           </div>
         </div>
       </footer>
+
         </div>
         </footer>
     </session>
+
     </>
   );
 };
