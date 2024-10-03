@@ -1,6 +1,7 @@
 
 const FooterWeb = () => {
   return (
+    <>    
     <section>
       <footer className="bg-gradient-to-r from-black to-red-900 text-white flex items-center justify-center py-4">
         <div className="flex flex-col justify-between items-center w-full max-w-5xl px-4">
@@ -74,6 +75,7 @@ const FooterWeb = () => {
         </div>
       </footer>
     </section>
+    </>
   );
 };
 
