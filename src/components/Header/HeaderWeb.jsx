@@ -32,24 +32,40 @@ const HeaderWeb = () => {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link to="/buy-tickets" className="bg-red-600 text-white py-2 px-4 rounded-md font-bold relative clip-path-polygon">
-            Mua vé
-          </Link>
+        <Link 
+          to="/buy-tickets" 
+          className="bg-red-600 text-white py-2 px-6 font-bold relative" 
+          style={{ clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)' }}
+        >
+          Mua vé
+        </Link>
+
           <Link to="/movie" className="text-white font-medium hover:text-gray-300">Phim</Link>
           <div className="relative">
             <button 
               onClick={() => setCinemaCornerOpen(!cinemaCornerOpen)} 
-              className="text-white font-medium hover:text-gray-300"
+              className="text-white font-medium hover:text-gray-300 cinema-corner-button"
             >
               Góc điện ảnh
             </button>
             {cinemaCornerOpen && (
-              <div className="absolute left-0 top-full bg-gray-800 rounded-md shadow-lg z-10">
-                <Link to="/cinema-corner/genres" className="block px-4 py-2 text-white hover:bg-gray-600 transition-none">Thể loại phim</Link>
-                <Link to="/actor" className="block px-4 py-2 text-white hover:bg-gray-600 transition-none">Diễn viên</Link>
+              <div className="absolute left-0 flex flex-col bg-gray-700 rounded-md shadow-md">
+                <Link 
+                  to="/cinema-corner/genres" 
+                  className="text-white px-4 py-2 whitespace-nowrap hover:bg-gray-600 "
+                >
+                  Thể loại phim
+                </Link>
+                <Link 
+                  to="/actor" 
+                  className="text-white px-4 py-2 whitespace-nowrap hover:bg-gray-600 "
+                >
+                  Diễn viên
+                </Link>
               </div>
             )}
           </div>
+
           <Link to="/events" className="text-white font-medium hover:text-gray-300">Sự kiện</Link>
           <Link to="/cheap-tickets" className="text-white font-medium hover:text-gray-300">Rạp/giá rẻ</Link>
           <div className="relative flex-grow">
@@ -75,9 +91,9 @@ const HeaderWeb = () => {
               Ngôn ngữ <i className="fas fa-language ml-2"></i>
             </button>
             {languageMenuOpen && (
-              <div className="absolute right-0 z-10 w-full rounded-md bg-gray-700">
-                <Link to="/language/vi" className="block w-full px-4 py-2 text-sm text-white hover:bg-gray-600 transition-none">Tiếng Việt</Link>
-                <Link to="/language/en" className="block w-full px-4 py-2 text-sm text-white hover:bg-gray-600 transition-none">English</Link>
+              <div className="absolute right-0 z-10 w-full rounded-md bg-gray-800">
+                <Link to="/language/vi" className="block w-full px-4 py-2 text-sm text-white hover:bg-gray-700 transition-none">Tiếng Việt</Link>
+                <Link to="/language/en" className="block w-full px-4 py-2 text-sm text-white hover:bg-gray-700 transition-none">English</Link>
               </div>
             )}
           </div>
