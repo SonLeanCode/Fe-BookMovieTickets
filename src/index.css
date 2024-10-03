@@ -461,18 +461,6 @@ img {
   transition: all 0.5s ease;
 }
 
-.overlay-btn-update {
-  /* clip-path: polygon(15% 1%, 100% 0%, 85% 100%, 0% 100%); */
-  margin: 10px 0;
-  padding: 10px 20px;
-  font-size: 14px;
-  width: 120px;
-  font-weight: bold;
-  color: rgb(255, 0, 0);
-  background-color: rgb(255, 255, 255);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 .overlay-btn-xh {
   /* clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%); */
   margin: 10px 0;
@@ -484,10 +472,6 @@ img {
   cursor: pointer;
 }
 
-.overlay-btn-update:hover {
-  background-color: rgb(250, 0, 0);
-  color: #ffffff;
-}
 .overlay-btn-xh:hover {
   background-color: rgb(250, 0, 0);
   color: #ffffff;
