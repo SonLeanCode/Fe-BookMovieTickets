@@ -356,7 +356,7 @@ const Home = () => {
                           </button>
                           <div className="button-container">                         
                               <Link to="/detail" className="overlay-btn-update">
-                                <i className="fas fa-video"></i> Trailer
+                                Trailer  <i className="fas fa-video"></i>
                               </Link>
                                 <br></br><br></br>
                               <Link to="/" className="overlay-btn-update">

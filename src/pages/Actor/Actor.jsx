@@ -51,12 +51,12 @@ const Actor = () => {
               <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
                 <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg" alt="item" className="w-full h-auto" />
                 <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Link to="/detail" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé</Link>
+                  <Link to="/detail" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé <i className="ml-1 fas fa-ticket-alt"></i></Link>
                 </div>
                 <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
                 <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
               </div>
-              <div className="text-white text-center">Tên phim</div>
+              <div className="text-white">Tên phim</div>
             </div>
           </div>
         </div>
