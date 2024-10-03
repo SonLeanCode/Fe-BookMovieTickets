@@ -4,6 +4,7 @@ import Dashboard from "../pages/Admin/Dashboard";
 import MovieDetailPage from "../pages/Movies/MoviesDetail";
 
 import Movie from "../pages/Movie/movie";
+import Actor from "../pages/Actor/Actor";
 
 
 import SignIn from "../pages/Auth/Login";
@@ -18,6 +19,7 @@ export default function AppRoutes() {
           <Route path="/" element={<Home />} />
 
           <Route path="/movie" element={<Movie />} />
+          <Route path="/actor" element={<Actor />} />
 
 
           <Route path="/admin" element={<Dashboard />} />

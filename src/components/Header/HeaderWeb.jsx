@@ -50,7 +50,7 @@ const HeaderWeb = () => {
             {cinemaCornerOpen && (
               <div className="cinema-corner-menu">
                 <Link to="/cinema-corner/genres" className="cinema-corner-item">Thể loại phim</Link>
-                <Link to="/cinema-corner/actors" className="cinema-corner-item">Diễn viên</Link>
+                <Link to="/actor" className="cinema-corner-item">Diễn viên</Link>
               </div>
             )}
           </div>
