@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         kanit: ["Kanit", "sans-serif"],
       },
+      
     },
   },
   plugins: [],

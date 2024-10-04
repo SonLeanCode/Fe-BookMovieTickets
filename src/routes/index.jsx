@@ -2,6 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Admin/Dashboard";
 import MovieDetailPage from "../pages/Movies/MoviesDetail";
+
+import Movie from "../pages/Movie/movie";
+import Actor from "../pages/Actor/Actor";
+
+
 import SignIn from "../pages/Auth/Login";
 import App from "../App";
 
@@ -12,6 +17,11 @@ export default function AppRoutes() {
       <App>
         <Routes>
           <Route path="/" element={<Home />} />
+
+          <Route path="/movie" element={<Movie />} />
+          <Route path="/actor" element={<Actor />} />
+
+
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/detail" element={<MovieDetailPage />} />
           <Route path="/login" element={<SignIn />} />

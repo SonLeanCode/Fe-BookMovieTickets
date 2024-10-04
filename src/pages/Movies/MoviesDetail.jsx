@@ -1,190 +1,206 @@
 import { useState } from 'react';
-import { FaStar, FaClock, FaMapMarkerAlt, FaTicketAlt } from 'react-icons/fa';
-import { Select, Button, Card, Tabs } from 'react-daisyui';
+import { Link } from "react-router-dom";
+import { FaStar, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
+// , FaSmile
 
 const MovieDetailPage = () => {
-  const [selectedArea, setSelectedArea] = useState('');
-  const [selectedTheater, setSelectedTheater] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-
+  const [newComment, setNewComment] = useState('');
+  const [selectedEmoji, setSelectedEmoji] = useState(null);
+  
   const movieDetails = {
     title: "Inception",
     image: "https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg",
     rating: "8.8",
-    duration: "2h 28min",
-    genre: "Sci-Fi, Action, Adventure",
+    duration: "180 phút",
+    genre: "Hành động",
     director: "Christopher Nolan",
     cast: "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
-    synopsis: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+    country: "Mỹ",
+    noidung: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
   };
 
-  const areas = ["Downtown", "Uptown", "Suburbs", "City Center"];
-  const theaters = ["CineMax Downtown", "StarPlex Uptown", "MegaScreen Suburbs", "CentralCinema"];
-  const dates = ["2023-06-15", "2023-06-16", "2023-06-17", "2023-06-18"];
-  const times = ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM", "10:00 PM"];
+  // Danh sách bình luận (mẫu)
+  const [comments, setComments] = useState([
+    {
+      user: "User1",
+      content: "Phim hay quá! Mình rất thích!",
+      time: "2 giờ trước",
+    },
+    {
+      user: "User2",
+      content: "Nội dung rất thú vị, diễn xuất xuất sắc.",
+      time: "1 giờ trước",
+    },
+  ]);
+
+  // Danh sách phim đang chiếu
+  const currentlyShowingMovies = [
+    {
+      title: "Movie 1",
+      image: "https://ss-images.saostar.vn/2023/6/13/pc/1686674614600/saostar-ja7wasperc5pq01h.png",
+    },
+    {
+      title: "Movie 2",
+      image: "https://toquoc.mediacdn.vn/thumb_w/640/280518851207290880/2023/6/9/fs0obfgx0amlstl-copy-1686280044314175990691.jpeg",
+    },
+    {
+      title: "Movie 3",
+      image: "https://i.ytimg.com/vi/DkNym1I7Mok/maxresdefault.jpg",
+    },
+  ];
+
+  // const emojis = ['😊', '😂', '😍', '😢', '😡', '👍', '👎'];
+
+  const handleCommentSubmit = () => {
+    if (newComment.trim() !== '') {
+      const newCommentObj = {
+        user: "Bạn", // Hoặc tên người dùng hiện tại
+        content: `${selectedEmoji ? selectedEmoji : ''} ${newComment}`,
+        time: "Vừa xong", // Có thể thay đổi thành thời gian thực tế
+      };
+      setComments([...comments, newCommentObj]);
+      setNewComment('');
+      setSelectedEmoji(null); // Reset emoji sau khi gửi
+    }
+  };
+
+  const handleCancel = () => {
+    setNewComment('');
+    setSelectedEmoji(null);
+  };
+
+  // const selectEmoji = (emoji) => {
+  //   setSelectedEmoji(emoji);
+  // };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Video Section */}
-        <div className="mb-8">
-          <div className="relative w-full h-0" style={{ paddingTop: '56.25%' }}>
-            <iframe
-              className="absolute top-0 left-0 w-full h-full"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Thay thế với link video của bạn
-              frameBorder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="Movie Trailer"
-            ></iframe>
-          </div>
+    
+    <div className="min-h-screen bg-black text-white">
+      <div className="relative w-full mb-8">
+        <div className="relative w-full h-[600px]">
+          <iframe
+            className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg border border-gray-600"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            frameBorder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="Movie Trailer"
+            style={{ pointerEvents: 'none' }}
+          ></iframe>
         </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-1">
+      </div>
+      <div className="max-w-6xl mx-auto p-4 md:p-8 grid grid-cols-10 gap-4">
+        <div className="col-span-7 flex flex-col">
+          <div className="flex mb-4">
             <img
               src={movieDetails.image}
               alt={movieDetails.title}
-              className="w-full rounded-lg shadow-lg"
+              className="md:h-[450px] w-[350px] rounded-lg shadow-lg object-cover"
+              style={{ marginTop: '-15%', zIndex: 49, pointerEvents: 'none' }}
             />
+            <div className="ml-4 flex flex-col justify-between h-full">
+              <div>
+                <h1 className="text-4xl font-bold mb-2">{movieDetails.title}</h1>
+                <div className="flex items-center mb-2">Đánh giá:
+                  <FaStar className="text-yellow-400 mr-1" />
+                  <span className="text-lg">{movieDetails.rating}/10</span>
+                </div>
+                <div className="flex items-center space-x-4 mb-2">
+                  <span>Thể loại: {movieDetails.genre}</span>
+                </div>
+                <div className="flex items-center space-x-4 mb-2">
+                  <div className="flex items-center"><br />
+                    <FaClock className="mr-1" />
+                    <span>Thời lượng: {movieDetails.duration}</span>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4 mb-2">
+                  <div className="flex items-center">
+                    <FaMapMarkerAlt className="mr-1" />
+                    <span>Quốc gia: {movieDetails.country}</span>
+                  </div>
+                </div>
+                <h2 className="text-2xl font-semibold mb-2">Đạo diễn: {movieDetails.director}</h2>
+                <h3 className="text-1xl font-semibold mb-2">Diễn viên: {movieDetails.cast}</h3>
+              </div>
+            </div>
           </div>
-          <div className="md:col-span-2">
-            <h1 className="text-4xl font-bold mb-4">{movieDetails.title}</h1>
-            <div className="flex items-center mb-4">
-              <FaStar className="text-yellow-400 mr-1" />
-              <span className="text-lg">{movieDetails.rating}/10</span>
-            </div>
-            <p className="text-gray-400 mb-4">{movieDetails.genre}</p>
-            <div className="flex items-center mb-4">
-              <FaClock className="mr-2" />
-              <span>{movieDetails.duration}</span>
-            </div>
-            <h2 className="text-2xl font-semibold mb-2">Synopsis</h2>
-            <p className="mb-4">{movieDetails.synopsis}</p>
-            <h2 className="text-2xl font-semibold mb-2">Director</h2>
-            <p className="mb-4">{movieDetails.director}</p>
-            <h2 className="text-2xl font-semibold mb-2">Cast</h2>
-            <p className="mb-4">{movieDetails.cast}</p>
+          <div className="p-4 rounded-lg mt-4 flex flex-col h-full" style={{ boxShadow: '0 0 1px rgba(255, 255, 255, 0.5)', backgroundColor: 'transparent' }}>
+            <h2 className="text-2xl font-bold mb-2">| Nội dung:</h2>
+            <p className="text-lg">{movieDetails.noidung}</p>
           </div>
         </div>
 
-        <Card className="mt-8 bg-gray-800">
-          <Card.Body>
-            <Card.Title tag="h2">Đặt Vé</Card.Title>
-            <p>Select your preferred viewing options</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Chọn Khu vực</label>
-                <Select 
-                  color="ghost" 
-                  className="w-full bg-gray-700"
-                  onChange={(e) => setSelectedArea(e.target.value)}
-                >
-                  <Select.Option value="" disabled selected>Chọn Khu vực</Select.Option>
-                  {areas.map((area) => (
-                    <Select.Option key={area} value={area}>{area}</Select.Option>
-                  ))}
-                </Select>
+        {/* Right Section (3 columns) */}
+        <div className="col-span-3">
+          <h2 className="text-2xl font-bold mb-4 text-gray-200">| Phim đang chiếu</h2>
+            <div className="group ml-6">
+              <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
+                <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg" alt="item" className="w-full h-auto" />
+                <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Link to="/detail" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé <i className="ml-1 fas fa-ticket-alt"></i></Link> 
+                </div>
+                <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
+                <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Chọn rạp chiếu phim</label>
-                <Select 
-                  color="ghost" 
-                  className="w-full bg-gray-700"
-                  onChange={(e) => setSelectedTheater(e.target.value)}
-                >
-                  <Select.Option value="" disabled selected>Chọn rạp chiếu phim</Select.Option>
-                  {theaters.map((theater) => (
-                    <Select.Option key={theater} value={theater}>{theater}</Select.Option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Chọn ngày</label>
-                <Select 
-                  color="ghost" 
-                  className="w-full bg-gray-700"
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                >
-                  <Select.Option value="" disabled selected>Chọn ngày</Select.Option>
-                  {dates.map((date) => (
-                    <Select.Option key={date} value={date}>
-                      {new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Chọn thời gian</label>
-                <Select 
-                  color="ghost" 
-                  className="w-full bg-gray-700"
-                  onChange={(e) => setSelectedTime(e.target.value)}
-                >
-                  <Select.Option value="" disabled selected>Chọn thời gian</Select.Option>
-                  {times.map((time) => (
-                    <Select.Option key={time} value={time}>{time}</Select.Option>
-                  ))}
-                </Select>
-              </div>
+              <div className="text-white">Tên phim</div>
             </div>
-            <Button color="primary" className="w-full mt-6">
-              <FaTicketAlt className="mr-2" />
-              Đặt Ngay
-            </Button>
-          </Card.Body>
-        </Card>
-
-        <Card className="mt-8 bg-gray-800">
-          <Card.Body>
-            <Card.Title tag="h2">Suất Chiếu</Card.Title>
-            <Tabs 
-              className="mt-4" 
-              variant="lifted"
-              value={selectedDate || dates[0]}
-              onChange={(value) => setSelectedDate(value)}
-            >
-              {dates.map((date) => (
-                <Tabs.Tab 
-                  key={date} 
-                  value={date}
-                  className="text-white"
-                >
-                  {new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                </Tabs.Tab>
-              ))}
-            </Tabs>
-            <div className="mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {theaters.map((theater) => (
-                  <Card key={theater} className="bg-gray-700">
-                    <Card.Body>
-                      <Card.Title tag="h3" className="text-lg">{theater}</Card.Title>
-                      <p className="text-sm text-gray-400 flex items-center">
-                        <FaMapMarkerAlt className="mr-1" />
-                        {areas[theaters.indexOf(theater)]}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {times.map((time) => (
-                          <Button 
-                            key={time} 
-                            color="ghost" 
-                            size="sm"
-                            className="border border-gray-600"
-                          >
-                            {time}
-                          </Button>
-                        ))}
-                      </div>
-                    </Card.Body>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </Card.Body>
-        </Card>
+        </div>
       </div>
+
+      <div className="max-w-6xl mx-auto p-4">
+        <h2 className="text-2xl font-bold mb-4">Bình luận</h2>
+        
+        {/* Input comment section */}
+        <div className="mt-4">
+          <div className="flex items-center">
+            {/* <span
+                className="text-gray-400 mr-2 cursor-pointer"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)} // Toggle menu biểu tượng cảm xúc
+              >
+                {selectedEmoji ? selectedEmoji : <FaSmile />}
+            </span> */}
+            
+            <textarea
+              className="w-full p-2 rounded-md bg-gray-700 text-white"
+              rows="1"
+              placeholder="Viết cảm nhận khi sử dụng dịch vụ của chúng tôi ..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+          </div>
+          <div className="flex justify-end mt-2">
+            <button 
+              className="bg-red-500 text-white py-2 px-4 rounded-md mr-2" 
+              onClick={handleCommentSubmit}>
+              Hủy
+            </button>
+            <button 
+              className="bg-green-500 text-white py-2 px-4 rounded-md"
+              onClick={handleCancel}>
+              Gửi
+            </button>
+          </div>
+        </div>
+
+        
+
+        <div className="flex flex-col space-y-4 mt-4">
+          {comments.map((comment, index) => (
+            <div key={index} className="border-b border-gray-700 pb-2 flex justify-between items-start">
+              <div className="flex flex-col">
+                <div className="flex items-center">
+                  <h3 className="font-semibold mr-2">{comment.user}</h3>
+                  <span className="text-gray-500 text-sm">{comment.time}</span>
+                </div>
+                <p className="text-gray-400">{comment.content}</p>
+              </div>
+              <button className="text-red-500 mt-1">❌</button>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 };
