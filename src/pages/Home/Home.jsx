@@ -354,13 +354,12 @@ const Home = () => {
                           <button className="overlay-favorite">
                             <FaHeart /><br></br>
                           </button>
-                          <div className="button-container">                         
-                              <Link to="/detail" className="overlay-btn-update">
-                                <i className="fas fa-video"></i> Trailer
+                          <div className="button-container flex flex-col space-y-4">
+                              <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                                  Trailer <i className="ml-1 fas fa-video"></i>
                               </Link>
-                                <br></br><br></br>
-                              <Link to="/" className="overlay-btn-update">
-                                Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                              <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
+                                  Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
                               </Link>
                           </div>
                         </div>
@@ -405,12 +404,14 @@ const Home = () => {
                   </div>
                   {/* Overlay buttons */}
                   <div className="overlay-update">
-                    <button className="overlay-btn-update">
-                      <i className="fas fa-video"></i> Trailer
-                    </button>
-                    <button className="overlay-btn-update">
-                      Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                    </button>
+                    <div className="button-container flex flex-col space-y-4">
+                        <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                            Trailer <i className="ml-1 fas fa-video"></i>
+                        </Link>
+                        <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
+                            Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                        </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -433,12 +434,14 @@ const Home = () => {
                       </div>
                       {/* Overlay buttons */}
                       <div className="overlay-update">
-                        <button className="overlay-btn-update">
-                          <i className="fas fa-video"></i> Trailer
-                        </button>
-                        <button className="overlay-btn-update">
-                          Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                        </button>
+                        <div className="button-container flex flex-col space-y-4">
+                            <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                                Trailer <i className="ml-1 fas fa-video"></i>
+                            </Link>
+                            <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
+                                Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                            </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -499,12 +502,14 @@ const Home = () => {
                             <FaHeart />
                           </button>
                           <div className="button-container">
-                            <button className="overlay-btn-update">
-                              <i className="fas fa-video"></i> Trailer
-                            </button>
-                            <button className="overlay-btn-update flex items-center rounded">
-                              Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                            </button>
+                            <div className="button-container flex flex-col space-y-4">
+                              <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                                  Trailer <i className="ml-1 fas fa-video"></i>
+                              </Link>
+                              <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
+                                  Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>

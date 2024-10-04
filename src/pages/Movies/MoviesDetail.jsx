@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from "react-router-dom";
 import { FaStar, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
 // , FaSmile
 
@@ -73,8 +74,9 @@ const MovieDetailPage = () => {
   // };
 
   return (
+    
     <div className="min-h-screen bg-black text-white">
-      <div className="relative w-full mb-8 mt-[110px]">
+      <div className="relative w-full mb-8">
         <div className="relative w-full h-[600px]">
           <iframe
             className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg border border-gray-600"
@@ -132,19 +134,17 @@ const MovieDetailPage = () => {
         {/* Right Section (3 columns) */}
         <div className="col-span-3">
           <h2 className="text-2xl font-bold mb-4 text-gray-200">| Phim đang chiếu</h2>
-          {/* Box for currently showing movies */}
-          <div className="flex flex-col space-y-4">
-            {currentlyShowingMovies.map((movie, index) => (
-              <div key={index} className="flex flex-col items-center">
-                <img
-                  src={movie.image}
-                  alt={movie.title}
-                  className="w-full rounded-lg object-cover mb-2"
-                />
-                <h3 className="text-lg text-left font-semibold">{movie.title}</h3>
+            <div className="group ml-6">
+              <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
+                <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg" alt="item" className="w-full h-auto" />
+                <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Link to="/detail" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé <i className="ml-1 fas fa-ticket-alt"></i></Link> 
+                </div>
+                <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
+                <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
               </div>
-            ))}
-          </div>
+              <div className="text-white">Tên phim</div>
+            </div>
         </div>
       </div>
 

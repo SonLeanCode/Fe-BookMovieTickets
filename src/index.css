@@ -243,7 +243,7 @@
 .tt{
   border-radius: 5px;
   border: 1px solid aqua;
-  background-color: #760b0b;
+  background-color: #636262c2;
   padding: 10px;
 }
 
@@ -461,8 +461,8 @@ img {
   transition: all 0.5s ease;
 }
 
-.overlay-btn-update {
-  /* clip-path: polygon(15% 1%, 100% 0%, 85% 100%, 0% 100%); */
+.overlay-btn-xh {
+  /* clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%); */
   margin: 10px 0;
   padding: 10px 20px;
   font-size: 14px;
@@ -470,10 +470,9 @@ img {
   color: rgb(255, 0, 0);
   background-color: rgb(255, 255, 255);
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.overlay-btn-update:hover {
+.overlay-btn-xh:hover {
   background-color: rgb(250, 0, 0);
   color: #ffffff;
 }
@@ -492,7 +491,7 @@ img {
 }
 
 /* Các nút */
-.overlay-btn-update i {
+.overlay-btn-update  {
   margin-right: 8px;
 }
 
