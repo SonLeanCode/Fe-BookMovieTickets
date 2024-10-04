@@ -56,7 +56,7 @@ const Actor = () => {
                 <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
                 <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
               </div>
-              <div className="text-white text-center">Tên phim</div>
+              <div className="text-white ">Tên phim</div>
             </div>
           </div>
         </div>
