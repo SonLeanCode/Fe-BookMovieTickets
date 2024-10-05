@@ -26,7 +26,7 @@ export default function AppRoutes() {
       
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/detail" element={<MovieDetailPage />} />
-          <Route path="/auth/login" element={<SignIn />} />
+          <Route path="/login" element={<SignIn />} />
           <Route path="/unauthorized" element={<div>Unauthorized Access</div>} />
 
           {/* Test api */}

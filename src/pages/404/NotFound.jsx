@@ -25,7 +25,7 @@ const NotFound = () => {
                 </Button>
               </Link>
 
-              <Link to="/auth/login">
+              <Link to="/login">
                 <Button
                   className="px-6 py-2 text-lg rounded-xl bg-blue-500 hover:bg-blue-600 hover:scale-105 transition duration-300 ease-in-out"
                 >
