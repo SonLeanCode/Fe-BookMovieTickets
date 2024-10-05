@@ -13,6 +13,7 @@ import MovieDetail from "../pages/TestApi/MovieDetail";
 import SeatSelection from "../pages/TestApi/SeatSelection";
 import OrderSummary from "../pages/TestApi/OrderSummary ";
 import NotFound from "../pages/404/NotFound";
+import Actor from "../pages/Actor/Actor";
 
 export default function AppRoutes() {
   return (
