@@ -1,41 +1,42 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// Constants
 import ROLE from "../constants";
 
+// Pages
 import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Admin/Dashboard";
 import MovieDetailPage from "../pages/Movies/MoviesDetail";
 import Movie from "../pages/Movie/movie";
 import Actor from "../pages/Actor/Actor";
-import OrderSummary from "../pages/TestApi/OrderSummary ";
-import NotFound from "../pages/404/NotFound";
 import SignIn from "../pages/Auth/Login";
-
-import App from "../App";
-import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
-
-import MovieList from "../pages/TestApi/MovieList";
-import MovieDetail from "../pages/TestApi/MovieDetail";
-import SeatSelection from "../pages/TestApi/SeatSelection";
 import Register from "../pages/Auth/Register";
+
+// Layout
+import UserLayout from "../layouts/UserLayout";
+import AdminLayout from "../layouts/AdminLayout";
+
+// Private
+import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
+import NotFound from "../pages/404/NotFound";
 
 export default function AppRoutes() {
   return (
     <Router>
-      <App>
-        <Routes>
+      <Routes>
+        {/* Routes for users */}
+        <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
           <Route path="/movie" element={<Movie />} />
           <Route path="/actor" element={<Actor />} />
           <Route path="/detail" element={<MovieDetailPage />} />
+          <Route path="*" element={<NotFound />} /> {/* 404 page for users */}
+        </Route>
 
-          <Route
-            path="/unauthorized"
-            element={<div>Unauthorized Access</div>}
-          />
-
-          {/* Admin */}
+        {/* Routes for admin */}
+        <Route element={<AdminLayout />}>
           <Route
             path="/admin"
             element={
@@ -44,15 +45,9 @@ export default function AppRoutes() {
               </PrivateRoute>
             }
           />
-
-          {/* Test api */}
-          <Route path="/movies" element={<MovieList />} />
-          <Route path="/movies/:id" element={<MovieDetail />} />
-          <Route path="/seat" element={<SeatSelection />} />
-          <Route path="/order" element={<OrderSummary />} />
-          <Route path="/404" element={<NotFound />} />
-        </Routes>
-      </App>
+          <Route path="*" element={<NotFound />} /> {/* 404 page for admin */}
+        </Route>
+      </Routes>
     </Router>
   );
 }
