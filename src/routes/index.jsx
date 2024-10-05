@@ -3,7 +3,7 @@ import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Admin/Dashboard";
 import MovieDetailPage from "../pages/Movies/MoviesDetail";
 
-import Movie from "../pages/movie/movie";
+import Movie from "../pages/Movie/movie";
 
 
 import SignIn from "../pages/Auth/Login";
@@ -22,6 +22,7 @@ export default function AppRoutes() {
           <Route path="/" element={<Home />} />
 
           <Route path="/movie" element={<Movie />} />
+          <Route path="/actor" element={<Actor />} />
 
       
           <Route path="/admin" element={<Dashboard />} />
