@@ -5,12 +5,12 @@ import FooterWeb from "./components/Footer/FooterWeb";
 function App({ children }) {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
-
+  const isError404  = location.pathname.startsWith("/404");
   return (
     <>
-      {!isAdminRoute && <HeaderWeb />}
+      {!isAdminRoute && !isError404 && <HeaderWeb />}
       {children}
-      {!isAdminRoute && <FooterWeb />}
+      {!isAdminRoute && !isError404 && <FooterWeb />}
     </>
   );
 }
