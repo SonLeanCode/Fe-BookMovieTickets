@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
+import avt_defaut from '../../assets/img/avatar_defaut/avatar_default.png';
 
 const HeaderWeb = () => {
   const [scrolled, setScrolled] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [cinemaCornerOpen, setCinemaCornerOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userAvatar, setUserAvatar] = useState("");
+  const [fullName, setFullName] = useState(""); // Thêm state cho fullname
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +18,14 @@ const HeaderWeb = () => {
         setScrolled(false);
       }
     };
+
+    // Kiểm tra trạng thái đăng nhập khi component mount
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if (userData) {
+      setIsLoggedIn(true);
+      setUserAvatar(userData.avatar); // giả sử avatar được lưu trong userData
+      setFullName(userData.fullname); // giả sử fullname được lưu trong userData
+    }
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -32,13 +44,13 @@ const HeaderWeb = () => {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-        <Link 
-          to="/buy-tickets" 
-          className="bg-red-600 text-white py-2 px-6 font-bold relative" 
-          style={{ clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)' }}
-        >
-          Mua vé
-        </Link>
+          <Link 
+            to="/buy-tickets" 
+            className="bg-red-600 text-white py-2 px-6 font-bold relative" 
+            style={{ clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)' }}
+          >
+            Mua vé
+          </Link>
 
           <Link to="/movie" className="text-white font-medium hover:text-gray-300">Phim</Link>
           <div className="relative">
@@ -83,6 +95,22 @@ const HeaderWeb = () => {
         </div>
 
         <div className="flex items-center space-x-2">
+          {isLoggedIn ? (
+            <div className="flex items-center space-x-2">
+              <span className="text-white">Xin chào, {fullName}</span>
+              <Link to="/profile">
+                <img 
+                  src={userAvatar || avt_defaut} 
+                  alt="User Avatar" 
+                  className="w-14 h-14 rounded-full"
+                />
+              </Link>
+            </div>
+          ) : (
+            <Link to="/login" className="bg-red-600 text-white py-2 px-4 rounded-md font-bold transition-transform duration-300 hover:bg-red-700 transform hover:scale-105">
+              Đăng nhập
+            </Link>
+          )}
           <div className="relative inline-block text-left">
             <button 
               className="flex items-center justify-between w-full bg-gray-800 text-white rounded-md px-4 py-2"
@@ -90,6 +118,7 @@ const HeaderWeb = () => {
             >
               Ngôn ngữ <i className="fas fa-language ml-2"></i>
             </button>
+            
             {languageMenuOpen && (
               <div className="absolute right-0 z-10 w-full rounded-md bg-gray-800">
                 <Link to="/language/vi" className="block w-full px-4 py-2 text-sm text-white hover:bg-gray-700 transition-none">Tiếng Việt</Link>
@@ -97,9 +126,6 @@ const HeaderWeb = () => {
               </div>
             )}
           </div>
-          <Link to="/login" className="bg-red-600 text-white py-2 px-4 rounded-md font-bold transition-transform duration-300 hover:bg-red-700 transform hover:scale-105">
-            Đăng nhập
-          </Link>
         </div>
       </div>
     </header>

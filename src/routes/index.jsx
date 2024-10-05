@@ -32,7 +32,6 @@ export default function AppRoutes() {
           <Route path="/movie" element={<Movie />} />
           <Route path="/actor" element={<Actor />} />
           <Route path="/detail" element={<MovieDetailPage />} />
-          <Route path="*" element={<NotFound />} /> {/* 404 page for users */}
         </Route>
 
         {/* Routes for admin */}
@@ -45,8 +44,10 @@ export default function AppRoutes() {
               </PrivateRoute>
             }
           />
-          <Route path="*" element={<NotFound />} /> {/* 404 page for admin */}
         </Route>
+
+        {/*Notfound routes */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
