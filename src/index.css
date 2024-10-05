@@ -467,14 +467,9 @@ img {
   padding: 10px 20px;
   font-size: 14px;
   font-weight: bold;
-  color: rgb(255, 0, 0);
-  background-color: rgb(255, 255, 255);
+  color: rgb(249, 249, 249);
+  background-color: #F97316;
   cursor: pointer;
-}
-
-.overlay-btn-xh:hover {
-  background-color: rgb(250, 0, 0);
-  color: #ffffff;
 }
 
 .shadow-md:hover .overlay-update,

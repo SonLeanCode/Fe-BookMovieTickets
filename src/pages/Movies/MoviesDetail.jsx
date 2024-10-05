@@ -32,21 +32,6 @@ const MovieDetailPage = () => {
     },
   ]);
 
-  // Danh sách phim đang chiếu
-  const currentlyShowingMovies = [
-    {
-      title: "Movie 1",
-      image: "https://ss-images.saostar.vn/2023/6/13/pc/1686674614600/saostar-ja7wasperc5pq01h.png",
-    },
-    {
-      title: "Movie 2",
-      image: "https://toquoc.mediacdn.vn/thumb_w/640/280518851207290880/2023/6/9/fs0obfgx0amlstl-copy-1686280044314175990691.jpeg",
-    },
-    {
-      title: "Movie 3",
-      image: "https://i.ytimg.com/vi/DkNym1I7Mok/maxresdefault.jpg",
-    },
-  ];
 
   // const emojis = ['😊', '😂', '😍', '😢', '😡', '👍', '👎'];
 
@@ -100,33 +85,33 @@ const MovieDetailPage = () => {
             <div className="ml-4 flex flex-col justify-between h-full">
               <div>
                 <h1 className="text-4xl font-bold mb-2">{movieDetails.title}</h1>
-                <div className="flex items-center mb-2">Đánh giá:
+                <div className="flex items-center mb-2 ">
                   <FaStar className="text-yellow-400 mr-1" />
                   <span className="text-lg">{movieDetails.rating}/10</span>
                 </div>
-                <div className="flex items-center space-x-4 mb-2">
+                <div className="flex items-center space-x-4 mb-2 opacity-70">
                   <span>Thể loại: {movieDetails.genre}</span>
                 </div>
-                <div className="flex items-center space-x-4 mb-2">
+                <div className="flex items-center space-x-4 mb-2 opacity-70">
                   <div className="flex items-center"><br />
                     <FaClock className="mr-1" />
                     <span>Thời lượng: {movieDetails.duration}</span>
                   </div>
                 </div>
-                <div className="flex items-center space-x-4 mb-2">
+                <div className="flex items-center space-x-4 mb-2 opacity-70">
                   <div className="flex items-center">
                     <FaMapMarkerAlt className="mr-1" />
                     <span>Quốc gia: {movieDetails.country}</span>
                   </div>
                 </div>
-                <h2 className="text-2xl font-semibold mb-2">Đạo diễn: {movieDetails.director}</h2>
-                <h3 className="text-1xl font-semibold mb-2">Diễn viên: {movieDetails.cast}</h3>
+                <h2 className="text-2xl font-semibold mb-2 opacity-70">Đạo diễn: {movieDetails.director}</h2>
+                <h3 className="text-1xl font-semibold mb-2 opacity-70">Diễn viên: {movieDetails.cast}</h3>
               </div>
             </div>
           </div>
           <div className="p-4 rounded-lg mt-4 flex flex-col h-full" style={{ boxShadow: '0 0 1px rgba(255, 255, 255, 0.5)', backgroundColor: 'transparent' }}>
             <h2 className="text-2xl font-bold mb-2">| Nội dung:</h2>
-            <p className="text-lg">{movieDetails.noidung}</p>
+            <p className="text-lg opacity-50">{movieDetails.noidung}</p>
           </div>
         </div>
 
