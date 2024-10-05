@@ -16,6 +16,7 @@ import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
 import MovieList from "../pages/TestApi/MovieList";
 import MovieDetail from "../pages/TestApi/MovieDetail";
 import SeatSelection from "../pages/TestApi/SeatSelection";
+import Register from "../pages/Auth/Register";
 
 export default function AppRoutes() {
   return (
@@ -24,6 +25,7 @@ export default function AppRoutes() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<SignIn />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/movie" element={<Movie />} />
           <Route path="/actor" element={<Actor />} />
           <Route path="/detail" element={<MovieDetailPage />} />
@@ -34,13 +36,14 @@ export default function AppRoutes() {
           />
 
           {/* Admin */}
-          <PrivateRoute allowedRoles={[ROLE.ADMIN]}>
-            <Routes>
-              <Route path="" element={<Dashboard />} />
-              {/* Thêm các route admin khác tại đây */}
-            </Routes>
-          </PrivateRoute>
-
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute allowedRoles={[ROLE.ADMIN]}>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
 
           {/* Test api */}
           <Route path="/movies" element={<MovieList />} />

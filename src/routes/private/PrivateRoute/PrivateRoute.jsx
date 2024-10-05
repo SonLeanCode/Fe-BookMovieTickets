@@ -3,9 +3,8 @@ import { Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const token = localStorage.getItem('accessToken');
-  const user = localStorage.getItem('user');
-  const userData = user ? JSON.parse(user) : null;
-  const userRole = userData ? userData.role : null;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userRole = user?.role;
   console.log(userRole)
   // Kiểm tra xem người dùng có token không và vai trò có trong allowedRoles không
   if (!token) {
