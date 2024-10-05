@@ -3,8 +3,9 @@ import { Button, Input, Checkbox } from "react-daisyui";
 import { MdMovie, MdLock } from "react-icons/md";
 import { useLoginMutation } from "../../services/auth/authService";
 import { useRegisterMutation } from "../../services/auth/authService";
-
+import { useNavigate } from "react-router-dom";
 const SignIn = () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [login, { isLoading: isLoggingIn }] = useLoginMutation();
   const [register, { isLoading: isRegistering }] = useRegisterMutation();
@@ -30,7 +31,16 @@ const SignIn = () => {
           password: formData.password,
         }).unwrap();
         // Handle successful login, like storing token in localStorage
-        console.log(response);
+        localStorage.setItem('accessToken', response.accessToken);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        console.log('Login successful:', response);
+        if (response.user.role === 1) {
+          // Redirect đến trang chủ
+          navigate('/');
+        } else {
+          // Redirect đến trang admin
+          navigate('/admin');
+        }
       } catch (error) {
         console.error("Login error:", error);
       }

@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ROLE from "../constants";
 
 import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Admin/Dashboard";
@@ -10,13 +11,11 @@ import NotFound from "../pages/404/NotFound";
 import SignIn from "../pages/Auth/Login";
 
 import App from "../App";
-
+import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
 
 import MovieList from "../pages/TestApi/MovieList";
 import MovieDetail from "../pages/TestApi/MovieDetail";
 import SeatSelection from "../pages/TestApi/SeatSelection";
-
-
 
 export default function AppRoutes() {
   return (
@@ -24,15 +23,24 @@ export default function AppRoutes() {
       <App>
         <Routes>
           <Route path="/" element={<Home />} />
-
+          <Route path="/login" element={<SignIn />} />
           <Route path="/movie" element={<Movie />} />
           <Route path="/actor" element={<Actor />} />
-
-      
-          <Route path="/admin" element={<Dashboard />} />
           <Route path="/detail" element={<MovieDetailPage />} />
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/unauthorized" element={<div>Unauthorized Access</div>} />
+
+          <Route
+            path="/unauthorized"
+            element={<div>Unauthorized Access</div>}
+          />
+
+          {/* Admin */}
+          <PrivateRoute allowedRoles={[ROLE.ADMIN]}>
+            <Routes>
+              <Route path="" element={<Dashboard />} />
+              {/* Thêm các route admin khác tại đây */}
+            </Routes>
+          </PrivateRoute>
+
 
           {/* Test api */}
           <Route path="/movies" element={<MovieList />} />

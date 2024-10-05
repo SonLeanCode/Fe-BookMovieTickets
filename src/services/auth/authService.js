@@ -1,9 +1,25 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+// Lấy token từ localStorage
+const getAccessToken = () => localStorage.getItem('accessToken');
+
+// Tạo API với Redux Toolkit Query
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:4003/' }), // Replace with your API base URL
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:4003/', // Địa chỉ API của bạn
+    prepareHeaders: (headers) => {
+      // Lấy token từ localStorage
+      const token = getAccessToken();
+      // Nếu có token, thêm vào header Authorization
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   endpoints: (builder) => ({
+    // Endpoint để login
     login: builder.mutation({
       query: (credentials) => ({
         url: '/api/auth/login',
@@ -11,9 +27,11 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
+
+    // Endpoint để register
     register: builder.mutation({
       query: (userData) => ({
-        url: '/api/auth/register', // Adjust the endpoint as necessary
+        url: '/api/auth/register',
         method: 'POST',
         body: userData,
       }),
