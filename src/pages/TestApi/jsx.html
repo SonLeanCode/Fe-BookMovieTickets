@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product List</title>
+  <style>
+    header {
+      background-color: #1ac7b6;
+      width: 100%;
+      height: 80px;
+      text-align: center;
+      border-radius: 5px;
+
+
+      font-size: 25px;
+    }
+
+    article {
+      background-color: aliceblue;
+      width: 100%;
+      height: 1000px;
+      border-radius: 5px;
+    }
+
+    .product-list {
+      display: flex;
+      gap: 20px;
+      padding-left: 250px;
+      padding-top: 50px;
+
+    }
+
+    .product {
+      border: 2px solid #634242;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      width: 500px;
+      background-color: #fff;
+    }
+
+    .product img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .product h2 {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    .product p {
+      font-size: 2em;
+      color: #1f756d;
+    }
+
+    /* Popup styles */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    .popup img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .close-btn {
+      cursor: pointer;
+      font-size: 1.5em;
+      color: #333;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Danh Sách Sản Phẩm </h1>
+  </header>
+
+  <article>
+    <div id="product-container" class="product-list"></div>
+  </article>
+
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span id="close-btn" class="close-btn">&times;</span>
+      <img id="popup-image" src="" alt="" />
+      <h2 id="popup-name"></h2>
+      <p id="popup-description"></p>
+      <p><strong id="popup-price"></strong></p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
+<script>
+  const products = [
+    {
+      name: "Áo Polo nam thêu hình con hổ PL2M2025",
+      description: "Vải Áo Polo nam thêu hình có độ bền cao tại Việt Nam.",
+      imageUrl:
+        "https://www.thecoth.com/imagecache/product-gallery/wp-content/uploads/2022/05/lHcAs6FLcyDTq9nmOVSXazprLRTfhVm8dj9DLFux.webp",
+      price: "$10.00",
+    },
+    {
+      name: "Áo Polo nam thêu hình con hổ PL2M2025",
+      description: "Vải Áo Polo nam thêu hình có độ bền cao tại Việt Nam.",
+      imageUrl:
+        "https://www.thecoth.com/imagecache/product-gallery/wp-content/uploads/2022/05/lHcAs6FLcyDTq9nmOVSXazprLRTfhVm8dj9DLFux.webp",
+      price: "$20.00",
+    },
+    {
+      name: "Áo Polo nam thêu hình con hổ PL2M2025",
+      description: "Vải Áo Polo nam thêu hình có độ bền cao tại Việt Nam.",
+      imageUrl:
+        "https://www.thecoth.com/imagecache/product-gallery/wp-content/uploads/2022/05/lHcAs6FLcyDTq9nmOVSXazprLRTfhVm8dj9DLFux.webp",
+      price: "$30.00",
+    },
+  ];
+
+  const displayProducts = (products) => {
+    const container = document.getElementById("product-container");
+    container.innerHTML = "";
+
+    products.forEach((product, index) => {
+      const productDiv = document.createElement("div");
+      productDiv.className = "product";
+
+      const productHtml = `
+            <img src="${product.imageUrl}" alt="${product.name}">
+            <h2>${product.name}</h2>
+            <p>${product.description}</p>
+            <p><strong>${product.price}</strong></p>
+            <button class="edit-btn" data-index="${index}">Sửa</button>
+            <button class="delete-btn" data-index="${index}">Xóa</button>
+        `;
+
+      productDiv.innerHTML = productHtml;
+      productDiv.addEventListener("click", () => showPopup(product));
+      container.appendChild(productDiv);
+    });
+
+    // Thêm sự kiện cho nút xóa
+    document.querySelectorAll(".delete-btn").forEach((button) =>
+      button.addEventListener("click", (event) => {
+        const index = event.target.getAttribute("data-index");
+        deleteProduct(index);
+      })
+    );
+
+    // Thêm sự kiện cho nút sửa
+    document.querySelectorAll(".edit-btn").forEach((button) =>
+      button.addEventListener("click", (event) => {
+        const index = event.target.getAttribute("data-index");
+        editProduct(index);
+      })
+    );
+  };
+
+  const deleteProduct = (index) => {
+    products.splice(index, 1); // Xóa sản phẩm
+    displayProducts(products); // Cập nhật hiển thị
+  };
+
+  const editProduct = (index) => {
+    const product = products[index];
+    const newName = prompt("Nhập tên sản phẩm mới:", product.name);
+    const newDescription = prompt("Nhập mô tả sản phẩm mới:", product.description);
+    const newPrice = prompt("Nhập giá sản phẩm mới:", product.price);
+
+    if (newName && newDescription && newPrice) {
+      products[index] = {
+        ...product,
+        name: newName,
+        description: newDescription,
+        price: newPrice,
+      };
+      displayProducts(products); // Cập nhật hiển thị
+    }
+  };
+
+  const showPopup = (product) => {
+    document.getElementById("popup-image").src = product.imageUrl;
+    document.getElementById("popup-name").textContent = product.name;
+    document.getElementById("popup-description").textContent =
+      product.description;
+    document.getElementById("popup-price").textContent = product.price;
+    document.getElementById("popup").style.display = "flex";
+  };
+
+  document.getElementById("close-btn").addEventListener("click", () => {
+    document.getElementById("popup").style.display = "none";
+  });
+
+  displayProducts(products);
+</script>
