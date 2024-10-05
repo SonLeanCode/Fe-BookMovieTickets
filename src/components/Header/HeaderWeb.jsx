@@ -70,10 +70,10 @@ const HeaderWeb = () => {
               Góc điện ảnh
             </button>
             {cinemaCornerOpen && (
-              <div className="absolute left-0 flex flex-col rounded-md bg-gray-700 shadow-md">
-                <Link
-                  to="/cinema-corner/genres"
-                  className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
+              <div className="absolute left-0 flex flex-col bg-gray-700 rounded-md shadow-md">
+                <Link 
+                  to="/cinema-corner/genres" 
+                  className="text-white px-4 py-2 whitespace-nowrap hover:bg-gray-600 "
                 >
                   Thể loại phim
                 </Link>

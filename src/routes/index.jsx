@@ -12,7 +12,8 @@ import Actor from "../pages/Actor/Actor";
 import SignIn from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Profile from "../pages/Account/Profile";
-
+import Actordetail from "../pages/Actor/Actordetail";
+import Transaction from "../pages/Account/Transaction";
 // Layout
 import UserLayout from "../layouts/UserLayout";
 import AdminLayout from "../layouts/AdminLayout";
@@ -20,7 +21,8 @@ import AdminLayout from "../layouts/AdminLayout";
 // Private
 import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
 import NotFound from "../pages/404/NotFound";
-import Transaction from "../pages/Account/Transaction";
+
+
 
 
 export default function AppRoutes() {
@@ -36,6 +38,8 @@ export default function AppRoutes() {
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/movie" element={<Movie />} />
           <Route path="/actor" element={<Actor />} />
+          <Route path="/actor/detail" element={<Actordetail />} />
+          <Route path="/admin" element={<Dashboard />} />
           <Route path="/detail" element={<MovieDetailPage />} />
         </Route>
 
