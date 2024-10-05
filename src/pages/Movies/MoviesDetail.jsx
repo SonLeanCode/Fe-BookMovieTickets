@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FaStar, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
-// , FaSmile
 
 const MovieDetailPage = () => {
   const [newComment, setNewComment] = useState('');
