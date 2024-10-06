@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Input} from "react-daisyui";
+import { Button, Input } from "react-daisyui";
 import { MdLock, MdMovie } from "react-icons/md";
 import { useLoginMutation } from "../../services/auth/authService";
 import { Link, useNavigate } from "react-router-dom";
@@ -24,9 +24,13 @@ const Login = () => {
         email: formData.email,
         password: formData.password,
       }).unwrap();
+
+      // Lưu token và user vào localStorage
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("user", JSON.stringify(response.user));
-      navigate(response.user.role === 1 ? "/" : "/admin");
+
+      // Điều hướng dựa vào vai trò người dùng
+      navigate(response.user.role === "user" ? "/cinema" : "/admin");
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -74,7 +78,9 @@ const Login = () => {
             Sign in
           </Button>
         </form>
-        <div className="text-white">Bạn chưa có tài khoản? <Link to="/register" className="text-blue-500">Đăng ký</Link></div>
+        <div className="text-white">
+          Bạn chưa có tài khoản? <Link to="/register" className="text-blue-500">Đăng ký</Link>
+        </div>
       </div>
     </div>
   );

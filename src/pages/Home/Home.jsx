@@ -9,6 +9,7 @@ import {
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const Home = () => {
+  console.log("Rendering Home");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
 

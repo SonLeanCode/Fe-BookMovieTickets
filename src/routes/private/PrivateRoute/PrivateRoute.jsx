@@ -1,26 +1,25 @@
 import PropTypes from 'prop-types';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-const PrivateRoute = ({ children, allowedRoles }) => {
+const PrivateRoute = ({ allowedRoles }) => {
   const token = localStorage.getItem('accessToken');
   const user = JSON.parse(localStorage.getItem('user'));
   const userRole = user?.role;
-  console.log(userRole)
+
   // Kiểm tra xem người dùng có token không và vai trò có trong allowedRoles không
   if (!token) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth/login" replace />;
   }
 
   if (!allowedRoles.includes(userRole)) {
     return <Navigate to="/404" replace />; // Hoặc trang nào đó bạn muốn redirect
   }
 
-  return children; // Nếu tất cả các điều kiện đều đúng, render children
+  // Nếu tất cả các điều kiện đều đúng, trả về Outlet để render các route con
+  return <Outlet />;
 };
-
 // Thêm PropTypes cho component
 PrivateRoute.propTypes = {
-  children: PropTypes.node.isRequired, // `children` là một React node 
   allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired, // `allowedRoles` là một mảng các string (mỗi string là một role được cho phép) 
 };
 

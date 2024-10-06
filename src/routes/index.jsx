@@ -21,42 +21,71 @@ import AdminLayout from "../layouts/AdminLayout";
 // Private
 import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
 import NotFound from "../pages/404/NotFound";
-
-
-
+import LandingPage from "../pages/LandingPage";
+import DefaultLayout from "../layouts/DefaultLayout";
+import { NotLoggedMiddleware } from "./private/middleware/MiddlewareRoute";
+import Auth from "../pages/Auth/Auth";
 
 export default function AppRoutes() {
   return (
     <Router>
       <Routes>
+        {/* Landing page  */}
+        <Route element={<DefaultLayout />}>
+          <Route element={<NotLoggedMiddleware />}>
+            <Route index path="/" element={<LandingPage />} />
+          </Route>
+        </Route>
+
+        {/* Auth  */}
+        <Route element={<DefaultLayout />}>
+          <Route element={<NotLoggedMiddleware />}>
+            <Route element={<DefaultLayout />}>
+              <Route path="/auth" element={<Auth />}>
+                <Route path="login" element={<SignIn />} />
+                <Route path="register" element={<Register />} />
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+
         {/* Routes for users */}
-        <Route element={<UserLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/transaction" element={<Transaction />} />
-          <Route path="/movie" element={<Movie />} />
-          <Route path="/actor" element={<Actor />} />
-          <Route path="/actor/detail" element={<Actordetail />} />
-          <Route path="/admin" element={<Dashboard />} />
-          <Route path="/detail" element={<MovieDetailPage />} />
+        <Route element={<DefaultLayout />}>
+          <Route
+            path="/cinema"
+            element={<PrivateRoute allowedRoles={[ROLE.USER, ROLE.ADMIN]} />}
+            >
+                <Route element={<UserLayout />}>
+                  <Route path="" element={<Home />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="transaction" element={<Transaction />} />
+                  <Route path="movie" element={<Movie />} />
+                  <Route path="actor" element={<Actor />} />
+                  <Route path="actor/detail" element={<Actordetail />} />
+                  <Route path="detail" element={<MovieDetailPage />} />
+                  <Route path="landingpage" element={<LandingPage />} />
+                </Route>
+            </Route>
         </Route>
 
         {/* Routes for admin */}
-        <Route element={<AdminLayout />}>
+        <Route element={<DefaultLayout />}>
           <Route
             path="/admin"
-            element={
-              <PrivateRoute allowedRoles={[ROLE.ADMIN]}>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
+            element={<PrivateRoute allowedRoles={[ROLE.ADMIN]} />}
+            >
+                <Route element={<AdminLayout />}>
+                  <Route path="" element={<Dashboard />} />
+                </Route>
+            </Route>
         </Route>
 
-        {/*Notfound routes */}
-        <Route path="*" element={<NotFound />} />
+        {/* 404 not found */}
+        <Route element={<DefaultLayout />}>
+          <Route errorElement={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/404" element={<NotFound />} />
+        </Route>
       </Routes>
     </Router>
   );

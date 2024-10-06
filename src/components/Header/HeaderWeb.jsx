@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaUserAlt, FaHistory, FaSignOutAlt } from "react-icons/fa"; // Import các icon cần dùng
 import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
@@ -10,7 +10,7 @@ const HeaderWeb = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userAvatar, setUserAvatar] = useState("");
   const [fullName, setFullName] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -32,6 +32,12 @@ const HeaderWeb = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+    navigate("/auth/login"); // Điều hướng về trang đăng nhập
+  };
+
   return (
     <header
       className={`fixed left-0 top-0 z-50 w-full transition-colors duration-300 ${
@@ -41,7 +47,7 @@ const HeaderWeb = () => {
       <div className="flex items-center justify-between p-2">
         <div className="flex items-center">
           <Link
-            to="/"
+            to="/cinema"
             className="font-montserrat animate-sparkle relative ml-16 bg-gradient-to-r from-red-600 via-red-300 to-red-600 bg-clip-text text-7xl font-bold text-transparent"
           >
             ST-FLIX
@@ -49,7 +55,7 @@ const HeaderWeb = () => {
         </div>
         <div className="flex items-center space-x-4">
           <Link
-            to="/buy-tickets"
+            to="/cinema/buy-tickets"
             className="relative bg-red-600 px-6 py-2 font-bold text-white"
             style={{ clipPath: "polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)" }}
           >
@@ -57,7 +63,7 @@ const HeaderWeb = () => {
           </Link>
 
           <Link
-            to="/movie"
+            to="/cinema/movie"
             className="font-medium text-white hover:text-gray-300"
           >
             Phim
@@ -70,15 +76,15 @@ const HeaderWeb = () => {
               Góc điện ảnh
             </button>
             {cinemaCornerOpen && (
-              <div className="absolute left-0 flex flex-col bg-gray-700 rounded-md shadow-md">
-                <Link 
-                  to="/cinema-corner/genres" 
-                  className="text-white px-4 py-2 whitespace-nowrap hover:bg-gray-600 "
+              <div className="absolute left-0 flex flex-col rounded-md bg-gray-700 shadow-md">
+                <Link
+                  to="/cinema/cinema-corner/genres"
+                  className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
                 >
                   Thể loại phim
                 </Link>
                 <Link
-                  to="/actor"
+                  to="/cinema/actor"
                   className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
                 >
                   Diễn viên
@@ -88,13 +94,13 @@ const HeaderWeb = () => {
           </div>
 
           <Link
-            to="/events"
+            to="/cinema/events"
             className="font-medium text-white hover:text-gray-300"
           >
             Sự kiện
           </Link>
           <Link
-            to="/cheap-tickets"
+            to="/cinema/cheap-tickets"
             className="font-medium text-white hover:text-gray-300"
           >
             Rạp/giá rẻ
@@ -128,19 +134,19 @@ const HeaderWeb = () => {
                     className="h-14 w-14 cursor-pointer rounded-full"
                   />
                   {/* Phần này là lớp giả giúp duy trì hover */}
-                  <div className="absolute -right-2 top-2 h-16 w-16"></div>{" "}{/* Lớp giả */}
-                  
+                  <div className="absolute -right-2 top-2 h-16 w-16"></div>{" "}
+                  {/* Lớp giả */}
                   {/* Menu xuất hiện khi hover vào avatar */}
                   <div className="absolute right-0 mt-2 hidden w-40 rounded-lg bg-gray-700 shadow-lg group-hover:block">
                     <Link
-                      to="/profile"
+                      to="/cinema/profile"
                       className="flex items-center space-x-2 px-4 py-2 text-white hover:bg-gray-600"
                     >
                       <FaUserAlt />
                       <span>Tài khoản</span>
                     </Link>
                     <Link
-                      to="/transaction"
+                      to="/cinema/transaction"
                       className="flex items-center space-x-2 px-4 py-2 text-white hover:bg-gray-600"
                     >
                       <FaHistory />
@@ -148,8 +154,7 @@ const HeaderWeb = () => {
                     </Link>
                     <button
                       onClick={() => {
-                        localStorage.removeItem("user");
-                        setIsLoggedIn(false);
+                        handleLogout();
                       }}
                       className="flex w-full items-center space-x-2 px-4 py-2 text-left text-white hover:bg-gray-600"
                     >
