@@ -1,27 +1,41 @@
-import { useState } from "react";
+import React from 'react';
 import { Button, Input, Checkbox } from "react-daisyui";
-import { MdMovie, MdLock } from "react-icons/md";
-import { useLoginMutation } from "../../services/auth/authService";
-import { useRegisterMutation } from "../../services/auth/authService";
+import { useLoginMutation , useRegisterMutation } from "../../services/auth/authService";
+import './Login.css';
 
-const SignIn = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [login, { isLoading: isLoggingIn }] = useLoginMutation();
-  const [register, { isLoading: isRegistering }] = useRegisterMutation();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    fullname:''
+class SignIn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogin: true,
+      formData: {
+        email: '',
+        password: '',
+        fullname: '',
+      },
+      rememberMe: false,
+    };
+    
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+  }
 
-  });
-
-  const handleChange = (e) => {
+  handleChange(e) {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    this.setState((prevState) => ({
+      formData: { ...prevState.formData, [name]: value },
+    }));
+  }
 
-  const handleSubmit = async (e) => {
+  handleCheckboxChange(e) {
+    this.setState({ rememberMe: e.target.checked });
+  }
+
+  async handleSubmit(e) {
     e.preventDefault();
+    const { isLogin, formData } = this.state;
+    const { login, register } = this.props;
 
     if (isLogin) {
       try {
@@ -29,7 +43,6 @@ const SignIn = () => {
           email: formData.email,
           password: formData.password,
         }).unwrap();
-        // Handle successful login, like storing token in localStorage
         console.log(response);
       } catch (error) {
         console.error("Login error:", error);
@@ -39,65 +52,63 @@ const SignIn = () => {
         const response = await register({
           email: formData.email,
           password: formData.password,
-          fullname:formData.fullname
+          fullname: formData.fullname
         }).unwrap();
-        // Handle successful registration
         console.log(response);
       } catch (error) {
         console.error("Register error:", error);
       }
     }
-  };
+  }
 
-  return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-      <div className="max-w-md w-full space-y-8 p-8 bg-gray-800 rounded-xl shadow-lg">
-        <div className="text-center">
-          <MdMovie className="mx-auto h-12 w-12 text-indigo-500" />
-          <h2 className="mt-6 text-3xl font-extrabold text-white">
-            {isLogin ? "CineMax" : "Create your account"}
-          </h2>
-          <p className="mt-2 text-sm text-gray-400">
-            {isLogin ? "Sign in to your account" : "Create your account"}
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                onChange={handleChange}
-                className={`input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500 ${
-                  isLogin ? "rounded-t-md" : ""
-                }`}
-                placeholder="Email address"
-              />
+  render() {
+    const { isLogin, formData } = this.state;
+
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+  
+        <form className="form" onSubmit={this.handleSubmit}>
+          <div className="flex items-center justify-center">
+            <div className="logo flex items-center">
+              <h1 className="text-5xl font-bold text-red-700">ST-FLIX</h1>
             </div>
-            
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                onChange={handleChange}
-                className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
-                placeholder="Password"
-              />
-            </div>
-            {!isLogin && (
-              <div>
+          </div>
+          <div className="flex-column">
+            <label htmlFor="email">Gmail</label>
+          </div>
+          <div className="inputForm">
+            <i class="fa-regular fa-envelope"></i>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              onChange={this.handleChange}
+              className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
+              placeholder="Email address"
+            />
+          </div>
+
+          <div className="flex-column">
+            <label htmlFor="password">Mật khẩu</label>
+          </div>
+          <div className="inputForm">
+          {/* <FontAwesomeIcon icon="fa-solid fa-eye" style={{color: "#ffffff",}} /> */}
+             <i class="fa-solid fa-eye"></i>
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your Password"
+              value={formData.password}
+              onChange={this.handleChange}
+              className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
+            />
+          </div>
+
+          {!isLogin && (
+              <div className='inputForm'>
                 <label htmlFor="fullname" className="sr-only">
                   Fullname
                 </label>
@@ -112,54 +123,43 @@ const SignIn = () => {
                 />
               </div>
             )}
-         
-          </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
+          <div className="flex-row">
+            <div>
               <Checkbox
-                id="remember-me"
-                name="remember-me"
-                className="checkbox checkbox-primary border-gray-700 bg-gray-700"
+                id="rememberMe"
+                checked={this.state.rememberMe}
+                onChange={this.handleCheckboxChange}
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-400">
-                Remember me
-              </label>
+              <label htmlFor="rememberMe">Ghi nhớ tôi?</label>
             </div>
-
-            {isLogin && (
-              <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-500 hover:text-indigo-400">
-                  Forgot your password?
-                </a>
-              </div>
-            )}
+            <span className="span">Quên mật khẩu ?</span>
           </div>
+          <Button type="submit" className="button-submit"> {isLogin ? "Đăng Nhập" : "Đăng Kí"}</Button>
 
-          <div>
-            <Button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              disabled={isLoggingIn || isRegistering} // Disable button while processing
-            >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <MdLock className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
-              </span>
-              {isLogin ? "Sign in" : "Register"}
+          <p className="p">
+            {isLogin ? "Bạn chưa có tài khoản ? Đăng kí" : "Bạn có tài khoản ? Đăng nhập"}</p>
+          <p className="p line text-red-600">Hoặc</p>
+
+          <div className="flex-row">
+            <Button className="btn google">
+              <img src="https://cmctelecom.vn/wp-content/uploads/2024/01/png-transparent-google-logo-google-text-trademark-logo.png" width={25} alt="" />
+              Google
+            </Button>
+            <Button className="btn apple">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png" width={25} alt="" />
+              Apple
             </Button>
           </div>
         </form>
-        <div className="text-center">
-          <Button
-            onClick={() => setIsLogin(!isLogin)}
-            className="btn btn-link text-indigo-500 hover:text-indigo-400"
-          >
-            {isLogin ? "Need an account? Register" : "Already have an account? Sign in"}
-          </Button>
-        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default SignIn;
+// Export with HOC for login and register mutations
+export default function SignInWithMutations(props) {
+  const [login] = useLoginMutation();
+  const [register] = useRegisterMutation();
+  return <SignIn {...props} login={login} register={register} />;
+}
