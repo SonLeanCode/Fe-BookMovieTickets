@@ -7,6 +7,7 @@ import Movie from "../pages/Movie/movie";
 import Actor from "../pages/Actor/Actor";
 import Actordetail from "../pages/Actordetail/Actordetail";
 
+import LandingPagge from "../pages/LandingPage/LandingPage";
 
 import OrderSummary from "../pages/TestApi/OrderSummary ";
 import NotFound from "../pages/404/NotFound";
@@ -27,6 +28,7 @@ export default function AppRoutes() {
       <App>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/landingpage" element={<LandingPagge />} />
 
           <Route path="/movie" element={<Movie />} />
           <Route path="/actor" element={<Actor />} />
