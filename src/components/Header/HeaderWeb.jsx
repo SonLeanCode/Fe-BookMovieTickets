@@ -167,7 +167,7 @@ const HeaderWeb = () => {
             </div>
           ) : (
             <Link
-              to="/login"
+              to="/auth/login"
               className="transform rounded-md bg-red-600 px-4 py-2 font-bold text-white transition-transform duration-300 hover:scale-105 hover:bg-red-700"
             >
               Đăng nhập

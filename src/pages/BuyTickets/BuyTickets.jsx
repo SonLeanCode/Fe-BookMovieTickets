@@ -1,6 +1,6 @@
 const BuyTickets = () => {
     return (
-        <div>Trang mua vé</div>
+        <div className="">Trang mua vé</div>
     )
 }
 

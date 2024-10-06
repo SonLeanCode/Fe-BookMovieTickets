@@ -9,11 +9,15 @@ import Dashboard from "../pages/Admin/Dashboard";
 import MovieDetailPage from "../pages/Movies/MoviesDetail";
 import Movie from "../pages/Movie/movie";
 import Actor from "../pages/Actor/Actor";
-import SignIn from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Profile from "../pages/Account/Profile";
 import Actordetail from "../pages/Actor/Actordetail";
 import Transaction from "../pages/Account/Transaction";
+import Login from "../pages/Auth/Login";
+import Auth from "../pages/Auth/Auth";
+// import Login from "../pages/Auth/testapi";
+import LandingPage from "../pages/LandingPage/LandingPage";
+
 // Layout
 import UserLayout from "../layouts/UserLayout";
 import AdminLayout from "../layouts/AdminLayout";
@@ -21,10 +25,10 @@ import AdminLayout from "../layouts/AdminLayout";
 // Private
 import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
 import NotFound from "../pages/404/NotFound";
-import LandingPage from "../pages/LandingPage";
+
 import DefaultLayout from "../layouts/DefaultLayout";
 import { NotLoggedMiddleware } from "./private/middleware/MiddlewareRoute";
-import Auth from "../pages/Auth/Auth";
+import BuyTickets from "../pages/BuyTickets/BuyTickets";
 
 export default function AppRoutes() {
   return (
@@ -33,7 +37,9 @@ export default function AppRoutes() {
         {/* Landing page  */}
         <Route element={<DefaultLayout />}>
           <Route element={<NotLoggedMiddleware />}>
-            <Route index path="/" element={<LandingPage />} />
+            <Route element={<UserLayout />}>
+              <Route index path="/" element={<LandingPage />} />
+            </Route>
           </Route>
         </Route>
 
@@ -42,42 +48,49 @@ export default function AppRoutes() {
           <Route element={<NotLoggedMiddleware />}>
             <Route element={<DefaultLayout />}>
               <Route path="/auth" element={<Auth />}>
-                <Route path="login" element={<SignIn />} />
+                <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
               </Route>
             </Route>
           </Route>
         </Route>
 
-        {/* Routes for users */}
+        {/* Không cần đăng nhập */}
+        <Route element={<DefaultLayout />}>
+          <Route path="/cinema" element={<UserLayout />}>
+            <Route path="" element={<Home />} />
+            <Route path="movie" element={<Movie />} />
+            <Route path="actor" element={<Actor />} />
+            <Route path="actor/detail" element={<Actordetail />} />
+            <Route path="detail" element={<MovieDetailPage />} />
+            <Route path="landingpage" element={<LandingPage />} />
+            <Route path="buy-tickets" element={<BuyTickets />} />
+          </Route>
+        </Route>
+
+        {/* Private Routes for users */}
         <Route element={<DefaultLayout />}>
           <Route
             path="/cinema"
             element={<PrivateRoute allowedRoles={[ROLE.USER, ROLE.ADMIN]} />}
-            >
-                <Route element={<UserLayout />}>
-                  <Route path="" element={<Home />} />
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="transaction" element={<Transaction />} />
-                  <Route path="movie" element={<Movie />} />
-                  <Route path="actor" element={<Actor />} />
-                  <Route path="actor/detail" element={<Actordetail />} />
-                  <Route path="detail" element={<MovieDetailPage />} />
-                  <Route path="landingpage" element={<LandingPage />} />
-                </Route>
+          >
+            <Route element={<UserLayout />}>
+              <Route path="profile" element={<Profile />} />
+              <Route path="transaction" element={<Transaction />} />
             </Route>
+          </Route>
         </Route>
 
-        {/* Routes for admin */}
+        {/* Private Routes for admin */}
         <Route element={<DefaultLayout />}>
           <Route
             path="/admin"
             element={<PrivateRoute allowedRoles={[ROLE.ADMIN]} />}
-            >
-                <Route element={<AdminLayout />}>
-                  <Route path="" element={<Dashboard />} />
-                </Route>
+          >
+            <Route element={<AdminLayout />}>
+              <Route path="" element={<Dashboard />} />
             </Route>
+          </Route>
         </Route>
 
         {/* 404 not found */}

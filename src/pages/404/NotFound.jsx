@@ -10,10 +10,10 @@ const NotFound = () => {
     const userData = JSON.parse(localStorage.getItem("user"));
     if (userData) {
       // Nếu đã đăng nhập, chuyển hướng về trang chủ
-      navigate('/');
+      navigate('/cinema');
     } else {
       // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-      navigate('/login');
+      navigate('/auth/login');
     }
   };
 
