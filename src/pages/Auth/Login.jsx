@@ -1,165 +1,124 @@
-import React from 'react';
-import { Button, Input, Checkbox } from "react-daisyui";
-import { useLoginMutation , useRegisterMutation } from "../../services/auth/authService";
-import './Login.css';
+import { useState } from "react";
+import { Button, Input } from "react-daisyui";
+import { FaGoogle, FaFacebook, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
+import { useLoginMutation } from "../../services/auth/authService";
+import { Link, useNavigate } from "react-router-dom";
 
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLogin: true,
-      formData: {
-        email: '',
-        password: '',
-        fullname: '',
-      },
-      rememberMe: false,
-    };
-    
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-  }
+const Login = () => {
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  handleChange(e) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState((prevState) => ({
-      formData: { ...prevState.formData, [name]: value },
-    }));
-  }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  handleCheckboxChange(e) {
-    this.setState({ rememberMe: e.target.checked });
-  }
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
-  async handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { isLogin, formData } = this.state;
-    const { login, register } = this.props;
+    try {
+      const response = await login({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
 
-    if (isLogin) {
-      try {
-        const response = await login({
-          email: formData.email,
-          password: formData.password,
-        }).unwrap();
-        console.log(response);
-      } catch (error) {
-        console.error("Login error:", error);
-      }
-    } else {
-      try {
-        const response = await register({
-          email: formData.email,
-          password: formData.password,
-          fullname: formData.fullname
-        }).unwrap();
-        console.log(response);
-      } catch (error) {
-        console.error("Register error:", error);
-      }
+      // Save token and user in localStorage
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+
+      // Navigate based on user role
+      navigate(response.user.role === "user" ? "/cinema" : "/admin");
+    } catch (error) {
+      console.error("Login error:", error);
     }
-  }
+  };
 
-  render() {
-    const { isLogin, formData } = this.state;
-
-    return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-  
-        <form className="form" onSubmit={this.handleSubmit}>
-          <div className="flex items-center justify-center">
-            <div className="logo flex items-center">
-              <h1 className="text-5xl font-bold text-red-700">ST-FLIX</h1>
-            </div>
-          </div>
-          <div className="flex-column">
-            <label htmlFor="email">Gmail</label>
-          </div>
-          <div className="inputForm">
-            <i class="fa-regular fa-envelope"></i>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              onChange={this.handleChange}
-              className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
-              placeholder="Email address"
-            />
-          </div>
-
-          <div className="flex-column">
-            <label htmlFor="password">Mật khẩu</label>
-          </div>
-          <div className="inputForm">
-          {/* <FontAwesomeIcon icon="fa-solid fa-eye" style={{color: "#ffffff",}} /> */}
-             <i class="fa-solid fa-eye"></i>
-            <Input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your Password"
-              value={formData.password}
-              onChange={this.handleChange}
-              className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
-            />
-          </div>
-
-          {!isLogin && (
-              <div className='inputForm'>
-                <label htmlFor="fullname" className="sr-only">
-                  Fullname
-                </label>
-                <Input
-                  id="fullname"
-                  name="fullname"
-                  type="text"
-                  required
-                  onChange={handleChange}
-                  className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
-                  placeholder="Fullname"
-                />
-              </div>
-            )}
-
-          <div className="flex-row">
-            <div>
-              <Checkbox
-                id="rememberMe"
-                checked={this.state.rememberMe}
-                onChange={this.handleCheckboxChange}
+  return (
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat"
+      style={{
+        backgroundImage:
+          'url("https://t4.ftcdn.net/jpg/06/89/49/95/360_F_689499531_MeYeI1VVavgYQRzz0S3JxkQ9VxzgYZQh.jpg")',
+      }}
+    >
+      <div className="max-w-md w-full space-y-8 p-8 bg-black bg-opacity-80 rounded-xl shadow-lg">
+        <div className="text-center">
+          <h2 className="mt-6 text-5xl font-extrabold text-red-600">ST-FLIX</h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm space-y-4">
+            <div className="relative">
+              <label htmlFor="email" className="block text-sm font-medium text-white">
+                Email:
+              </label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                onChange={handleChange}
+                className="w-full p-1 pl-3 text-black rounded-md mt-2 pr-10"
+                placeholder="Email address"
               />
-              <label htmlFor="rememberMe">Ghi nhớ tôi?</label>
+              <FaEnvelope className="absolute right-2 top-9 text-black" />
             </div>
-            <span className="span">Quên mật khẩu ?</span>
+            <div className="relative">
+              <label htmlFor="password" className="block text-sm font-medium text-white">
+                Mật Khẩu:
+              </label>
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                required
+                onChange={handleChange}
+                className="w-full p-1 pl-3 text-black rounded-md mt-2 pr-10"
+                placeholder="Password"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-2 top-9 text-black"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
-          <Button type="submit" className="button-submit"> {isLogin ? "Đăng Nhập" : "Đăng Kí"}</Button>
-
-          <p className="p">
-            {isLogin ? "Bạn chưa có tài khoản ? Đăng kí" : "Bạn có tài khoản ? Đăng nhập"}</p>
-          <p className="p line text-red-600">Hoặc</p>
-
-          <div className="flex-row">
-            <Button className="btn google">
-              <img src="https://cmctelecom.vn/wp-content/uploads/2024/01/png-transparent-google-logo-google-text-trademark-logo.png" width={25} alt="" />
-              Google
-            </Button>
-            <Button className="btn apple">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png" width={25} alt="" />
-              Apple
-            </Button>
+          <Button
+            type="submit"
+            className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600"
+            disabled={isLoading}
+          >
+            Đăng Nhập
+          </Button>
+          <div className="text-white text-center">
+            Bạn chưa có tài khoản? <Link to="/auth/register" className="text-blue-500">Đăng ký</Link>
           </div>
         </form>
+        <div className="flex flex-col space-y-4 text-white items-center">
+          <Button className="w-full p-2 bg-red-600 flex items-center justify-center transition-none">
+            <FaGoogle className="mr-2" />
+            Đăng Nhập với Google
+          </Button>
+          <Button className="w-full p-2 bg-blue-600 flex items-center justify-center transition-none">
+            <FaFacebook className="mr-2" />
+            Đăng Nhập với Facebook
+          </Button>
+        </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-// Export with HOC for login and register mutations
-export default function SignInWithMutations(props) {
-  const [login] = useLoginMutation();
-  const [register] = useRegisterMutation();
-  return <SignIn {...props} login={login} register={register} />;
-}
+export default Login;

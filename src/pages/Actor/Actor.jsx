@@ -53,7 +53,7 @@ const Actor = () => {
           <div className="text-white mr-2 flex-1">
             {currentActors.map((actor, index) => (
               <div className="flex items-start p-4 rounded-sm bg-gray-900" style={{ backgroundColor: '#181818' }} key={index}>
-                <Link to="actordetail" className="flex-shrink-0">
+                <Link to="detail" className="flex-shrink-0">
                   <img
                     src={actor.img}
                     alt={actor.name}
