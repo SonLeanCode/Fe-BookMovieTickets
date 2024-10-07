@@ -355,7 +355,7 @@ const Home = () => {
                             <FaHeart /><br></br>
                           </button>
                           <div className="button-container flex flex-col space-y-4">
-                              <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                              <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
                                   Trailer <i className="ml-1 fas fa-video"></i>
                               </Link>
                               <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
@@ -405,7 +405,7 @@ const Home = () => {
                   {/* Overlay buttons */}
                   <div className="overlay-update">
                     <div className="button-container flex flex-col space-y-4">
-                      <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                      <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
                         Trailer <i className="ml-1 fas fa-video"></i>
                       </Link>
                       <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
@@ -434,7 +434,7 @@ const Home = () => {
         {/* Overlay buttons */}
         <div className="overlay-update">
           <div className="button-container flex flex-col space-y-4">
-            <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2">
+            <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2">
               Trailer <i className="ml-1 fas fa-video"></i>
             </Link>
             <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
@@ -506,7 +506,7 @@ const Home = () => {
                           </button>
                           <div className="button-container">
                             <div className="button-container flex flex-col space-y-4">
-                              <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                              <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
                                   Trailer <i className="ml-1 fas fa-video"></i>
                               </Link>
                               <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
