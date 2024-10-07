@@ -466,28 +466,11 @@ img {
   padding: 10px 20px;
   font-size: 14px;
   font-weight: bold;
-  color: rgb(255, 0, 0);
-  background-color: rgb(255, 255, 255);
+  color: rgb(249, 249, 249);
+  background-color: #F97316;
   cursor: pointer;
 }
 
-.overlay-btn-xh:hover {
-  background-color: rgb(250, 0, 0);
-  color: #ffffff;
-}
-
-.shadow-md:hover .overlay-update,
-.shadow-lg:hover .overlay-update {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.shadow-md:hover,
-.shadow-lg:hover {
-  transform: translateY(-10px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1);
-}
 
 /* Các nút */
 .overlay-btn-update  {

@@ -1,71 +1,64 @@
 import { useState } from "react";
-import { Button, Input, Checkbox } from "react-daisyui";
-import { MdMovie, MdLock } from "react-icons/md";
+import { Button, Input } from "react-daisyui";
+import { FaGoogle, FaFacebook, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useLoginMutation } from "../../services/auth/authService";
-import { useRegisterMutation } from "../../services/auth/authService";
+import { Link, useNavigate } from "react-router-dom";
 
-const SignIn = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [login, { isLoading: isLoggingIn }] = useLoginMutation();
-  const [register, { isLoading: isRegistering }] = useRegisterMutation();
+const Login = () => {
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    fullname:''
-
+    email: "",
+    password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await login({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
 
-    if (isLogin) {
-      try {
-        const response = await login({
-          email: formData.email,
-          password: formData.password,
-        }).unwrap();
-        // Handle successful login, like storing token in localStorage
-        console.log(response);
-      } catch (error) {
-        console.error("Login error:", error);
-      }
-    } else {
-      try {
-        const response = await register({
-          email: formData.email,
-          password: formData.password,
-          fullname:formData.fullname
-        }).unwrap();
-        // Handle successful registration
-        console.log(response);
-      } catch (error) {
-        console.error("Register error:", error);
-      }
+      // Save token and user in localStorage
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+
+      // Navigate based on user role
+      navigate(response.user.role === "user" ? "/cinema" : "/admin");
+    } catch (error) {
+      console.error("Login error:", error);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-      <div className="max-w-md w-full space-y-8 p-8 bg-gray-800 rounded-xl shadow-lg">
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat"
+      style={{
+        backgroundImage:
+          'url("https://t4.ftcdn.net/jpg/06/89/49/95/360_F_689499531_MeYeI1VVavgYQRzz0S3JxkQ9VxzgYZQh.jpg")',
+      }}
+    >
+      <div className="max-w-md w-full space-y-8 p-8 bg-black bg-opacity-80 rounded-xl shadow-lg">
         <div className="text-center">
-          <MdMovie className="mx-auto h-12 w-12 text-indigo-500" />
-          <h2 className="mt-6 text-3xl font-extrabold text-white">
-            {isLogin ? "CineMax" : "Create your account"}
-          </h2>
-          <p className="mt-2 text-sm text-gray-400">
-            {isLogin ? "Sign in to your account" : "Create your account"}
-          </p>
+          <h2 className="mt-6 text-5xl font-extrabold text-red-600">ST-FLIX</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+            <div className="relative">
+              <label htmlFor="email" className="block text-sm font-medium text-white">
+                Email:
               </label>
               <Input
                 id="email"
@@ -74,87 +67,53 @@ const SignIn = () => {
                 autoComplete="email"
                 required
                 onChange={handleChange}
-                className={`input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500 ${
-                  isLogin ? "rounded-t-md" : ""
-                }`}
+                className="w-full p-1 pl-3 text-black rounded-md mt-2 pr-10"
                 placeholder="Email address"
               />
+              <FaEnvelope className="absolute right-2 top-9 text-black" />
             </div>
-            
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
+            <div className="relative">
+              <label htmlFor="password" className="block text-sm font-medium text-white">
+                Mật Khẩu:
               </label>
               <Input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
                 onChange={handleChange}
-                className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
+                className="w-full p-1 pl-3 text-black rounded-md mt-2 pr-10"
                 placeholder="Password"
               />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-2 top-9 text-black"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
-            {!isLogin && (
-              <div>
-                <label htmlFor="fullname" className="sr-only">
-                  Fullname
-                </label>
-                <Input
-                  id="fullname"
-                  name="fullname"
-                  type="text"
-                  required
-                  onChange={handleChange}
-                  className="input input-bordered w-full text-white bg-gray-700 border-gray-700 placeholder-gray-500"
-                  placeholder="Fullname"
-                />
-              </div>
-            )}
-         
           </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Checkbox
-                id="remember-me"
-                name="remember-me"
-                className="checkbox checkbox-primary border-gray-700 bg-gray-700"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-400">
-                Remember me
-              </label>
-            </div>
-
-            {isLogin && (
-              <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-500 hover:text-indigo-400">
-                  Forgot your password?
-                </a>
-              </div>
-            )}
-          </div>
-
-          <div>
-            <Button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              disabled={isLoggingIn || isRegistering} // Disable button while processing
-            >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <MdLock className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
-              </span>
-              {isLogin ? "Sign in" : "Register"}
-            </Button>
+          <Button
+            type="submit"
+            className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600"
+            disabled={isLoading}
+          >
+            Đăng Nhập
+          </Button>
+          <div className="text-white text-center">
+            Bạn chưa có tài khoản? <Link to="/auth/register" className="text-blue-500">Đăng ký</Link>
           </div>
         </form>
-        <div className="text-center">
-          <Button
-            onClick={() => setIsLogin(!isLogin)}
-            className="btn btn-link text-indigo-500 hover:text-indigo-400"
-          >
-            {isLogin ? "Need an account? Register" : "Already have an account? Sign in"}
+        <div className="flex flex-col space-y-4 text-white items-center">
+          <Button className="w-full p-2 bg-red-600 flex items-center justify-center transition-none">
+            <FaGoogle className="mr-2" />
+            Đăng Nhập với Google
+          </Button>
+          <Button className="w-full p-2 bg-blue-600 flex items-center justify-center transition-none">
+            <FaFacebook className="mr-2" />
+            Đăng Nhập với Facebook
           </Button>
         </div>
       </div>
@@ -162,4 +121,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;

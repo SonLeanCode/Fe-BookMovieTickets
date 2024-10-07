@@ -385,7 +385,7 @@ const Home = () => {
 
         <section className="container mx-auto my-10 flex justify-center w-full">
           <div className="w-full update-section">
-            <h3 className="mx-10 mb-6 text-5xl font-bold"> | Phim mới cập nhật</h3>
+            <h3 className="mx-10 mb-6 text-5xl font-bold">| Phim mới cập nhật</h3>
             <div className="flex flex-col lg:flex-row justify-center">
               {/* Cột trái: 1 phim */}
               <div className="lg:w-2/5 w-full p-4 mb-8 lg:mb-0 flex flex-col justify-center items-center">
@@ -394,62 +394,65 @@ const Home = () => {
                     src="https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg"
                     alt="Inception"
                     className="w-full object-cover"
-                    style={{ height: "450px", width: "auto" }}
+                    
                   />
                   <div className="p-2 flex-1 flex items-center justify-center">
                     <strong className="text-xl block">Inception</strong>
                     <p className="mt-1 text-gray-500 text-sm text-center">
                       Bộ phim kể về một nhóm người thực hiện những vụ trộm ý tưởng trong giấc mơ.
-                    </p> 
+                    </p>
                   </div>
                   {/* Overlay buttons */}
                   <div className="overlay-update">
                     <div className="button-container flex flex-col space-y-4">
-                        <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
-                            Trailer <i className="ml-1 fas fa-video"></i>
-                        </Link>
-                        <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
-                            Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                        </Link>
+                      <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                        Trailer <i className="ml-1 fas fa-video"></i>
+                      </Link>
+                      <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
+                        Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Cột phải: 6 phim, nằm ngang */}
-              <div className="lg:w-3/5 w-full flex flex-wrap gap-4 justify-end p-4">
-                {movies.slice(1, 7).map((movie) => (
-                  <div key={movie.id} className="w-full sm:w-1/3 lg:w-1/4 p-2 flex flex-col">
-                    <div className="shadow-md rounded-lg overflow-hidden flex-1 flex flex-col relative" style={{ minHeight: "200px" }}>
-                      <img
-                        src={movie.image}
-                        alt={movie.name}
-                        className="w-full object-cover"
-                        style={{ height: "200px", width: "auto" }}
-                      />
-                      <div className="p-2 flex-1 flex items-center justify-center">
-                        <strong className="block text-sm group-hover:text-red-500 transition-colors duration-300">
-                          {movie.name}
-                        </strong>
-                      </div>
-                      {/* Overlay buttons */}
-                      <div className="overlay-update">
-                        <div className="button-container flex flex-col space-y-4">
-                            <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
-                                Trailer <i className="ml-1 fas fa-video"></i>
-                            </Link>
-                            <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
-                                Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                            </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+{/* Cột phải: 6 phim, 2 hàng, mỗi hàng 3 box */}
+<div className="lg:w-3/4 w-full flex flex-wrap justify-end">
+  {movies.slice(1, 7).map((movie) => (
+    <div key={movie.id} className="w-full lg:w-1/4 flex flex-col m-6">
+      <div className="w-full shadow-md rounded-lg overflow-hidden flex-1 flex flex-col relative">
+        <img
+          src={movie.image}
+          alt={movie.name}
+          className="w-full h-[250px] object-cover"
+        />
+        <div className="p-2 flex-1 flex items-center justify-center">
+          <strong className="block text-sm group-hover:text-red-500 transition-colors duration-300">
+            {movie.name}
+          </strong>
+        </div>
+        {/* Overlay buttons */}
+        <div className="overlay-update">
+          <div className="button-container flex flex-col space-y-4">
+            <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2">
+              Trailer <i className="ml-1 fas fa-video"></i>
+            </Link>
+            <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
+              Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+              
             </div>
           </div>
         </section>
+
+
 
         <div className="section-divider-animation"></div>
 
