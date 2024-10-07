@@ -41,6 +41,7 @@ const Register = () => {
         email: formData.email,
         phone: formData.phone,
         password: formData.password,
+        confirmPassword: formData.confirmPassword
       }).unwrap();
       console.log("Registration successful:", response);
       navigate("/auth/login");
