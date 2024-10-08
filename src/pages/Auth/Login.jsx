@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Button, Input } from "react-daisyui";
 import { FaFacebook, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
-import { useLoginMutation, useGoogleLoginMutation } from "../../services/auth/authService";
+import { useLoginMutation, useGoogleLoginMutation, useFacebookLoginMutation } from "../../services/auth/authService";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { FacebookProvider, LoginButton } from "react-facebook";
 
 const Login = () => {
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
-  const [googleLogin] = useGoogleLoginMutation(); // Thêm dòng này
+  const [googleLogin] = useGoogleLoginMutation();
+  const [facebookLogin] = useFacebookLoginMutation();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -55,15 +58,32 @@ const Login = () => {
     }
   };
 
-  const clientIDGoogle = "322233958303-v9dm4kkg4ceta8buk4qvgdo55asir2uj.apps.googleusercontent.com"
+  const handleFacebookResponse = async (response) => {
+    try {
+      if (response.status === "connected") {
+        const { accessToken } = response.authResponse;
+        const fbResponse = await facebookLogin({token: accessToken}).unwrap(); // Send token to the backend
+
+        localStorage.setItem("accessToken", fbResponse.accessToken);
+        localStorage.setItem("user", JSON.stringify(fbResponse.user));
+        navigate(fbResponse.user.role === "user" ? "/cinema" : "/admin");
+      } else {
+        console.error("Facebook login failed:", response);
+      }
+    } catch (error) {
+      console.error("Facebook login error:", error);
+    }
+  };
+
+  const clientIDGoogle = "322233958303-v9dm4kkg4ceta8buk4qvgdo55asir2uj.apps.googleusercontent.com";
+  const appIDFacebook = "505675705675206";
 
   return (
     <GoogleOAuthProvider clientId={clientIDGoogle}>
       <div
         className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat"
         style={{
-          backgroundImage:
-            'url("https://t4.ftcdn.net/jpg/06/89/49/95/360_F_689499531_MeYeI1VVavgYQRzz0S3JxkQ9VxzgYZQh.jpg")',
+          backgroundImage: 'url("https://t4.ftcdn.net/jpg/06/89/49/95/360_F_689499531_MeYeI1VVavgYQRzz0S3JxkQ9VxzgYZQh.jpg")',
         }}
       >
         <div className="max-w-md w-full space-y-8 p-8 bg-black bg-opacity-80 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-cyan-500/50">
@@ -73,9 +93,7 @@ const Login = () => {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="rounded-md shadow-sm space-y-4">
               <div className="relative">
-                <label htmlFor="email" className="block text-sm font-medium text-white">
-                  Email:
-                </label>
+                <label htmlFor="email" className="block text-sm font-medium text-white">Email:</label>
                 <Input
                   id="email"
                   name="email"
@@ -89,9 +107,7 @@ const Login = () => {
                 <FaEnvelope className="absolute right-2 top-9 text-black" />
               </div>
               <div className="relative">
-                <label htmlFor="password" className="block text-sm font-medium text-white">
-                  Mật Khẩu:
-                </label>
+                <label htmlFor="password" className="block text-sm font-medium text-white">Mật Khẩu:</label>
                 <Input
                   id="password"
                   name="password"
@@ -124,16 +140,26 @@ const Login = () => {
           </form>
           <div className="flex flex-col space-y-4 text-white items-center">
             <GoogleLogin
-              onSuccess={handleGoogleLoginSuccess} // Sử dụng hàm xử lý mới
+              onSuccess={handleGoogleLoginSuccess}
               onError={() => {
                 console.log("Login Failed");
               }}
               useOneTap
             />
-            <Button className="w-full p-2 bg-blue-600 flex items-center justify-center transition-none">
-              <FaFacebook className="mr-2" />
-              Đăng Nhập với Facebook
-            </Button>
+            <FacebookProvider appId={appIDFacebook}>
+              <LoginButton
+                scope="email"
+                onSuccess={handleFacebookResponse}  
+                onError={(error) => {
+                  console.error("Facebook login error:", error);
+                }}  
+              >
+                <Button className="w-full p-2 bg-blue-600 flex items-center justify-center transition-none">
+                  <FaFacebook className="mr-2" />
+                  Đăng Nhập với Facebook
+                </Button>
+              </LoginButton>
+            </FacebookProvider>
           </div>
         </div>
       </div>

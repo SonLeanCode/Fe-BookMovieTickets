@@ -50,6 +50,14 @@ export const authApi = createApi({
     ),
     }),
 
+    facebookLogin: builder.mutation({
+      query: (credentials) => ({
+        url: '/api/auth/facebook',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+
     //test
     GetRegion: builder.query({
       query: () => '/api/regions',
@@ -57,4 +65,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useGetRegionQuery, useGoogleLoginMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useGetRegionQuery, useGoogleLoginMutation, useFacebookLoginMutation } = authApi;
