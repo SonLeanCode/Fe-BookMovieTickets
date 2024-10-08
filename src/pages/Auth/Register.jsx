@@ -58,7 +58,7 @@ const Register = () => {
           'url("https://t4.ftcdn.net/jpg/06/89/49/95/360_F_689499531_MeYeI1VVavgYQRzz0S3JxkQ9VxzgYZQh.jpg")',
       }}
     >
-      <div className="max-w-md w-full space-y-8 p-8 bg-black bg-opacity-80 rounded-xl shadow-lg">
+      <div className="max-w-md w-full space-y-8 p-8 bg-black bg-opacity-80 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-cyan-500/50">
         <div className="text-center">
           <h2 className="mt-6 text-5xl font-extrabold text-red-600">ST-FLIX</h2>
         </div>

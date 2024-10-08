@@ -14,6 +14,9 @@ export const authApi = createApi({
       // Nếu có token, thêm vào header Authorization
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
+        console.log('Authorization header set:', `Bearer ${token}`);
+      } else {
+        console.log('No token found');
       }
       return headers;
     },
@@ -36,7 +39,21 @@ export const authApi = createApi({
         body: userData,
       }),
     }),
+
+    // Endpoint để đăng nhập bằng Google
+    googleLogin: builder.mutation({
+      query: (credentials) => ({
+        url: '/api/auth/google',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+
+    //test
+    GetRegion: builder.query({
+      query: () => '/api/regions',
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useGetRegionQuery, useGoogleLoginMutation } = authApi;

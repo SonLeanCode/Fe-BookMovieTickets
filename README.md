@@ -3,5 +3,5 @@ I. Cách chạy Fe
 
 I. Cách chạy Be
 => npm run dev
-- Tải mongodb về về tạo folder {duAn} và 3 bảng {products , categories , users} sau đó import vào 
+- Tải mongodb về về tạo folder {duAn} và 3 bảng {products , categories , users} sau đó import vào.
 
