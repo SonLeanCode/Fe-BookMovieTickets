@@ -44,7 +44,7 @@ const Login = () => {
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
       const response = await googleLogin({
-        id_token: credentialResponse.credential, // Sử dụng id_token để gọi API
+        token: credentialResponse.credential,
       }).unwrap();
 
       localStorage.setItem("accessToken", response.accessToken);
@@ -55,8 +55,8 @@ const Login = () => {
     }
   };
 
-  // const clientIdGG = "335914895163-emkf2s3kn9o029bfuf2sq95j1a7bpocf.apps.googleusercontent.com"
   const clientIDGoogle = "322233958303-v9dm4kkg4ceta8buk4qvgdo55asir2uj.apps.googleusercontent.com"
+
   return (
     <GoogleOAuthProvider clientId={clientIDGoogle}>
       <div
