@@ -6,7 +6,6 @@ import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
 const HeaderWeb = () => {
   const [scrolled, setScrolled] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
-  const [cinemaCornerOpen, setCinemaCornerOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userAvatar, setUserAvatar] = useState("");
   const [fullName, setFullName] = useState("");
@@ -68,15 +67,15 @@ const HeaderWeb = () => {
           >
             Phim
           </Link>
-          <div className="relative">
+          <div className="relative group">
             <button
-              onClick={() => setCinemaCornerOpen(!cinemaCornerOpen)}
-              className="cinema-corner-button font-medium text-white hover:text-gray-300 "
+              className="cinema-corner-button font-medium text-white hover:text-gray-300"
             >
-              Góc điện ảnh
-            </button>
-            {cinemaCornerOpen && (
-              <div className="absolute left-0 flex flex-col rounded-md bg-gray-700">
+                Góc điện ảnh
+              </button>
+              {/* Menu con hiển thị khi hover vào nút */}
+              <div className="absolute -right-2 top-2 h-16 w-16"></div>{" "}
+              <div className="absolute left-0 mt-2 hidden flex-col rounded-md bg-gray-700 shadow-md group-hover:flex">
                 <Link
                   to="/cinema/cinema-corner/genres"
                   className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
@@ -90,15 +89,32 @@ const HeaderWeb = () => {
                   Diễn viên
                 </Link>
               </div>
-            )}
-          </div>
+            </div>
+            <div className="relative group">
+            <button
+              className="cinema-corner-button font-medium text-white hover:text-gray-300"
+            >
+                Sự kiện
+              </button>
+              {/* Menu con hiển thị khi hover vào nút */}
+              <div className="absolute -right-2 top-2 h-16 w-16"></div>{" "}
+              <div className="absolute left-0 mt-2 hidden flex-col rounded-md bg-gray-700 shadow-md group-hover:flex">
+                <Link
+                  to="/cinema/voucher"
+                  className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
+                >
+                  Ưu đãi
+                </Link>
+                <Link
+                  to=""
+                  className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
+                >
+                  Phim hay tháng
+                </Link>
+              </div>
+            </div>
 
-          <Link
-            to="/cinema/events"
-            className="font-medium text-white hover:text-gray-300"
-          >
-            Sự kiện
-          </Link>
+          
           <Link
             to="/cinema/cheap-tickets"
             className="font-medium text-white hover:text-gray-300"
@@ -137,7 +153,7 @@ const HeaderWeb = () => {
                   <div className="absolute -right-2 top-2 h-16 w-16"></div>{" "}
                   {/* Lớp giả */}
                   {/* Menu xuất hiện khi hover vào avatar */}
-                  <div className="absolute right-0 mt-2 hidden w-40 rounded-lg bg-gray-700 group-hover:block">
+                  <div className="absolute right-0 mt-2 hidden w-40 rounded-lg bg-gray-700 shadow-lg group-hover:block">
                     <Link
                       to="/cinema/profile"
                       className="flex items-center space-x-2 px-4 py-2 text-white hover:bg-gray-600"
