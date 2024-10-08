@@ -404,7 +404,7 @@ const Home = () => {
                     </p>
                   </div>
                   {/* Overlay buttons */}
-                  <div className="overlay-update">
+                  <div className="overlay-update overlay">
                     <div className="button-container flex flex-col space-y-4">
                       <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
                         Trailer <i className="ml-1 fas fa-video"></i>
@@ -446,9 +446,7 @@ const Home = () => {
                     </div>
                   </div>
                 ))}
-              </div>
-
-              
+              </div>              
             </div>
           </div>
         </section>
@@ -490,9 +488,9 @@ const Home = () => {
         <section className="top-movie-section my-6">
           <h3 className="mx-10 mb-6 text-5xl font-bold">Được đánh giá cao</h3>
           <p className="hot-monthly-movies">Hot trong tháng</p>
-          <div className="top-movie-container">
+          <div className="top-movie-container ">
             {movies.map((movie) => (
-              <div key={movie.id} className="top-movie-card">
+              <div key={movie.id} className="top-movie-card rounded-lg">
                 <img
                   src={movie.image}
                   alt={movie.name}
