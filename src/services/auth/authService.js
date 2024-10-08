@@ -46,7 +46,8 @@ export const authApi = createApi({
         url: '/api/auth/google',
         method: 'POST',
         body: credentials,
-      }),
+      }
+    ),
     }),
 
     //test
