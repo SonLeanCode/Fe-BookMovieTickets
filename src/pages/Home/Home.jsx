@@ -356,7 +356,7 @@ const Home = () => {
                             <FaHeart /><br></br>
                           </button>
                           <div className="button-container flex flex-col space-y-4">
-                              <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                              <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
                                   Trailer <i className="ml-1 fas fa-video"></i>
                               </Link>
                               <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
@@ -389,7 +389,7 @@ const Home = () => {
             <h3 className="mx-10 mb-6 text-5xl font-bold">| Phim mới cập nhật</h3>
             <div className="flex flex-col lg:flex-row justify-center">
               {/* Cột trái: 1 phim */}
-              <div className="lg:w-2/5 w-full p-4 mb-8 lg:mb-0 flex flex-col justify-center items-center">
+              <div className="lg:w-2/5 w-full p-4 mb-8 lg:mb-0 flex flex-col justify-center items-center hover:cursor-pointer">
                 <div className="shadow-lg rounded-lg overflow-hidden flex-1 flex flex-col relative" style={{ minHeight: "200px" }}>
                   <img
                     src="https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg"
@@ -406,7 +406,7 @@ const Home = () => {
                   {/* Overlay buttons */}
                   <div className="overlay-update">
                     <div className="button-container flex flex-col space-y-4">
-                      <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                      <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
                         Trailer <i className="ml-1 fas fa-video"></i>
                       </Link>
                       <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
@@ -417,36 +417,36 @@ const Home = () => {
                 </div>
               </div>
 
-{/* Cột phải: 6 phim, 2 hàng, mỗi hàng 3 box */}
-<div className="lg:w-3/4 w-full flex flex-wrap justify-end">
-  {movies.slice(1, 7).map((movie) => (
-    <div key={movie.id} className="w-full lg:w-1/4 flex flex-col m-6">
-      <div className="w-full shadow-md rounded-lg overflow-hidden flex-1 flex flex-col relative">
-        <img
-          src={movie.image}
-          alt={movie.name}
-          className="w-full h-[250px] object-cover"
-        />
-        <div className="p-2 flex-1 flex items-center justify-center">
-          <strong className="block text-sm group-hover:text-red-500 transition-colors duration-300">
-            {movie.name}
-          </strong>
-        </div>
-        {/* Overlay buttons */}
-        <div className="overlay-update">
-          <div className="button-container flex flex-col space-y-4">
-            <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2">
-              Trailer <i className="ml-1 fas fa-video"></i>
-            </Link>
-            <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
-              Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  ))}
-</div>
+              {/* Cột phải: 6 phim, 2 hàng, mỗi hàng 3 box */}
+              <div className="lg:w-3/4 w-full flex flex-wrap justify-end hover:cursor-pointer">
+                {movies.slice(1, 7).map((movie) => (
+                  <div key={movie.id} className="w-full lg:w-1/4 flex flex-col m-6">
+                    <div className="w-full shadow-md rounded-lg overflow-hidden flex-1 flex flex-col relative">
+                      <img
+                        src={movie.image}
+                        alt={movie.name}
+                        className="w-full h-[250px] object-cover"
+                      />
+                      <div className="p-2 flex-1 flex items-center justify-center">
+                        <strong className="block text-sm group-hover:text-red-500 transition-colors duration-300">
+                          {movie.name}
+                        </strong>
+                      </div>
+                      {/* Overlay buttons */}
+                      <div className="overlay-update">
+                        <div className="button-container flex flex-col space-y-4">
+                          <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2">
+                            Trailer <i className="ml-1 fas fa-video"></i>
+                          </Link>
+                          <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
+                            Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
 
               
             </div>
@@ -460,7 +460,7 @@ const Home = () => {
         <section className="container mx-auto my-10 flex flex-col lg:flex-row justify-between w-full">
           <div className="lg:w-8/12 w-full p-4 flex flex-col">
           <h3 className="gy-h3 mx-10 mb-6 text-5xl font-bold"> | Phim Gợi Ý</h3>
-            <div className="grid grid-cols-3 gap-4 flex-grow">
+            <div className="grid grid-cols-3 gap-4 flex-grow hover:cursor-pointer">
               {movies.slice(0, 6).map((movie) => (
                 <div key={movie.id} className="shadow-lg rounded-lg overflow-hidden" style={{ width: '200px' }}> 
                   <img src={movie.image} alt={movie.name} className="w-full object-cover" style={{ height: "250px" }} />
@@ -473,7 +473,7 @@ const Home = () => {
           </div>
           <div className="lg:w-4/12 w-full p-4 flex flex-col">
           <h3 className="tt-h3 mx-10 mb-6 text-5xl font-bold"> | Top Trending</h3>
-            <div className="tt flex flex-col gap-4  flex-grow">
+            <div className="tt flex flex-col gap-4  flex-grow hover:cursor-pointer">
               {movies.slice(0, 6).map((movie, index) => (
                 <div key={movie.id} className="flex items-center justify-right p-2 shadow-lg rounded-lg">
                   <span className={`text-2xl font-bold mr-4 number-color-${index + 1}`}>{index + 1}</span>
@@ -507,7 +507,7 @@ const Home = () => {
                           </button>
                           <div className="button-container">
                             <div className="button-container flex flex-col space-y-4">
-                              <Link to="/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                              <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
                                   Trailer <i className="ml-1 fas fa-video"></i>
                               </Link>
                               <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
