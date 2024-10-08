@@ -71,12 +71,12 @@ const HeaderWeb = () => {
           <div className="relative">
             <button
               onClick={() => setCinemaCornerOpen(!cinemaCornerOpen)}
-              className="cinema-corner-button font-medium text-white hover:text-gray-300"
+              className="cinema-corner-button font-medium text-white hover:text-gray-300 "
             >
               Góc điện ảnh
             </button>
             {cinemaCornerOpen && (
-              <div className="absolute left-0 flex flex-col rounded-md bg-gray-700 shadow-md">
+              <div className="absolute left-0 flex flex-col rounded-md bg-gray-700">
                 <Link
                   to="/cinema/cinema-corner/genres"
                   className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
@@ -137,7 +137,7 @@ const HeaderWeb = () => {
                   <div className="absolute -right-2 top-2 h-16 w-16"></div>{" "}
                   {/* Lớp giả */}
                   {/* Menu xuất hiện khi hover vào avatar */}
-                  <div className="absolute right-0 mt-2 hidden w-40 rounded-lg bg-gray-700 shadow-lg group-hover:block">
+                  <div className="absolute right-0 mt-2 hidden w-40 rounded-lg bg-gray-700 group-hover:block">
                     <Link
                       to="/cinema/profile"
                       className="flex items-center space-x-2 px-4 py-2 text-white hover:bg-gray-600"
