@@ -12,6 +12,7 @@ import Actor from "../pages/Actor/Actor";
 import Register from "../pages/Auth/Register";
 import Profile from "../pages/Account/Profile";
 import Actordetail from "../pages/Actor/Actordetail";
+import Voucher from "../pages/Voucher/voucher";
 import Transaction from "../pages/Account/Transaction";
 import Login from "../pages/Auth/Login";
 import Auth from "../pages/Auth/Auth";
@@ -65,6 +66,7 @@ export default function AppRoutes() {
             <Route path="detail" element={<MovieDetailPage />} />
             <Route path="landingpage" element={<LandingPage />} />
             <Route path="buy-tickets" element={<BuyTickets />} />
+            <Route path="voucher" element={<Voucher />} />
           </Route>
         </Route>
 
