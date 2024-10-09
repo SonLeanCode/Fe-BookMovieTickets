@@ -30,6 +30,7 @@ import NotFound from "../pages/404/NotFound";
 import DefaultLayout from "../layouts/DefaultLayout";
 import { NotLoggedMiddleware } from "./private/middleware/MiddlewareRoute";
 import BuyTickets from "../pages/BuyTickets/BuyTickets";
+import CheapTicket from "../pages/cinema/cheap-ticket";
 
 export default function AppRoutes() {
   return (
@@ -66,6 +67,7 @@ export default function AppRoutes() {
             <Route path="detail" element={<MovieDetailPage />} />
             <Route path="landingpage" element={<LandingPage />} />
             <Route path="buy-tickets" element={<BuyTickets />} />
+            <Route path="cheap-tickets" element={<CheapTicket />} />
             <Route path="voucher" element={<Voucher />} />
           </Route>
         </Route>

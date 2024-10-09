@@ -127,8 +127,7 @@
   
   .button-container {
     gap: 0.5rem; /* Khoảng cách giữa các nút */
-  }
-  
+  }  
   
   .separator-line {
     width: 70%; /* Chiều rộng của đường phân cách */
@@ -259,7 +258,6 @@
   .top-movie-card {
     position: relative; /* Đảm bảo lớp phủ hoạt động đúng */
     background-color: #2a2a2a;
-    border: 1px solid #ffffff;
     overflow: hidden; 
   }
   .hot-monthly-movies {
@@ -451,7 +449,6 @@
   }
   
   .overlay-btn-xh {
-    /* clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%); */
     margin: 10px 0;
     padding: 10px 20px;
     font-size: 14px;
@@ -459,14 +456,8 @@
     color: rgb(249, 249, 249);
     background-color: #F97316;
     cursor: pointer;
+    border-radius: 5px;
   }
-  
-  
-  /* Các nút */
-  .overlay-btn-update  {
-    margin-right: 8px;
-  }
-  
   
   .flex-grow {
     flex-grow: 1; /* Cho phép phần tử mở rộng để chiếm không gian còn lại */
