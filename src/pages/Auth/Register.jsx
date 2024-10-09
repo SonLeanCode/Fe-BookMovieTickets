@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Input, Checkbox } from "react-daisyui";
 import { FaLock, FaEnvelope, FaPhone, FaUser } from "react-icons/fa";
-import { useRegisterMutation } from "../../services/auth/authService";
+import { useRegisterMutation } from "../../services/Auth/auth.service";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {

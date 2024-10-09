@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Input } from "react-daisyui";
 import { FaFacebook, FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
-import { useLoginMutation, useGoogleLoginMutation, useFacebookLoginMutation } from "../../services/auth/authService";
+import { useLoginMutation, useGoogleLoginMutation, useFacebookLoginMutation } from "../../services/Auth/auth.service";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { FacebookProvider, LoginButton } from "react-facebook";
