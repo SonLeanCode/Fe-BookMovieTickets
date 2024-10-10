@@ -77,7 +77,7 @@ const HeaderWeb = () => {
               <div className="absolute -right-2 top-2 h-16 w-16"></div>{" "}
               <div className="absolute left-0 mt-2 hidden flex-col rounded-md bg-gray-700 shadow-md group-hover:flex">
                 <Link
-                  to="/cinema/cinema-corner/genres"
+                  to="/cinema/genrefilm"
                   className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
                 >
                   Thể loại phim

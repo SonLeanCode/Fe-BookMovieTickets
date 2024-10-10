@@ -8,6 +8,7 @@ import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Admin/Dashboard";
 import MovieDetailPage from "../pages/Movies/MoviesDetail";
 import Movie from "../pages/Movie/movie";
+import Genre from "../pages/GenreFilm/GenreFilm";
 import Actor from "../pages/Actor/Actor";
 import Register from "../pages/Auth/Register";
 import Profile from "../pages/Account/Profile";
@@ -71,6 +72,7 @@ export default function AppRoutes() {
             <Route path="cheap-tickets" element={<CheapTicket />} />
             <Route path="voucher" element={<Voucher />} />
             <Route path="voucher/detail" element={<VoucherDetail />} />
+            <Route path="genrefilm" element={<Genre />} />
           </Route>
         </Route>
 

@@ -79,8 +79,8 @@ const voucher = () => {
     <section className="flex justify-center bg-black">
       <div className="w-11/12 mx-auto">
         <div className="bg-gray-900 w-11/12 mx-auto  p-4 rounded-lg mt-28" style={{ backgroundColor: 'black' }}>
-          <h2 className="text-white text-2xl font-semibold font-roboto pb-2">
-            <span className="text-red-600 ">|</span> DIỄN VIÊN
+          <h2 className="text-white text-2xl font-semibold font-roboto pb-2 uppercase">
+            <span className="text-red-600 ">|</span> Sự kiện
           </h2>
         </div>
 
