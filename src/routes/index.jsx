@@ -13,6 +13,7 @@ import Register from "../pages/Auth/Register";
 import Profile from "../pages/Account/Profile";
 import Actordetail from "../pages/Actor/Actordetail";
 import Voucher from "../pages/Voucher/voucher";
+import VoucherDetail from "../pages/Voucher/voucher-detail";
 import Transaction from "../pages/Account/Transaction";
 import Login from "../pages/Auth/Login";
 import Auth from "../pages/Auth/Auth";
@@ -69,6 +70,7 @@ export default function AppRoutes() {
             <Route path="buy-tickets" element={<BuyTickets />} />
             <Route path="cheap-tickets" element={<CheapTicket />} />
             <Route path="voucher" element={<Voucher />} />
+            <Route path="voucher/detail" element={<VoucherDetail />} />
           </Route>
         </Route>
 
