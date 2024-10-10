@@ -15,8 +15,6 @@ export const authApi = createApi({
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
         console.log('Authorization header set:', `Bearer ${token}`);
-      } else {
-        console.log('No token found');
       }
       return headers;
     },
@@ -57,12 +55,7 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
-
-    //test
-    GetRegion: builder.query({
-      query: () => '/api/regions',
-    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useGetRegionQuery, useGoogleLoginMutation, useFacebookLoginMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useFacebookLoginMutation } = authApi;
