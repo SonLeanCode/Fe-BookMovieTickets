@@ -199,18 +199,19 @@ const Home = () => {
     const container = document.getElementById('movie-list');
     const boxWidth = container.querySelector('.movie-card').offsetWidth; // Lấy kích thước của 1 box phim
     const scrollAmount = boxWidth * 5; // Cuộn qua 5 box phim
-  
+
     if (direction === 'left') {
       container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     } else {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
-  
-  
-  
+
+
+
 
   return (
+
     <div className="bg-black text-gray-100">
       <main className="bg-black">
         <section className="relative mb-12 bg-black">
@@ -219,11 +220,10 @@ const Home = () => {
             {carouselBanners.map((banner, index) => (
               <div
                 key={banner.id}
-                className={`absolute inset-0 h-full w-full transition-transform duration-[800ms] ease-in-out ${
-                  currentBannerIndex === index
+                className={`absolute inset-0 h-full w-full transition-transform duration-[800ms] ease-in-out ${currentBannerIndex === index
                     ? "translate-x-0 opacity-100"
                     : "translate-x-full opacity-0"
-                }`}
+                  }`}
                 style={{
                   backgroundImage: `url(${banner.bannerUrl})`,
                   backgroundSize: "cover",
@@ -239,11 +239,10 @@ const Home = () => {
               {carouselBanners.map((banner, index) => (
                 <div
                   key={banner.id}
-                  className={`absolute ml-20 transition-transform duration-1000 ease-in-out ${
-                    currentBannerIndex === index
+                  className={`absolute ml-20 transition-transform duration-1000 ease-in-out ${currentBannerIndex === index
                       ? "translate-x-0 opacity-100"
                       : "translate-x-full opacity-0"
-                  }`}
+                    }`}
                 >
                   <h2 className="text-lg font-semibold">
                     {banner.genres.join(" | ")}
@@ -327,9 +326,9 @@ const Home = () => {
           </div>
         </section>
 
-        
+
         <section className="movie-section relative">
-          <div className="containe mx-auto px-4"> 
+          <div className="containe mx-auto px-4">
             <h3 className="section-title mb-6 text-4xl font-bold">| Xu hướng hiện nay</h3>
             <div className="flex justify-center items-center px-8 relative" style={{ width: '90%', marginLeft: '5%' }}>
               <button
@@ -342,26 +341,26 @@ const Home = () => {
               <div className="flex overflow-x-auto hide-scrollbar w-full" id="movie-list" style={{ padding: '0 10px' }}>
                 <div className="flex space-x-9">
                   {movies.slice(0, 10).map((movie) => (
-                    <div key={movie.id} className="movie-card flex-none relative overflow-hidden" style={{ width: 'calc(19% - 1rem)', flexShrink: 0 }}> 
+                    <div key={movie.id} className="movie-card flex-none relative overflow-hidden" style={{ width: 'calc(19% - 1rem)', flexShrink: 0 }}>
                       <img
                         src={movie.image}
                         alt={movie.name}
-                        className="h-[300px] w-full rounded-t-lg object-cover" 
+                        className="h-[300px] w-full rounded-t-lg object-cover"
                       />
                       <div className="overlay">
                         <div className="overlay-content">
-                          <h4 className="movie-name" style={{color: 'red', fontWeight: 'bold'}}>{movie.name}</h4>
+                          <h4 className="movie-name" style={{ color: 'red', fontWeight: 'bold' }}>{movie.name}</h4>
                           <p className="movie-rating">Đánh giá: {movie.rating}</p>
                           <button className="overlay-favorite">
                             <FaHeart /><br></br>
                           </button>
                           <div className="button-container flex flex-col space-y-4">
-                              <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
-                                  Trailer <i className="ml-1 fas fa-video"></i>
-                              </Link>
-                              <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
-                                  Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                              </Link>
+                            <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                              Trailer <i className="ml-1 fas fa-video"></i>
+                            </Link>
+                            <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
+                              Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -373,7 +372,7 @@ const Home = () => {
               {/* Nút phải */}
               <button
                 className="absolute right-0 bg-red-600 text-white p-3 rounded-full z-10"
-                style={{ top: '50%', transform: 'translateY(-50%)', marginRight: '-2%'  }}
+                style={{ top: '50%', transform: 'translateY(-50%)', marginRight: '-2%' }}
                 onClick={() => handleScroll('right')}
               >
                 <AiOutlineRight size={24} />
@@ -395,7 +394,7 @@ const Home = () => {
                     src="https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg"
                     alt="Inception"
                     className="w-full object-cover"
-                    
+
                   />
                   <div className="p-2 flex-1 flex items-center justify-center">
                     <strong className="text-xl block">Inception</strong>
@@ -446,7 +445,7 @@ const Home = () => {
                     </div>
                   </div>
                 ))}
-              </div>              
+              </div>
             </div>
           </div>
         </section>
@@ -457,10 +456,10 @@ const Home = () => {
 
         <section className="container mx-auto my-10 flex flex-col lg:flex-row justify-between w-full">
           <div className="lg:w-8/12 w-full p-4 flex flex-col">
-          <h3 className="gy-h3 mx-10 mb-6 text-5xl font-bold"> | Phim Gợi Ý</h3>
+            <h3 className="gy-h3 mx-10 mb-6 text-5xl font-bold"> | Phim Gợi Ý</h3>
             <div className="grid grid-cols-3 gap-4 flex-grow hover:cursor-pointer">
               {movies.slice(0, 6).map((movie) => (
-                <div key={movie.id} className="shadow-lg rounded-lg overflow-hidden" style={{ width: '200px' }}> 
+                <div key={movie.id} className="shadow-lg rounded-lg overflow-hidden" style={{ width: '200px' }}>
                   <img src={movie.image} alt={movie.name} className="w-full object-cover" style={{ height: "250px" }} />
                   <div className="p-2">
                     <strong className="block text-center">{movie.name}</strong>
@@ -470,7 +469,7 @@ const Home = () => {
             </div>
           </div>
           <div className="lg:w-4/12 w-full p-4 flex flex-col">
-          <h3 className="tt-h3 mx-10 mb-6 text-5xl font-bold"> | Top Trending</h3>
+            <h3 className="tt-h3 mx-10 mb-6 text-5xl font-bold"> | Top Trending</h3>
             <div className="tt flex flex-col gap-4  flex-grow hover:cursor-pointer">
               {movies.slice(0, 6).map((movie, index) => (
                 <div key={movie.id} className="flex items-center justify-right p-2 shadow-lg rounded-lg">
@@ -497,24 +496,24 @@ const Home = () => {
                   className="rounded-t-lg object-cover"
                 />
                 <div className="overlay">
-                        <div className="overlay-content">
-                          <h4 className="movie-name">{movie.name}</h4>
-                          <p className="movie-rating">Đánh giá: {movie.rating}</p>
-                          <button className="overlay-favorite">
-                            <FaHeart />
-                          </button>
-                          <div className="button-container">
-                            <div className="button-container flex flex-col space-y-4">
-                              <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
-                                  Trailer <i className="ml-1 fas fa-video"></i>
-                              </Link>
-                              <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
-                                  Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
+                  <div className="overlay-content">
+                    <h4 className="movie-name">{movie.name}</h4>
+                    <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                    <button className="overlay-favorite">
+                      <FaHeart />
+                    </button>
+                    <div className="button-container">
+                      <div className="button-container flex flex-col space-y-4">
+                        <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
+                          Trailer <i className="ml-1 fas fa-video"></i>
+                        </Link>
+                        <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
+                          Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                        </Link>
                       </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

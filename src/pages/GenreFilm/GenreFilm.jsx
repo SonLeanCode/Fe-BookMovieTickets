@@ -42,7 +42,7 @@ const MovieList = () => {
     };
 
     return (
-        <div className="bg-gray-900 text-white p-10 mt-28">
+        <div className="bg-gray-900 text-white pt-7 p-[4.5rem] mt-28">
             <div className="filter flex justify-between">
                 <div className="menuleft flex gap-10 text-center justify-start align-text-top content-center mb-6">
                     <h2 className="text-2xl font-bold uppercase border-l-2 flex items-center pl-2 border-red-500"> Tất cả</h2>
