@@ -128,7 +128,7 @@ const MovieDetailPage = () => {
       </div>
 
       {/* show film detail  */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 py-6 pt-2">
+      <div className="max-w-[85rem] mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 py-6 pt-2">
 
         {/* Film detail left */}
         <div className="md:col-span-3 flex flex-col space-y-6">

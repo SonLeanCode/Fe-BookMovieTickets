@@ -1,9 +1,22 @@
 import logo from '../../assets/bocongthuong.png';
+import {
+  IconButton,
+  SpeedDial,
+  SpeedDialHandler,
+  SpeedDialContent,
+  SpeedDialAction,
+} from "@material-tailwind/react";
+import {
+  PlusIcon,
+  HomeIcon,
+  CogIcon,
+  Square3Stack3DIcon,
+} from "@heroicons/react/24/outline";
 
 const FooterWeb = () => {
   return (
     <>    
-    <footer className="bg-slate-950 text-white py-10 p-32">
+    <footer className="bg-slate-950 text-white py-10 p-20">
       <div className="container mx-auto">
         <div className="flex flex-wrap justify-between">
           {/* Left section */}
@@ -16,6 +29,33 @@ const FooterWeb = () => {
           </div>
           <div>
           </div>
+
+
+             {/* speeddial  */}
+        <div className="fixed end-6 bottom-6 z-50 w-full">
+          <div className="absolute bottom-0 right-0">
+            <SpeedDial>
+              <SpeedDialHandler>
+                <IconButton size="lg" className="rounded-full flex justify-center items-center">
+                  <PlusIcon className="h-5 w-5 transition-transform group-hover:rotate-45" />
+                </IconButton>
+              </SpeedDialHandler>
+              <SpeedDialContent>
+                <a href="/cinema">
+                  <SpeedDialAction className="bg-gray-900 p-2 mb-3">
+                    <HomeIcon className="h-5 w-5" />
+                  </SpeedDialAction>
+                </a>
+                <SpeedDialAction className="bg-gray-900 p-2 mb-3">
+                  <CogIcon className="h-5 w-5" />
+                </SpeedDialAction>
+                <SpeedDialAction className="bg-gray-900 p-2 mb-3">
+                  <Square3Stack3DIcon className="h-5 w-5" />
+                </SpeedDialAction>
+              </SpeedDialContent>
+            </SpeedDial>
+          </div>
+        </div>
 
           {/* Links Section */}
           <div className="flex flex-wrap justify-evenly w-3/4">
