@@ -1,80 +1,113 @@
+import logo from '../../assets/bocongthuong.png';
 
 const FooterWeb = () => {
   return (
     <>    
-    <section>
-      <footer className="bg-gradient-to-r from-black to-red-900 text-white flex items-center justify-center py-4">
-        <div className="flex flex-col justify-between items-center w-full max-w-5xl px-4">
-          <div className="text-center mb-6">
-            <h1 className="text-5xl text-red-600 font-bold mb-2" style={{ textShadow: "2px 2px 4px rgb(0, 0, 0)" }}>ST-FLIX</h1>
-            <strong className="text-sm text-gray-400">
-              Chúng tôi cung cấp các dịch vụ giải trí trực tuyến chất lượng cao. Để biết thêm thông tin, hãy liên hệ với chúng tôi qua email hoặc số điện thoại dưới đây.
-            </strong>
-            <br />
-            <strong className="text-sm text-gray-400">Email: Stflix@gmail.com</strong>
-            <br />
-            <strong className="text-sm text-gray-400">Điện thoại: (123) 456-7890</strong>
-            <div className="flex justify-center mt-4 space-x-3">
-              <a href="https://facebook.com" target="_blank" className="w-8 h-8 transform hover:scale-110 transition-transform">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" alt="Facebook" />
-              </a>
-              <a href="https://youtube.com" target="_blank" className="w-8 h-8 transform hover:scale-110 transition-transform">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/youtube.png" alt="YouTube" />
-              </a>
-              <a href="https://tiktok.com" target="_blank" className="w-8 h-8 transform hover:scale-110 transition-transform">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/tiktok.png" alt="TikTok" />
-              </a>
-              <a href="https://zalo.me" target="_blank" className="w-8 h-8 transform hover:scale-110 transition-transform">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/zalo.png" alt="Zalo" />
-              </a>
+    <footer className="bg-slate-950 text-white py-10 p-32">
+      <div className="container mx-auto">
+        <div className="flex flex-wrap justify-between">
+          {/* Left section */}
+          <div className="w-1/4 flex flex-col justify-between">
+            <div>
+              <h2 className="text-5xl font-bold text-red-600 mb-4">ST-FLIX</h2>
+              <p> Vé phim giá rẻ, đa dạng thể loại, trải nghiệm giải trí tuyệt vời!</p>
             </div>
+            <img src={logo} className="w-48 h-16" alt="" />
+          </div>
+          <div>
           </div>
 
-          <div className="w-full mb-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="text-center">
-              <h3 className="text-lg font-bold text-red-600 border-b-2 border-red-600 pb-2">Trang chủ</h3>
-              <ul className="text-sm text-white space-y-2 mt-2">
-                <li><a href="#" className="hover:text-red-600">Giới thiệu</a></li>
-                <li><a href="#" className="hover:text-red-600">Tin tức</a></li>
-                <li><a href="#" className="hover:text-red-600">Sự kiện</a></li>
+          {/* Links Section */}
+          <div className="flex flex-wrap justify-evenly w-3/4">
+            {/* Products */}
+            <div className="mr-10">
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Sản phẩm</h3>
+              <ul className='flex flex-col gap-2'>
+                <li className="hover:text-red-400 transition-colors duration-300" >Hành động</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Đặc biệt</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Kịch tính <span className="text-xs bg-white text-black px-2 py-1 rounded-full ml-2">Mới</span></li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Tình cảm</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Hạnh phúc</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Hài hước</li>
               </ul>
             </div>
-            <div className="text-center">
-              <h3 className="text-lg font-bold text-red-600 border-b-2 border-red-600 pb-2">Giới thiệu</h3>
-              <ul className="text-sm text-white space-y-2 mt-2">
-                <li><a href="#" className="hover:text-red-600">Về chúng tôi</a></li>
-                <li><a href="#" className="hover:text-red-600">Đội ngũ</a></li>
-                <li><a href="#" className="hover:text-red-600">Đối tác</a></li>
+            
+            {/* Business */}
+            <div className="mr-10">
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Doanh nghiệp</h3>
+              <ul className='flex flex-col gap-2'>
+                <li className="hover:text-red-400 transition-colors duration-300" >Xem thêm</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Nghề nghiệp</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Nhấn nhá</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Tin tức</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Truyền thông</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Liên hệ</li>
               </ul>
             </div>
-            <div className="text-center">
-              <h3 className="text-lg font-bold text-red-600 border-b-2 border-red-600 pb-2">Dịch vụ</h3>
-              <ul className="text-sm text-white space-y-2 mt-2">
-                <li><a href="#" className="hover:text-red-600">Dịch vụ chính</a></li>
-                <li><a href="#" className="hover:text-red-600">Dịch vụ bổ sung</a></li>
-                <li><a href="#" className="hover:text-red-600">Khách hàng</a></li>
-              </ul>
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-bold text-red-600 border-b-2 border-red-600 pb-2">Liên hệ</h3>
-              <ul className="text-sm text-white space-y-2 mt-2">
-                <li><a href="#" className="hover:text-red-600">Thông tin liên hệ</a></li>
-                <li><a href="#" className="hover:text-red-600">Gửi phản hồi</a></li>
-                <li><a href="#" className="hover:text-red-600">Bản đồ</a></li>
-              </ul>
-            </div>
-          </div>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-400 mb-2">Chúng tôi chấp nhận các phương thức thanh toán sau:</p>
-            <div className="flex justify-center space-x-4">
-              <img className="w-10 h-10" src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png?20201011055544" alt="MoMo" />
-              <img className="w-10 h-10" src="https://img.pikbest.com/png-images/qiantu/vector-cartoon-minimalistic-banknote-coin-gold-coin-icon_2691793.png!f305cw" alt="Cash" />
+            {/* Resources */}
+            <div className="mr-10">
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Tài nguyên</h3>
+              <ul className='flex flex-col gap-2'>
+                <li className="hover:text-red-400 transition-colors duration-300" >Báo chí</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Bản tin</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Sự kiện</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Trung tâm</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Hướng dẫn</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Giúp đỡ</li>
+              </ul>
+            </div>
+
+            {/* Social */}
+            <div className="mr-10">
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Xã hội</h3>
+              <ul className='flex flex-col gap-2'>
+                <li className="hover:text-red-400 transition-colors duration-300" >Twitter</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Tiktok</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Facebook</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >GitHub</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Instagram</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Youtube</li>
+              </ul>
+            </div>
+
+            {/* Policies */}
+            <div>
+              <h3 className="ffont-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Chính sách</h3>
+              <ul className='flex flex-col gap-2'>
+                <li className="hover:text-red-400 transition-colors duration-300" >Điều khoản</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Chính sách</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Cookies</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Giấy phép</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >Cài đặt</li>
+              </ul>
             </div>
           </div>
         </div>
-      </footer>
-    </section>
+
+        {/* Bottom Section */}
+        <div className="border-t border-gray-700 mt-8 pt-6 flex justify-between items-center">
+          <p>Copyright © 2024 S-FLIX - Web bán vé phim. All Rights Reserved. Design by StickerMovie</p>
+          <div className="flex space-x-4">
+            <a href="#" className="text-white hover:text-gray-400">
+              <i className="fab fa-twitter"></i>
+            </a>
+            <a href="#" className="text-white hover:text-gray-400">
+              <i className="fab fa-linkedin"></i>
+            </a>
+            <a href="#" className="text-white hover:text-gray-400">
+              <i className="fab fa-facebook"></i>
+            </a>
+            <a href="#" className="text-white hover:text-gray-400">
+              <i className="fab fa-github"></i>
+            </a>
+            <a href="#" className="text-white hover:text-gray-400">
+              <i className="fab fa-dribbble"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
     </>
   );
 };
