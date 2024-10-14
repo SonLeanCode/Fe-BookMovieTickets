@@ -55,7 +55,7 @@ const MovieList = () => {
                             id="date"
                             value={selectedDate}
                             onChange={e => setSelectedDate(e.target.value)}
-                            className="bg-transparent w-5 text-black rounded cursor-pointer"
+                            className="bg-transparent w-5 p-0 border-0 text-black rounded cursor-pointer"
                         />
                     </div>
 

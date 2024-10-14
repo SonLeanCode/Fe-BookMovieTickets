@@ -38,7 +38,7 @@ const HeaderWeb = () => {
   };
 
   return (
-    <header
+    <header id="header"
       className={`fixed left-0 top-0 z-50 w-full transition-colors duration-300 ${
         scrolled ? "bg-black" : "bg-black bg-opacity-20"
       }`}

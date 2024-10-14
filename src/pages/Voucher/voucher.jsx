@@ -76,9 +76,9 @@ const voucher = () => {
   };
 
   return (
-    <section className="flex justify-center bg-black">
+    <section className="flex justify-center bg-gray-900">
       <div className="w-11/12 mx-auto">
-        <div className="bg-gray-900 w-11/12 mx-auto  p-4 rounded-lg mt-28" style={{ backgroundColor: 'black' }}>
+        <div className="bg-gray-900 w-12/12 p-2 mt-28">
           <h2 className="text-white text-2xl font-semibold font-roboto pb-2 uppercase">
             <span className="text-red-600 ">|</span> Sự kiện
           </h2>
@@ -86,7 +86,7 @@ const voucher = () => {
 
         <div className="flex flex-col md:flex-row my-4">
           <div className="text-white mr-2 flex-1">
-          <div className="flex flex-wrap justify-center gap-5" >
+          <div className="flex flex-wrap p-2 gap-5" >
                 {currentActors.map((actor, index) => (
                     <div
                     className="relative rounded-sm bg-gray-900 group"
@@ -128,7 +128,7 @@ const voucher = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-[30%] mt-4 md:mt-0">
+          <div className="w-full md:w-[30%] md:mt-0">
                 <h2 className="text-white text-2xl font-semibold font-roboto text-center mb-3">Phim đang chiếu</h2>
                 <div className="group ml-6">
                 <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
