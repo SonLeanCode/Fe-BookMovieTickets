@@ -10,6 +10,7 @@ import {
   PlusIcon,
   HomeIcon,
   CogIcon,
+  ArrowUpCircleIcon,
   Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
 
@@ -41,17 +42,27 @@ const FooterWeb = () => {
                 </IconButton>
               </SpeedDialHandler>
               <SpeedDialContent>
+
+                <a href="#header">
+                  <SpeedDialAction className="bg-gray-900 p-2 mb-3">
+                    <ArrowUpCircleIcon className="h-5 w-5" />
+                  </SpeedDialAction>
+                </a>
+
                 <a href="/cinema">
                   <SpeedDialAction className="bg-gray-900 p-2 mb-3">
                     <HomeIcon className="h-5 w-5" />
                   </SpeedDialAction>
                 </a>
+
                 <SpeedDialAction className="bg-gray-900 p-2 mb-3">
                   <CogIcon className="h-5 w-5" />
                 </SpeedDialAction>
+
                 <SpeedDialAction className="bg-gray-900 p-2 mb-3">
                   <Square3Stack3DIcon className="h-5 w-5" />
                 </SpeedDialAction>
+        
               </SpeedDialContent>
             </SpeedDial>
           </div>

@@ -2,5 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@keyframes autoRun {
+    from {
+      transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);
+    }
+    to {
+      transform: perspective(1000px) rotateX(-16deg) rotateY(360deg);
+    }
+  }
+  
+  .font-ica-rubrik {
+    font-family: 'ICA Rubrik', sans-serif;
+  }
+  
+  
 
