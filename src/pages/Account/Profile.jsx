@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const Profile = () => {
     const [activeTab, setActiveTab] = useState('profile'); // Set default tab
     const [userInfo, setUserInfo] = useState({
-        image: '',
+        image: 'https://i.pinimg.com/736x/e9/e0/7d/e9e07de22e3ef161bf92d1bcf241e4d0.jpg',
         name: '',
         phone: '',
         fullName: '',
