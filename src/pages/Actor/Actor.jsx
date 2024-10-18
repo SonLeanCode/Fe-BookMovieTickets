@@ -1,21 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { useGetAllActorsQuery } from "../../services/Actor/actor.service";
+import notfound_img from "../../assets/img/404/actor-default.png";
 const Actor = () => {
-  const actors = [
-    { name: "Margot Robbie", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Brad Pitt", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Leonardo DiCaprio", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Angelina Jolie", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Tom Cruise", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Johnny Depp", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Emma Watson", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Robert Downey Jr.", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Robert Downey Jr.", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Robert Downey Jr.", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    { name: "Robert Downey Jr.", img: "https://cdn.galaxycine.vn/media/g/a/gallery-1436740108-elle-aug-15-margot-robbie-02.jpg" },
-    // Thêm diễn viên khác ở đây
-  ];
+  const { data: actorData = [] } = useGetAllActorsQuery();
+  console.log(actorData);
 
   const [currentPage, setCurrentPage] = useState(1);
   const actorsPerPage = 10; // Số lượng diễn viên hiển thị mỗi trang
@@ -23,10 +12,10 @@ const Actor = () => {
   // Tính toán chỉ số bắt đầu và kết thúc cho diễn viên của trang hiện tại
   const indexOfLastActor = currentPage * actorsPerPage;
   const indexOfFirstActor = indexOfLastActor - actorsPerPage;
-  const currentActors = actors.slice(indexOfFirstActor, indexOfLastActor);
+  const currentActors = actorData.slice(indexOfFirstActor, indexOfLastActor);
 
   // Tính toán tổng số trang
-  const totalPages = Math.ceil(actors.length / actorsPerPage);
+  const totalPages = Math.ceil(actorData.length / actorsPerPage);
 
   // Hàm điều hướng trang
   const goToPage = (pageNumber) => {
@@ -35,13 +24,16 @@ const Actor = () => {
 
   return (
     <section className="flex justify-center bg-black">
-      <div className="w-11/12 mx-auto">
-        <div className="bg-gray-900 p-4 rounded-lg mt-28" style={{ backgroundColor: '#181818' }}>
-          <h2 className="text-white text-2xl font-semibold font-roboto pb-2">
-            <span className="text-red-600 ">|</span> DIỄN VIÊN
+      <div className="mx-24 w-11/12">
+        <div
+          className="mt-28 flex items-center rounded-lg bg-gray-900 p-4"
+          style={{ backgroundColor: "#181818" }}
+        >
+          <h2 className="font-roboto pb-2 text-2xl font-semibold text-white">
+          <span className="border-l-4 border-solid border-red-600 mr-2"></span> DIỄN VIÊN
           </h2>
           <div className="flex">
-            <select className="bg-gray-900 text-white border border-white rounded-md p-2 ml-4 mr-4">
+            <select className="ml-4 mr-4 rounded-md border border-white bg-gray-900 p-2 text-white">
               <option>Quốc Gia</option>
               <option>Việt Nam</option>
               <option>Hàn Quốc</option>
@@ -49,42 +41,55 @@ const Actor = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row my-4">
-          <div className="text-white mr-2 flex-1">
+        <div className="my-4 flex flex-col md:flex-row">
+          <div className="mr-2 flex-1 text-white">
             {currentActors.map((actor, index) => (
-              <div className="flex items-start p-4 rounded-sm bg-gray-900" style={{ backgroundColor: '#181818' }} key={index}>
-                <Link to="detail" className="flex-shrink-0">
+              <div
+                className="flex items-start rounded-sm bg-gray-900 p-4"
+                style={{ backgroundColor: "#181818" }}
+                key={index}
+              >
+                <Link
+                  to={`${actor._id}`}
+                  className="flex-shrink-0"
+                >
                   <img
-                    src={actor.img}
+                    src={actor.thumbnail_img || notfound_img}
                     alt={actor.name}
                     className="rounded-md"
-                    style={{ width: '255px', height: '170px' }}
+                    style={{ width: "255px", height: "170px" }}
                   />
                 </Link>
-                <div className="ml-4 flex-1 flex flex-col">
-                  <h2 className="text-lg font-semibold">{actor.name}</h2>
-                  <div className="flex items-center my-2">
-                    <button className="text-white px-2 rounded" style={{ backgroundColor: '#4080ff' }}>
+                <div className="ml-4 flex flex-1 flex-col">
+                  <Link
+                    to={`${actor._id}`}
+                    className="flex-shrink-0"
+                  >
+                    <h2 className="text-lg font-semibold">{actor.name}</h2>
+                  </Link>
+                  <div className="my-2 flex items-center">
+                    <button
+                      className="rounded px-2 text-white"
+                      style={{ backgroundColor: "#4080ff" }}
+                    >
                       <i className="fa-regular fa-thumbs-up"></i> Thích
                     </button>
-                    <div className="ml-4 text-black px-2 bg-gray-200 rounded-sm">
-                      <i className="fa-solid fa-eye"></i> 324524290
+                    <div className="ml-4 rounded-sm bg-gray-200 px-2 text-black">
+                      <i className="fa-solid fa-eye"></i> {actor.views}
                     </div>
                   </div>
-                  <p className="text-gray-300">
-                    Đương nhiên, có nhân sắc chẳng bao giờ là đủ để đảm bảo cho chiếc vé thành công tại Hollywood, Margot còn phải cố gắng nhiều. Nhưng hiện nay nàng xứng đáng được coi là minh tinh hàng A!
-                  </p>
+                  <p className="text-gray-300">{actor.description}</p>
                 </div>
               </div>
             ))}
 
             {/* Phân trang */}
-            <div className="flex justify-center my-4">
+            <div className="my-4 flex justify-center">
               {Array.from({ length: totalPages }, (_, i) => (
                 <button
                   key={i + 1}
                   onClick={() => goToPage(i + 1)}
-                  className={`mx-2 px-4 py-2 rounded ${currentPage === i + 1 ? 'bg-red-600' : 'bg-gray-700'}`}
+                  className={`mx-2 rounded px-4 py-2 ${currentPage === i + 1 ? "bg-red-600" : "bg-gray-700"}`}
                 >
                   {i + 1}
                 </button>
@@ -92,44 +97,40 @@ const Actor = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-[30%] mt-4 md:mt-0">
-            <h2 className="text-white text-2xl font-semibold font-roboto text-center mb-3">Phim đang chiếu</h2>
-            <div className="group ml-6">
-              <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
-                <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg" alt="item" className="w-full h-auto" />
-                <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Link to="/cinema/buy-tickets" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé <i className="ml-1 fas fa-ticket-alt"></i></Link>
+          <div className="mt-4 w-full md:mt-0 md:w-[30%]">
+            <h2 className="font-roboto mb-3 text-center text-2xl font-semibold text-white">
+              Phim đang chiếu
+            </h2>
+            {/* Movie items */}
+            {[1, 2, 3].map((_, idx) => (
+              <div className="group ml-6" key={idx}>
+                <div className="relative my-2 flex flex-shrink-0 flex-grow flex-col items-center">
+                  <img
+                    src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg"
+                    alt="item"
+                    className="h-auto w-full"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <Link
+                      to="/cinema/buy-tickets"
+                      className="rounded-md bg-orange-500 px-4 py-2 text-white hover:bg-orange-600"
+                    >
+                      Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                    </Link>
+                  </div>
+                  <div className="absolute bottom-0 right-0 bg-orange-600 px-2 py-1 text-white">
+                    T18
+                  </div>
+                  <div className="absolute bottom-14 right-2 text-yellow-400">
+                    ★★★★☆
+                  </div>
                 </div>
-                <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
-                <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
+                <div className="text-white">Tên phim</div>
               </div>
-              <div className="text-white ">Tên phim</div>
-            </div>
-            <div className="group ml-6">
-              <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
-                <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg" alt="item" className="w-full h-auto" />
-                <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Link to="/cinema/buy-tickets" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé <i className="ml-1 fas fa-ticket-alt"></i></Link>
-                </div>
-                <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
-                <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
-              </div>
-              <div className="text-white ">Tên phim</div>
-            </div>
-            <div className="group ml-6">
-              <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
-                <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg" alt="item" className="w-full h-auto" />
-                <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Link to="/cinema/buy-tickets" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé <i className="ml-1 fas fa-ticket-alt"></i></Link>
-                </div>
-                <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
-                <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
-              </div>
-              <div className="text-white ">Tên phim</div>
-            </div>
-            <h2 className="text-orange-600 mt-5 text-center text-lg  font-roboto right-0 rounded-sm border border-orange-600 p-2 ml-auto w-48">
-                 <Link to="/cinema/movie">Xem thêm</Link>
-                </h2>
+            ))}
+            <h2 className="font-roboto right-0 ml-auto mt-5 w-48 rounded-sm border border-orange-600 p-2 text-center text-lg text-orange-600">
+              <Link to="/cinema/movie">Xem thêm</Link>
+            </h2>
           </div>
         </div>
       </div>
