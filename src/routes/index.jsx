@@ -3,21 +3,22 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Constants
 import ROLE from "../constants";
 
-// Pages
+// Pages user
 import Home from "../pages/Home/Home";
 import Dashboard from "../pages/Admin/Dashboard";
 import MovieDetailPage from "../pages/Movies/MoviesDetail";
 import Movie from "../pages/Movie/movie";
-import Genre from "../pages/GenreFilm/GenreFilm";
 import Actor from "../pages/Actor/Actor";
+import Genre from "../pages/GenreFilm/GenreFilm";
 import Register from "../pages/Auth/Register";
 import Profile from "../pages/Account/Profile";
 import Actordetail from "../pages/Actor/Actordetail";
 import Voucher from "../pages/Voucher/voucher";
-import VoucherDetail from "../pages/Voucher/voucher-detail";
 import Transaction from "../pages/Account/Transaction";
 import Login from "../pages/Auth/Login";
 import Auth from "../pages/Auth/Auth";
+import VoucherDetail from "../pages/Voucher/voucher-detail";
+// Pages admin
 // import Login from "../pages/Auth/testapi";
 import LandingPage from "../pages/LandingPage/LandingPage";
 
@@ -33,6 +34,16 @@ import DefaultLayout from "../layouts/DefaultLayout";
 import { NotLoggedMiddleware } from "./private/middleware/MiddlewareRoute";
 import BuyTickets from "../pages/BuyTickets/BuyTickets";
 import CheapTicket from "../pages/cinema/cheap-ticket";
+import RegionAdmin from "../pages/Admin/RegionAdmin/RegionAdmin";
+import CinemaAdmin from "../pages/Admin/CinemaAdmin/CinemaAdmin";
+import GenreAdmin from "../pages/Admin/GenreAdmin/GenreAdmin";
+import Genre_Movie from "../pages/Admin/GenreAdmin/Genre_Movie";
+// import ActorAdmin from "../pages/Admin/ActorAdmin/ActorAdmin";
+import Actor_Movie from "../pages/Admin/ActorAdmin/Actor_Movie";
+import Movie_Management from "../pages/Admin/Movie_Management";
+import Genre_Management from "../pages/Admin/Genre_management";
+import Actor_Management from "../pages/Admin/Actor_Management";
+
 
 export default function AppRoutes() {
   return (
@@ -65,14 +76,15 @@ export default function AppRoutes() {
             <Route path="" element={<Home />} />
             <Route path="movie" element={<Movie />} />
             <Route path="actor" element={<Actor />} />
-            <Route path="actor/detail" element={<Actordetail />} />
-            <Route path="detail" element={<MovieDetailPage />} />
+            <Route path="actor/:id" element={<Actordetail />} />
+            <Route path="movie/:id" element={<MovieDetailPage />} />
             <Route path="landingpage" element={<LandingPage />} />
             <Route path="buy-tickets" element={<BuyTickets />} />
             <Route path="cheap-tickets" element={<CheapTicket />} />
             <Route path="voucher" element={<Voucher />} />
             <Route path="voucher/detail" element={<VoucherDetail />} />
             <Route path="genrefilm" element={<Genre />} />
+            <Route path="genrefilm/:id" element={<Genre />} />
           </Route>
         </Route>
 
@@ -97,6 +109,16 @@ export default function AppRoutes() {
           >
             <Route element={<AdminLayout />}>
               <Route path="" element={<Dashboard />} />
+              <Route path="dashboard" element={<Dashboard />} />  
+              <Route path="movies" element={<Movie_Management />} />  
+              <Route path="genres" element={<Genre_Management />} />  
+              <Route path="actors" element={<Actor_Management />} />
+
+              <Route path="regions/test" element={<RegionAdmin />} />
+              <Route path="cinema/test" element={<CinemaAdmin />} />
+              <Route path="genre/test" element={<GenreAdmin />} />
+              <Route path="genre_movies/test" element={<Genre_Movie />} />
+              <Route path="actor_movies/test" element={<Actor_Movie />} />
             </Route>
           </Route>
         </Route>
