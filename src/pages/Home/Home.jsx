@@ -341,7 +341,7 @@ const Home = () => {
             </h3>
             <div
               className="relative flex items-center justify-center px-8"
-              style={{ width: "90%", marginLeft: "5%" }}
+              style={{ width: "94%", marginLeft: "3%" }}
             >
               <button
                 className="absolute left-0 z-10 rounded-full bg-red-600 p-3 text-white"
@@ -427,7 +427,7 @@ const Home = () => {
 
         <section className="container mx-auto my-10 flex w-full justify-center">
           <div className="update-section w-full">
-            <h3 className="mx-10 mb-6 text-5xl font-bold">
+            <h3 className=" text-4xl  font-bold">
               | Phim mới cập nhật
             </h3>
             <div className="flex flex-col justify-center lg:flex-row">
@@ -524,8 +524,7 @@ const Home = () => {
 
         <section className="container mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
           <div className="flex w-full flex-col p-4 lg:w-8/12">
-            <h3 className="gy-h3 mx-10 mb-6 text-5xl font-bold">
-              {" "}
+            <h3 className="gy-h3 mb-6 text-4xl font-bold">
               | Phim Gợi Ý
             </h3>
             <div className="grid flex-grow grid-cols-3 gap-4 hover:cursor-pointer">
@@ -549,8 +548,7 @@ const Home = () => {
             </div>
           </div>
           <div className="flex w-full flex-col p-4 lg:w-4/12">
-            <h3 className="tt-h3 mx-10 mb-6 text-5xl font-bold">
-              {" "}
+            <h3 className="tt-h3 mb-6 text-4xl font-bold">
               | Top Trending
             </h3>
             <div className="tt flex flex-grow flex-col gap-4 hover:cursor-pointer">
@@ -579,9 +577,8 @@ const Home = () => {
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="mx-10 mb-6 text-5xl font-bold">Được đánh giá cao</h3>
-          <p className="hot-monthly-movies">Hot trong tháng</p>
-          <div className="top-movie-container">
+          <h3 className="ml-24 text-4xl  font-bold">| Phim mới cập nhật</h3>
+          <div className="top-movie-container" style={{ width: "84%", marginLeft: "8%" }}>
             {movies.map((movie) => (
               <div key={movie.id} className="top-movie-card rounded-lg">
                 <img
