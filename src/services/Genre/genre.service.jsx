@@ -26,10 +26,10 @@ export const genreApi = createApi({
       query: (id) => `/api/genre/${id}`,
     }),
     addGenre: builder.mutation({
-      query: (newCinema) => ({
+      query: (newGenre) => ({
         url: '/api/genre',
         method: 'POST',
-        body: newCinema,
+        body: newGenre,
       }),
     }),
     updateGenre: builder.mutation({

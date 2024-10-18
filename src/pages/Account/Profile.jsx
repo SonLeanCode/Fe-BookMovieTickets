@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 
 const Profile = () => {
     const [activeTab, setActiveTab] = useState('profile'); // Set default tab
@@ -12,28 +12,28 @@ const Profile = () => {
         birthday: '', // Ensure birthday is included in the state
     });
 
-    // Function to change tab
-    const handleTabChange = (tab) => {
-        setActiveTab(tab);
-    };
+  // Function to change tab
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
 
-    // Function to handle image upload
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setUserInfo({ ...userInfo, image: reader.result });
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+  // Function to handle image upload
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserInfo({ ...userInfo, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-    // Function to handle input changes
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setUserInfo({ ...userInfo, [name]: value });
-    };
+  // Function to handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo({ ...userInfo, [name]: value });
+  };
 
     return (
         <div className="p-28 px-20">

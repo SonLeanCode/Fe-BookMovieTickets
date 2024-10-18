@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaUserAlt, FaHistory, FaSignOutAlt } from "react-icons/fa"; // Import các icon cần dùng
 import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
+import Toastify from "../../helper/Toastify";
 
 const HeaderWeb = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -34,11 +35,12 @@ const HeaderWeb = () => {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
-    navigate("/auth/login"); // Điều hướng về trang đăng nhập
+    Toastify("Đăng xuất thành công", 200)
+    navigate("/auth/login");
   };
 
   return (
-    <header id="header"
+    <header
       className={`fixed left-0 top-0 z-50 w-full transition-colors duration-300 ${
         scrolled ? "bg-black" : "bg-black bg-opacity-20"
       }`}

@@ -27,6 +27,13 @@ export const moviesApi = createApi({
       }),
     }),
 
+    getLatestMoviesByCreationDate: builder.query({
+      query: () => ({
+        url: '/api/movie/latest',
+        method: 'GET',
+      }),
+    }),
+
     // Lấy phim theo ID
     getMovieById: builder.query({
       query: (id) => ({
@@ -67,6 +74,7 @@ export const moviesApi = createApi({
 export const {
   useGetAllMoviesQuery,
   useGetMovieByIdQuery,
+  useGetLatestMoviesByCreationDateQuery,
   useAddMovieMutation,
   useUpdateMovieMutation,
   useDeleteMovieMutation,
