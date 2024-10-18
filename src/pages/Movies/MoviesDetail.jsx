@@ -16,7 +16,6 @@ const MovieDetailPage = () => {
   const { data: movieData, isLoading: movieDataLoading  } = useGetMovieByIdQuery(id);
   const { data: genre_moviesData, isLoading: genre_moviesDataLoading } = useGetGenresByMovieQuery(id);
   const { data: actor_moviesData, isLoading: actor_moviesDataLoaing } = useGetActorsByMovieQuery(id);
-
   const [activeTab, setActiveTab] = useState("content");
 
   const tabs = [
