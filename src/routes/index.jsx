@@ -41,7 +41,7 @@ import Genre_Movie from "../pages/Admin/GenreAdmin/Genre_Movie";
 // import ActorAdmin from "../pages/Admin/ActorAdmin/ActorAdmin";
 import Actor_Movie from "../pages/Admin/ActorAdmin/Actor_Movie";
 import Movie_Management from "../pages/Admin/Movie_Management";
-import Genre_Management from "../pages/Admin/Genre_management";
+import Genre_Management from "../pages/Admin/Genre_Management";
 import Actor_Management from "../pages/Admin/Actor_Management";
 
 
