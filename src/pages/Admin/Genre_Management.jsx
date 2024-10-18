@@ -250,7 +250,7 @@ const Genre_Management = () => {
 
       {/* Custom Modal for Add/Edit Genre */}
       {isModalVisible && (
-        <div onClick={handleCloseModal} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="rounded-lg bg-[#2d2d2d] p-6 shadow-lg">
             <h2 className="mb-4 text-xl font-bold">
               {selectedGenre ? "Chỉnh sửa thể loại" : "Thêm thể loại"}

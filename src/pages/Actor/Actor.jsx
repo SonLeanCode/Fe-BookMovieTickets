@@ -2,20 +2,19 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useGetAllActorsQuery } from "../../services/Actor/actor.service";
 import notfound_img from "../../assets/img/404/actor-default.png";
-const Actor = () => {
-  const { data: actorData = [] } = useGetAllActorsQuery();
-  console.log(actorData);
 
+const Actor = () => {
+  const { data: actorData} = useGetAllActorsQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const actorsPerPage = 10; // Số lượng diễn viên hiển thị mỗi trang
 
   // Tính toán chỉ số bắt đầu và kết thúc cho diễn viên của trang hiện tại
   const indexOfLastActor = currentPage * actorsPerPage;
   const indexOfFirstActor = indexOfLastActor - actorsPerPage;
-  const currentActors = actorData.slice(indexOfFirstActor, indexOfLastActor);
+  const currentActors = actorData?.data.slice(indexOfFirstActor, indexOfLastActor);
 
   // Tính toán tổng số trang
-  const totalPages = Math.ceil(actorData.length / actorsPerPage);
+  const totalPages = Math.ceil(actorData?.data.length / actorsPerPage);
 
   // Hàm điều hướng trang
   const goToPage = (pageNumber) => {
@@ -43,7 +42,7 @@ const Actor = () => {
 
         <div className="my-4 flex flex-col md:flex-row">
           <div className="mr-2 flex-1 text-white">
-            {currentActors.map((actor, index) => (
+            {currentActors?.map((actor, index) => (
               <div
                 className="flex items-start rounded-sm bg-gray-900 p-4"
                 style={{ backgroundColor: "#181818" }}

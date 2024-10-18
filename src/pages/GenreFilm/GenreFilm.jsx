@@ -23,12 +23,12 @@ const MovieList = () => {
 
   // Xác định phim nào cần hiển thị
   const moviesToDisplay = selectedGenre
-    ? moviesByGenreData?.movies.map((data) => ({
+    ? moviesByGenreData?.data.map((data) => ({
         _id: data.movie_id._id,
         name: data.movie_id.name,
         img: data.movie_id.img,
       }))
-    : allMoviesData?.movies;
+    : allMoviesData?.data;
 
   // Xử lý khi nhấn nút "Xem thêm"
   const handleShowMore = () => {
@@ -53,7 +53,7 @@ const MovieList = () => {
               className="w-36 rounded bg-white p-2 text-black"
             >
               <option value="">Tất cả</option>
-              {genreData?.genres.map((data) => (
+              {genreData?.data.map((data) => (
                 <option key={data._id} value={data._id}>
                   {data.name}
                 </option>

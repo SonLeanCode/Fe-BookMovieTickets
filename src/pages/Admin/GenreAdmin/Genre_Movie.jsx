@@ -62,7 +62,7 @@ const Genre_Movie = () => {
   if (genreLoading || movieLoading || movieGenreLoading) return <div>Loading...</div>;
 
   return (
-    <div className="p-6 min-h-screen">
+    <div className="p-6 ml-64 min-h-screen">
       <h1 className="text-2xl font-bold mb-4">Quản Lý Thể Loại Phim</h1>
 
       <div className="mb-4">
@@ -73,7 +73,7 @@ const Genre_Movie = () => {
           className="mt-2 p-2 border border-gray-300 rounded w-full text-black"
         >
           <option value="">Chọn một bộ phim</option>
-          {moviesData?.movies?.map((movie) => (
+          {moviesData?.data?.map((movie) => (
             <option key={movie._id} value={movie._id}>
               {movie.name}
             </option>
@@ -84,7 +84,7 @@ const Genre_Movie = () => {
       <div className="mb-4">
         <h2 className="text-xl font-semibold">Thêm Thể Loại vào Phim</h2>
         <div className="mt-2">
-          {genresData?.genres?.map((genre) => (
+          {genresData?.data?.map((genre) => (
             <div key={genre._id} className="flex items-center mb-2">
               <input
                 type="checkbox"
@@ -116,7 +116,7 @@ const Genre_Movie = () => {
       <div>
         <h2 className="text-xl font-semibold">Tất Cả Các Mối Quan Hệ Thể Loại-Phim</h2>
         <ul className="list-disc pl-5">
-          {movieGenreData?.genres.map((item) => (
+          {movieGenreData?.data?.map((item) => (
             <li key={item._id} className="flex justify-between items-center mb-2">
               Phim: {item?.movie_id?.name} - Thể loại: {item?.genre_id?.name}
               <div>

@@ -10,6 +10,7 @@ import VideoPlayer from "../../components/Movie/VideoPlayer";
 import NowShowing from "../../components/Movie/NowShowing";
 import CommentsSection from "../../components/Movie/CommentsSection";
 import LoadingLocal from "../Loading/LoadingLocal";
+
 const MovieDetailPage = () => {
   const { id } = useParams();
   const { data: movieData, isLoading: movieDataLoading  } = useGetMovieByIdQuery(id);
@@ -19,7 +20,7 @@ const MovieDetailPage = () => {
   const [activeTab, setActiveTab] = useState("content");
 
   const tabs = [
-    { id: "content", label: "Nội dung", content: movieData?.movie.description },
+    { id: "content", label: "Nội dung", content: movieData?.data.description },
     {
       id: "figure",
       label: "Nhân vật",
@@ -27,15 +28,15 @@ const MovieDetailPage = () => {
         <>
           <div className="producer">
             <strong className="text-xl">Tác giả : </strong>
-            <span className="">{movieData?.movie.producer}</span>
+            <span className="">{movieData?.data.producer}</span>
           </div>
           <div className="director mt-4">
             <strong className="text-xl">Đạo diễn : </strong>
-            <span className="">{movieData?.movie.director}</span>
+            <span className="">{movieData?.data.director}</span>
           </div>
           <div className="actor mt-6 flex">
             <strong className="mr-4 text-xl">Diễn viên: </strong>
-            {actor_moviesData?.actors.map((movie) => (
+            {actor_moviesData?.data.map((movie) => (
               <div
                 key={movie._id}
                 className="mr-8 w-32 flex-col items-center text-center"
@@ -58,7 +59,7 @@ const MovieDetailPage = () => {
       content: (
         <>
           <strong>Một số hình ảnh trong phim</strong>
-          <img src={movieData?.movie.img} alt="" className="w-[200px]" />
+          <img src={movieData?.data.img} alt="" className="w-[200px]" />
         </>
       ),
     },
@@ -83,8 +84,8 @@ const MovieDetailPage = () => {
     <div className="mt-[88px] min-h-screen bg-black text-white">
       {/* Show video */}
       <VideoPlayer
-        urlvideo={movieData?.movie.url_video}
-        urlvideo_img={movieData?.movie.img_video}
+        urlvideo={movieData?.data.url_video}
+        urlvideo_img={movieData?.data.img_video}
       />
 
       <div className="mx-28 grid max-w-[85rem] grid-cols-1 gap-10 py-6 pt-2 md:grid-cols-4">
@@ -93,25 +94,25 @@ const MovieDetailPage = () => {
           {/* Movie Detail */}
           <div className="flex items-start space-x-6">
             <img
-              src={movieData?.movie.img}
-              alt={movieData?.movie.name}
+              src={movieData?.data.img}
+              alt={movieData?.data.name}
               className="z-40 -mt-32 w-[350px] rounded-lg object-cover shadow-lg md:h-[450px]"
             />
             <div className="w-full">
               <div className="flex items-end justify-between">
                 <h1 className="text-3xl font-bold text-gray-200">
-                  {movieData?.movie.name}
+                  {movieData?.data.name}
                 </h1>
               </div>
-              {movieData?.movie.age_limit ? (
+              {movieData?.data.age_limit ? (
                 <div className="age mb-2 mt-2 flex items-center text-sm text-gray-300">
                   <span className="mr-2 rounded-full bg-red-500 p-1 px-2 font-bold text-white">
-                    {movieData.movie.age_limit}+
+                    {movieData.data.age_limit}+
                   </span>
                   <p className="flex items-center">
                     Phim được phổ biến từ người xem{" "}
                     <span className="mx-1 font-bold text-yellow-300">
-                      {movieData.movie.age_limit}+
+                      {movieData.data.age_limit}+
                     </span>{" "}
                     tuổi trở lên
                   </p>
@@ -137,29 +138,29 @@ const MovieDetailPage = () => {
                   <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                 </svg>
                 <p className="text-xl font-bold text-white">
-                  {movieData?.movie.rating}
+                  {movieData?.data.rating}
                 </p>
                 <span className="text-md ml-2 font-medium text-gray-300">
-                  ({movieData?.movie.votes} lượt đánh giá)
+                  ({movieData?.data.votes} lượt đánh giá)
                 </span>
               </div>
               <div className="mt-2 flex items-center gap-5 text-sm text-gray-300">
                 <div className="flex items-center">
                   <FaClock className="mr-1 text-white" />
-                  <span>{movieData?.movie.duration} phút</span>
+                  <span>{movieData?.data.duration} phút</span>
                 </div>
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="mr-1 text-white" />
-                  <span>Quốc gia: {movieData?.movie.country}</span>
+                  <span>Quốc gia: {movieData?.data.country}</span>
                 </div>
                 <div className="flex items-center">
                   <FaQuoteLeft className="mr-1 text-white" />
-                  <span> Phụ đề : {movieData?.movie.subtitles}</span>
+                  <span> Phụ đề : {movieData?.data.subtitles}</span>
                 </div>
                 <div className="flex items-center">
                   <FaQuoteLeft className="mr-1 text-white" />
                   <span>
-                    Ngày khởi chiếu : {formatDate(movieData?.movie.release_date)}
+                    Ngày khởi chiếu : {formatDate(movieData?.data.release_date)}
                   </span>
                 </div>
               </div>
@@ -168,12 +169,12 @@ const MovieDetailPage = () => {
                 <div className="mt-2">
                   <span className="text-white">
                     {" "}
-                    Nhà sản xuất : {movieData?.movie.producer}{" "}
+                    Nhà sản xuất : {movieData?.data.producer}{" "}
                   </span>
                 </div>
                 <div className="mt-2">
                   <span className="text-white">Thể Loại: </span>
-                  {genre_moviesData?.genres.map((movie) => {
+                  {genre_moviesData?.data.map((movie) => {
                     return (
                       <Link
                         to={'/cinema/genrefilm/'+movie.genre_id._id}
@@ -188,12 +189,12 @@ const MovieDetailPage = () => {
                 <div className="mt-2">
                   <span className="text-white">Đạo diễn:</span>
                   <button className="ml-3 rounded border border-gray-700 px-2 py-1 text-white hover:bg-gray-700">
-                    {movieData?.movie.director}
+                    {movieData?.data.director}
                   </button>
                 </div>
                 <div className="mt-2">
                   <span className="mr-2 text-white">Diễn viên:</span>
-                  {actor_moviesData?.actors.map((movie) => {
+                  {actor_moviesData?.data.map((movie) => {
                     return (
                       <Link
                         to={'/cinema/actor/'+movie?.actor_id._id}

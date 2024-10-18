@@ -122,7 +122,7 @@ const ActorAdmin = () => {
   if (isError) return <div>Có lỗi xảy ra khi tải dữ liệu</div>;
 
   return (
-    <div className="container mx-auto p-5">
+    <div className=" mx-auto p-5 ml-64">
       <h1 className="mb-5 text-2xl font-bold">Quản lý Diễn viên</h1>
 
       <form onSubmit={handleSubmit} className="mb-5 text-black" encType="multipart/form-data">
@@ -241,7 +241,7 @@ const ActorAdmin = () => {
           </tr>
         </thead>
         <tbody>
-          {actors?.map((actor) => (
+          {actors?.data.map((actor) => (
             <tr key={actor._id}>
               <td>{actor.name}</td>
               <td>{actor.description}</td>

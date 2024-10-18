@@ -64,7 +64,7 @@ const Actor_Movie = () => {
   }
 
   return (
-    <div className="p-6 min-h-screen">
+    <div className="p-6 ml-64 min-h-screen">
       <h1 className="text-2xl font-bold mb-4">Quản Lý Diễn Viên Phim</h1>
 
       {/* Movie Selection */}
@@ -76,7 +76,7 @@ const Actor_Movie = () => {
           className="mt-2 p-2 border border-gray-300 rounded w-full text-black"
         >
           <option value="">Chọn một bộ phim</option>
-          {moviesData?.movies?.map((movie) => (
+          {moviesData?.data?.map((movie) => (
             <option key={movie._id} value={movie._id}>
               {movie.name}
             </option>
@@ -88,7 +88,7 @@ const Actor_Movie = () => {
       <div className="mb-4">
         <h2 className="text-xl font-semibold">Thêm Diễn Viên vào Phim</h2>
         <div className="mt-2">
-          {actorsData?.map((actor) => (
+          {actorsData?.data.map((actor) => (
             <div key={actor._id} className="flex items-center mb-2">
               <input
                 type="checkbox"
@@ -121,7 +121,7 @@ const Actor_Movie = () => {
         <h2 className="text-xl font-semibold">Tất Cả Các Mối Quan Hệ Diễn Viên-Phim</h2>
         {actorMovieError && <div className="text-red-500">Failed to load actor-movie relationships: {actorMovieError.message}</div>}
         <ul className="list-disc pl-5">
-          {actorMovieData?.actorMovies.map((item) => (
+          {actorMovieData?.data.map((item) => (
             <li key={item._id} className="flex justify-between items-center mb-2">
               Phim: {item?.movie_id?.name} - Diễn viên: {item?.actor_id?.name}
               <div>

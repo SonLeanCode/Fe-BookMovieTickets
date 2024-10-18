@@ -53,7 +53,7 @@ const Actordetail = () => {
           <span className="mx-2">/</span>
         </li>
         <li className="text-gray-300">
-          {actorData?.name || "Đang tải..."}
+          {actorData?.data.name || "Đang tải..."}
         </li>
       </ol>
     </nav>
@@ -70,8 +70,8 @@ const Actordetail = () => {
             >
               <div className="flex-shrink-0">
                 <img
-                  src={actorData?.feature_img || notfound_img}
-                  alt={actorData?.name}
+                  src={actorData?.data.feature_img || notfound_img}
+                  alt={actorData?.data.name}
                   className="rounded-md object-cover"
                   style={{ width: "255px", height: "384px" }}
                 />
@@ -79,7 +79,7 @@ const Actordetail = () => {
               <div className="ml-4 flex flex-1 flex-col">
               <Breadcrumb />
                 <h2 className="text-4xl font-semibold text-gray-200">
-                  {actorData?.name}
+                  {actorData?.data.name}
                 </h2>
                 <div className="my-2 flex items-center">
                   <button
@@ -89,22 +89,22 @@ const Actordetail = () => {
                     <i className="fa-regular fa-thumbs-up"></i> Thích
                   </button>
                   <div className="ml-4 rounded-sm bg-gray-200 px-2 text-black">
-                    <i className="fa-solid fa-eye"></i> {actorData?.views}
+                    <i className="fa-solid fa-eye"></i> {actorData?.data.views}
                   </div>
                 </div>
-                <p className="text-gray-300">{actorData?.description}</p>
+                <p className="text-gray-300">{actorData?.data.description}</p>
                 <ul className="mt-6 text-md font-semibold">
                   <li className="mb-2">
                     <span className="text-gray-300">Ngày sinh: </span>
-                    <span>{formatDate(actorData?.date_of_birth)}</span>
+                    <span>{formatDate(actorData?.data.date_of_birth)}</span>
                   </li>
                   <li className="mb-2">
                     <span className="text-gray-300">Chiều cao: </span>
-                    <span>{actorData?.height} cm</span>
+                    <span>{actorData?.data.height} cm</span>
                   </li>
                   <li className="mb-2">
                     <span className="text-gray-300">Quốc tịch: </span>
-                    <span>{actorData?.nationality}</span>
+                    <span>{actorData?.data.nationality}</span>
                   </li>
                 </ul>
               </div>
@@ -118,7 +118,7 @@ const Actordetail = () => {
                HÌNH ẢNH
               </h2> 
               
-              {!actorData?.sub_img || actorData.sub_img.length === 0 ? (
+              {!actorData?.data.sub_img || actorData.data.sub_img.length === 0 ? (
                 <p className="text-md mt-4 text-center font-semibold text-white">
                   Đang cập nhật
                 </p>
@@ -132,7 +132,7 @@ const Actordetail = () => {
                     ‹-
                   </button>
                   <div className="flex gap-4">
-                    {actorData?.sub_img && actorData?.sub_img
+                    {actorData?.data.sub_img && actorData?.data.sub_img
                       .slice(currentIndex, currentIndex + imagesPerSlide)
                       .map((src, index) => (
                         <img
@@ -147,7 +147,7 @@ const Actordetail = () => {
                     onClick={handleNext}
                     className="absolute right-0 rounded-full border p-2 text-white hover:bg-gray-600 disabled:opacity-50"
                     disabled={
-                      currentIndex + imagesPerSlide >= actorData?.sub_img.length
+                      currentIndex + imagesPerSlide >= actorData?.data.sub_img.length
                     }
                   >
                     -›
@@ -161,11 +161,11 @@ const Actordetail = () => {
               <span className="border-l-4 border-solid border-red-600 mr-2"></span>
                 PHIM ĐÃ THAM GIA
               </h2>
-              {movieByActorData?.movies.length === 0 ? (
+              {movieByActorData?.data.length === 0 ? (
                 <p className="mt-4 text-gray-300">Đang cập nhật</p>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                  {movieByActorData?.movies.map((data) => (
+                  {movieByActorData?.data.map((data) => (
                     <div
                       key={data?.movie_id._id}
                       className="flex items-start rounded-lg p-4"
@@ -200,7 +200,7 @@ const Actordetail = () => {
                 TIỂU SỬ
               </h2>
               <p className="text-md mt-4 text-center font-semibold text-white">
-                {actorData?.biography}
+                {actorData?.data.biography}
               </p>
             </div>
           </div>

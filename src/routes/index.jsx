@@ -43,6 +43,7 @@ import Actor_Movie from "../pages/Admin/ActorAdmin/Actor_Movie";
 import Movie_Management from "../pages/Admin/Movie_Management";
 import Genre_Management from "../pages/Admin/Genre_Management";
 import Actor_Management from "../pages/Admin/Actor_Management";
+import ActorAdmin from "../pages/Admin/ActorAdmin/ActorAdmin";
 
 
 export default function AppRoutes() {
@@ -118,6 +119,7 @@ export default function AppRoutes() {
               <Route path="cinema/test" element={<CinemaAdmin />} />
               <Route path="genre/test" element={<GenreAdmin />} />
               <Route path="genre_movies/test" element={<Genre_Movie />} />
+              <Route path="actor/test" element={<ActorAdmin />} />
               <Route path="actor_movies/test" element={<Actor_Movie />} />
             </Route>
           </Route>

@@ -35,7 +35,7 @@ const Movie_Management = () => {
   const [deleteMovie] = useDeleteMovieMutation();
 
   // Lọc phim theo từ khóa tìm kiếm
-  const filteredMovies = movies?.data.filter((movie) =>
+  const filteredMovies = movies?.data?.filter((movie) =>
     movie.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
