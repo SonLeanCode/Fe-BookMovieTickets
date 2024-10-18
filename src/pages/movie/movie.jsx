@@ -13,7 +13,7 @@ const Movie = () => {
                             <div className="flex justify-center items-center space-x-4 my-2 text-xl ">
                                 <Link className="text-orange-600 cursor-pointer">Đang chiếu</Link>
                                 <Link className="text-white cursor-pointer">Sắp chiếu</Link>
-                                <Link className="text-white cursor-pointer">Phim IMAX</Link>
+                                <Link className="text-white cursor-pointer">Phim Imax</Link>
                             </div>
                         </div>
                     </div>

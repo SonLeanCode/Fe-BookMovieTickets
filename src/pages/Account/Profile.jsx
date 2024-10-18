@@ -39,7 +39,7 @@ const Profile = () => {
         <div className="p-28 px-20">
             <h1 className="text-3xl pb-4 uppercase font-semibold">Thông tin cá nhân</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16"> 
-            <div className="bg-black p-6 rounded-lg shadow-lg " style={{boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)',}} >
+            <div className="bg-slate-900 p-6 rounded-lg shadow-lg " style={{boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)',}} >
             <div className='flex items-center justify-center space-x-4'> 
                 <div className="flex flex-col items-center"> 
                     {userInfo.image && (
@@ -148,31 +148,31 @@ const Profile = () => {
                         <hr className="border-t border-gray-300 my-3" />
                         <div className="flex-1  rounded-lg p-2"style={{boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)',}}>
                             {activeTab === 'profile' && (
-                                <div className=" p-6 bg-black shadow-lg rounded-lg">
+                                <div className=" p-6 bg-slate-900 shadow-lg rounded-lg">
                                     <form className="space-y-6">
                                         {/* Name and Date of Birth */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
                                             <label className="block text-sm font-medium text-white">Họ và tên</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-500"><i class="fa-solid fa-user"></i></span>
+                                            <span className="material-icons text-gray-900"><i class="fa-solid fa-user"></i></span>
                                             <input
                                                 type="text"
                                                 value="Tuấn Nguyễn"
                                                 disabled
-                                                className="ml-2 flex-1 bg-transparent text-gray-400 focus:outline-none"
+                                                className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                             />
                                             </div>
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-white">Ngày sinh</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-500"><i class="fa-regular fa-calendar"></i></span>
+                                            <span className="material-icons text-gray-900"><i class="fa-regular fa-calendar"></i></span>
                                             <input
                                                 type="text"
                                                 value="03/12/2004"
                                                 disabled
-                                                className="ml-2 flex-1 bg-transparent text-gray-400 focus:outline-none"
+                                                className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                             />
                                             </div>
                                         </div>
@@ -183,12 +183,12 @@ const Profile = () => {
                                         <div>
                                             <label className="block text-sm font-medium text-white">Email</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-500"><i class="fa-solid fa-envelope"></i></span>
+                                            <span className="material-icons text-gray-900"><i class="fa-solid fa-envelope"></i></span>
                                             <input
                                                 type="email"
                                                 value="nqtuan1123@gmail.com"
                                                 disabled
-                                                className="ml-2 flex-1 bg-transparent text-gray-400 focus:outline-none"
+                                                className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                             />
                                             <a href="#" className="ml-2 text-orange-500 text-sm">Thay đổi</a>
                                             </div>
@@ -196,12 +196,12 @@ const Profile = () => {
                                         <div>
                                             <label className="block text-sm font-medium text-white">Phone</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-500"><i class="fa-solid fa-phone"></i></span>
+                                            <span className="material-icons text-gray-900"><i class="fa-solid fa-phone"></i></span>
                                             <input
                                                 type="text"
                                                 value="0376395095"
                                                 disabled
-                                                className="ml-2 flex-1 bg-transparent text-gray-400  focus:outline-none"
+                                                className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                             />
                                             </div>
                                         </div>
@@ -234,7 +234,7 @@ const Profile = () => {
                                                 type="password"
                                                 value="********"
                                                 disabled
-                                                className="ml-2 flex-1 w-full bg-transparent text-gray-400 focus:outline-none relative"
+                                                className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                             />
                                             <a href="#" className="ml-2 text-orange-500 text-sm absolute right-36">Thay đổi</a>
                                             </div>
