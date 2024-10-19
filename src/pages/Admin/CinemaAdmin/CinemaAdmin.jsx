@@ -45,7 +45,7 @@ const CinemaAdmin = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="ml-64 mx-auto p-4">
       <h2 className="text-xl font-bold mb-4">Cinema Management</h2>
 
       {/* Form for adding/editing cinema */}
@@ -77,7 +77,7 @@ const CinemaAdmin = () => {
           ) : errorRegions ? (
             <option>Error loading regions!</option>
           ) : (
-            regions?.regions.map((region) => (
+            regions?.data.map((region) => (
               <option key={region._id} value={region._id}>
                 {region.name}
               </option>
@@ -127,7 +127,7 @@ const CinemaAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            {cinemas?.cinemas.map((cinema, index) => (
+            {cinemas?.data.map((cinema, index) => (
               <tr key={cinema._id}>
                 <td className="border px-4 py-2">{index + 1}</td>
                 <td className="border px-4 py-2">{cinema.name}</td>

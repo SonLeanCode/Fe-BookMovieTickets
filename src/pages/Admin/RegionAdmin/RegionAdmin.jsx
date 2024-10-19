@@ -8,7 +8,7 @@ import {
 import { FaEdit, FaTrashAlt, FaPlus } from 'react-icons/fa';
 
 const RegionAdmin = () => {
-  const { data, isLoading, isError, refetch } = useGetAllRegionsQuery();
+  const { data: regionData, isLoading, isError, refetch } = useGetAllRegionsQuery();
   const [addRegion] = useAddRegionMutation();
   const [updateRegion] = useUpdateRegionMutation();
   const [deleteRegion] = useDeleteRegionMutation();
@@ -45,7 +45,7 @@ const RegionAdmin = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="ml-64 mx-auto p-4">
       <h2 className="text-xl font-bold mb-4">Region Management</h2>
 
       {/* Form for adding/editing region */}
@@ -97,7 +97,7 @@ const RegionAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.regions.map((region, index) => (
+            {regionData?.data.map((region, index) => (
               <tr key={region._id}>
                 <td className="border px-4 py-2">{index + 1}</td>
                 <td className="border px-4 py-2">{region.name}</td>
