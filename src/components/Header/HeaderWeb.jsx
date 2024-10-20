@@ -246,7 +246,7 @@ const HeaderWeb = () => {
             className="relative flex items-center justify-center p-2 mb-3 text-white transition-colors duration-200 hover:bg-red-600 rounded-md"
             onClick={() => setMobileMenuOpen(false)}
           >
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <i className="fa-solid fa-arrow-right-from-bracket"></i>
           </button>
               <form onSubmit={handleSearch}>
                 <input
