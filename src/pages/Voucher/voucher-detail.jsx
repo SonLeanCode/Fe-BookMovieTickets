@@ -34,7 +34,7 @@ class MovieTicketBlog extends Component {
             views: 10,
             name: "Pulp Fiction",
             image:
-              "https://www.theoriginalunderground.com/cdn/shop/products/pulp-fiction-film-poster-print-281196_1024x.jpg?v=1661524235",
+              "https://i.pinimg.com/enabled_hi/564x/89/41/e7/8941e71464be8fe81ade92a86817338e.jpg",
             rating: "8.9",
           },
       ];
@@ -42,8 +42,8 @@ class MovieTicketBlog extends Component {
     render() {
         return (
             <>
-                <div className="flex mt-10 p-10">
-                    <div className="w-2/3">
+                <div className="flex md:flex md:flex-row flex-col  bg-gray-900 md:p-10 p-0 md:pt-14 pt-36">
+                    <div className="md:w-2/3 w-full">
                         <div className="p-8">
                             <div>
                                 <div className="mb-4">
@@ -93,7 +93,7 @@ class MovieTicketBlog extends Component {
                                         <span className='text-slate-400'>_ VÉ XEM PHIM _</span>
                                         <h2 className="mt-2 text-2xl uppercase font-medium">Bộ phim được yêu thích</h2>
                                     </div>
-                                    <div className="mt-5 flex h-64 justify-between">
+                                    <div className="mt-5 md:flex md:flex-row md:gap-0 md:h-64 h-3/5 gap-5 justify-evenly flex flex-col">
                                         {this.movies.map((movie) => (
                                                 <div key={movie.id} className="top-movie-card">
                                                     <img
@@ -127,7 +127,7 @@ class MovieTicketBlog extends Component {
                         </div>
                     </div>
 
-                    <div className="w-1/3 mt-10 pl-4">
+                    <div className="md:w-1/3 w-full mt-10 pl-4">
                         <h5>Các Sự kiện cùng chủ đề</h5>
                         <div className="h-px bg-gray-300 my-4 opacity-25"></div>
                         <div>

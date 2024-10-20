@@ -28,7 +28,7 @@
     font-family: 'Oswald', sans-serif;
     text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
-    margin-left:8%;
+    margin-left:6%;
     position: relative;
     display: inline-block;
     padding-bottom: 10px; /* Khoảng cách giữa text và line */
@@ -152,20 +152,21 @@
   
   /* Section "Top Phim Hot" */
   .top-movie-section h3 {
+    max-width: 96%;
     font-family: 'Oswald', sans-serif;
     font-size: 2rem;
     color: #ff0000;
     text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
-    margin-left: 8%;
+    margin-left: 10%;
     letter-spacing: 2px;
     position: relative;
     padding-bottom: 1.5rem;
   }
   .top-movie-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Hiển thị 5 cột */
-    gap: 1.5rem; /* Khoảng cách giữa các box phim */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
     padding: 1rem;
   }
   .top-movie-container {
@@ -260,16 +261,7 @@
     background-color: #2a2a2a;
     overflow: hidden; 
   }
-  .hot-monthly-movies {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.3rem;
-    color: #ff4500; /* Màu cam đỏ để nổi bật */
-    margin-left: 9%; /* Khoảng cách với phần trái */
-    margin-top: -2rem; /* Khoảng cách với phần dưới */
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-shadow: 0 0 8px rgba(255, 69, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.8); /* Hiệu ứng ánh sáng */
-  }
+
   
   
   .top-movie-card:hover .overlay {
@@ -419,7 +411,7 @@
     color: #ff0000;
     text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
-    margin-left: 1%;
+    margin-left: 2%;
     letter-spacing: 2px;
     position: relative;
     padding-bottom: 1.5rem;

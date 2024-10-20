@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const CheapTicket = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Trạng thái ẩn/hiện danh mục

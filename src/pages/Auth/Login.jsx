@@ -37,8 +37,8 @@ const Login = () => {
       }).unwrap();
 
       localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("user", JSON.stringify(response.user));
-      navigate(response.user.role === "user" ? "/cinema" : "/admin");
+      localStorage.setItem("user", JSON.stringify(response?.data));
+      navigate(response?.data.role === "user" ? "/cinema" : "/admin");
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -51,8 +51,8 @@ const Login = () => {
       }).unwrap();
 
       localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("user", JSON.stringify(response.user));
-      navigate(response.user.role === "user" ? "/cinema" : "/admin");
+      localStorage.setItem("user", JSON.stringify(response?.data));
+      navigate(response?.data.role === "user" ? "/cinema" : "/admin");
     } catch (error) {
       console.error("Google login error:", error);
     }
@@ -65,8 +65,8 @@ const Login = () => {
         const fbResponse = await facebookLogin({token: accessToken}).unwrap(); // Send token to the backend
 
         localStorage.setItem("accessToken", fbResponse.accessToken);
-        localStorage.setItem("user", JSON.stringify(fbResponse.user));
-        navigate(fbResponse.user.role === "user" ? "/cinema" : "/admin");
+        localStorage.setItem("user", JSON.stringify(fbResponse?.data));
+        navigate(fbResponse?.data.role === "user" ? "/cinema" : "/admin");
       } else {
         console.error("Facebook login failed:", response);
       }

@@ -10,23 +10,22 @@ import {
   PlusIcon,
   HomeIcon,
   CogIcon,
-  ArrowUpCircleIcon,
   Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
 
 const FooterWeb = () => {
   return (
     <>    
-    <footer className="bg-slate-950 text-white py-10 p-20">
+    <footer className="bg-slate-950 text-white py-10 md:p-20 p-10">
       <div className="container mx-auto">
         <div className="flex flex-wrap justify-between">
           {/* Left section */}
-          <div className="w-1/4 flex flex-col justify-between">
+          <div className="md:w-1/4 w-full flex flex-col justify-between">
             <div>
               <h2 className="text-5xl font-bold text-red-600 mb-4">ST-FLIX</h2>
               <p> Vé phim giá rẻ, đa dạng thể loại, trải nghiệm giải trí tuyệt vời!</p>
             </div>
-            <img src={logo} className="w-48 h-16" alt="" />
+            <img src={logo} className="w-48 h-16 md:block hidden" alt="" />
           </div>
           <div>
           </div>
@@ -42,34 +41,24 @@ const FooterWeb = () => {
                 </IconButton>
               </SpeedDialHandler>
               <SpeedDialContent>
-
-                <a href="#header">
-                  <SpeedDialAction className="bg-gray-900 p-2 mb-3">
-                    <ArrowUpCircleIcon className="h-5 w-5" />
-                  </SpeedDialAction>
-                </a>
-
                 <a href="/cinema">
                   <SpeedDialAction className="bg-gray-900 p-2 mb-3">
                     <HomeIcon className="h-5 w-5" />
                   </SpeedDialAction>
                 </a>
-
                 <SpeedDialAction className="bg-gray-900 p-2 mb-3">
                   <CogIcon className="h-5 w-5" />
                 </SpeedDialAction>
-
                 <SpeedDialAction className="bg-gray-900 p-2 mb-3">
                   <Square3Stack3DIcon className="h-5 w-5" />
                 </SpeedDialAction>
-        
               </SpeedDialContent>
             </SpeedDial>
           </div>
         </div>
 
           {/* Links Section */}
-          <div className="flex flex-wrap justify-evenly w-3/4">
+          <div className="flex flex-wrap justify-between text-center md:text-start md:w-3/4 w-full mt-5 md:mt-0">
             {/* Products */}
             <div className="mr-10">
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Sản phẩm</h3>
@@ -84,7 +73,7 @@ const FooterWeb = () => {
             </div>
             
             {/* Business */}
-            <div className="mr-10">
+            <div className="md:mr-10">
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Doanh nghiệp</h3>
               <ul className='flex flex-col gap-2'>
                 <li className="hover:text-red-400 transition-colors duration-300" >Xem thêm</li>
@@ -97,7 +86,7 @@ const FooterWeb = () => {
             </div>
 
             {/* Resources */}
-            <div className="mr-10">
+            <div className="mr-10 mt-7 md:mt-0">
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Tài nguyên</h3>
               <ul className='flex flex-col gap-2'>
                 <li className="hover:text-red-400 transition-colors duration-300" >Báo chí</li>
@@ -110,7 +99,7 @@ const FooterWeb = () => {
             </div>
 
             {/* Social */}
-            <div className="mr-10">
+            <div className="mr-10 mt-7 md:mt-0">
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Xã hội</h3>
               <ul className='flex flex-col gap-2'>
                 <li className="hover:text-red-400 transition-colors duration-300" >Twitter</li>
@@ -123,7 +112,7 @@ const FooterWeb = () => {
             </div>
 
             {/* Policies */}
-            <div>
+            <div className='mt-7 md:mt-0'>
               <h3 className="ffont-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Chính sách</h3>
               <ul className='flex flex-col gap-2'>
                 <li className="hover:text-red-400 transition-colors duration-300" >Điều khoản</li>
@@ -132,6 +121,8 @@ const FooterWeb = () => {
                 <li className="hover:text-red-400 transition-colors duration-300" >Giấy phép</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >Cài đặt</li>
               </ul>
+              <img src={logo} className="mt-7 md:mt-0 w-48 h-16 md:hidden" alt="" />
+
             </div>
           </div>
         </div>
@@ -155,6 +146,7 @@ const FooterWeb = () => {
             <a href="#" className="text-white hover:text-gray-400">
               <i className="fab fa-dribbble"></i>
             </a>
+            
           </div>
         </div>
       </div>

@@ -1,17 +1,30 @@
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { Button } from "react-daisyui";
-import "./Home.css"
-import {
-  FaHeart,
-  FaStar,
-  FaTicketAlt,
-} from "react-icons/fa";
+import "./Home.css";
+import { FaHeart, FaStar, FaTicketAlt } from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { useGetLatestMoviesByCreationDateQuery } from "../../services/Movies/movies.services";
+import Banner from "../../components/Home/Banner";
+import Modal_Video from "../../components/Movie/Modal_Video";
+import LoadingLocal from "../Loading/LoadingLocal";
 
 const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
+  const { data: latestMovies, isLoading: latestMoviesLoading } = useGetLatestMoviesByCreationDateQuery();
+
+  const handleTrailerClick = (url) => {
+    setVideoUrl(url);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setVideoUrl("");
+  };
 
   const carouselBanners = [
     {
@@ -23,7 +36,8 @@ const Home = () => {
       genres: ["Action", "Adventure", "Drama"],
       seasons: 3,
       releaseYear: 2020,
-      bannerUrl: "https://i.ytimg.com/vi/AXesMuuI0tE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAO0zNnWjtkmXgvcgIuPMFQitmgCQ",
+      bannerUrl:
+        "https://i.ytimg.com/vi/AXesMuuI0tE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAO0zNnWjtkmXgvcgIuPMFQitmgCQ",
       description:
         "Join the thrilling adventures of a group of heroes as they journey through unknown lands.",
     },
@@ -36,7 +50,8 @@ const Home = () => {
       genres: ["Mystery", "Thriller", "Horror"],
       seasons: 1,
       releaseYear: 2021,
-      bannerUrl: "https://m.media-amazon.com/images/M/MV5BODUzNzRhNjUtYjk4NC00ODY2LWI4NjktZmIyZjc3NjgzYjBhXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_.jpg",
+      bannerUrl:
+        "https://m.media-amazon.com/images/M/MV5BODUzNzRhNjUtYjk4NC00ODY2LWI4NjktZmIyZjc3NjgzYjBhXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_.jpg",
       description:
         "A spine-chilling tale that will keep you on the edge of your seat. Discover the secrets hidden in the dark.",
     },
@@ -49,7 +64,8 @@ const Home = () => {
       genres: ["Romance", "Comedy", "Drama"],
       seasons: 2,
       releaseYear: 1999,
-      bannerUrl: "https://media.senscritique.com/media/000020087690/0/love_in_the_city.jpg",
+      bannerUrl:
+        "https://media.senscritique.com/media/000020087690/0/love_in_the_city.jpg",
       description:
         "A heartwarming story about love, friendship, and the journey of life in the bustling city.",
     },
@@ -62,7 +78,8 @@ const Home = () => {
       genres: ["Fantasy", "Adventure"],
       seasons: 4,
       releaseYear: 2002,
-      bannerUrl: "https://images.nightcafe.studio/jobs/0xu0X3VOF13QitP08kgP/0xu0X3VOF13QitP08kgP--1--hud01.jpg?tr=w-1600,c-at_max",
+      bannerUrl:
+        "https://images.nightcafe.studio/jobs/0xu0X3VOF13QitP08kgP/0xu0X3VOF13QitP08kgP--1--hud01.jpg?tr=w-1600,c-at_max",
       description:
         "Step into a world of magic, dragons, and epic quests in this breathtaking fantasy series.",
     },
@@ -75,10 +92,11 @@ const Home = () => {
       genres: ["Sci-Fi", "Adventure"],
       seasons: 5,
       releaseYear: 2008,
-      bannerUrl: "https://media.senscritique.com/media/000017560335/0/explorers.jpg",
+      bannerUrl:
+        "https://media.senscritique.com/media/000017560335/0/explorers.jpg",
       description:
         "Explore the wonders of the universe with a group of young scientists on their quest for knowledge.",
-    }
+    },
   ];
 
   const movies = [
@@ -174,7 +192,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [carouselBanners.length]);
 
-
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -196,42 +213,36 @@ const Home = () => {
   };
 
   const handleScroll = (direction) => {
-    const container = document.getElementById('movie-list');
-    const boxWidth = container.querySelector('.movie-card').offsetWidth; // Lấy kích thước của 1 box phim
+    const container = document.getElementById("movie-list");
+    const boxWidth = container.querySelector(".movie-card").offsetWidth; // Lấy kích thước của 1 box phim
     const scrollAmount = boxWidth * 5; // Cuộn qua 5 box phim
 
-    if (direction === 'left') {
-      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    if (direction === "left") {
+      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
     } else {
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
 
+  if(latestMoviesLoading){
+    return <LoadingLocal />
+  }
 
 
+  // hiển thị cửa sô popup 
+  
 
   return (
-
+    
     <div className="bg-black text-gray-100">
       <main className="bg-black">
+      <EventPopup /> {/* Thêm dòng này để hiển thị popup */}
         <section className="relative mb-12 bg-black">
           {/* Banner */}
-          <div className="relative h-screen w-full overflow-hidden">
-            {carouselBanners.map((banner, index) => (
-              <div
-                key={banner.id}
-                className={`absolute inset-0 h-full w-full transition-transform duration-[800ms] ease-in-out ${currentBannerIndex === index
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-full opacity-0"
-                  }`}
-                style={{
-                  backgroundImage: `url(${banner.bannerUrl})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              ></div>
-            ))}
-          </div>
+          <Banner
+            banners={carouselBanners}
+            currentBannerIndex={currentBannerIndex}
+          />
 
           <div className="absolute top-0 h-screen w-1/2">
             {/* Giới thiệu phim */}
@@ -239,10 +250,11 @@ const Home = () => {
               {carouselBanners.map((banner, index) => (
                 <div
                   key={banner.id}
-                  className={`absolute ml-20 transition-transform duration-1000 ease-in-out ${currentBannerIndex === index
+                  className={`absolute ml-20 transition-transform duration-1000 ease-in-out ${
+                    currentBannerIndex === index
                       ? "translate-x-0 opacity-100"
                       : "translate-x-full opacity-0"
-                    }`}
+                  }`}
                 >
                   <h2 className="text-lg font-semibold">
                     {banner.genres.join(" | ")}
@@ -288,7 +300,7 @@ const Home = () => {
                     className="relative top-1 mr-2 rounded-full border border-solid p-1 hover:opacity-[0.5]"
                     onClick={goToPrevious}
                   >
-                    <AiOutlineLeft className="text-sm " />
+                    <AiOutlineLeft className="text-sm" />
                   </button>
                   <button
                     className="relative top-1 mr-2 rounded-full border border-solid p-1 hover:opacity-[0.5]"
@@ -317,7 +329,9 @@ const Home = () => {
                         className="h-[205px] w-40 cursor-pointer rounded-md object-fill"
                         onClick={() => handleBannerIndex(index)}
                       />
-                      <h2 className="mt-2 text-center text-sm font-semibold text-gray-300 ">{movie.title}</h2>
+                      <h2 className="mt-2 text-center text-sm font-semibold text-gray-300">
+                        {movie.title}
+                      </h2>
                     </div>
                   </div>
                 ))}
@@ -326,22 +340,38 @@ const Home = () => {
           </div>
         </section>
 
-
         <section className="movie-section relative">
           <div className="containe mx-auto px-4">
-            <h3 className="section-title mb-6 text-4xl font-bold">| Xu hướng hiện nay</h3>
-            <div className="flex justify-center items-center px-8 relative" style={{ width: '90%', marginLeft: '5%' }}>
+            <h3 className="section-title mb-6 text-4xl font-bold">
+              | Xu hướng hiện nay
+            </h3>
+            <div
+              className="relative flex items-center justify-center px-8"
+              style={{ width: "94%", marginLeft: "3%" }}
+            >
               <button
-                className="absolute left-0 bg-red-600 text-white p-3 rounded-full z-10"
-                style={{ top: '50%', transform: 'translateY(-50%)', marginLeft: '-2%' }}
-                onClick={() => handleScroll('left')}
+                className="absolute left-0 z-10 rounded-full bg-red-600 p-3 text-white"
+                style={{
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  marginLeft: "-2%",
+                }}
+                onClick={() => handleScroll("left")}
               >
                 <AiOutlineLeft size={24} />
               </button>
-              <div className="flex overflow-x-auto hide-scrollbar w-full" id="movie-list" style={{ padding: '0 10px' }}>
+              <div
+                className="hide-scrollbar flex w-full overflow-x-auto"
+                id="movie-list"
+                style={{ padding: "0 10px" }}
+              >
                 <div className="flex space-x-9">
                   {movies.slice(0, 10).map((movie) => (
-                    <div key={movie.id} className="movie-card flex-none relative overflow-hidden" style={{ width: 'calc(19% - 1rem)', flexShrink: 0 }}>
+                    <div
+                      key={movie.id}
+                      className="movie-card relative flex-none overflow-hidden"
+                      style={{ width: "calc(19% - 1rem)", flexShrink: 0 }}
+                    >
                       <img
                         src={movie.image}
                         alt={movie.name}
@@ -349,17 +379,31 @@ const Home = () => {
                       />
                       <div className="overlay">
                         <div className="overlay-content">
-                          <h4 className="movie-name" style={{ color: 'red', fontWeight: 'bold' }}>{movie.name}</h4>
-                          <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                          <h4
+                            className="movie-name"
+                            style={{ color: "red", fontWeight: "bold" }}
+                          >
+                            {movie.name}
+                          </h4>
+                          <p className="movie-rating">
+                            Đánh giá: {movie.rating}
+                          </p>
                           <button className="overlay-favorite">
-                            <FaHeart /><br></br>
+                            <FaHeart />
+                            <br></br>
                           </button>
                           <div className="button-container flex flex-col space-y-4">
-                            <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
-                              Trailer <i className="ml-1 fas fa-video"></i>
+                            <Link
+                              to="/cinema/detail"
+                              className="overlay-btn-xh w-38 py-2 text-center text-white"
+                            >
+                              Trailer <i className="fas fa-video ml-1"></i>
                             </Link>
-                            <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
-                              Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                            <Link
+                              to="/"
+                              className="overlay-btn-xh w-38 x` py-2 text-center text-white"
+                            >
+                              Mua vé <i className="fas fa-ticket-alt ml-1"></i>
                             </Link>
                           </div>
                         </div>
@@ -371,9 +415,13 @@ const Home = () => {
 
               {/* Nút phải */}
               <button
-                className="absolute right-0 bg-red-600 text-white p-3 rounded-full z-10"
-                style={{ top: '50%', transform: 'translateY(-50%)', marginRight: '-2%' }}
-                onClick={() => handleScroll('right')}
+                className="absolute right-0 z-10 rounded-full bg-red-600 p-3 text-white"
+                style={{
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  marginRight: "-2%",
+                }}
+                onClick={() => handleScroll("right")}
               >
                 <AiOutlineRight size={24} />
               </button>
@@ -383,62 +431,90 @@ const Home = () => {
 
         <div className="section-divider-animation"></div>
 
-        <section className="container mx-auto my-10 flex justify-center w-full">
-          <div className="w-full update-section">
-            <h3 className="mx-10 mb-6 text-5xl font-bold">| Phim mới cập nhật</h3>
-            <div className="flex flex-col lg:flex-row justify-center">
+        <section className="container mx-auto my-10 flex w-full justify-center">
+          <div className="update-section w-full">
+            <h3 className=" text-4xl  font-bold">
+              | Phim mới cập nhật
+            </h3>
+            <div className="flex flex-col justify-center lg:flex-row">
               {/* Cột trái: 1 phim */}
-              <div className="lg:w-2/5 w-full p-4 mb-8 lg:mb-0 flex flex-col justify-center items-center hover:cursor-pointer">
-                <div className="shadow-lg rounded-lg overflow-hidden flex-1 flex flex-col relative" style={{ minHeight: "200px" }}>
-                  <img
-                    src="https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg"
-                    alt="Inception"
-                    className="w-full object-cover"
-
-                  />
-                  <div className="p-2 flex-1 flex items-center justify-center">
-                    <strong className="text-xl block">Inception</strong>
-                    <p className="mt-1 text-gray-500 text-sm text-center">
-                      Bộ phim kể về một nhóm người thực hiện những vụ trộm ý tưởng trong giấc mơ.
-                    </p>
-                  </div>
-                  {/* Overlay buttons */}
-                  <div className="overlay-update overlay">
-                    <div className="button-container flex flex-col space-y-4">
-                      <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
-                        Trailer <i className="ml-1 fas fa-video"></i>
-                      </Link>
-                      <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
-                        Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                      </Link>
+              <div className="mb-8 flex w-full flex-col items-center justify-center p-4 hover:cursor-pointer lg:mb-0 lg:w-2/5">
+                {latestMovies?.data?.slice(0, 1).map((movie) => (
+                  <div
+                    key={movie._id}
+                    className="group relative flex flex-1 flex-col overflow-hidden rounded-lg shadow-lg"
+                    style={{ minHeight: "200px" }}
+                  >
+                    <img
+                      src={movie.img}
+                      alt={movie.name}
+                      className="w-full object-cover"
+                    />
+                    <div className="flex flex-1 items-center justify-center p-2">
+                      <strong className="block p-2 text-center text-xl transition-colors duration-300 group-hover:text-red-500">
+                        {movie.name}
+                      </strong>
+                    </div>
+                    {/* Overlay buttons */}
+                    <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="button-container flex flex-col space-y-4">
+                        <button
+                          onClick={() => handleTrailerClick(movie?.url_video)} // Use the movie's trailer URL
+                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                        >
+                          Trailer <i className="fas fa-video ml-1"></i>
+                        </button>
+                        <Link
+                          to={`/cinema/movie/${movie._id}`}
+                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                        >
+                          Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                ))}
 
+                {/* Modal to display video */}
+                {isModalOpen && (
+                  <Modal_Video
+                    urlvideo={videoUrl}
+                    isModalOpen={isModalOpen}
+                    handleCloseModal={handleCloseModal}
+                  />
+                )}
+              </div>
+              
               {/* Cột phải: 6 phim, 2 hàng, mỗi hàng 3 box */}
-              <div className="lg:w-3/4 w-full flex flex-wrap justify-end hover:cursor-pointer">
-                {movies.slice(1, 7).map((movie) => (
-                  <div key={movie.id} className="w-full lg:w-1/4 flex flex-col m-6">
-                    <div className="w-full shadow-md rounded-lg overflow-hidden flex-1 flex flex-col relative">
+              <div className="flex flex-wrap justify-between lg:w-3/4">
+                {latestMovies?.data?.slice(1, 9).map((movie) => (
+                  <div
+                    key={movie._id}
+                    className="m-4 flex w-full flex-col lg:w-1/4"
+                  >
+                    <div className="group relative flex h-full flex-col overflow-hidden rounded-lg shadow-md">
                       <img
-                        src={movie.image}
+                        src={movie.img}
                         alt={movie.name}
-                        className="w-full h-[250px] object-cover"
+                        className="h-[250px] w-full"
                       />
-                      <div className="p-2 flex-1 flex items-center justify-center">
-                        <strong className="block text-sm group-hover:text-red-500 transition-colors duration-300">
-                          {movie.name}
-                        </strong>
-                      </div>
+                      <strong className="block p-2 text-center text-sm transition-colors duration-300 group-hover:text-red-500">
+                        {movie.name}
+                      </strong>
                       {/* Overlay buttons */}
-                      <div className="overlay-update">
-                        <div className="button-container flex flex-col space-y-4">
-                          <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2">
-                            Trailer <i className="ml-1 fas fa-video"></i>
-                          </Link>
-                          <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
-                            Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                      <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <div className="flex flex-col">
+                        <button
+                          onClick={() => handleTrailerClick(movie?.url_video)} // Use the movie's trailer URL
+                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                        >
+                          Trailer <i className="fas fa-video ml-1"></i>
+                        </button>
+                          <Link
+                            to={"/cinema/movie/" + movie._id}
+                            className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          >
+                            Mua vé <i className="fas fa-ticket-alt ml-1"></i>
                           </Link>
                         </div>
                       </div>
@@ -450,17 +526,26 @@ const Home = () => {
           </div>
         </section>
 
-
-
         <div className="section-divider-animation"></div>
 
-        <section className="container mx-auto my-10 flex flex-col lg:flex-row justify-between w-full">
-          <div className="lg:w-8/12 w-full p-4 flex flex-col">
-            <h3 className="gy-h3 mx-10 mb-6 text-5xl font-bold"> | Phim Gợi Ý</h3>
-            <div className="grid grid-cols-3 gap-4 flex-grow hover:cursor-pointer">
+        <section className="container mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
+          <div className="flex w-full flex-col p-4 lg:w-8/12">
+            <h3 className="gy-h3 mb-6 text-4xl font-bold">
+              | Phim Gợi Ý
+            </h3>
+            <div className="grid flex-grow grid-cols-3 gap-4 hover:cursor-pointer">
               {movies.slice(0, 6).map((movie) => (
-                <div key={movie.id} className="shadow-lg rounded-lg overflow-hidden" style={{ width: '200px' }}>
-                  <img src={movie.image} alt={movie.name} className="w-full object-cover" style={{ height: "250px" }} />
+                <div
+                  key={movie.id}
+                  className="overflow-hidden rounded-lg shadow-lg"
+                  style={{ width: "200px" }}
+                >
+                  <img
+                    src={movie.image}
+                    alt={movie.name}
+                    className="w-full object-cover"
+                    style={{ height: "250px" }}
+                  />
                   <div className="p-2">
                     <strong className="block text-center">{movie.name}</strong>
                   </div>
@@ -468,13 +553,26 @@ const Home = () => {
               ))}
             </div>
           </div>
-          <div className="lg:w-4/12 w-full p-4 flex flex-col">
-            <h3 className="tt-h3 mx-10 mb-6 text-5xl font-bold"> | Top Trending</h3>
-            <div className="tt flex flex-col gap-4  flex-grow hover:cursor-pointer">
+          <div className="flex w-full flex-col p-4 lg:w-4/12">
+            <h3 className="tt-h3 mb-6 text-4xl font-bold">
+              | Top Trending
+            </h3>
+            <div className="tt flex flex-grow flex-col gap-4 hover:cursor-pointer">
               {movies.slice(0, 6).map((movie, index) => (
-                <div key={movie.id} className="flex items-center justify-right p-2 shadow-lg rounded-lg">
-                  <span className={`text-2xl font-bold mr-4 number-color-${index + 1}`}>{index + 1}</span>
-                  <img src={movie.image} alt={movie.name} className="w-16 h-16 object-cover mr-4 rounded" />
+                <div
+                  key={movie.id}
+                  className="justify-right flex items-center rounded-lg p-2 shadow-lg"
+                >
+                  <span
+                    className={`mr-4 text-2xl font-bold number-color-${index + 1}`}
+                  >
+                    {index + 1}
+                  </span>
+                  <img
+                    src={movie.image}
+                    alt={movie.name}
+                    className="mr-4 h-16 w-16 rounded object-cover"
+                  />
                   <strong>{movie.name}</strong>
                 </div>
               ))}
@@ -485,9 +583,8 @@ const Home = () => {
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="mx-10 mb-6 text-5xl font-bold">Được đánh giá cao</h3>
-          <p className="hot-monthly-movies">Hot trong tháng</p>
-          <div className="top-movie-container ">
+          <h3 className="ml-24 text-4xl  font-bold">| Phim mới cập nhật</h3>
+          <div className="top-movie-container" style={{ width: "84%", marginLeft: "8%" }}>
             {movies.map((movie) => (
               <div key={movie.id} className="top-movie-card rounded-lg">
                 <img
@@ -504,11 +601,17 @@ const Home = () => {
                     </button>
                     <div className="button-container">
                       <div className="button-container flex flex-col space-y-4">
-                        <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2 ">
-                          Trailer <i className="ml-1 fas fa-video"></i>
+                        <Link
+                          to="/cinema/detail"
+                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                        >
+                          Trailer <i className="fas fa-video ml-1"></i>
                         </Link>
-                        <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2 x`">
-                          Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
+                        <Link
+                          to="/"
+                          className="overlay-btn-xh w-38 x` py-2 text-center text-white"
+                        >
+                          Mua vé <i className="fas fa-ticket-alt ml-1"></i>
                         </Link>
                       </div>
                     </div>
@@ -554,8 +657,6 @@ const Home = () => {
             </div>
           </div>
         </section>
-
-
       </main>
     </div>
   );
