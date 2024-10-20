@@ -87,7 +87,7 @@ const MovieDetailPage = () => {
         urlvideo_img={movieData?.data.img_video}
       />
 
-      <div className="mx-28 grid max-w-[85rem] grid-cols-1 gap-10 py-6 pt-2 md:grid-cols-4">
+      <div className="mx-0 md:mx-20 grid max-w-[85rem] grid-cols-1 gap-10 py-6 pt-0 md:pt-2 md:grid-cols-4">
         {/* left session */}
         <div className="flex flex-col space-y-6 md:col-span-3">
           {/* Movie Detail */}
@@ -95,13 +95,31 @@ const MovieDetailPage = () => {
             <img
               src={movieData?.data.img}
               alt={movieData?.data.name}
-              className="z-40 -mt-32 w-[350px] rounded-lg object-cover shadow-lg md:h-[450px]"
+              className="z-40 -mt-32 w-[350px] md:block hidden rounded-lg object-cover shadow-lg md:h-[493px]"
             />
             <div className="w-full">
               <div className="flex items-end justify-between">
-                <h1 className="text-3xl font-bold text-gray-200">
+                <h1 className="text-3xl mb-2 md:mb-0 uppercase font-bold text-gray-200">
                   {movieData?.data.name}
                 </h1>
+                
+              </div>
+              <div className="mb-4 flex items-center">
+                <svg
+                  className="me-1 h-4 w-4 text-yellow-300"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                >
+                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                </svg>
+                <p className="text-xl font-bold mb-3 md:mb-0 text-white">
+                  {movieData?.data.rating}
+                </p>
+                <span className="text-sm ml-2 font-medium text-gray-300">
+                  ({movieData?.data.votes} lượt đánh giá)
+                </span>
               </div>
               {movieData?.data.age_limit ? (
                 <div className="age mb-2 mt-2 flex items-center text-sm text-gray-300">
@@ -126,26 +144,10 @@ const MovieDetailPage = () => {
                   </p>
                 </div>
               )}
-              <div className="mt-4 flex items-center">
-                <svg
-                  className="me-1 h-6 w-6 text-yellow-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 22 20"
-                >
-                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                </svg>
-                <p className="text-xl font-bold text-white">
-                  {movieData?.data.rating}
-                </p>
-                <span className="text-md ml-2 font-medium text-gray-300">
-                  ({movieData?.data.votes} lượt đánh giá)
-                </span>
-              </div>
-              <div className="mt-2 flex items-center gap-5 text-sm text-gray-300">
+            
+              <div className="mt-5 flex flex-wrap items-center gap-5 text-base md:text-sm text-gray-300">
                 <div className="flex items-center">
-                  <FaClock className="mr-1 text-white" />
+                  <FaClock className="mr-2 text-white" />
                   <span>{movieData?.data.duration} phút</span>
                 </div>
                 <div className="flex items-center">
@@ -164,14 +166,14 @@ const MovieDetailPage = () => {
                 </div>
               </div>
 
-              <div className="mt-3 text-sm text-gray-300">
+              <div className="mt-3 text-base text-gray-300">
                 <div className="mt-2">
                   <span className="text-white">
                     {" "}
                     Nhà sản xuất : {movieData?.data.producer}{" "}
                   </span>
                 </div>
-                <div className="mt-2">
+                <div className="mt-4">
                   <span className="text-white">Thể Loại: </span>
                   {genre_moviesData?.data.map((movie) => {
                     return (
@@ -185,32 +187,43 @@ const MovieDetailPage = () => {
                     );
                   })}
                 </div>
-                <div className="mt-2">
+                <div className="mt-4">
                   <span className="text-white">Đạo diễn:</span>
                   <button className="ml-3 rounded border border-gray-700 px-2 py-1 text-white hover:bg-gray-700">
                     {movieData?.data.director}
                   </button>
                 </div>
-                <div className="mt-2">
-                  <span className="mr-2 text-white">Diễn viên:</span>
-                  {actor_moviesData?.data.map((movie) => {
-                    return (
-                      <Link
-                        to={'/cinema/actor/'+movie?.actor_id._id}
-                        key={movie._id}
-                        className="ml-3 rounded border border-gray-700 px-2 py-1 text-white hover:bg-gray-700"
-                      >
-                        {movie?.actor_id.name}
-                      </Link>
-                    );
-                  })}
+                <div className="md:mt-4 mt-2 flex items-center">
+                  <span className="mr-2 text-white w-[5.5rem] md:w-auto">Diễn viên:</span>
+                  <div className="flex flex-wrap gap-2 mt-2 md:mt-0">
+                    {actor_moviesData?.data.slice(0, 3).map((movie) => {
+                      return (
+                        <Link
+                          to={'/cinema/actor/' + movie?.actor_id._id}
+                          key={movie._id}
+                          className="rounded border border-gray-700 px-2 py-1 text-white hover:bg-gray-700"
+                        >
+                          {movie?.actor_id.name}
+                        </Link>
+                      );
+                    })}
+                    {actor_moviesData?.data.length > 3 && (
+                      <span className="rounded border border-gray-700 px-2 py-1 text-white">
+                        + {actor_moviesData?.data.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-4 flex justify-start pr-4 md:px-0">
+                  <button className="btn p-1 px-3 md:w-32 w-full text-black bg-white rounded border">Mua Ngay</button>
                 </div>
               </div>
             </div>
           </div>
 
           {/* nội dung  */}
-          <div className="sm:hidden">
+          <div className="sm:hidden px-5">
             <select
               id="tabs"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
@@ -235,7 +248,7 @@ const MovieDetailPage = () => {
               </li>
             ))}
           </ul>
-          <div className="mt-4">
+          <div className="mt-4 px-5 md:px-0">
             {tabs.map((tab) => (
               <div
                 key={tab.id}

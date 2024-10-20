@@ -4,7 +4,11 @@ import { FaUserAlt, FaHistory, FaSignOutAlt, FaBars } from "react-icons/fa"; // 
 import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
 import Toastify from "../../helper/Toastify";
 
+
 const HeaderWeb = () => {
+
+
+
   const [scrolled, setScrolled] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
