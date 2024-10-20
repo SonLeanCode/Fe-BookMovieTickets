@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FaHeart } from 'react-icons/fa'; // Import FaHeart
 import { Link } from 'react-router-dom'; // Import Link if using react-router
 
+
 class MovieTicketBlog extends Component {
 
     movies = [
@@ -10,36 +11,87 @@ class MovieTicketBlog extends Component {
             views: 10,
             name: "Inception",
             image:
-              "https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg",
+                "https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg",
             rating: "8.8",
-          },
-          {
+        },
+        {
             id: 2,
             views: 9,
             name: "The Dark Knight",
             image:
-              "https://cms-assets.webediamovies.pro/cdn-cgi/image/dpr=1,fit=scale-down,gravity=auto,metadata=none,quality=85,width=2500/production/4756/da6d320019b0cffcb187e7a20bf9cdcb.jpg",
+                "https://cms-assets.webediamovies.pro/cdn-cgi/image/dpr=1,fit=scale-down,gravity=auto,metadata=none,quality=85,width=2500/production/4756/da6d320019b0cffcb187e7a20bf9cdcb.jpg",
             rating: "9.0",
-          },
-          {
+        },
+        {
             id: 3,
             views: 10,
             name: "Interstellar",
             image:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS9maE7-yWPpULS8xay8yVKGnVZctnXkOXMg&s",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS9maE7-yWPpULS8xay8yVKGnVZctnXkOXMg&s",
             rating: "8.6",
-          },
-          {
+        },
+        {
             id: 4,
             views: 10,
             name: "Pulp Fiction",
             image:
-              "https://i.pinimg.com/enabled_hi/564x/89/41/e7/8941e71464be8fe81ade92a86817338e.jpg",
+                "https://i.pinimg.com/enabled_hi/564x/89/41/e7/8941e71464be8fe81ade92a86817338e.jpg",
             rating: "8.9",
-          },
-      ];
+        },
+    ];
+
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            countdown: 0, // Đếm ngược
+            discountCode: '', // Mã giảm giá
+        };
+    }
+
+    // Thay đổi mã giảm giá theo nhu cầu
+    handleShare = (platform) => {
+        // Mở liên kết chia sẻ
+        switch (platform) {
+            case 'facebook':
+                const title = encodeURIComponent("Chia sẻ để nhận phần thưởng");
+                const url = encodeURIComponent("https://your-website-link.com");
+                const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${title}`;
+                window.open(facebookShareUrl, '_blank');
+            case 'twitter':
+                window.open('https://twitter.com/intent/tweet?url=https://your-website-link.com', '_blank');
+                break;
+            case 'instagram':
+                window.open('https://www.instagram.com/?url=https://your-website-link.com', '_blank');
+                break;
+            default:
+                break;
+        }
+
+        // Bắt đầu đếm ngược
+        this.startCountdown();
+    };
+
+    startCountdown = () => {
+        this.setState({ countdown: 10, discountCode: '' }); // Đặt đếm ngược và mã giảm giá
+        const interval = setInterval(() => {
+            this.setState((prevState) => {
+                if (prevState.countdown <= 1) {
+                    clearInterval(interval);
+                    return { countdown: 0, discountCode: 'GIAMGIA10' }; // Đặt mã giảm giá khi đếm ngược kết thúc
+                }
+                return { countdown: prevState.countdown - 1 }; // Giảm đếm ngược
+            });
+        }, 1000);
+    };
+
+
 
     render() {
+
+        const { countdown, discountCode } = this.state;
+
         return (
             <>
                 <div className="flex md:flex md:flex-row flex-col  bg-gray-900 md:p-10 p-0 md:pt-14 pt-36">
@@ -80,14 +132,76 @@ class MovieTicketBlog extends Component {
                                         Đừng bỏ lỡ các khuyến mãi độc quyền của chúng tôi! Từ giảm giá khi đặt vé sớm đến các gói combo vé và đồ ăn nhẹ, chúng tôi có thứ gì đó dành cho mọi người yêu thích phim.
                                     </p>
                                 </div>
+
+                                {/* lấy mã giảm giá  */}
+                                <div className="mt-8 flex items-center justify-between">
+                                    <div className="relative flex items-center">
+                                        <button className='border rounded p-2 bg-white text-black font-semibold flex items-center group'>
+                                            Chia sẻ để nhận mã giảm giá
+                                            {/* Biểu tượng mũi tên */}
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" // Kích thước biểu tượng
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M13 7l5 5-5 5M6 12h12"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div className="right flex space-x-4">
+                                        <span
+                                            className="text-white hover:text-slate-400 cursor-pointer"
+                                            onClick={() => this.handleShare('facebook')}
+                                        >
+                                            <i className="fab fa-facebook-square fa-lg"></i>
+                                        </span>
+                                        <span
+                                            className="text-white hover:text-slate-400 cursor-pointer"
+                                            onClick={() => this.handleShare('twitter')}
+                                        >
+                                            <i className="fab fa-twitter-square fa-lg"></i>
+                                        </span>
+                                        <span
+                                            className="text-white hover:text-slate-400 cursor-pointer"
+                                            onClick={() => this.handleShare('instagram')}
+                                        >
+                                            <i className="fab fa-instagram-square fa-lg"></i>
+                                        </span>
+                                    </div>
+
+
+                                </div>
+
+
+
                                 <div className="flex flex-col items-center mt-8">
+                                    {countdown > 0 && (
+                                        <div className="mt-4 text-white">
+                                            Chờ {countdown} giây để nhận mã giảm giá!
+                                        </div>
+                                    )}
+
+                                    {discountCode && (
+                                        <div className="mt-2 text-green-500 font-bold">
+                                            Mã giảm giá của bạn: <span className='text-red-600'>{discountCode}</span>
+                                        </div>
+                                    )}
                                     <div className="h-px bg-gray-300 w-full"></div>
-                                    <ul className="flex space-x-4 mt-2">
+                                    {/* <ul className="flex space-x-4 mt-2">
                                         <li className="text-gray-500"><i className="fab fa-facebook"></i></li>
                                         <li className="text-gray-500"><i className="fab fa-instagram"></i></li>
                                         <li className="text-gray-500"><i className="fab fa-tiktok"></i></li>
-                                    </ul>
+                                    </ul> */}
                                 </div>
+
                                 <div className="text-center mt-10">
                                     <div className="text-uppercase">
                                         <span className='text-slate-400'>_ VÉ XEM PHIM _</span>
@@ -95,34 +209,34 @@ class MovieTicketBlog extends Component {
                                     </div>
                                     <div className="mt-5 md:flex md:flex-row md:gap-0 md:h-64 h-3/5 gap-5 justify-evenly flex flex-col">
                                         {this.movies.map((movie) => (
-                                                <div key={movie.id} className="top-movie-card">
-                                                    <img
-                                                        src={movie.image}
-                                                        alt={movie.name}
-                                                        className="rounded-t-lg object-cover"
-                                                    />
-                                                    <div className="overlay">
-                                                        <div className="overlay-content">
-                                                            <h4 className="movie-name">{movie.name}</h4>
-                                                            <p className="movie-rating">Đánh giá: {movie.rating}</p>
-                                                            <button className="overlay-favorite">
-                                                                <FaHeart />
-                                                            </button>
-                                                            <div className="button-container flex flex-col space-y-1">
-                                                                <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2">
+                                            <div key={movie.id} className="top-movie-card">
+                                                <img
+                                                    src={movie.image}
+                                                    alt={movie.name}
+                                                    className="rounded-t-lg object-cover"
+                                                />
+                                                <div className="overlay">
+                                                    <div className="overlay-content">
+                                                        <h4 className="movie-name">{movie.name}</h4>
+                                                        <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                                                        <button className="overlay-favorite">
+                                                            <FaHeart />
+                                                        </button>
+                                                        <div className="button-container flex flex-col space-y-1">
+                                                            <Link to="/cinema/detail" className="overlay-btn-xh w-38 text-white text-center py-2">
                                                                 Trailer <i className="ml-1 fas fa-video"></i>
-                                                                </Link>
-                                                                <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
+                                                            </Link>
+                                                            <Link to="/" className="overlay-btn-xh w-38 text-white text-center py-2">
                                                                 Mua vé <i className="ml-1 fas fa-ticket-alt"></i>
-                                                                </Link>
-                                                            </div>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            ))}
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>

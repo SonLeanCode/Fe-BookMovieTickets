@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-daisyui";
 import "./Home.css";
+import PopupNotification from "./Popup";
 import { FaHeart, FaStar, FaTicketAlt } from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useGetLatestMoviesByCreationDateQuery } from "../../services/Movies/movies.services";
@@ -236,8 +237,9 @@ const Home = () => {
     
     <div className="bg-black text-gray-100">
       <main className="bg-black">
-      <EventPopup /> {/* Thêm dòng này để hiển thị popup */}
         <section className="relative mb-12 bg-black">
+          {/* show popup */}
+          <PopupNotification />
           {/* Banner */}
           <Banner
             banners={carouselBanners}
