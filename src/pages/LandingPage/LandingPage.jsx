@@ -34,8 +34,8 @@ const LandingPage = () => {
       {/* Header Section */}
       <header className="header">
         <div className="header-content">
-          <h1 className="text-nowrap font-bold uppercase">
-            Đặt Vé <span className="text-red-600">Xem Phim</span> Ngay Hôm Nay!
+          <h1 className="font-bold uppercase">
+            Đặt Vé <span className="text-red-600">Xem Phim</span> Bất Kì Ngay Hôm Nay!
           </h1>
           <h3 className="text-lg">Trải nghiệm điện ảnh tuyệt vời tại rạp.</h3>{" "}
           {/* Thay đổi kích thước nếu cần */}
@@ -142,9 +142,9 @@ const LandingPage = () => {
             <div className="mx-auto max-w-2xl lg:max-w-none">
               <h2
                 id="sale-heading"
-                className="text-1xl text-nowrap font-bold uppercase tracking-tight text-white sm:text-4xl lg:text-6xl"
+                className="text-1xl font-bold uppercase tracking-tight text-white sm:text-4xl lg:text-6xl"
               >
-                Mua vé phim với{" "}
+                Mua vé phim{" "}
                 <span className="text-red-600">giảm giá 25%</span> ngay hôm nay!
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-xl text-white">

@@ -38,35 +38,36 @@ const MovieList = () => {
   return (
     <div className="mt-28 bg-gray-900 p-[4.5rem] pt-7 text-white">
       <div className="flex justify-between filter">
-        <div className="menuleft mb-6 flex items-center content-center justify-start gap-10 text-center align-text-top">
-          <h2 className="text-2xl font-bold uppercase">
+      <div className="menuleft mb-6 flex flex-col sm:flex-row items-center content-center justify-start  md:gap-10 text-center sm:text-left align-text-top">
+        <h2 className="text-2xl md:mt-0 mt-8 font-bold uppercase">
           <span className="border-l-4 border-solid border-red-600 mr-2"></span>
-            Thể loại phim
-          </h2>
+          Thể loại phim
+        </h2>
 
-          {/* Lọc theo thể loại */}
-          <div>
-            <select
-              id="genre"
-              value={selectedGenre}
-              onChange={(e) => setSelectedGenre(e.target.value)}
-              className="w-36 rounded bg-white p-2 text-black"
-            >
-              <option value="">Tất cả</option>
-              {genreData?.data.map((data) => (
-                <option key={data._id} value={data._id}>
-                  {data.name}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Lọc theo thể loại */}
+        <div className="mt-4 sm:mt-0">
+          <select
+            id="genre"
+            value={selectedGenre}
+            onChange={(e) => setSelectedGenre(e.target.value)}
+            className="md:w-36 w-72 rounded bg-white p-2 text-black"
+          >
+            <option value="">Tất cả</option>
+            {genreData?.data.map((data) => (
+              <option key={data._id} value={data._id}>
+                {data.name}
+              </option>
+            ))}
+          </select>
         </div>
+      </div>
+
       </div>
 
       <div className="thanhngang mb-6 h-px bg-slate-400"></div>
 
       {/* Hiển thị danh sách phim */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid md:grid-cols-4 grid-cols-1 gap-4">
         {moviesToDisplay && moviesToDisplay.length > 0 ? (
           moviesToDisplay.slice(0, visibleCount).map((movie, index) => (
             <div key={index} className="group relative overflow-hidden">
@@ -74,7 +75,7 @@ const MovieList = () => {
                 <img
                   src={movie.img}
                   alt={movie.name}
-                  className="w-full object-cover duration-300 hover:scale-105"
+                  className="w-full h-[500px] object-cover duration-300 hover:scale-105"
                 />
                 {/* Overlay */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -109,10 +110,10 @@ const MovieList = () => {
       </div>
 
       <div className="xemthem flex items-center justify-between">
-        <div className="thanhngang mr-5 h-px w-3/4 bg-slate-400"></div>
+        <div className="thanhngang mr-5 h-px hidden md:block md:w-3/4 bg-slate-400"></div>
 
         <button
-          className="w-1/4 rounded-full bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+          className="md:w-1/4 w-full rounded-full bg-red-500 px-4 py-2 text-white hover:bg-red-600"
           onClick={handleShowMore}
         >
           Xem thêm

@@ -60,6 +60,7 @@ body {
     margin: 20px auto 60px;
 }
 
+
 .email-signup input {
     flex: 1;
     font-size: 18px;
@@ -307,13 +308,23 @@ input[type='radio'] {
     }
 
     .email-signup{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         max-width: 400px;
         margin: 20px auto 60px;
     }
    
     .email-signup button {
         padding: 10px ;
-        max-width: 100px;
+        max-width: 100%;
+    }
+
+    .img-col img {
+        display: block;
+        width: 100%;
+        margin: auto;
+        cursor: pointer;
     }
 
     .text-col,
@@ -341,7 +352,7 @@ input[type='radio'] {
 
     .faq .email-signup button {
         padding: 10px ;
-        max-width: 100px;
+        max-width: 100%;
     }
 
     .faq small {

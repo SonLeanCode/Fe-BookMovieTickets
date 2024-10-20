@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const NowShowing = () => {
   return (
-    <div className="md:col-span-1">
+    <div className="md:col-span-1 px-5 md:px-0">
       <h2 className="mb-6 text-2xl font-bold text-gray-200">
         <span className="text-red-500">|</span> Phim đang chiếu
       </h2>

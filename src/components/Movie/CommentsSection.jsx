@@ -18,7 +18,7 @@ const CommentsSection = () => {
     },
   ]);
   return (
-    <div>
+    <div className="px-5 md:px-0">
       <h2 className="mb-4 text-2xl font-bold">Bình luận</h2>
       <form>
         <label className="sr-only">Your message</label>
