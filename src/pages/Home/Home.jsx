@@ -297,7 +297,7 @@ const Home = () => {
                   <FaStar className="mr-1" />
                   PHỔ BIẾN TRONG TUẦN
                 </h2>
-                <div>
+                <div> 
                   <button
                     className="relative top-1 mr-2 rounded-full border border-solid p-1 hover:opacity-[0.5]"
                     onClick={goToPrevious}
@@ -434,13 +434,13 @@ const Home = () => {
         <div className="section-divider-animation"></div>
 
         <section className="containe flex justify-center">
-          <div className="update-section w-[100%] ml-5 ">
+          <div className="update-section w-[96%] ml-5 ">
             <h3 className=" text-4xl  font-bold">
               | Phim mới cập nhật
             </h3>
             <div className="flex flex-col justify-center lg:flex-row">
               {/* Cột trái: 1 phim */}
-              <div className="mb-8 flex w-full flex-col items-center justify-center p-4 hover:cursor-pointer lg:mb-0 lg:w-2/5">
+              <div className="mb-6 flex w-full flex-col items-center justify-center p-4 hover:cursor-pointer lg:mb-0 lg:w-2/5">
                 {latestMovies?.data?.slice(0, 1).map((movie) => (
                   <div
                     key={movie._id}
@@ -492,7 +492,7 @@ const Home = () => {
                 {latestMovies?.data?.slice(1, 9).map((movie) => (
                   <div
                     key={movie._id}
-                    className="m-4 flex w-full flex-col lg:w-1/4"
+                    className="p-3 flex w-full flex-col lg:w-1/4"
                   >
                     <div className="group relative flex h-full flex-col overflow-hidden rounded-lg shadow-md">
                       <img
@@ -535,8 +535,8 @@ const Home = () => {
             <h3 className="gy-h3 mb-6 text-4xl font-bold">
               | Phim Gợi Ý
             </h3>
-            <div className="grid flex-grow grid-cols-3 gap-4 hover:cursor-pointer">
-              {movies.slice(0, 6).map((movie) => (
+            <div className="grid flex-grow grid-cols-4 gap-5 hover:cursor-pointer">
+              {movies.slice(0, 8).map((movie) => (
                 <div
                   key={movie.id}
                   className="overflow-hidden rounded-lg shadow-lg"
