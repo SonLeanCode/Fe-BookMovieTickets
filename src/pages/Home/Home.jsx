@@ -349,7 +349,7 @@ const Home = () => {
             </h3>
             <div
               className="relative flex items-center justify-center px-8"
-              style={{ width: "94%", marginLeft: "3%" }}
+              style={{ width: "100%" }}
             >
               <button
                 className="absolute left-0 z-10 rounded-full bg-red-600 p-3 text-white"
@@ -433,8 +433,8 @@ const Home = () => {
 
         <div className="section-divider-animation"></div>
 
-        <section className="container mx-auto my-10 flex w-full justify-center">
-          <div className="update-section w-full">
+        <section className="containe flex justify-center">
+          <div className="update-section w-[100%] ml-5 ">
             <h3 className=" text-4xl  font-bold">
               | Phim mới cập nhật
             </h3>
@@ -530,8 +530,8 @@ const Home = () => {
 
         <div className="section-divider-animation"></div>
 
-        <section className="container mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
-          <div className="flex w-full flex-col p-4 lg:w-8/12">
+        <section className="containe mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
+          <div className="flex w-full flex-col p-10 lg:w-8/12">
             <h3 className="gy-h3 mb-6 text-4xl font-bold">
               | Phim Gợi Ý
             </h3>
@@ -555,7 +555,7 @@ const Home = () => {
               ))}
             </div>
           </div>
-          <div className="flex w-full flex-col p-4 lg:w-4/12">
+          <div className="flex w-full flex-col p-10 lg:w-4/12">
             <h3 className="tt-h3 mb-6 text-4xl font-bold">
               | Top Trending
             </h3>
@@ -585,8 +585,8 @@ const Home = () => {
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="ml-24 text-4xl  font-bold">| Phim mới cập nhật</h3>
-          <div className="top-movie-container" style={{ width: "84%", marginLeft: "8%" }}>
+          <h3 className="ml-20 text-4xl  font-bold">| Phim mới cập nhật</h3>
+          <div className="top-movie-container" style={{ width: "90%", marginLeft: "5%" }}>
             {movies.map((movie) => (
               <div key={movie.id} className="top-movie-card rounded-lg">
                 <img

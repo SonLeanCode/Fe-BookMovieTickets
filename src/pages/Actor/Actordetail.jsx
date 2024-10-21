@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
 import { useGetActorByIdQuery } from "../../services/Actor/actor.service";
-import { useGetMoviesByActorQuery } from "../../services/Actor/actor_movies.service";
-import notfound_img from '../../assets/img/404/not_found_img.jpg'
+import { useGetMoviesByActorIdQuery } from "../../services/Movies/movies.services";
+import notfound_img from "../../assets/img/404/not_found_img.jpg";
 const Actordetail = () => {
   const { id } = useParams();
   const { data: actorData } = useGetActorByIdQuery(id);
-  const { data: movieByActorData } = useGetMoviesByActorQuery(id);
+  const { data: moviesData } = useGetMoviesByActorIdQuery(id);
 
   const images = [
     "https://cdn.galaxycine.vn/media/1/4/1425307280510.cached.jpg",
@@ -38,16 +38,22 @@ const Actordetail = () => {
   };
 
   const Breadcrumb = () => (
-    <nav className="text-gray-400 my-4" aria-label="Breadcrumb">
-      <ol className="list-none p-0 inline-flex">
+    <nav className="my-4 text-gray-400" aria-label="Breadcrumb">
+      <ol className="inline-flex list-none p-0">
         <li className="flex items-center">
-          <Link to="/cinema" className="text-gray-300 hover:text-white hover:underline">
+          <Link
+            to="/cinema"
+            className="text-gray-300 hover:text-white hover:underline"
+          >
             Trang chủ
           </Link>
           <span className="mx-2">/</span>
         </li>
         <li className="flex items-center">
-          <Link to="/cinema/actor" className="text-gray-300 hover:text-white hover:underline">
+          <Link
+            to="/cinema/actor"
+            className="text-gray-300 hover:text-white hover:underline"
+          >
             Diễn viên
           </Link>
           <span className="mx-2">/</span>
@@ -77,7 +83,7 @@ const Actordetail = () => {
                 />
               </div>
               <div className="ml-4 flex flex-1 flex-col">
-              <Breadcrumb />
+                <Breadcrumb />
                 <h2 className="text-4xl font-semibold text-gray-200">
                   {actorData?.data.name}
                 </h2>
@@ -93,18 +99,26 @@ const Actordetail = () => {
                   </div>
                 </div>
                 <p className="text-gray-300">{actorData?.data.description}</p>
-                <ul className="mt-6 text-md font-semibold">
+                <ul className="text-md mt-6 font-semibold">
                   <li className="mb-2">
                     <span className="text-gray-300">Ngày sinh: </span>
                     <span>{formatDate(actorData?.data.date_of_birth)}</span>
                   </li>
                   <li className="mb-2">
                     <span className="text-gray-300">Chiều cao: </span>
-                    <span>{actorData?.data.height} cm</span>
+                    {!actorData?.data.height ? (
+                      <span>Đang Cập Nhật</span>
+                    ) : (
+                      <span>{actorData?.data.height + "cm"}</span>
+                    )}
                   </li>
                   <li className="mb-2">
                     <span className="text-gray-300">Quốc tịch: </span>
+                    {!actorData?.data.nationality ? (
+                      <span>Đang Cập Nhật</span>
+                    ) : (
                     <span>{actorData?.data.nationality}</span>
+                  )}
                   </li>
                 </ul>
               </div>
@@ -112,13 +126,13 @@ const Actordetail = () => {
 
             {/* Hình ảnh */}
             <div className="relative p-4">
-              
-              <h2 className="border-b-2  border-gray-600 pb-2 text-2xl font-bold">
-              <span className="border-l-4 border-solid border-red-600 mr-2"></span>
-               HÌNH ẢNH
-              </h2> 
-              
-              {!actorData?.data.sub_img || actorData.data.sub_img.length === 0 ? (
+              <h2 className="border-b-2 border-gray-600 pb-2 text-2xl font-bold">
+                <span className="mr-2 border-l-4 border-solid border-red-600"></span>
+                HÌNH ẢNH
+              </h2>
+
+              {!actorData?.data.sub_img ||
+              actorData.data.sub_img.length === 0 ? (
                 <p className="text-md mt-4 text-center font-semibold text-white">
                   Đang cập nhật
                 </p>
@@ -132,22 +146,24 @@ const Actordetail = () => {
                     ‹-
                   </button>
                   <div className="flex gap-4">
-                    {actorData?.data.sub_img && actorData?.data.sub_img
-                      .slice(currentIndex, currentIndex + imagesPerSlide)
-                      .map((src, index) => (
-                        <img
-                          key={index}
-                          className="w-[190px] rounded-lg"
-                          src={src}
-                          alt={`Image ${currentIndex + index + 1}`}
-                        />
-                      ))}
+                    {actorData?.data.sub_img &&
+                      actorData?.data.sub_img
+                        .slice(currentIndex, currentIndex + imagesPerSlide)
+                        .map((src, index) => (
+                          <img
+                            key={index}
+                            className="w-[190px] rounded-lg"
+                            src={src}
+                            alt={`Image ${currentIndex + index + 1}`}
+                          />
+                        ))}
                   </div>
                   <button
                     onClick={handleNext}
                     className="absolute right-0 rounded-full border p-2 text-white hover:bg-gray-600 disabled:opacity-50"
                     disabled={
-                      currentIndex + imagesPerSlide >= actorData?.data.sub_img.length
+                      currentIndex + imagesPerSlide >=
+                      actorData?.data.sub_img.length
                     }
                   >
                     -›
@@ -158,33 +174,35 @@ const Actordetail = () => {
 
             <div className="mt-4 w-full p-4 md:mt-0">
               <h2 className="border-b-2 border-gray-600 pb-2 text-2xl font-bold">
-              <span className="border-l-4 border-solid border-red-600 mr-2"></span>
+                <span className="mr-2 border-l-4 border-solid border-red-600"></span>
                 PHIM ĐÃ THAM GIA
               </h2>
-              {movieByActorData?.data.length === 0 ? (
+              {moviesData?.data.length === 0 ? (
                 <p className="mt-4 text-gray-300">Đang cập nhật</p>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                  {movieByActorData?.data.map((data) => (
+                  {moviesData?.data.map((movie) => (
                     <div
-                      key={data?.movie_id._id}
+                      key={movie._id}
                       className="flex items-start rounded-lg p-4"
                     >
-                      <Link to={"/cinema/movie/" + data.movie_id._id}>
+                      <Link to={"/cinema/movie/" + movie._id}>
                         <img
-                          src={data?.movie_id.img_video}
-                          alt={data?.movie_id.name}
+                          src={movie.img_video}
+                          alt={movie.name}
                           className="w-42 h-28 rounded-md object-cover"
                         />
                       </Link>
                       <div className="ml-4 text-white">
-                        <Link to={"/cinema/movie/" + data?.movie_id._id}>
+                        <Link to={"/cinema/movie/" + movie._id}>
                           <h3 className="text-sm font-semibold">
-                            {data?.movie_id.name}
+                            {movie.name}
                           </h3>
                         </Link>
                         <p className="mt-2 text-sm text-gray-300">
-                          Đang cập nhật
+                          {movie.release_date
+                            ? formatDate(movie.release_date)
+                            : "Đang cập nhật"}
                         </p>
                       </div>
                     </div>
@@ -196,7 +214,7 @@ const Actordetail = () => {
             {/* Tiểu sử */}
             <div className="p-4">
               <h2 className="border-b-2 border-gray-600 pb-2 text-2xl font-bold">
-              <span className="border-l-4 border-solid border-red-600 mr-2"></span>
+                <span className="mr-2 border-l-4 border-solid border-red-600"></span>
                 TIỂU SỬ
               </h2>
               <p className="text-md mt-4 text-center font-semibold text-white">
@@ -204,8 +222,6 @@ const Actordetail = () => {
               </p>
             </div>
           </div>
-
-          {/* Phim đã tham gia */}
 
           <div className="mt-4 w-full md:mt-0 md:w-[30%]">
             <h2 className="font-roboto mb-3 text-center text-2xl font-semibold text-white">

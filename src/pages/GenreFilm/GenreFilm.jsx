@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useGetAllGenresQuery } from "../../services/Genre/genre.service";
-import { useGetMoviesByGenreQuery } from "../../services/Genre/genre_movies.service";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
 import { Link, useParams } from "react-router-dom";
 
@@ -10,24 +9,18 @@ const MovieList = () => {
   const { data: allMoviesData } = useGetAllMoviesQuery();
   const [selectedGenre, setSelectedGenre] = useState("");
   const [visibleCount, setVisibleCount] = useState(4);
+
   useEffect(() => {
     if (id) {
       setSelectedGenre(id);
     }
   }, [id]);
-  
-  // Lấy dữ liệu phim theo thể loại khi chọn thể loại
-  const { data: moviesByGenreData } = useGetMoviesByGenreQuery(selectedGenre, {
-    skip: !selectedGenre, // Bỏ qua nếu không có thể loại được chọn
-  });
 
-  // Xác định phim nào cần hiển thị
+  // Xác định phim nào cần hiển thị dựa trên thể loại đã chọn
   const moviesToDisplay = selectedGenre
-    ? moviesByGenreData?.data.map((data) => ({
-        _id: data.movie_id._id,
-        name: data.movie_id.name,
-        img: data.movie_id.img,
-      }))
+    ? allMoviesData?.data.filter((movie) => 
+        movie.genres.includes(selectedGenre)
+      )
     : allMoviesData?.data;
 
   // Xử lý khi nhấn nút "Xem thêm"
@@ -38,30 +31,29 @@ const MovieList = () => {
   return (
     <div className="mt-28 bg-gray-900 p-[4.5rem] pt-7 text-white">
       <div className="flex justify-between filter">
-      <div className="menuleft mb-6 flex flex-col sm:flex-row items-center content-center justify-start  md:gap-10 text-center sm:text-left align-text-top">
-        <h2 className="text-2xl md:mt-0 mt-8 font-bold uppercase">
-          <span className="border-l-4 border-solid border-red-600 mr-2"></span>
-          Thể loại phim
-        </h2>
+        <div className="menuleft mb-6 flex flex-col sm:flex-row items-center content-center justify-start md:gap-10 text-center sm:text-left align-text-top">
+          <h2 className="text-2xl md:mt-0 mt-8 font-bold uppercase">
+            <span className="border-l-4 border-solid border-red-600 mr-2"></span>
+            Thể loại phim
+          </h2>
 
-        {/* Lọc theo thể loại */}
-        <div className="mt-4 sm:mt-0">
-          <select
-            id="genre"
-            value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value)}
-            className="md:w-36 w-72 rounded bg-white p-2 text-black"
-          >
-            <option value="">Tất cả</option>
-            {genreData?.data.map((data) => (
-              <option key={data._id} value={data._id}>
-                {data.name}
-              </option>
-            ))}
-          </select>
+          {/* Lọc theo thể loại */}
+          <div className="mt-4 sm:mt-0">
+            <select
+              id="genre"
+              value={selectedGenre}
+              onChange={(e) => setSelectedGenre(e.target.value)}
+              className="md:w-36 w-72 rounded bg-white p-2 text-black"
+            >
+              <option value="">Tất cả</option>
+              {genreData?.data.map((data) => (
+                <option key={data._id} value={data._id}>
+                  {data.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
-
       </div>
 
       <div className="thanhngang mb-6 h-px bg-slate-400"></div>

@@ -9,9 +9,8 @@ const Toastify = (message, statusCode) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: 'dark',
+    theme: 'light',
     style: {
-      background: "#1a1a1a",
       top: '72px',
       right: '20px'
     },

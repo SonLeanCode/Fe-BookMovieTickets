@@ -28,7 +28,7 @@
     font-family: 'Oswald', sans-serif;
     text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
-    margin-left:6%;
+    margin-left:3%;
     position: relative;
     display: inline-block;
     padding-bottom: 10px; /* Khoảng cách giữa text và line */
@@ -152,13 +152,13 @@
   
   /* Section "Top Phim Hot" */
   .top-movie-section h3 {
-    max-width: 96%;
+    max-width: 100%;
     font-family: 'Oswald', sans-serif;
     font-size: 2rem;
     color: #ff0000;
     text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
-    margin-left: 10%;
+    margin-left: 6%; 
     letter-spacing: 2px;
     position: relative;
     padding-bottom: 1.5rem;
@@ -363,48 +363,6 @@
     background-position: right;
     transform: scale(1.1);
   }
-  
-  
-  .container {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  /* Hiệu ứng shadow cho các box */
-  .shadow-lg {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(135, 81, 81, 0);
-  }
-  
-  .shadow-md {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 4px 4px rgba(0, 0, 0, 0.936);
-  }
-  
-  /* Bo góc mềm mại cho các box */
-  .rounded-lg {
-    border-radius: 12px;
-  }
-  
-  /* Style box phim */
-  .flex-1 {
-    flex: 1;
-  }
-  
-  .object-cover {
-    object-fit: cover;
-  }
-  
-  
-  /* Text trong box phim */
-  strong {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 800;
-  }
-  
-  p {
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.6;
-  }
   .update-section h3 {
     font-family: 'Oswald', sans-serif;
     font-size: 2rem;
@@ -429,11 +387,11 @@
     bottom: 0;
     left: 0;
     right: 0;
-    top: 0; /* Thêm dòng này để phủ toàn bộ box */
+    top: 0; 
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Căn giữa theo chiều dọc */
-    align-items: center; /* Căn giữa theo chiều ngang */
+    justify-content: center; 
+    align-items: center; 
     background: rgba(0, 0, 0, 0.6);
     opacity: 0;
     transform: translateY(100%);
