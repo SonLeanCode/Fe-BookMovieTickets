@@ -195,36 +195,40 @@ const BuyTickets = () => {
 
                 {/* Right Column - 30% */}
                 
-                <div className="w-[30%] text-black bg-white rounded h-[30%] p-2">
-                {movie ? (
-                    <div>
-                        <div className="flex mb-4">
-                            <img src={movie?.data.img} alt={movie?.data.name} className="w-32  object-cover rounded mr-4" />
-                            <div>
-                                <h1 className="text-3xl font-semibold">{movie?.data.name}</h1>
-                                <p className="text-sm py-5"><span className="font-semibold">{movie?.data.subtitles}</span> - <span className='bg-orange-600 p-2 rounded-sm text-white text-lg'>{movie?.data.age_limit}</span></p>
+                <div className="w-[30%] text-black ">
+                    {movie ? (
+                        <div className='bg-white rounded h-[30%] p-2'>
+                            <div className="flex mb-4">
+                                <img src={movie?.data.img} alt={movie?.data.name} className="w-32  object-cover rounded mr-4" />
+                                <div>
+                                    <h1 className="text-3xl font-semibold">{movie?.data.name}</h1>
+                                    <p className="text-sm py-5"><span className="font-semibold">{movie?.data.subtitles}</span> - <span className='bg-orange-600 p-2 rounded-sm text-white text-lg'>{movie?.data.age_limit}</span></p>
+                                </div>
                             </div>
-                        </div>
-                        <div className='py-2'>
-                            <h1 className="text-xl font-bold">ST-FLIX Tân Bình</h1>
-                            <h2 className="text-base">Xuất: <span className="font-semibold">10:00 Am</span> - <span className="font-semibold">Thứ 2</span> </h2>
+                            <div className='py-2'>
+                                <h1 className="text-xl font-bold">ST-FLIX Tân Bình</h1>
+                                <h2 className="text-base">Xuất: <span className="font-semibold">10:00 Am</span> - <span className="font-semibold">Thứ 2</span> </h2>
+                                <hr />
+                            </div>         
+                            <div className="flex py-1">
+                                <div className="flex flex-col">
+                                    <h1 className="text-sm">x2</h1>
+                                    <h2 className="text-base">Ghế: <span className="font-semibold">K3</span></h2>
+                                </div>
+                                <p className="text-lg font-semibold ml-52 self-end">65.000 VNĐ</p>
+                            </div>
                             <hr />
-                        </div>         
-                        <div className="flex py-1">
-                            <div className="flex flex-col">
-                                <h1 className="text-sm">x2</h1>
-                                <h2 className="text-base">Ghế: <span className="font-semibold">K3</span></h2>
+                            <div className="mt-4 ml-36">
+                                <p className="text-red-600 font-semibold text-xl ">Tổng tiền: <span className="font-bold">100,000 VNĐ</span></p>
                             </div>
-                            <p className="text-lg font-semibold ml-52 self-end">65.000 VNĐ</p>
                         </div>
-                        <hr />
-                        <div className="mt-4 ml-36">
-                            <p className="text-red-600 font-semibold text-xl ">Tổng tiền: <span className="font-bold">100,000 VNĐ</span></p>
+                        ) : (
+                            <p className="text-gray-300">Loading movie details...</p> // Optional loading message
+                        )}
+                        <div className='flex justify-between pt-5'>
+                            <h1 className='text-orange-600 text-3xl text-center w-[50%] '>quay lại</h1>
+                            <h1 className='text-white text-3xl bg-orange-600 px-10 py-2 rounded-md'>Tiếp tục</h1>
                         </div>
-                    </div>
-                    ) : (
-                        <p className="text-gray-300">Loading movie details...</p> // Optional loading message
-                    )}
                 </div>
             </div>
         </div>
