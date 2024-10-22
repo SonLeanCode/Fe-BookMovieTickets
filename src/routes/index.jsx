@@ -38,12 +38,14 @@ import RegionAdmin from "../pages/Admin/RegionAdmin/RegionAdmin";
 import CinemaAdmin from "../pages/Admin/CinemaAdmin/CinemaAdmin";
 import GenreAdmin from "../pages/Admin/GenreAdmin/GenreAdmin";
 import Genre_Movie from "../pages/Admin/GenreAdmin/Genre_Movie";
+
 // import ActorAdmin from "../pages/Admin/ActorAdmin/ActorAdmin";
 import Actor_Movie from "../pages/Admin/ActorAdmin/Actor_Movie";
 import Movie_Management from "../pages/Admin/Movie_Management";
 import Genre_Management from "../pages/Admin/Genre_Management";
 import Actor_Management from "../pages/Admin/Actor_Management";
 import ActorAdmin from "../pages/Admin/ActorAdmin/ActorAdmin";
+import Region_Manager from "../pages/Admin/Region_Manager";
 
 
 export default function AppRoutes() {
@@ -80,7 +82,7 @@ export default function AppRoutes() {
             <Route path="actor/:id" element={<Actordetail />} />
             <Route path="movie/:id" element={<MovieDetailPage />} />
             <Route path="landingpage" element={<LandingPage />} />
-            <Route path="buy-tickets" element={<BuyTickets />} />
+            <Route path="buy-tickets/:id" element={<BuyTickets />} />
             <Route path="cheap-tickets" element={<CheapTicket />} />
             <Route path="voucher" element={<Voucher />} />
             <Route path="voucher/detail" element={<VoucherDetail />} />
@@ -114,6 +116,7 @@ export default function AppRoutes() {
               <Route path="movies" element={<Movie_Management />} />  
               <Route path="genres" element={<Genre_Management />} />  
               <Route path="actors" element={<Actor_Management />} />
+              <Route path="region" element={<Region_Manager />} />
 
               <Route path="regions/test" element={<RegionAdmin />} />
               <Route path="cinema/test" element={<CinemaAdmin />} />
