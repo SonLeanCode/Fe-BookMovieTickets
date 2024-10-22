@@ -28,7 +28,7 @@
     font-family: 'Oswald', sans-serif;
     text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
-    margin-left:3%;
+    margin-left:4%;
     position: relative;
     display: inline-block;
     padding-bottom: 10px; /* Khoảng cách giữa text và line */
@@ -163,21 +163,10 @@
     position: relative;
     padding-bottom: 1.5rem;
   }
-  .top-movie-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1.5rem;
-    padding: 1rem;
-  }
-  .top-movie-container {
-    display: grid;
-    grid-template-columns: repeat(12); /* Lưới 12 cột */
-    gap: 1.5rem; /* Khoảng cách giữa các box phim */
-    padding: 1rem;
-    width: 80%;
-    margin-left: 10%;
-  }
   
+  .top-movie-container {
+    padding: 1rem;
+  }
   
   .section-divider-animation {
     height: 2px;
@@ -269,118 +258,6 @@
   }
   
   
-  .member-section {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
-  
-  .member-background {
-    background-image: url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75');
-    background-size: cover;
-    background-position: center;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-  }
-  
-  .member-background h1 {
-    font-size:2.5rem;
-    font-weight: bold;
-    color: #ff0000;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 5px rgba(34, 0, 255, 0.5);
-  }
-  
-  .member-background h2 {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 50px;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  }
-  
-  .cards-container {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 1200px;
-    gap: 2rem;
-  }
-  
-  .member-card {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 12px;
-    width: calc(33.33% - 2rem); /* Để thẻ chiếm 50% không gian và có khoảng cách giữa */
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .member-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-  }
-  
-  .member-card img {
-    width: 100%;
-    height: 180px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-  }
-  
-  .member-card h2 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .member-card p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 15px;
-  }
-  
-  .member-card button {
-    background-color: #ff0000;
-    background-image: linear-gradient(90deg, #ff0000 0%, #800080 100%);
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-size: 200% 100%;
-    background-position: left;
-    transition: background-position 0.5s ease-out, transform 0.3s ease;
-  }
-  
-  .member-card button:hover {
-    background-position: right;
-    transform: scale(1.1);
-  }
-  .update-section h3 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 2rem;
-    color: #ff0000;
-    text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
-    text-transform: uppercase;
-    margin-left: 2%;
-    letter-spacing: 2px;
-    position: relative;
-    padding-bottom: 1.5rem;
-  }
-  
-  /* Điều chỉnh ảnh */
-  img {
-    border-radius: 8px;
-  }
-  
-  
   /* Thiết kế overlay */
   .overlay-update {
     position: absolute;
@@ -435,5 +312,4 @@
   .number-color-6{
     color: #838181; 
   }
-  
   

@@ -235,8 +235,9 @@ const Home = () => {
 
   return (
     
-    <div className="bg-black text-gray-100">
+    <div className="bg-black text-gray-100 overflow-x-hidden">
       <main className="bg-black">
+      
         <section className="relative mb-12 bg-black">
           {/* show popup */}
           <PopupNotification />
@@ -246,13 +247,13 @@ const Home = () => {
             currentBannerIndex={currentBannerIndex}
           />
 
-          <div className="absolute top-0 h-screen w-1/2">
+          <div className="absolute top-0 h-screen w-full md:w-1/2">
             {/* Giới thiệu phim */}
-            <div className="absolute top-[125px] mt-8 h-48 w-full">
+            <div className="absolute top-[100px] mt-8 ml-4 h-48 w-full">
               {carouselBanners.map((banner, index) => (
                 <div
                   key={banner.id}
-                  className={`absolute ml-20 transition-transform duration-1000 ease-in-out ${
+                  className={`absolute transition-transform duration-1000 ease-in-out ${
                     currentBannerIndex === index
                       ? "translate-x-0 opacity-100"
                       : "translate-x-full opacity-0"
@@ -261,8 +262,8 @@ const Home = () => {
                   <h2 className="text-lg font-semibold">
                     {banner.genres.join(" | ")}
                   </h2>
-                  <h5 className="mt-2 text-5xl font-bold">{banner.title}</h5>
-                  <div className="mt-2 flex">
+                  <h5 className="mt-2 text-3xl md:text-5xl font-bold">{banner.title}</h5>
+                  <div className="mt-2 flex flex-wrap">
                     <h2 className="mr-4">{banner.releaseYear}</h2> {" | "}
                     <h2 className="ml-4 mr-4 flex">
                       DIRECTOR:{" "}
@@ -276,12 +277,12 @@ const Home = () => {
                       </p>
                     </h2>
                   </div>
-                  <p className="mt-2 text-gray-300">{banner.description}</p>
-                  <div className="mt-4 flex">
-                    <Button className="flex items-center rounded bg-red-600 px-6 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500">
+                  <p className="mt-2 text-gray-300 text-sm md:text-base">{banner.description}</p>
+                  <div className="mt-4 flex flex-col md:flex-row">
+                    <Button className=" flex items-center rounded bg-red-600 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500 md:px-6">
                       BOOK NOW <FaTicketAlt size={20} className="ml-2" />
                     </Button>
-                    <Button className="ml-4 rounded border border-solid border-gray-300 px-6 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800">
+                    <Button className="ml-0 mt-2 md:mt-0 md:ml-4 rounded border border-solid border-gray-300 px-4 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 md:px-6">
                       VIEW MORE
                     </Button>
                   </div>
@@ -290,14 +291,13 @@ const Home = () => {
             </div>
 
             {/* Popular This Week */}
-            <div className="absolute top-[400px] ml-20 mr-4 overflow-hidden">
+            <div className="absolute top-[430px] ml-4 mr-4 overflow-hidden md:ml-20">
               <div className="flex items-center justify-between py-2">
                 <h2 className="text-md flex items-center font-bold">
-                  {" "}
                   <FaStar className="mr-1" />
                   PHỔ BIẾN TRONG TUẦN
                 </h2>
-                <div> 
+                <div>
                   <button
                     className="relative top-1 mr-2 rounded-full border border-solid p-1 hover:opacity-[0.5]"
                     onClick={goToPrevious}
@@ -344,13 +344,11 @@ const Home = () => {
 
         <section className="movie-section relative">
           <div className="containe mx-auto px-4">
-            <h3 className="section-title mb-6 text-4xl font-bold">
+            <h3 className="section-title mb-6 text-4xl font-bold text-center">
               | Xu hướng hiện nay
             </h3>
-            <div
-              className="relative flex items-center justify-center px-8"
-              style={{ width: "100%" }}
-            >
+            <div className="relative flex items-center justify-center px-8 w-full">
+              {/* Nút trái */}
               <button
                 className="absolute left-0 z-10 rounded-full bg-red-600 p-3 text-white"
                 style={{
@@ -362,17 +360,13 @@ const Home = () => {
               >
                 <AiOutlineLeft size={24} />
               </button>
-              <div
-                className="hide-scrollbar flex w-full overflow-x-auto"
-                id="movie-list"
-                style={{ padding: "0 10px" }}
-              >
+
+              <div className="hide-scrollbar flex w-full overflow-x-auto" id="movie-list" style={{ padding: "0 10px" }}>
                 <div className="flex space-x-9">
                   {movies.slice(0, 10).map((movie) => (
                     <div
                       key={movie.id}
-                      className="movie-card relative flex-none overflow-hidden"
-                      style={{ width: "calc(19% - 1rem)", flexShrink: 0 }}
+                      className="movie-card relative flex-none overflow-hidden lg:w-[calc(19%-1rem)] md:w-[calc(40%-1rem)] w-[calc(50%-1rem)]"
                     >
                       <img
                         src={movie.image}
@@ -381,18 +375,12 @@ const Home = () => {
                       />
                       <div className="overlay">
                         <div className="overlay-content">
-                          <h4
-                            className="movie-name"
-                            style={{ color: "red", fontWeight: "bold" }}
-                          >
+                          <h4 className="movie-name text-red-500 font-bold">
                             {movie.name}
                           </h4>
-                          <p className="movie-rating">
-                            Đánh giá: {movie.rating}
-                          </p>
+                          <p className="movie-rating">Đánh giá: {movie.rating}</p>
                           <button className="overlay-favorite">
                             <FaHeart />
-                            <br></br>
                           </button>
                           <div className="button-container flex flex-col space-y-4">
                             <Link
@@ -403,7 +391,7 @@ const Home = () => {
                             </Link>
                             <Link
                               to="/"
-                              className="overlay-btn-xh w-38 x` py-2 text-center text-white"
+                              className="overlay-btn-xh w-38 py-2 text-center text-white"
                             >
                               Mua vé <i className="fas fa-ticket-alt ml-1"></i>
                             </Link>
@@ -431,13 +419,12 @@ const Home = () => {
           </div>
         </section>
 
+
         <div className="section-divider-animation"></div>
 
         <section className="containe flex justify-center">
-          <div className="update-section w-[96%] ml-5 ">
-            <h3 className=" text-4xl  font-bold">
-              | Phim mới cập nhật
-            </h3>
+          <div className="update-section w-[96%] ml-5">
+            <h3 className="text-4xl font-bold">| Phim mới cập nhật</h3>
             <div className="flex flex-col justify-center lg:flex-row">
               {/* Cột trái: 1 phim */}
               <div className="mb-6 flex w-full flex-col items-center justify-center p-4 hover:cursor-pointer lg:mb-0 lg:w-2/5">
@@ -461,7 +448,7 @@ const Home = () => {
                     <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                       <div className="button-container flex flex-col space-y-4">
                         <button
-                          onClick={() => handleTrailerClick(movie?.url_video)} // Use the movie's trailer URL
+                          onClick={() => handleTrailerClick(movie?.url_video)}
                           className="overlay-btn-xh w-38 py-2 text-center text-white"
                         >
                           Trailer <i className="fas fa-video ml-1"></i>
@@ -486,19 +473,19 @@ const Home = () => {
                   />
                 )}
               </div>
-              
-              {/* Cột phải: 6 phim, 2 hàng, mỗi hàng 3 box */}
+
+              {/* Cột phải: 6 phim, 2 hàng, mỗi hàng 2 box trên màn hình nhỏ */}
               <div className="flex flex-wrap justify-between lg:w-3/4">
-                {latestMovies?.data?.slice(1, 9).map((movie) => (
+                {latestMovies?.data?.slice(1, 9).map((movie, index) => (
                   <div
                     key={movie._id}
-                    className="p-3 flex w-full flex-col lg:w-1/4"
+                    className="p-5 flex w-1/2 lg:w-1/4" // Hiển thị 2 box phim trên màn hình nhỏ
                   >
                     <div className="group relative flex h-full flex-col overflow-hidden rounded-lg shadow-md">
                       <img
                         src={movie.img}
                         alt={movie.name}
-                        className="h-[250px] w-full"
+                        className="h-[250px] w-[230px] object-cover"
                       />
                       <strong className="block p-2 text-center text-sm transition-colors duration-300 group-hover:text-red-500">
                         {movie.name}
@@ -506,12 +493,12 @@ const Home = () => {
                       {/* Overlay buttons */}
                       <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="flex flex-col">
-                        <button
-                          onClick={() => handleTrailerClick(movie?.url_video)} // Use the movie's trailer URL
-                          className="overlay-btn-xh w-38 py-2 text-center text-white"
-                        >
-                          Trailer <i className="fas fa-video ml-1"></i>
-                        </button>
+                          <button
+                            onClick={() => handleTrailerClick(movie?.url_video)}
+                            className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          >
+                            Trailer <i className="fas fa-video ml-1"></i>
+                          </button>
                           <Link
                             to={"/cinema/movie/" + movie._id}
                             className="overlay-btn-xh w-38 py-2 text-center text-white"
@@ -528,19 +515,17 @@ const Home = () => {
           </div>
         </section>
 
+
         <div className="section-divider-animation"></div>
 
         <section className="containe mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
           <div className="flex w-full flex-col p-10 lg:w-8/12">
-            <h3 className="gy-h3 mb-6 text-4xl font-bold">
-              | Phim Gợi Ý
-            </h3>
-            <div className="grid flex-grow grid-cols-4 gap-5 hover:cursor-pointer">
+            <h3 className="gy-h3 mb-6 text-4xl font-bold">| Phim Gợi Ý</h3>
+            <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4"> {/* Sử dụng grid-cols-2 cho màn hình nhỏ và grid-cols-4 cho màn hình lớn */}
               {movies.slice(0, 8).map((movie) => (
                 <div
                   key={movie.id}
                   className="overflow-hidden rounded-lg shadow-lg"
-                  style={{ width: "200px" }}
                 >
                   <img
                     src={movie.image}
@@ -556,9 +541,7 @@ const Home = () => {
             </div>
           </div>
           <div className="flex w-full flex-col p-10 lg:w-4/12">
-            <h3 className="tt-h3 mb-6 text-4xl font-bold">
-              | Top Trending
-            </h3>
+            <h3 className="tt-h3 mb-6 text-4xl font-bold">| Top Trending</h3>
             <div className="tt flex flex-grow flex-col gap-4 hover:cursor-pointer">
               {movies.slice(0, 6).map((movie, index) => (
                 <div
@@ -582,11 +565,12 @@ const Home = () => {
           </div>
         </section>
 
+
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="ml-20 text-4xl  font-bold">| Phim mới cập nhật</h3>
-          <div className="top-movie-container" style={{ width: "90%", marginLeft: "5%" }}>
+          <h3 className="ml-20 text-4xl font-bold">| Phim mới cập nhật</h3>
+          <div className="top-movie-container grid grid-cols-2 gap-4 md:grid-cols-5" style={{ width: "90%", marginLeft: "5%" }}>
             {movies.map((movie) => (
               <div key={movie.id} className="top-movie-card rounded-lg">
                 <img
@@ -602,7 +586,7 @@ const Home = () => {
                       <FaHeart />
                     </button>
                     <div className="button-container">
-                      <div className="button-container flex flex-col space-y-4">
+                      <div className="flex flex-col space-y-4">
                         <Link
                           to="/cinema/detail"
                           className="overlay-btn-xh w-38 py-2 text-center text-white"
@@ -611,7 +595,7 @@ const Home = () => {
                         </Link>
                         <Link
                           to="/"
-                          className="overlay-btn-xh w-38 x` py-2 text-center text-white"
+                          className="overlay-btn-xh w-38 py-2 text-center text-white"
                         >
                           Mua vé <i className="fas fa-ticket-alt ml-1"></i>
                         </Link>
@@ -624,41 +608,65 @@ const Home = () => {
           </div>
         </section>
 
+
         <section className="member-section">
-          <div className="member-background">
-            <h1>Chương trình thành viên</h1>
-            <h2>Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn</h2>
-            <div className="cards-container">
-              <div className="member-card">
-                <img
-                  src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/Desktop519x282_CMember.webp"
-                  alt="Thành viên mới"
-                />
-                <h2>Thành viên mới</h2>
-                <p>Thẻ có nhiều ưu đãi cho thành viên mới</p>
-                <button>Tìm hiểu ngay</button>
-              </div>
-              <div className="member-card">
-                <img
-                  src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/c-vip.webp"
-                  alt="Thành viên Vip"
-                />
-                <h2>Thành viên Vip</h2>
-                <p>Thẻ Vip sở hữu nhiều ưu đãi độc quyền</p>
-                <button>Tìm hiểu ngay</button>
-              </div>
-              <div className="member-card">
-                <img
-                  src="https://bizweb.dktcdn.net/thumb/1024x1024/100/411/892/products/the-thanh-vien-vip-danh-cho-khach-hang-tai-salon-cao-cap.jpg?v=1611827787823"
-                  alt="Thành viên Vip"
-                />
-                <h2>Thành viên kì cựu</h2>
-                <p>Độc quyền cho các thành viên lâu năm!</p>
-                <button>Tìm hiểu ngay</button>
+          <div
+            className="flex flex-col items-center p-5 bg-cover bg-center"
+            style={{ backgroundImage: "url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75')" }}
+          >
+            <h1 className="text-5xl font-bold text-red-600 mb-2 uppercase shadow-lg">
+              Chương trình thành viên
+            </h1>
+            <h2 className="text-lg font-bold text-white mb-10 shadow-lg">
+              Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn
+            </h2>
+            <div className="w-full max-w-screen-lg">
+              <div className="flex flex-wrap justify-between">
+                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+                  <img
+                    src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/Desktop519x282_CMember.webp"
+                    alt="Thành viên mới"
+                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                  />
+                  <h2 className="text-xl text-gray-800 mb-2">Thành viên mới</h2>
+                  <p className="text-gray-600 mb-4">Thẻ có nhiều ưu đãi cho thành viên mới</p>
+                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                    Tìm hiểu ngay
+                  </button>
+                </div>
+                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+                  <img
+                    src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/c-vip.webp"
+                    alt="Thành viên Vip"
+                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                  />
+                  <h2 className="text-xl text-gray-800 mb-2">Thành viên Vip</h2>
+                  <p className="text-gray-600 mb-4">Thẻ Vip sở hữu nhiều ưu đãi độc quyền</p>
+                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                    Tìm hiểu ngay
+                  </button>
+                </div>
+                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+                  <img
+                    src="https://bizweb.dktcdn.net/thumb/1024x1024/100/411/892/products/the-thanh-vien-vip-danh-cho-khach-hang-tai-salon-cao-cap.jpg?v=1611827787823"
+                    alt="Thành viên kì cựu"
+                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                  />
+                  <h2 className="text-xl text-gray-800 mb-2">Thành viên kì cựu</h2>
+                  <p className="text-gray-600 mb-4">Độc quyền cho các thành viên lâu năm!</p>
+                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                    Tìm hiểu ngay
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </section>
+
+
+
+
+
       </main>
     </div>
   );
