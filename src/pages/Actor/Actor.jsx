@@ -5,6 +5,7 @@ import notfound_img from "../../assets/img/404/actor-default.png";
 
 const Actor = () => {
   const { data: actorData} = useGetAllActorsQuery();
+  console.log(actorData.data)
   const [currentPage, setCurrentPage] = useState(1);
   const actorsPerPage = 10; // Số lượng diễn viên hiển thị mỗi trang
 

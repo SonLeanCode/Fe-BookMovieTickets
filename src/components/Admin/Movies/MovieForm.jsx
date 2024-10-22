@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { useGetAllActorsQuery } from "../../../services/Actor/actor.service";
+import { useGetAllGenresQuery } from "../../../services/Genre/genre.service";
+import MultiSelectValues from "../MultiSelectWithCheckbox";
 
 const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
   const [formData, setFormData] = useState({
@@ -13,7 +16,38 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
     release_date: "",
     subtitles: "",
     age_limit: "",
+    actors: [],
+    genres: [],
   });
+
+  const { data: actorsData } = useGetAllActorsQuery();
+  const { data: genresData } = useGetAllGenresQuery();
+
+  const actorOptions = actorsData?.data.map((actor) => ({
+    value: actor._id,
+    label: actor.name,
+  }));
+
+  const genreOptions = genresData?.data.map((genre) => ({
+    value: genre._id,
+    label: genre.name,
+  }));
+
+  const [selectedActors, setSelectedActors] = useState(formData.actors);
+  const [selectedGenres, setSelectedGenres] = useState(formData.genres);
+
+  const handleSelectChange = (selectedOptions, name) => {
+    setFormData({
+      ...formData,
+      [name]: selectedOptions.map((option) => option.value),
+    });
+
+    if (name === "actors") {
+      setSelectedActors(selectedOptions.map((option) => option.value));
+    } else {
+      setSelectedGenres(selectedOptions.map((option) => option.value));
+    }
+  };
 
   const modalRef = useRef(null);
 
@@ -31,6 +65,8 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
         release_date: movieData.release_date,
         subtitles: movieData.subtitles,
         age_limit: movieData.age_limit,
+        actors: movieData.actors || [],
+        genres: movieData.genres || [],
       });
     }
   }, [movieData]);
@@ -47,9 +83,11 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
       release_date: "",
       subtitles: "",
       age_limit: "",
+      actors: [],
+      genres: [],
     });
     onCancel();
-  }
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -62,7 +100,11 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
     const formDataToSend = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
-      formDataToSend.append(key, value);
+      if (Array.isArray(value)) {
+        value.forEach((item) => formDataToSend.append(`${key}[]`, item));
+      } else {
+        formDataToSend.append(key, value);
+      }
     });
 
     onSubmit(formDataToSend, isEdit);
@@ -71,19 +113,7 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
-        setFormData({
-          url_video: "",
-          name: "",
-          description: "",
-          country: "",
-          director: "",
-          producer: "",
-          duration: "",
-          release_date: "",
-          subtitles: "",
-          age_limit: "",
-        });
-        onCancel();
+        handleClose();
       }
     };
 
@@ -98,9 +128,8 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
     };
   }, [isVisible, onCancel]);
 
-  
-
-  const commonInputClasses ="input input-bordered w-full bg-[#171717] text-white border-gray-500";
+  const commonInputClasses =
+    "input input-bordered w-full bg-[#171717] text-white border-gray-500";
 
   return (
     <div
@@ -114,7 +143,7 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
           {movieData ? "Cập nhật phim" : "Thêm phim"}
         </h2>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-4 gap-4">
             <div className="mb-2">
               <label className="mb-1 block text-white">Tên phim: </label>
               <input
@@ -244,6 +273,20 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
                 className={commonInputClasses}
               />
             </div>
+            <MultiSelectValues
+              name="actors"
+              options={actorOptions}
+              selectedValues={selectedActors}
+              handleSelectChange={handleSelectChange}
+              label="Diễn viên"
+            />
+            <MultiSelectValues
+              name="genres"
+              options={genreOptions}
+              selectedValues={selectedGenres}
+              handleSelectChange={handleSelectChange}
+              label="Thể loại"
+            />
           </div>
           <div className="mb-4">
             <label className="mb-1 block text-white">Mô tả</label>
@@ -256,6 +299,7 @@ const MovieForm = ({ movieData, onSubmit, onCancel, isVisible }) => {
               required
             />
           </div>
+
           <div className="flex justify-end">
             <button type="submit" className="mr-2 rounded-md bg-[#0728dd] p-2">
               {movieData ? "Cập nhật phim" : "Thêm phim"}
@@ -287,6 +331,8 @@ MovieForm.propTypes = {
     release_date: PropTypes.string,
     subtitles: PropTypes.string,
     age_limit: PropTypes.number,
+    actors: PropTypes.arrayOf(PropTypes.string),
+    genres: PropTypes.arrayOf(PropTypes.string),
   }),
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

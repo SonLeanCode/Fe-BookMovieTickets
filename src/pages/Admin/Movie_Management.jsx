@@ -17,8 +17,13 @@ import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
 
 const Movie_Management = () => {
-  const { data: movies, isLoading: movieDataLoading , refetch } = useGetAllMoviesQuery();
-  const { data: movieGenreData, isLoading: movieGenreDataLoading } = useGetAllMovieGenreQuery();
+  const {
+    data: movies,
+    isLoading: movieDataLoading,
+    refetch,
+  } = useGetAllMoviesQuery();
+  const { data: movieGenreData, isLoading: movieGenreDataLoading } =
+    useGetAllMovieGenreQuery();
 
   // Khai báo các state
   const [loading, setLoading] = useState(false);
@@ -53,10 +58,13 @@ const Movie_Management = () => {
 
   const handleSubmit = async (formData, isEdit) => {
     try {
-      setLoading(true)
+      setLoading(true);
       if (isEdit) {
         // Gửi id và formData trực tiếp
-        await updateMovie({ id: formData.get("id"), updatedData: formData }).unwrap();
+        await updateMovie({
+          id: formData.get("id"),
+          updatedData: formData,
+        }).unwrap();
         refetch();
         Toastify("Phim đã được cập nhật:", 200);
       } else {
@@ -141,20 +149,21 @@ const Movie_Management = () => {
       : "Đang cập nhật";
   };
 
-  if(movieDataLoading || movieGenreDataLoading){
-    return <LoadingLocal />
+  if (movieDataLoading || movieGenreDataLoading) {
+    return <LoadingLocal />;
   }
-  if(loading){
-    return <LoadingPage loading={loading}/>
+  if (loading) {
+    return <LoadingPage loading={loading} />;
   }
-
 
   return (
-    <div className="ml-64 mt-8 bg-[#111111] p-6">
+    <div className="ml-64 mt-8 bg-[#111111] p-6 text-white">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-2xl font-bold">Quản lý danh sách phim</h3>
+        <h3 className="text-2xl font-bold text-white">
+          Quản lý danh sách phim
+        </h3>
         <Button
-          className="flex rounded-md bg-red-600 p-2 hover:bg-red-700 hover:brightness-125"
+          className="flex rounded-md bg-red-600 p-2 text-white hover:bg-red-700 hover:brightness-125"
           onClick={() => handleOpenModal()}
         >
           + Thêm phim
@@ -198,7 +207,7 @@ const Movie_Management = () => {
           <Input
             type="text"
             placeholder="Search..."
-            className="rounded-md bg-[#2d2d2d] p-1 text-white"
+            className="rounded-md bg-[#2d2d2d] p-2 text-white"
             value={searchTerm}
             onChange={handleSearchChange}
           />
@@ -229,14 +238,15 @@ const Movie_Management = () => {
               <th className="px-4 py-3 text-left text-white">Phim</th>
               <th className="px-4 py-3 text-left text-white">Mô tả</th>
               <th className="px-4 py-3 text-left text-white">Thể loại</th>
-              <th className="px-4 py-3 text-white text-center">
+              <th className="px-4 py-3 text-center text-white">
                 Ngày khởi chiếu
               </th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
             </tr>
           </thead>
           <tbody className="bg-black text-gray-400">
-            {paginatedMovies?.map((movie) => (
+          {paginatedMovies ? (
+            paginatedMovies?.map((movie) => (
               <tr key={movie._id}>
                 <td className="px-4 py-2">
                   <input
@@ -264,11 +274,13 @@ const Movie_Management = () => {
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-2 w-[20%]">
+                <td className="w-[20%] px-4 py-2">
                   {movie.description.slice(0, 50) + "..."}
                 </td>
-                <td className="px-4 py-2 w-[15%]">{getGenreNames(movie)}</td>
-                <td className="px-4 py-2 text-center">{formatDate(movie.release_date)}</td>
+                <td className="w-[15%] px-4 py-2">{getGenreNames(movie)}</td>
+                <td className="px-4 py-2 text-center">
+                  {formatDate(movie.release_date)}
+                </td>
                 <td className="px-4 py-2 text-center">
                   <Button
                     className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
@@ -284,7 +296,13 @@ const Movie_Management = () => {
                   </Button>
                 </td>
               </tr>
-            ))}
+            ))):(
+              <tr>
+              <td colSpan="6" className="text-center p-4">
+                Hiện tại chưa có phim nào.
+              </td>
+            </tr>
+            )}
           </tbody>
         </table>
       </div>
