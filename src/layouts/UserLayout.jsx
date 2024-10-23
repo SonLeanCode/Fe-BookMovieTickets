@@ -6,7 +6,7 @@ const UserLayout = () => {
   return (
     <>
       <HeaderWeb />
-      <Outlet />
+        <Outlet />
       <FooterWeb />
     </>
   );

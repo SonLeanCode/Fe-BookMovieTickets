@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaClock, FaMapMarkerAlt, FaQuoteLeft } from "react-icons/fa";
 import { useGetMovieByIdQuery } from "../../services/Movies/movies.services";
-import { useGetGenresByMovieQuery } from "../../services/Genre/genre_movies.service";
-import { useGetActorsByMovieQuery } from "../../services/Actor/actor_movies.service";
 import { formatDate } from "../../utils/formatDate";
 import notfound_img from "../../assets/img/404/not_found_img.jpg";
 import VideoPlayer from "../../components/Movie/VideoPlayer";
@@ -14,10 +12,8 @@ import LoadingLocal from "../Loading/LoadingLocal";
 const MovieDetailPage = () => {
   const { id } = useParams();
   const { data: movieData, isLoading: movieDataLoading  } = useGetMovieByIdQuery(id);
-  const { data: genre_moviesData, isLoading: genre_moviesDataLoading } = useGetGenresByMovieQuery(id);
-  const { data: actor_moviesData, isLoading: actor_moviesDataLoaing } = useGetActorsByMovieQuery(id);
   const [activeTab, setActiveTab] = useState("content");
-
+  console.log(movieData)
   const tabs = [
     { id: "content", label: "Nội dung", content: movieData?.data.description },
     {
@@ -35,17 +31,17 @@ const MovieDetailPage = () => {
           </div>
           <div className="actor mt-6 flex">
             <strong className="mr-4 text-xl">Diễn viên: </strong>
-            {actor_moviesData?.data.map((movie) => (
+            {movieData?.data?.actors.map((actor) => (
               <div
-                key={movie._id}
+                key={actor._id}
                 className="mr-8 w-32 flex-col items-center text-center"
               >
                 <img
-                  src={movie.actor_id.feature_img || notfound_img}
-                  alt={movie.actor_id.name}
+                  src={actor.feature_img || notfound_img}
+                  alt={actor.name}
                   className="h-32 w-32 rounded-full"
                 />
-                <span className="mt-4">{movie.actor_id.name}</span>
+                <span className="mt-4">{actor.name}</span>
               </div>
             ))}
           </div>
@@ -75,7 +71,7 @@ const MovieDetailPage = () => {
     },
   ];
 
-  if(movieDataLoading || genre_moviesDataLoading || actor_moviesDataLoaing){
+  if(movieDataLoading){
     return <LoadingLocal/>
   }
 
@@ -175,14 +171,14 @@ const MovieDetailPage = () => {
                 </div>
                 <div className="mt-4">
                   <span className="text-white">Thể Loại: </span>
-                  {genre_moviesData?.data.map((movie) => {
+                  {movieData?.data?.genres.map((genre) => {
                     return (
                       <Link
-                        to={'/cinema/genrefilm/'+movie.genre_id._id}
-                        key={movie._id}
+                        to={'/cinema/genrefilm/'+genre._id}
+                        key={genre._id}
                         className="ml-3 rounded border border-gray-700 px-2 py-1 text-white hover:bg-gray-700"
                       >
-                        {movie?.genre_id.name}
+                        {genre.name}
                       </Link>
                     );
                   })}
@@ -196,20 +192,20 @@ const MovieDetailPage = () => {
                 <div className="md:mt-4 mt-2 flex items-center">
                   <span className="mr-2 text-white w-[5.5rem] md:w-auto">Diễn viên:</span>
                   <div className="flex flex-wrap gap-2 mt-2 md:mt-0">
-                    {actor_moviesData?.data.slice(0, 3).map((movie) => {
+                    {movieData?.data?.actors.map((actor) => {
                       return (
                         <Link
-                          to={'/cinema/actor/' + movie?.actor_id._id}
-                          key={movie._id}
+                          to={'/cinema/actor/' + actor._id}
+                          key={actor._id}
                           className="rounded border border-gray-700 px-2 py-1 text-white hover:bg-gray-700"
                         >
-                          {movie?.actor_id.name}
+                          {actor.name}
                         </Link>
                       );
                     })}
-                    {actor_moviesData?.data.length > 3 && (
+                    {movieData?.data?.actors.length > 3 && (
                       <span className="rounded border border-gray-700 px-2 py-1 text-white">
-                        + {actor_moviesData?.data.length - 3} more
+                        + {movieData?.data?.actors.length - 3} more
                       </span>
                     )}
                   </div>

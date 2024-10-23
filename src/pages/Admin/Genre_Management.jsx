@@ -131,7 +131,7 @@ const Genre_Management = () => {
   }
 
   return (
-    <div className="ml-64 mt-8 bg-[#111111] p-6">
+    <div className="ml-64 mt-8 bg-[#111111] p-6 text-white">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-2xl font-bold">Quản lý danh sách thể loại</h3>
         <Button

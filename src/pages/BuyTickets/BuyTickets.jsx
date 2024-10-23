@@ -115,7 +115,6 @@ const BuyTickets = () => {
                                     </button>
                                 ))}
                             </div>
-
                             <button
                                 onClick={() => {
                                     const scrollContainer = document.getElementById("dayScroll");
@@ -125,7 +124,6 @@ const BuyTickets = () => {
                             >
                                 &gt;
                             </button>
-
                             <div className="absolute right-5 mb-4 ml-4">
                                 <h3 className="text-lg w-100 font-bold text-white">| Chọn rạp</h3>
                                 <select className="bg-gray-700 text-white rounded px-4 py-2 w-[300px]">
@@ -137,6 +135,7 @@ const BuyTickets = () => {
                                     <option>Rạp 5</option>
                                 </select>
                             </div>
+
                         </div>
                         {/* Display Cinema and Showtimes */}
                         <div className="mt-20">
@@ -234,5 +233,6 @@ const BuyTickets = () => {
         </div>
     );
 };
+
 
 export default BuyTickets;

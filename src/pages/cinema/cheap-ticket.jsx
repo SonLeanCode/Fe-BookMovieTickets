@@ -37,7 +37,7 @@ const CheapTicket = () => {
   const handlePageChange = (page) => setCurrentPage(page);
 
   return (
-    <div className="relative text-white shadow-lg w-full">
+    <div className="relative bg-black text-white shadow-lg w-full">
 
       <div className="relative w-full">
         <img
