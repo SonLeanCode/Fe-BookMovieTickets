@@ -3,8 +3,10 @@ import { io } from "socket.io-client";
 import {getUserByIdFormToken} from "../Utils/auth"
 import { useGetCommentsQuery, usePostCommentsMutation } from "../../services/Comments/comments_user.service";
 const socket = io("http://localhost:4003");
+
 const CommentsSection = () => {
-   const {data:comments }= useGetCommentsQuery();
+   const {data: comments }= useGetCommentsQuery();
+   console.log(comments)
    const [postComments] = usePostCommentsMutation();
    const [newComment,setNewComment]=useState("")
    const [allComments, setAllComments] = useState(comments || []);
@@ -14,7 +16,7 @@ const CommentsSection = () => {
       setAllComments((prevComments) => [...prevComments, comment]);
     });
     return ()=>{
-      socket.off("newComment");
+      socket.off("newContent");
     }
    },[])
    const handleSubmit = async(e)=>{
@@ -74,8 +76,8 @@ const CommentsSection = () => {
       </form>
 
       <div>
-        {allComments.map((comment, index) => (
-          <div key={index} className="mt-5 flex items-start gap-2.5">
+        {allComments.map((comment) => (
+          <div key={comment._id} className="mt-5 flex items-start gap-2.5">
             <img className="h-12 w-14 rounded-full" src={comment.avatar} alt="" />
             <div className="flex w-full flex-col gap-1">
               <div className="flex items-center space-x-2">

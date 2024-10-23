@@ -37,7 +37,7 @@ const Profile = () => {
   
 
     return (
-        <div className="p-28 px-20">
+        <div className="p-28 px-20 text-white">
             <h1 className="text-3xl pb-4 uppercase font-semibold">Thông tin cá nhân</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16"> 
             <div className="bg-slate-900 p-6 rounded-lg shadow-lg " style={{boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)',}} >

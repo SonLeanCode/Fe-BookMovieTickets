@@ -249,7 +249,7 @@ const Home = () => {
 
           <div className="absolute top-0 h-screen w-full md:w-1/2">
             {/* Giới thiệu phim */}
-            <div className="absolute top-[100px] mt-8 ml-4 h-48 w-full">
+            <div className="absolute top-[100px] mt-8 ml-20 h-48 w-full">
               {carouselBanners.map((banner, index) => (
                 <div
                   key={banner.id}
