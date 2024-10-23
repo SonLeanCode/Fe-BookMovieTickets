@@ -5,7 +5,7 @@ import { useLoginMutation, useGoogleLoginMutation, useFacebookLoginMutation } fr
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { FacebookProvider, LoginButton } from "react-facebook";
-
+import Toastify from "../../helper/Toastify";
 const Login = () => {
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
@@ -38,9 +38,11 @@ const Login = () => {
 
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("user", JSON.stringify(response?.data));
+      Toastify(response.message, 200)
       navigate(response?.data.role === "user" ? "/cinema" : "/admin");
     } catch (error) {
       console.error("Login error:", error);
+      Toastify(error.data.message, error.status)
     }
   };
 

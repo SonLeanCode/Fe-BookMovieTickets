@@ -27,10 +27,11 @@ export const apiComents = createApi({
             body: credentials,
           }),
         }),
+        
         getComments: builder.query({
             query: () => '/api/comment',
         })
     }),
       
 })
-export const  { useGetCommentsQuery,usePostCommentsMutation} = apiComents
+export const  { useGetCommentsQuery, usePostCommentsMutation} = apiComents

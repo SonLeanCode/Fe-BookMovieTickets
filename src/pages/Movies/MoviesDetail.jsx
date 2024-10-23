@@ -95,7 +95,7 @@ const MovieDetailPage = () => {
             />
             <div className="w-full">
               <div className="flex items-end justify-between">
-                <h1 className="text-3xl mb-2 md:mb-0 uppercase font-bold text-gray-200">
+                <h1 className="text-3xl mb-2 md:mb-0 uppercase font-bold text-white">
                   {movieData?.data.name}
                 </h1>
                 
@@ -212,7 +212,7 @@ const MovieDetailPage = () => {
                 </div>
 
                 <div className="mt-4 flex justify-start pr-4 md:px-0">
-                  <button className="btn p-1 px-3 md:w-32 w-full text-black bg-white rounded border">Mua Ngay</button>
+                  <Link to={`/cinema/buy-tickets/`+movieData?.data?._id} className="btn p-1 px-3 md:w-32 w-full text-black bg-white rounded border">Mua Ngay</Link>
                 </div>
               </div>
             </div>
