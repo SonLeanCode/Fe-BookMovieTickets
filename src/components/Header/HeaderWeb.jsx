@@ -26,7 +26,6 @@ const HeaderWeb = () => {
         setScrolled(false);
       }
     };
-
     // Check login status when component mounts
     const userData = JSON.parse(localStorage.getItem("user"));
     if (userData) {
@@ -94,6 +93,7 @@ const HeaderWeb = () => {
             <button className="cinema-corner-button font-medium text-white hover:text-gray-300">
               Góc điện ảnh
             </button>
+            <div className="absolute  h-10 w-24"></div>
             <div className="absolute left-0 mt-2 hidden flex-col rounded-md bg-gray-700 shadow-md group-hover:flex">
               <Link
                 to="/cinema/genrefilm"
@@ -114,6 +114,8 @@ const HeaderWeb = () => {
             <button className="cinema-corner-button font-medium text-white hover:text-gray-300">
               Sự kiện
             </button>
+            <div className="absolute  h-10 w-24"></div>
+
             <div className="absolute left-0 mt-2 hidden flex-col rounded-md bg-gray-700 shadow-md group-hover:flex">
               <Link
                 to="/cinema/voucher"
@@ -252,15 +254,7 @@ const HeaderWeb = () => {
           >
             <i className="fa-solid fa-arrow-right-from-bracket"></i>
           </button>
-              <form onSubmit={handleSearch}>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full rounded-lg border right-0 border-gray-300 bg-transparent py-2 pl-3 pr-4 text-white focus:outline-none focus:ring-2"
-                />
-              </form>
+              
               {isLoggedIn ? (
                       <div className="flex items-center space-x-2">
                         

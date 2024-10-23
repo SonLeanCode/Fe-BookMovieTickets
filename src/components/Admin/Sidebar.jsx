@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import { Button, Menu } from "react-daisyui";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MdCategory } from "react-icons/md";
-import { FaHome, FaFilm, FaUserAlt } from "react-icons/fa";
+import { FaHome, FaFilm, FaUserAlt,FaMapMarkerAlt } from "react-icons/fa";
 
 const menuItems = [
   { name: "Bảng điều khiển", icon: FaHome, link: "/admin/dashboard" },
   { name: "Danh sách phim", icon: FaFilm, link: "/admin/movies" },
   { name: "Danh sách thể loại", icon: MdCategory, link: "/admin/genres" },
   { name: "Danh sách diễn viên", icon: FaUserAlt, link: "/admin/actors" },
+  { name: "Danh sách khu vực", icon: FaMapMarkerAlt , link: "/admin/region" },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {

@@ -28,12 +28,13 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
-
+  
   // Function to handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
+  
 
     return (
         <div className="p-28 px-20">
@@ -126,16 +127,20 @@ const Profile = () => {
                 <div className="col-span-2">
                     <div className="">
                     <ul className="flex flex-row justify-center space-x-6 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-6 md:mb-0">
-                        {['profile','history', 'whislist',  'Notification', 'gift'].map(tab => (
+                        {['profile', 'history', 'whislist', 'Notification', 'gift'].map((tab) => (
                             <li key={tab} className="relative flex flex-col items-center">
                                 <a
                                     href="#"
                                     className={`inline-flex items-center text-xl ${activeTab === tab ? 'text-white' : 'text-gray-400'} rounded-lg`}
                                     onClick={() => handleTabChange(tab)}
                                 >
-                                    {tab === 'profile' ? 'Thông tin' :tab === 'history' ? 'Lịch sử giao dịch' : tab === 'gift' ? 'Quà tặng' : tab === 'whislist' ? 'Yêu thích' :  tab === 'Notification' ? 'Thông báo' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                    {tab === 'profile' ? 'Thông tin' : 
+                                    tab === 'history' ? 'Lịch sử giao dịch' : 
+                                    tab === 'gift' ? 'Quà tặng' : 
+                                    tab === 'whislist' ? 'Yêu thích' :  
+                                    tab === 'Notification' ? 'Thông báo' : 
+                                    tab.charAt(0).toUpperCase() + tab.slice(1)}
                                 </a>
-                                {/* Gạch chân */}
                                 {activeTab === tab && (
                                     <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1/4 h-0.5 bg-white rounded"></div>
                                 )}
