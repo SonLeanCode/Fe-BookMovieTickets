@@ -1,315 +1,109 @@
 /* Hiệu ứng xuất hiện từ dưới lên */
 @keyframes slide-up {
-    from {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  .slide-up {
-    animation: slide-up 2.5s ease-out forwards;
-  }
-  
-  /* Đảm bảo hình ảnh banner phủ toàn bộ màn hình */
-  .h-screen {
-     height: 100vh;
-  }
-  
-  .h-full {
-    height: 100%;
-  }
-  
-  .section-title {
-    color: red;
-    font-family: 'Oswald', sans-serif;
-    text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
-    text-transform: uppercase;
-    margin-left:4%;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px; /* Khoảng cách giữa text và line */
-  }
-  
-  .section-title::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 30%;
-    height: 4px; /* Độ dày của line */
-    background-color: red; /* Màu của line */
-    animation: lineSlide 2s linear infinite; /* Hiệu ứng chạy qua lại */
-  }
-  
-  @keyframes lineSlide {
-    0% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(100%); /* Chạy từ trái qua phải */
-    }
-    100% {
-      transform: translateX(0); /* Chạy từ phải về trái */
-    }
-  }
-  
-  
-  .containe {
-    max-width: 1440px; /* Điều chỉnh chiều rộng tối đa của container */
-    margin: 0 auto; /* Canh giữa container */
-    padding: 0 1rem; /* Padding cho container */
-  }
-  
-  .movie-section {
-    margin: 2rem 0; /* Khoảng cách phía trên và dưới */
-  }
-  
-  .scroll-button {
-    background-color: #ff0000; /* Màu nền cho nút */
-    color: white; /* Màu chữ cho nút */
-    border: none; /* Bỏ đường viền */
-    border-radius: 5px; /* Bo góc */
-    padding: 0.5rem; /* Padding cho nút */
-    cursor: pointer; /* Hiển thị con trỏ khi hover */
-  }
-  
-  .scroll-button:hover {
-    background-color: #cc0000; /* Màu khi hover */
-  }
-  
-  .hide-scrollbar {
-    scrollbar-width: none; /* Ẩn scrollbar cho Firefox */
-  }
-  
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none; /* Ẩn scrollbar cho Chrome/Safari */
-  }
-  
-  .movie-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 0.5rem; /* Bo góc cho box phim */
-  }
-  
-  .movie-card img {
-    height: 300px; /* Chiều cao của ảnh */
-    width: 100%; /* Chiều rộng 100% */
-    border-radius: 0.5rem 0.5rem 0 0; /* Bo góc cho ảnh */
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0; /* Ẩn overlay */
-    transition: opacity 0.3s; /* Hiệu ứng chuyển tiếp */
-  }
-  
-  .movie-card:hover .overlay {
-    opacity: 1; /* Hiện overlay khi hover */
-  }
-  
-  .overlay-content {
-    color: white; /* Màu chữ trong overlay */
-    text-align: center; /* Canh giữa chữ */
-  }
-  
-  .button-container {
-    gap: 0.5rem; /* Khoảng cách giữa các nút */
-  }  
-  
-  .separator-line {
-    width: 70%; /* Chiều rộng của đường phân cách */
-    height: 2px; /* Độ dày của đường phân cách */
-    background: linear-gradient(to right, #ff0000, #ff4500, #ff0000); /* Hiệu ứng gradient */
-    border-radius: 50px; /* Bo góc mềm mại */
-    animation: pulse 2s infinite; /* Hiệu ứng động cho phân cách */
-  }
-  
-  @keyframes pulse {
-    0% {
-      transform: scaleX(1);
-    }
-    50% {
-      transform: scaleX(1.1);
-    }
-    100% {
-      transform: scaleX(1);
-    }
-  }
-  
-  
-  /* Section "Top Phim Hot" */
-  .top-movie-section h3 {
-    max-width: 100%;
-    font-family: 'Oswald', sans-serif;
-    font-size: 2rem;
-    color: #ff0000;
-    text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
-    text-transform: uppercase;
-    margin-left: 6%; 
-    letter-spacing: 2px;
-    position: relative;
-    padding-bottom: 1.5rem;
-  }
-  
-  .top-movie-container {
-    padding: 1rem;
-  }
-  
-  .section-divider-animation {
-    height: 2px;
-    margin: 2rem 0;
-    position: relative;
-    overflow: hidden;
-    margin-left: 10%;
-    max-width: 80%;
-  }
-  
-  .section-divider-animation::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    height: 100%;
-    background-color: #00d0ff;
-    transform: scale(0);
-    transform-origin: center;
-    animation: zoom-in-out 1.5s infinite;
-  }
-  
-  @keyframes zoom-in-out {
-    0% {
-      transform: scale(0);
-      opacity: 0.5;
-    }
-    50% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(0);
-      opacity: 0.5;
-    }
-  }
-  
-  .gy-h3 {
-    font-size: 35px;
-    color: red;
-    font-family: 'Oswald', sans-serif;
-    text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
-    text-transform: uppercase;
-    margin-left: 0%;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px; /* Khoảng cách giữa text và line */
-  }
-  .tt-h3 {
-    font-size: 35px;
-    color: red;
-    font-family: 'Oswald', sans-serif;
-    text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
-    text-transform: uppercase;
-    margin-left: -1%;
-    display: inline-block;
-    padding-bottom: 10px; /* Khoảng cách giữa text và line */
-  }
-  .tt{
-    border-radius: 5px;
-    background-color: #333232c2;
-    padding: 10px;
-  }
-  
-  
-  
-  /* Card phim trong "Top Phim Hot" */
-  .top-movie-card {
-    background-color: #2a2a2a; /* Màu nền tối hơn */
-    grid-column: span 2.5; /* Chiếm 2 cột trên lưới 12 cột */
-  }
-  
-  /* Điều chỉnh kích thước hình ảnh cho phù hợp */
-  .top-movie-card img {
-    height: 100%;
-    width: 100%; /* Chiếm toàn bộ chiều rộng của box */
-  }
-  /* CSS cho Card phim trong phần "Top Phim Hot" */
-  .top-movie-card {
-    position: relative; /* Đảm bảo lớp phủ hoạt động đúng */
-    background-color: #2a2a2a;
-    overflow: hidden; 
-  }
 
-  
-  
-  .top-movie-card:hover .overlay {
+  }
+  to {
+    transform: translateY(0);
     opacity: 1;
   }
-  
-  
-  /* Thiết kế overlay */
-  .overlay-update {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
-    background: rgba(0, 0, 0, 0.6);
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.5s ease;
+}
+
+.slide-up {
+  animation: slide-up 2.5s ease-out forwards;
+}
+
+/* Đảm bảo hình ảnh banner phủ toàn bộ màn hình */
+.h-screen {
+   height: 100vh;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.section-title {
+  color: red;
+  font-family: 'Oswald', sans-serif;
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  margin-left:4%;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px; /* Khoảng cách giữa text và line */
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 30%;
+  height: 4px; /* Độ dày của line */
+  background-color: red; /* Màu của line */
+  animation: lineSlide 2s linear infinite; /* Hiệu ứng chạy qua lại */
+}
+
+@keyframes lineSlide {
+  0% {
+    transform: translateX(0);
   }
-  
-  .overlay-btn-xh {
-    margin: 10px 0;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    color: rgb(249, 249, 249);
-    background-color: #F97316;
-    cursor: pointer;
-    border-radius: 5px;
+  50% {
+    transform: translateX(100%); /* Chạy từ trái qua phải */
   }
-  
-  .flex-grow {
-    flex-grow: 1; /* Cho phép phần tử mở rộng để chiếm không gian còn lại */
+  100% {
+    transform: translateX(0); /* Chạy từ phải về trái */
   }
-  
-  .number-color-1 {
-    color: red; 
+
   }
-  
-  .number-color-2 {
-    color: blue; 
+}
+
+
+/* Section "Top Phim Hot" */
+.top-movie-section h3 {
+  max-width: 100%;
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  color: #ff0000;
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  margin-left: 6%; 
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.top-movie-container {
+  padding: 1rem;
+}
+
+.section-divider-animation {
+  height: 2px;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+  margin-left: 10%;
+  max-width: 80%;
+}
+
+.section-divider-animation::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  background-color: #00d0ff;
+  transform: scale(0);
+  transform-origin: center;
+  animation: zoom-in-out 1.5s infinite;
+}
+
+@keyframes zoom-in-out {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
   }
-  
-  .number-color-3 {
-    color: green;
+  50% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  .number-color-4 {
-    color: orange; 
-  }
-  
-  .number-color-5 {
-    color: aqua; 
-  }
-  .number-color-6{
-    color: #838181; 
-  }
-  
+
