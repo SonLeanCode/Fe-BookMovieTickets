@@ -476,7 +476,7 @@ const Home = () => {
 
               {/* Cột phải: 6 phim, 2 hàng, mỗi hàng 2 box trên màn hình nhỏ */}
               <div className="flex flex-wrap justify-between lg:w-3/4">
-                {latestMovies?.data?.slice(1, 9).map((movie, index) => (
+                {latestMovies?.data?.slice(1, 9).map((movie) => (
                   <div
                     key={movie._id}
                     className="p-5 flex w-1/2 lg:w-1/4" // Hiển thị 2 box phim trên màn hình nhỏ

@@ -3,7 +3,7 @@ import { Button, Input, Checkbox } from "react-daisyui";
 import { FaLock, FaEnvelope, FaPhone, FaUser } from "react-icons/fa";
 import { useRegisterMutation } from "../../services/Auth/auth.service";
 import { Link, useNavigate } from "react-router-dom";
-
+import Toastify from "../../helper/Toastify";
 const Register = () => {
   const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
@@ -47,6 +47,7 @@ const Register = () => {
       navigate("/auth/login");
     } catch (error) {
       console.error("Registration error:", error);
+      Toastify(error.data.message, error.status)
     }
   };
 
