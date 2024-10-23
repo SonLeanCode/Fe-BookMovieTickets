@@ -30,10 +30,10 @@ const Profile = () => {
   };
   
   // Function to handle input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserInfo({ ...userInfo, [name]: value });
-  };
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setUserInfo({ ...userInfo, [name]: value });
+//   };
   
 
     return (
@@ -109,7 +109,7 @@ const Profile = () => {
                         <a href="mailto:nqtuan1123@gmail.com" className="text-blue-600">nqtuan1123@gmail.com</a>
                     </div>
                     <div>
-                        <span an className="text-gray-400">&gt;</span>
+                        <span className="text-gray-400">&gt;</span>
                     </div>
                 </div>
                 <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
@@ -160,7 +160,7 @@ const Profile = () => {
                                         <div>
                                             <label className="block text-sm font-medium text-white">Họ và tên</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-900"><i class="fa-solid fa-user"></i></span>
+                                            <span className="material-icons text-gray-900"><i className="fa-solid fa-user"></i></span>
                                             <input
                                                 type="text"
                                                 value="Tuấn Nguyễn"
@@ -172,7 +172,7 @@ const Profile = () => {
                                         <div>
                                             <label className="block text-sm font-medium text-white">Ngày sinh</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-900"><i class="fa-regular fa-calendar"></i></span>
+                                            <span className="material-icons text-gray-900"><i className="fa-regular fa-calendar"></i></span>
                                             <input
                                                 type="text"
                                                 value="03/12/2004"
@@ -188,7 +188,7 @@ const Profile = () => {
                                         <div>
                                             <label className="block text-sm font-medium text-white">Email</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-900"><i class="fa-solid fa-envelope"></i></span>
+                                            <span className="material-icons text-gray-900"><i className="fa-solid fa-envelope"></i></span>
                                             <input
                                                 type="email"
                                                 value="nqtuan1123@gmail.com"
@@ -201,7 +201,7 @@ const Profile = () => {
                                         <div>
                                             <label className="block text-sm font-medium text-white">Phone</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-900"><i class="fa-solid fa-phone"></i></span>
+                                            <span className="material-icons text-gray-900"><i className="fa-solid fa-phone"></i></span>
                                             <input
                                                 type="text"
                                                 value="0376395095"
@@ -234,7 +234,7 @@ const Profile = () => {
                                         <div>
                                             <label className="block text-sm font-medium text-white">Mật khẩu</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                            <span className="material-icons text-gray-500"><i class="fa-solid fa-lock"></i></span>
+                                            <span className="material-icons text-gray-500"><i className="fa-solid fa-lock"></i></span>
                                             <input
                                                 type="password"
                                                 value="********"
