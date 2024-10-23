@@ -7,6 +7,7 @@ import { genreApi } from '../services/Genre/genre.service';
 import { genreMovieApi } from '../services/Genre/genre_movies.service';
 import { actorApi } from '../services/Actor/actor.service';
 import { actorMovieApi } from '../services/Actor/actor_movies.service';
+import { apiComents } from '../services/Comments/comments_user.service';
 const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
@@ -17,17 +18,19 @@ const store = configureStore({
     [genreMovieApi.reducerPath]: genreMovieApi.reducer,
     [actorApi.reducerPath]: actorApi.reducer,
     [actorMovieApi.reducerPath]: actorMovieApi.reducer,
+    [apiComents.reducerPath]: apiComents.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat(authApi.middleware) 
+      .concat(authApi.middleware)
       .concat(moviesApi.middleware)
       .concat(regionsApi.middleware)
       .concat(cinemaApi.middleware)
       .concat(genreApi.middleware)
       .concat(genreMovieApi.middleware)
       .concat(actorApi.middleware)
-      .concat(actorMovieApi.middleware),
+      .concat(actorMovieApi.middleware)
+      .concat(apiComents.middleware),
 });
 
 export default store;
