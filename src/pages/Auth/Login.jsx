@@ -141,7 +141,7 @@ const Login = () => {
             </div>
           </form>
           <div className="flex flex-col space-y-4 text-white items-center">
-            <GoogleLogin
+            <GoogleLogin className="w-[600px]"
               onSuccess={handleGoogleLoginSuccess}
               onError={() => {
                 console.log("Login Failed");
