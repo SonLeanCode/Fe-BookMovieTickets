@@ -43,11 +43,11 @@ const Actor = () => {
 
         <div className="my-4 flex flex-col md:flex-row">
           <div className="mr-2 flex-1 text-white">
-            {currentActors?.map((actor, index) => (
+            {currentActors?.map((actor) => (
               <div
                 className="flex items-start rounded-sm bg-gray-900 p-4"
                 style={{ backgroundColor: "#181818" }}
-                key={index}
+                key={actor._id}
               >
                 <Link
                   to={`${actor._id}`}
