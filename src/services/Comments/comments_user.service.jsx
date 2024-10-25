@@ -3,35 +3,32 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const getAccessToken = () => localStorage.getItem('accessToken');
 
 export const apiComents = createApi({
-    reducerPath: 'commentApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:4003/', // Địa chỉ API của bạn
-        prepareHeaders: (headers) => {
-          // Lấy token từ localStorage
-          const token = getAccessToken();
-          // Nếu có token, thêm vào header Authorization
-          if (token) {
-            headers.set('Authorization', `Bearer ${token}`);
-            console.log('Authorization header set:', `Bearer ${token}`);
-          }
-          return headers;
-        },
+  reducerPath: 'commentApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:4003/',
+    prepareHeaders: (headers) => {
+      const token = getAccessToken();
+      console.log('Token từ localStorage:', token); // Log token để kiểm tra
+      if (token) {
+        headers.set('x-access-token', `Bearer ${token}`);
+        console.log('Authorization header set:', `Bearer ${token}`);
+      }
+      headers.set('Content-Type', 'application/json');
+      return headers;
+    },
+  }),
+  endpoints: (builder) => ({
+    postComments: builder.mutation({
+      query: (credentials) => ({
+        url: '/api/comment',
+        method: 'POST',
+        body: credentials,
       }),
-
-      endpoints: (builder) => ({
-        // Endpoint để login
-        postComments: builder.mutation({
-          query: (credentials) => ({
-            url: '/api/comment',
-            method: 'POST',
-            body: credentials,
-          }),
-        }),
-        
-        getComments: builder.query({
-            query: () => '/api/comment',
-        })
     }),
-      
-})
-export const  { useGetCommentsQuery, usePostCommentsMutation} = apiComents
+    getComments: builder.query({
+      query: () => '/api/comment',
+    }),
+  }),
+});
+
+export const { useGetCommentsQuery, usePostCommentsMutation } = apiComents;

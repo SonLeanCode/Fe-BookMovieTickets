@@ -619,10 +619,10 @@ const Home = () => {
             </h1>
             <h2 className="text-lg font-bold text-white mb-10 shadow-lg">
               Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn
-            </h2>
-            <div className="w-full max-w-screen-lg">
-              <div className="flex flex-wrap justify-between">
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+            </h2> 
+            <div className="w-full">
+              <div className="flex">
+                <div className="bg-white mx-6 rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
                   <img
                     src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/Desktop519x282_CMember.webp"
                     alt="Thành viên mới"
@@ -634,7 +634,7 @@ const Home = () => {
                     Tìm hiểu ngay
                   </button>
                 </div>
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+                <div className="bg-white mx-6 rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
                   <img
                     src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/c-vip.webp"
                     alt="Thành viên Vip"
@@ -646,7 +646,7 @@ const Home = () => {
                     Tìm hiểu ngay
                   </button>
                 </div>
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+                <div className="bg-white mx-6 rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
                   <img
                     src="https://bizweb.dktcdn.net/thumb/1024x1024/100/411/892/products/the-thanh-vien-vip-danh-cho-khach-hang-tai-salon-cao-cap.jpg?v=1611827787823"
                     alt="Thành viên kì cựu"
