@@ -76,17 +76,20 @@ class MovieTicketBlog extends Component {
   };
 
   startCountdown = () => {
-    this.setState({ countdown: 10, discountCode: "" }); // Đặt đếm ngược và mã giảm giá
+    this.setState({ countdown: 10, discountCode: "" }); // Đặt lại đếm ngược và xóa mã giảm giá cũ
     const interval = setInterval(() => {
-      this.setState((prevState) => {
-        if (prevState.countdown <= 1) {
-          clearInterval(interval);
-          return { countdown: 0, discountCode: "GIAMGIA10" }; // Đặt mã giảm giá khi đếm ngược kết thúc
-        }
-        return { countdown: prevState.countdown - 1 }; // Giảm đếm ngược
-      });
+        this.setState((prevState) => {
+            if (prevState.countdown <= 1) {
+                clearInterval(interval);
+                const discountCode = "GIAMGIA10"; // Mã giảm giá
+                localStorage.setItem("discountCode", discountCode); // Lưu mã giảm giá vào localStorage
+                return { countdown: 0, discountCode }; // Cập nhật mã giảm giá vào state
+            }
+            return { countdown: prevState.countdown - 1 }; // Giảm đếm ngược
+        });
     }, 1000);
-  };
+};
+
 
   render() {
     const { countdown, discountCode } = this.state;
