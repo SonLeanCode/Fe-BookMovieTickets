@@ -25,6 +25,9 @@ export const cinemaApi = createApi({
     getCinemaById: builder.query({
       query: (id) => `/api/cinema/${id}`,
     }),
+    getCinemasByRegionId: builder.query({ 
+      query: (id) => `/api/cinema/region/${id}`,
+    }),
     addCinema: builder.mutation({
       query: (newCinema) => ({
         url: '/api/cinema',
@@ -52,6 +55,7 @@ export const cinemaApi = createApi({
 export const {
     useGetAllCinemasQuery,
     useGetCinemaByIdQuery,
+    useGetCinemasByRegionIdQuery,
     useAddCinemaMutation,
     useUpdateCinemaMutation,
     useDeleteCinemaMutation,

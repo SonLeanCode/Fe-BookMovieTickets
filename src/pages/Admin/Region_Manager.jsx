@@ -6,12 +6,14 @@ import {
   useUpdateRegionMutation,
   useDeleteRegionMutation,
 } from "../../services/Regions/regions.service"; // Updated service import
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash,FaInfoCircle  } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import Pagination from "../../components/Admin/Pagination";
 import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
+import { useNavigate,Link } from 'react-router-dom';
+
 
 const Region_Management = () => {
   const {
@@ -29,6 +31,7 @@ const Region_Management = () => {
   const [deleteRegion] = useDeleteRegionMutation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedRegions, setSelectedRegions] = useState([]);
+  const navigate = useNavigate();
 
   const filteredRegions = regions?.data.filter((region) =>
     region.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -94,6 +97,7 @@ const Region_Management = () => {
       }
     }
   };
+
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
@@ -209,6 +213,7 @@ const Region_Management = () => {
               </th>
               <th className="px-4 py-3 text-left text-white">Vùng</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
+              <th className="px-4 py-3 text-center text-white"></th>
             </tr>
           </thead>
           <tbody className="bg-black text-gray-400">
@@ -230,13 +235,15 @@ const Region_Management = () => {
                   >
                     <FaEdit />
                   </Button>
-                  <Button
-                    className="rounded-sm bg-[#ff2727] p-2 text-white"
+                  <Button 
+                    className="mr-1 rounded-sm bg-[#ff2727] p-2 text-white"
                     onClick={() => handleDeleteRegion(region._id)}
                   >
                     <FaTrash />
                   </Button>
+                  
                 </td>
+                <td className="text-blue-500 font-bold" ><Link to={"/admin/region/" + region._id}> Xem các rạp</Link> </td>
               </tr>
             ))}
           </tbody>
