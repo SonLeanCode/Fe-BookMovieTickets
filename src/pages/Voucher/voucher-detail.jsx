@@ -94,7 +94,7 @@ class MovieTicketBlog extends Component {
 
         return (
             <>
-                <div className="flex md:flex md:flex-row flex-col  bg-gray-900 md:p-10 p-0 md:pt-14 pt-36">
+                <div className="flex md:flex md:flex-row flex-col text-white  bg-gray-900 md:p-10 p-0 md:pt-14 pt-36">
                     <div className="md:w-2/3 w-full">
                         <div className="p-8">
                             <div>

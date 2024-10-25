@@ -1,71 +1,52 @@
 import { useState } from "react";
 import { Button, Input } from "react-daisyui";
 import {
-  useGetAllMoviesQuery,
-  useAddMovieMutation,
-  useUpdateMovieMutation,
-  useDeleteMovieMutation,
-} from "../../services/Movies/movies.services";
-import { useGetAllMovieGenreQuery } from "../../services/Genre/genre_movies.service";
-import { formatDate } from "../../utils/formatDate";
+  useGetAllRegionsQuery,
+  useAddRegionMutation,
+  useUpdateRegionMutation,
+  useDeleteRegionMutation,
+} from "../../services/Regions/regions.service"; // Updated service import
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import MovieForm from "../../components/Admin/Movies/MovieForm";
 import Pagination from "../../components/Admin/Pagination";
 import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
 
 const Region_Management = () => {
-  const { data: movies, isLoading: movieDataLoading , refetch } = useGetAllMoviesQuery();
-  const { data: movieGenreData, isLoading: movieGenreDataLoading } = useGetAllMovieGenreQuery();
-
-  // Khai báo các state
+  const {
+    data: regions,
+    isLoading: regionDataLoading,
+    refetch,
+  } = useGetAllRegionsQuery(); // Updated query hook
   const [loading, setLoading] = useState(false);
-  const [selectedMovies, setSelectedMovies] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [moviesPerPage, setMoviesPerPage] = useState(5);
+  const [regionsPerPage, setRegionsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [addRegion] = useAddRegionMutation();
+  const [updateRegion] = useUpdateRegionMutation();
+  const [deleteRegion] = useDeleteRegionMutation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedRegions, setSelectedRegions] = useState([]);
 
-  // Khai báo mutations
-  const [addMovie] = useAddMovieMutation();
-  const [updateMovie] = useUpdateMovieMutation();
-  const [deleteMovie] = useDeleteMovieMutation();
-
-  // Lọc phim theo từ khóa tìm kiếm
-  const filteredMovies = movies?.data?.filter((movie) =>
-    movie.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredRegions = regions?.data.filter((region) =>
+    region.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const totalPages = Math.ceil((filteredMovies?.length || 0) / moviesPerPage);
+  const totalPages = Math.ceil((filteredRegions?.length || 0) / regionsPerPage);
 
-  const handleOpenModal = (movie) => {
-    setSelectedMovie(movie);
-    setModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false);
-    setSelectedMovie(null);
-  };
-
-  const handleSubmit = async (formData, isEdit) => {
+  const handleSubmit = async (formData) => {
     try {
-      setLoading(true)
-      if (isEdit) {
-        // Gửi id và formData trực tiếp
-        await updateMovie({ id: formData.get("id"), updatedData: formData }).unwrap();
-        refetch();
-        Toastify("Phim đã được cập nhật:", 200);
+      setLoading(true);
+      if (formData.id) {
+        await updateRegion({ id: formData.id, updatedData: formData }).unwrap();
+        Toastify("Vùng đã được cập nhật:", 200);
       } else {
-        // Thêm phim mới
-        await addMovie(formData).unwrap();
-        refetch();
-        Toastify("Phim mới đã được thêm:", 200);
+        await addRegion(formData).unwrap();
+        Toastify("Vùng mới đã được thêm:", 200);
       }
-      // Đóng modal sau khi thành công
+      refetch();
       handleCloseModal();
     } catch (error) {
       console.error("Có lỗi khi thực hiện thao tác:", error);
@@ -75,20 +56,21 @@ const Region_Management = () => {
     }
   };
 
-  const handleEditMovie = (id) => {
-    const movieToEdit = movies?.data.find((movie) => movie._id === id);
-    handleOpenModal(movieToEdit);
+  const handleEditRegion = (id) => {
+    const regionToEdit = regions?.data.find((region) => region._id === id);
+    setSelectedRegion(regionToEdit);
+    setIsModalVisible(true);
   };
 
-  const handleDeleteMovie = async (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa phim này?")) {
+  const handleDeleteRegion = async (id) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa vùng này?")) {
       try {
         setLoading(true);
-        await deleteMovie(id).unwrap();
+        await deleteRegion(id).unwrap();
         refetch();
-        Toastify("Phim đã được xóa:", 200);
+        Toastify("Vùng đã được xóa:", 200);
       } catch (error) {
-        console.error("Có lỗi khi xóa phim:", error);
+        console.error("Có lỗi khi xóa vùng:", error);
         Toastify("Có lỗi xảy ra! Vui lòng thử lại.", 400);
       } finally {
         setLoading(false);
@@ -96,29 +78,30 @@ const Region_Management = () => {
     }
   };
 
-  const handleSelectMovie = (id) => {
-    setSelectedMovies((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((movieId) => movieId !== id)
-        : [...prevSelected, id],
-    );
-  };
-
-  const handleDeleteSelectedMovies = async () => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa các phim đã chọn?")) {
+  const handleDeleteSelectedRegions = async () => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa những vùng đã chọn?")) {
       try {
-        await Promise.all(selectedMovies.map((id) => deleteMovie(id).unwrap()));
+        setLoading(true);
+        await Promise.all(selectedRegions.map((id) => deleteRegion(id).unwrap()));
         refetch();
-        Toastify("Đã xóa các phim:", 200);
-        setSelectedMovies([]);
+        Toastify("Các vùng đã được xóa:", 200);
+        setSelectedRegions([]);
       } catch (error) {
-        Toastify("Có lỗi khi xóa các phim:", 400);
+        console.error("Có lỗi khi xóa vùng:", error);
+        Toastify("Có lỗi xảy ra! Vui lòng thử lại.", 400);
+      } finally {
+        setLoading(false);
       }
     }
   };
 
-  const handleMoviesPerPageChange = (e) => {
-    setMoviesPerPage(Number(e.target.value));
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    setSelectedRegion(null);
+  };
+
+  const handleRegionsPerPageChange = (e) => {
+    setRegionsPerPage(Number(e.target.value));
     setCurrentPage(1);
   };
 
@@ -127,37 +110,35 @@ const Region_Management = () => {
     setCurrentPage(1);
   };
 
-  const paginatedMovies = filteredMovies?.slice(
-    (currentPage - 1) * moviesPerPage,
-    currentPage * moviesPerPage,
-  );
-
-  const getGenreNames = (movie) => {
-    const movieGenreRecords = movieGenreData?.genres?.filter(
-      (record) => record?.movie_id?._id === movie._id,
+  const handleRegionSelect = (id) => {
+    setSelectedRegions((prev) =>
+      prev.includes(id)
+        ? prev.filter((regionId) => regionId !== id)
+        : [...prev, id]
     );
-    return movieGenreRecords?.length > 0
-      ? movieGenreRecords.map((genre) => genre.genre_id.name).join(", ")
-      : "Đang cập nhật";
   };
 
-  if(movieDataLoading || movieGenreDataLoading){
-    return <LoadingLocal />
-  }
-  if(loading){
-    return <LoadingPage loading={loading}/>
-  }
+  const paginatedRegions = filteredRegions?.slice(
+    (currentPage - 1) * regionsPerPage,
+    currentPage * regionsPerPage
+  );
 
+  if (regionDataLoading) {
+    return <LoadingLocal />;
+  }
+  if (loading) {
+    return <LoadingPage loading={loading} />;
+  }
 
   return (
-    <div className="ml-64 mt-8 bg-[#111111] p-6">
+    <div className="ml-64 mt-8 bg-[#111111] p-6 text-white">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-2xl font-bold">Quản lý danh sách phim</h3>
+        <h3 className="text-2xl font-bold">Quản lý danh sách vùng</h3>
         <Button
           className="flex rounded-md bg-red-600 p-2 hover:bg-red-700 hover:brightness-125"
-          onClick={() => handleOpenModal()}
+          onClick={() => setIsModalVisible(true)}
         >
-          + Thêm phim
+          + Thêm vùng
         </Button>
       </div>
 
@@ -169,22 +150,22 @@ const Region_Management = () => {
           <select
             id="entries"
             className="rounded-md bg-[#2d2d2d] p-2 text-white"
-            value={moviesPerPage}
-            onChange={handleMoviesPerPageChange}
+            value={regionsPerPage}
+            onChange={handleRegionsPerPageChange}
           >
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
           </select>
           <span className="mx-2 text-gray-400">mục</span>
-          {selectedMovies.length > 0 && (
+          {selectedRegions.length > 0 && (
             <div className="mx-2 flex items-center">
               <p className="mr-4 text-lg font-semibold">
-                {`' `}Đã chọn {selectedMovies.length} mục{` '`}
+                {`' `}Đã chọn {selectedRegions.length} mục{` '`} 
               </p>
               <Button
                 className="rounded-md bg-blue-500 p-2 hover:bg-blue-600"
-                onClick={handleDeleteSelectedMovies}
+                onClick={handleDeleteSelectedRegions}
               >
                 <FaTrash />
               </Button>
@@ -209,76 +190,49 @@ const Region_Management = () => {
         <table className="w-full border-separate border-spacing-y-2 border-[#111111]">
           <thead className="bg-[#2d2d2d]">
             <tr>
-              <th className="px-4 py-3 text-left text-white">
+              <th className="px-4 py-3 text-white text-left">
                 <input
                   type="checkbox"
                   onChange={(e) =>
-                    setSelectedMovies(
+                    setSelectedRegions(
                       e.target.checked
-                        ? paginatedMovies.map((movie) => movie._id)
-                        : [],
+                        ? paginatedRegions.map((region) => region._id)
+                        : []
                     )
                   }
                   checked={
-                    paginatedMovies?.length > 0 &&
-                    selectedMovies.length === paginatedMovies.length
+                    paginatedRegions?.length > 0 &&
+                    selectedRegions.length === paginatedRegions.length
                   }
                   className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                 />
               </th>
-              <th className="px-4 py-3 text-left text-white">Phim</th>
-              <th className="px-4 py-3 text-left text-white">Mô tả</th>
-              <th className="px-4 py-3 text-left text-white">Thể loại</th>
-              <th className="px-4 py-3 text-white text-center">
-                Ngày khởi chiếu
-              </th>
+              <th className="px-4 py-3 text-left text-white">Vùng</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
             </tr>
           </thead>
           <tbody className="bg-black text-gray-400">
-            {paginatedMovies?.map((movie) => (
-              <tr key={movie._id}>
-                <td className="px-4 py-2">
+            {paginatedRegions?.map((region) => (
+              <tr key={region._id}>
+                <td className="px-4 py-2 ">
                   <input
                     type="checkbox"
-                    onChange={() => handleSelectMovie(movie._id)}
-                    checked={selectedMovies.includes(movie._id)}
+                    checked={selectedRegions.includes(region._id)}
+                    onChange={() => handleRegionSelect(region._id)}
                     className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                   />
                 </td>
-                <td className="px-4 py-2">
-                  <div className="flex">
-                    <img
-                      src={movie.img}
-                      alt={movie.name}
-                      className="w-[70px]"
-                    />
-                    <div className="ml-2">
-                      <h2 className="text-md font-medium text-white">
-                        {movie.name}
-                      </h2>
-                      <p className="mt-1 text-xs">{movie.duration} phút</p>
-                      <p className="mt-8 text-sm">
-                        ({movie.country} - {movie.subtitles})
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-4 py-2 w-[20%]">
-                  {movie.description.slice(0, 50) + "..."}
-                </td>
-                <td className="px-4 py-2 w-[15%]">{getGenreNames(movie)}</td>
-                <td className="px-4 py-2 text-center">{formatDate(movie.release_date)}</td>
+                <td className="px-4 py-2">{region.name}</td>
                 <td className="px-4 py-2 text-center">
                   <Button
                     className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
-                    onClick={() => handleEditMovie(movie._id)}
+                    onClick={() => handleEditRegion(region._id)}
                   >
                     <FaEdit />
                   </Button>
                   <Button
                     className="rounded-sm bg-[#ff2727] p-2 text-white"
-                    onClick={() => handleDeleteMovie(movie._id)}
+                    onClick={() => handleDeleteRegion(region._id)}
                   >
                     <FaTrash />
                   </Button>
@@ -288,17 +242,54 @@ const Region_Management = () => {
           </tbody>
         </table>
       </div>
+
       <Pagination
-        currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
-      <MovieForm
-        movieData={selectedMovie}
-        onSubmit={handleSubmit}
-        onCancel={handleCloseModal}
-        isVisible={isModalVisible}
-      />
+
+      {/* Add/Edit Region Modal */}
+      {isModalVisible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="max-w-lg rounded-lg bg-white p-6 text-black">
+            <h3 className="mb-4 text-2xl font-bold">
+              {selectedRegion ? "Chỉnh sửa vùng" : "Thêm vùng"}
+            </h3>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = {
+                  id: selectedRegion?._id,
+                  name: e.target.name.value,
+                };
+                handleSubmit(formData);
+              }}
+            >
+              <label className="mb-2 block">Tên vùng:</label>
+              <input
+                type="text"
+                name="name"
+                defaultValue={selectedRegion ? selectedRegion.name : ""}
+                required
+                className="mb-4 w-full p-2 border border-gray-300 rounded"
+              />
+              <div className="flex justify-end">
+                <Button
+                  className="mr-2 rounded-md bg-red-600 p-2 hover:bg-red-700"
+                  type="button"
+                  onClick={handleCloseModal}
+                >
+                  Hủy
+                </Button>
+                <Button className="rounded-md bg-blue-500 p-2 text-white">
+                  {selectedRegion ? "Cập nhật" : "Thêm"}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
