@@ -1,75 +1,82 @@
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
+import PropTypes from 'prop-types';
 import { getUserByIdFormToken } from "../Utils/auth";
 import { useGetCommentsQuery, usePostCommentsMutation } from "../../services/Comments/comments_user.service";
 const socket = io("http://localhost:4003");
 
-const CommentsSection = () => {
-  const { data: comments } = useGetCommentsQuery();
+const CommentsSection = ({ movieId }) => {
+  console.log('IdMOVIE',movieId);
+  
+  const { data: comments } = useGetCommentsQuery(movieId);
   console.log('du lieu',comments);
   
   const [postComments] = usePostCommentsMutation();
   const [newComment, setNewComment] = useState("");
-  const [allComments, setAllComments] = useState(comments || []);
+  const [allComments, setAllComments] = useState(comments?.data || []);
 
   useEffect(() => {
+    // Khởi tạo `allComments` từ dữ liệu ban đầu nếu có
     if (comments && Array.isArray(comments.data)) {
       setAllComments(comments.data);
     } else {
       setAllComments([]);
     }
   }, [comments]);
-
-  // Lắng nghe sự kiện từ socket
+  
+  // Lắng nghe sự kiện từ socket cho các bình luận mới
   useEffect(() => {
     const handleNewComment = (comment) => {
-      // Cập nhật bình luận mới nhận từ socket
+      console.log('comment get api', comment)
+      // Cập nhật bình luận mới nhận từ socket (của người dùng khác)
+      if(movieId.comment === movieId){
+        console.log('Bình luận hợp lệ cho bộ phim này:', comment);
+      
       setAllComments((prevComments) => [...prevComments, comment]);
+      }else{
+        console.log('Bình luận không thuộc bộ phim này');
+      }
     };
-
+  
     socket.on("postComment", handleNewComment);
-
+  
     return () => {
       socket.off("postComment", handleNewComment);
     };
   }, []);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Kiểm tra bình luận trống
     if (newComment.trim() === "") {
       console.log("Bình luận trống, không gửi.");
       return;
     }
-
     // Lấy userId từ token
     const userId = getUserByIdFormToken();
-
     if (!userId) {
       console.error("Không thể gửi bình luận: userId không tồn tại");
       return;
     }
-
+  
     // Tạo dữ liệu bình luận
     const commentData = {
       userId,
+      movieId,
       content: newComment,
       time: new Date().toLocaleTimeString(),
-  
     };
-
+  
     try {
       // Gửi bình luận qua API
       const response = await postComments(commentData);
       if (response.error) {
         console.error("Error:", response.error);
       } else {
-        // Phát bình luận mới qua socket
-        socket.emit("newContent", response.data);
+        socket.emit("postComment", response.data);
+        setAllComments((prevComments) => [...prevComments, response.data]);
+  
         // Reset input field
-        setNewComment(""); 
-
+        setNewComment("");
       }
     } catch (error) {
       console.error("Lỗi khi gửi bình luận:", error);
@@ -105,11 +112,10 @@ const CommentsSection = () => {
           </button>
         </div>
       </form>
-
       <div>
   {Array.isArray(allComments) && allComments.length > 0 ? (
-    allComments.map((comment) => (
-      <div key={comment._id} className="mt-5 flex items-start gap-2.5">
+    allComments.map((comment, index) => (
+      <div key={comment._id || index} className="mt-5 flex items-start gap-2.5">
         <img className="h-12 w-14 rounded-full" src={comment.idUser?.avatar || "default-avatar-url"} alt="" />
         <div className="flex w-full flex-col gap-1">
           <div className="flex items-center space-x-2">
@@ -127,9 +133,12 @@ const CommentsSection = () => {
   )}
 </div>
 
+
     </div>
   );
 };
 
-
+CommentsSection.propTypes={
+  movieId:PropTypes.string.isRequired,
+}
 export default CommentsSection;

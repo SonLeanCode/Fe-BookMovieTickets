@@ -256,7 +256,7 @@ const MovieDetailPage = () => {
           </div>
 
           {/* bình luận  */}
-          <CommentsSection />
+          <CommentsSection   movieId={id} />
         </div>
 
         {/*  right session */}

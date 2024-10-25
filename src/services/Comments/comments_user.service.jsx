@@ -26,7 +26,7 @@ export const apiComents = createApi({
       }),
     }),
     getComments: builder.query({
-      query: () => '/api/comment',
+      query: (movieId) => `/api/comment/${movieId}`,
     }),
   }),
 });
