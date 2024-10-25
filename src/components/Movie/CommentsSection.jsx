@@ -5,7 +5,7 @@ import { useGetCommentsQuery, usePostCommentsMutation } from "../../services/Com
 const socket = io("http://localhost:4003");
 
 const CommentsSection = () => {
-  const { data: comments } = useGetCommentsQuery();
+  const { data: comments, refetch } = useGetCommentsQuery();
   console.log('du lieu',comments);
   
   const [postComments] = usePostCommentsMutation();
@@ -64,6 +64,7 @@ const CommentsSection = () => {
       const response = await postComments(commentData);
       if (response.error) {
         console.error("Error:", response.error);
+
       } else {
         // Phát bình luận mới qua socket
         socket.emit("newContent", response.data);
@@ -71,6 +72,7 @@ const CommentsSection = () => {
         setNewComment(""); 
 
       }
+      refetch()
     } catch (error) {
       console.error("Lỗi khi gửi bình luận:", error);
     }

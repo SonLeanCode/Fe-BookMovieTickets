@@ -15,6 +15,7 @@ import { NotLoggedMiddleware } from "./private/middleware/MiddlewareRoute";
 
 
 import Region_Manager from "../pages/Admin/Region_Manager";
+import RegionDetails from "../pages/Admin/Region_detail";
 
 
 // Lazy-loaded pages
@@ -123,6 +124,8 @@ export default function AppRoutes() {
                 <Route path="actor/test" element={<ActorAdmin />} />
                 <Route path="actor_movies/test" element={<Actor_Movie />} />
                 <Route path="region" element={<Region_Manager />} />
+                <Route path="region/:region_id" element={<RegionDetails />} />
+
               </Route>
             </Route>
           </Route>
