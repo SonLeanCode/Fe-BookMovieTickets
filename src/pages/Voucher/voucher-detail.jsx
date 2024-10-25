@@ -76,17 +76,20 @@ class MovieTicketBlog extends Component {
   };
 
   startCountdown = () => {
-    this.setState({ countdown: 10, discountCode: "" }); // Đặt đếm ngược và mã giảm giá
+    this.setState({ countdown: 10, discountCode: "" }); // Đặt lại đếm ngược và xóa mã giảm giá cũ
     const interval = setInterval(() => {
-      this.setState((prevState) => {
-        if (prevState.countdown <= 1) {
-          clearInterval(interval);
-          return { countdown: 0, discountCode: "GIAMGIA10" }; // Đặt mã giảm giá khi đếm ngược kết thúc
-        }
-        return { countdown: prevState.countdown - 1 }; // Giảm đếm ngược
-      });
+        this.setState((prevState) => {
+            if (prevState.countdown <= 1) {
+                clearInterval(interval);
+                const discountCode = "GIAMGIA10"; // Mã giảm giá
+                localStorage.setItem("discountCode", discountCode); // Lưu mã giảm giá vào localStorage
+                return { countdown: 0, discountCode }; // Cập nhật mã giảm giá vào state
+            }
+            return { countdown: prevState.countdown - 1 }; // Giảm đếm ngược
+        });
     }, 1000);
-  };
+};
+
 
   render() {
     const { countdown, discountCode } = this.state;
@@ -213,7 +216,6 @@ class MovieTicketBlog extends Component {
                       Chờ {countdown} giây để nhận mã giảm giá!
                     </div>
                   )}
-
                   {discountCode && (
                     <div className="mt-2 font-bold text-green-500">
                       Mã giảm giá của bạn:{" "}
@@ -222,6 +224,7 @@ class MovieTicketBlog extends Component {
                   )}
                   <div className="h-px w-full bg-gray-300"></div>
                   {/* <ul className="flex space-x-4 mt-2">
+>>>>>>> ebea4fb62a93a134f61b629d40d8908ca654bc4a
                                         <li className="text-gray-500"><i className="fab fa-facebook"></i></li>
                                         <li className="text-gray-500"><i className="fab fa-instagram"></i></li>
                                         <li className="text-gray-500"><i className="fab fa-tiktok"></i></li>

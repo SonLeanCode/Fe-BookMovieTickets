@@ -71,6 +71,7 @@ const CommentsSection = ({ movieId }) => {
       const response = await postComments(commentData);
       if (response.error) {
         console.error("Error:", response.error);
+
       } else {
         socket.emit("postComment", response.data);
         setAllComments((prevComments) => [...prevComments, response.data]);
@@ -78,6 +79,7 @@ const CommentsSection = ({ movieId }) => {
         // Reset input field
         setNewComment("");
       }
+      refetch()
     } catch (error) {
       console.error("Lỗi khi gửi bình luận:", error);
     }
