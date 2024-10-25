@@ -1,22 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
-
 import { useGetMovieByIdQuery } from "../../services/Movies/movies.services";
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import LoadingLocal from "../Loading/LoadingLocal";
 
-
 const BuyTickets = () => {
-    const {id}= useParams();
+    const { id } = useParams();
     const [isAreaOpen, setAreaOpen] = useState(false);
     const [isMovieOpen, setMovieOpen] = useState(false);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [discountCode, setDiscountCode] = useState(null); // State để lưu mã giảm giá
     const { data: movie, isLoading: movieLoading } = useGetMovieByIdQuery(id);
-    console.log(movie);
-    console.log(id);
-    
+
     const seatPrice = 65000; // Price per seat
     const totalPrice = selectedSeats.length * seatPrice;
+
+    useEffect(() => {
+        // Lấy mã giảm giá từ localStorage
+        const storedDiscountCode = localStorage.getItem('discountCode');
+        if (storedDiscountCode) {
+            setDiscountCode(storedDiscountCode);
+        }
+    }, []);
 
     if (movieLoading) {
         return <LoadingLocal />; // Or your preferred loading indicator
@@ -43,7 +48,6 @@ const BuyTickets = () => {
             <div className="flex w-[90%] mx-auto">
                 {/* Left Column - 70% */}
                 <div className="w-[70%] bg-black text-white p-4">
-
                     {/* Choose Area */}
                     <h2 className="text-xl font-bold mb-4 text-red-500">Chọn khu vực</h2>
                     <div className="mb-6">
@@ -167,48 +171,56 @@ const BuyTickets = () => {
                     <div className="flex flex-col items-center">
                         {Array.from({ length: 11 }, (_, rowIndex) => (
                             <div key={rowIndex} className="flex items-center mb-2">
-                                <div className="text-white p-1 mr-2">{String.fromCharCode(75 - rowIndex)}</div>
-                                <div className="grid grid-cols-12 gap-2">
-                                    {Array.from({ length: 12 }, (_, index) => (
-                                        <button
-                                            key={index}
-                                            className={`px-2 py-1 rounded hover:bg-red-500 ${selectedSeats.includes(index + 1) ? 'bg-red-500' : 'bg-gray-700 text-white'}`}
-                                            onClick={() => toggleSeat(index + 1)}
-                                            disabled={selectedSeats.includes(index + 1)} // Disable already selected seats
-                                        >
-                                            {index + 1}
-                                        </button>
-                                    ))}
-                                </div>
+                                <div className="text-white p-2 mr-2">{String.fromCharCode(75 - rowIndex)}</div>
+                                    <div className="grid grid-cols-12 gap-2">
+                                        {Array.from({ length: 12 }, (_, index) => (
+                                            <button
+                                                key={index}
+                                                className={`px-2 py-1 rounded hover:bg-red-500 ${selectedSeats.includes(index + 1) ? 'bg-red-500' : 'bg-gray-700 text-white'}`}
+                                                onClick={() => toggleSeat(index + 1)}
+                                                disabled={selectedSeats.includes(index + 1)} // Disable already selected seats
+                                            >
+                                                {index + 1}
+                                            </button>
+                                        ))}
+                                    </div>
+                                <div className="text-white p-2 mr-2">{String.fromCharCode(75 - rowIndex)}</div>                            
                             </div>
                         ))}
                     </div>
-                    {/* Summary */}
-                    <div className="mt-4">
-                        <h2 className="text-xl font-bold text-red-500">Tổng tiền: {totalPrice.toLocaleString()} VNĐ</h2>
+                    <div className='flex flex-col items-center'>
+                        <p className=''>Màn hình</p>
                     </div>
-                    <button className="bg-red-500 text-white px-4 py-2 rounded mt-4 hover:bg-red-600">
-                        Đặt vé
-                    </button>
+                    <hr></hr>
                 </div>
 
                 {/* Right Column - 30% */}
-                
-                <div className="w-[30%] text-black ">
+                <div className="w-[30%] text-black">
                     {movie ? (
-                        <div className='bg-white rounded h-[30%] p-2'>
+                        <div className="bg-white rounded h-[35%] p-2">
                             <div className="flex mb-4">
-                                <img src={movie?.data.img} alt={movie?.data.name} className="w-32  object-cover rounded mr-4" />
+                                <img src={movie?.data.img} alt={movie?.data.name} className="w-32 object-cover rounded mr-4" />
                                 <div>
                                     <h1 className="text-3xl font-semibold">{movie?.data.name}</h1>
-                                    <p className="text-sm py-5"><span className="font-semibold">{movie?.data.subtitles}</span> - <span className='bg-orange-600 p-2 rounded-sm text-white text-lg'>{movie?.data.age_limit}</span></p>
+                                    <p className="text-sm py-5">
+                                        <span className="font-semibold">{movie?.data.subtitles}</span> - 
+                                        <span className="bg-orange-600 p-2 rounded-sm text-white text-lg">{movie?.data.age_limit}</span>
+                                    </p>
+                                    {/* Chọn voucher */}
+                                    <div className="py-2">
+                                        <label htmlFor="voucher" className="text-sm text-red-700 font-bold">Chọn voucher:</label>
+                                        <select id="voucher" className="ml-2 p-1 border rounded text-sm">
+                                            <option value="none">Không chọn</option>
+                                            <option value="discount10">{discountCode}</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='py-2'>
+                            <div className="py-5">
                                 <h1 className="text-xl font-bold">ST-FLIX Tân Bình</h1>
                                 <h2 className="text-base">Xuất: <span className="font-semibold">10:00 Am</span> - <span className="font-semibold">Thứ 2</span> </h2>
                                 <hr />
-                            </div>         
+                            </div>
                             <div className="flex py-1">
                                 <div className="flex flex-col">
                                     <h1 className="text-sm">x2</h1>
@@ -218,21 +230,20 @@ const BuyTickets = () => {
                             </div>
                             <hr />
                             <div className="mt-4 ml-36">
-                                <p className="text-red-600 font-semibold text-xl ">Tổng tiền: <span className="font-bold">100,000 VNĐ</span></p>
+                                <p className="text-red-600 font-semibold text-xl">Tổng tiền: <span className="font-bold">100,000 VNĐ</span></p>
                             </div>
                         </div>
-                        ) : (
-                            <p className="text-gray-300">Loading movie details...</p> // Optional loading message
-                        )}
-                        <div className='flex justify-between pt-5'>
-                            <h1 className='text-orange-600 text-3xl text-center w-[50%] '>quay lại</h1>
-                            <h1 className='text-white text-3xl bg-orange-600 px-10 py-2 rounded-md'>Tiếp tục</h1>
-                        </div>
+                    ) : (
+                        <p className="text-gray-300">Loading movie details...</p>
+                    )}
+                    <div className="flex justify-between pt-5">
+                        <h1 className="text-orange-600 text-3xl text-center w-[50%]">Quay lại</h1>
+                        <h1 className="text-white text-3xl bg-orange-600 px-10 py-2 rounded-md">Tiếp tục</h1>
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
-
 
 export default BuyTickets;
