@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useGetCinemasByRegionIdQuery } from '../../services/Cinema/cinema.service'; // Update with your API hook
 import LoadingLocal from "../Loading/LoadingLocal";
-import LoadingPage from "../Loading/LoadingSpinner";
 const RegionDetails = () => {
   const { region_id } = useParams(); // Retrieve the region ID from URL
   const { data: cinemas, isLoading, error } = useGetCinemasByRegionIdQuery(region_id); // Fetch cinemas by region

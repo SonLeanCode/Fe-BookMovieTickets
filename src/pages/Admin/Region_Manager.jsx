@@ -6,13 +6,13 @@ import {
   useUpdateRegionMutation,
   useDeleteRegionMutation,
 } from "../../services/Regions/regions.service"; // Updated service import
-import { FaEdit, FaTrash,FaInfoCircle  } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import Pagination from "../../components/Admin/Pagination";
 import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
-import { useNavigate,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const Region_Management = () => {
@@ -31,7 +31,6 @@ const Region_Management = () => {
   const [deleteRegion] = useDeleteRegionMutation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedRegions, setSelectedRegions] = useState([]);
-  const navigate = useNavigate();
 
   const filteredRegions = regions?.data.filter((region) =>
     region.name.toLowerCase().includes(searchTerm.toLowerCase())

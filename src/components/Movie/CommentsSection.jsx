@@ -8,7 +8,7 @@ const socket = io("http://localhost:4003");
 const CommentsSection = ({ movieId }) => {
   console.log('IdMOVIE',movieId);
   
-  const { data: comments } = useGetCommentsQuery(movieId);
+  const { data: comments, refetch } = useGetCommentsQuery(movieId);
   console.log('du lieu',comments);
   
   const [postComments] = usePostCommentsMutation();

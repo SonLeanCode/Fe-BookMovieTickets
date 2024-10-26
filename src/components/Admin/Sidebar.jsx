@@ -7,10 +7,11 @@ import { FaHome, FaFilm, FaUserAlt,FaMapMarkerAlt } from "react-icons/fa";
 
 const menuItems = [
   { name: "Bảng điều khiển", icon: FaHome, link: "/admin/dashboard" },
-  { name: "Danh sách phim", icon: FaFilm, link: "/admin/movies" },
-  { name: "Danh sách thể loại", icon: MdCategory, link: "/admin/genres" },
-  { name: "Danh sách diễn viên", icon: FaUserAlt, link: "/admin/actors" },
-  { name: "Danh sách khu vực", icon: FaMapMarkerAlt , link: "/admin/region" },
+  { name: "Quản lý phim", icon: FaFilm, link: "/admin/movies" },
+  { name: "Quản lý thể loại", icon: MdCategory, link: "/admin/genres" },
+  { name: "Quản lý diễn viên", icon: FaUserAlt, link: "/admin/actors" },
+  { name: "Quản lý khu vực", icon: FaMapMarkerAlt , link: "/admin/regions" },
+  { name: "Quản lý rạp", icon: FaMapMarkerAlt , link: "/admin/cinemas" },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
