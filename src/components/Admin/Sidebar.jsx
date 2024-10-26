@@ -3,15 +3,22 @@ import PropTypes from "prop-types";
 import { Button, Menu } from "react-daisyui";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MdCategory } from "react-icons/md";
-import { FaHome, FaFilm, FaUserAlt,FaMapMarkerAlt } from "react-icons/fa";
-
+import {
+  FaHome,
+  FaFilm,
+  FaUserAlt,
+  FaMapMarkerAlt,
+  FaVideo ,
+  FaUser
+} from "react-icons/fa";
 const menuItems = [
   { name: "Bảng điều khiển", icon: FaHome, link: "/admin/dashboard" },
   { name: "Quản lý phim", icon: FaFilm, link: "/admin/movies" },
   { name: "Quản lý thể loại", icon: MdCategory, link: "/admin/genres" },
   { name: "Quản lý diễn viên", icon: FaUserAlt, link: "/admin/actors" },
-  { name: "Quản lý khu vực", icon: FaMapMarkerAlt , link: "/admin/regions" },
-  { name: "Quản lý rạp", icon: FaMapMarkerAlt , link: "/admin/cinemas" },
+  { name: "Quản lý khu vực", icon: FaMapMarkerAlt, link: "/admin/regions" },
+  { name: "Quản lý rạp", icon: FaVideo , link: "/admin/cinemas" },
+  { name: "Quản lý tài khoản", icon: FaUser , link: "/admin/users" },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -21,7 +28,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   useEffect(() => {
     const foundItem = menuItems.find((item) => location.pathname === item.link);
     if (foundItem) setActiveItem(foundItem.name);
-    
+
     // Đóng sidebar khi chuyển trang ở màn hình nhỏ
     if (isOpen) {
       toggleSidebar();
@@ -67,14 +74,14 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     >
                       <div className="flex w-full items-center">
                         {activeItem === item.name && (
-                          <div className="bg-red-600 absolute left-0 top-0 h-full w-1" />
+                          <div className="absolute left-0 top-0 h-full w-1 bg-red-600" />
                         )}
                         <div className="flex items-center">
                           <Icon
                             className={`${
                               activeItem === item.name
-                                ? "text-primary mr-3 h-5 w-5 text-white text-md"
-                                : "mr-3 h-5 w-5 text-gray-300 text-md"
+                                ? "text-primary text-md mr-3 h-5 w-5 text-white"
+                                : "text-md mr-3 h-5 w-5 text-gray-300"
                             }`}
                           />
                           <span className="flex items-center text-lg">
@@ -92,12 +99,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <div className="mx-4 mb-2 flex flex-col items-center">
           <div className="rounded-lg bg-gray-800 p-4 text-center text-gray-200 shadow-md">
             <p className="text-sm">Cập nhật các tính năng mới</p>
-            <Button className="mt-4 rounded-lg p-2 bg-green-500 text-white shadow-md hover:bg-green-600">
+            <Button className="mt-4 rounded-lg bg-green-500 p-2 text-white shadow-md hover:bg-green-600">
               + Đang phát triển
             </Button>
           </div>
           <div className="mt-2 text-xs text-gray-400">
-            <p className="font-bold uppercase text-center">ST-Flix</p>
+            <p className="text-center font-bold uppercase">ST-Flix</p>
             <p className="font-light">Created by NTD @2024</p>
           </div>
         </div>
