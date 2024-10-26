@@ -16,6 +16,8 @@ import { NotLoggedMiddleware } from "./private/middleware/MiddlewareRoute";
 
 import Region_Manager from "../pages/Admin/Region_Manager";
 import RegionDetails from "../pages/Admin/Region_detail";
+import Cinema_Management from "../pages/Admin/Cinema_Management";
+import AccountManagement from "../pages/Admin/User_Management";
 
 
 // Lazy-loaded pages
@@ -117,13 +119,16 @@ export default function AppRoutes() {
                 <Route path="movies" element={<Movie_Management />} />
                 <Route path="genres" element={<Genre_Management />} />
                 <Route path="actors" element={<Actor_Management />} />
+                <Route path="cinemas" element={<Cinema_Management />} />
+                <Route path="regions" element={<Region_Manager />} />
+                <Route path="users" element={<AccountManagement />} />
+
                 <Route path="regions/test" element={<RegionAdmin />} />
                 <Route path="cinema/test" element={<CinemaAdmin />} />
                 <Route path="genre/test" element={<GenreAdmin />} />
                 <Route path="genre_movies/test" element={<Genre_Movie />} />
                 <Route path="actor/test" element={<ActorAdmin />} />
                 <Route path="actor_movies/test" element={<Actor_Movie />} />
-                <Route path="region" element={<Region_Manager />} />
                 <Route path="region/:region_id" element={<RegionDetails />} />
 
               </Route>
