@@ -33,9 +33,12 @@ const AccountManagement = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    avatar: "", // Thêm trường avatar
   });
 
+  
   console.log(users?.data);
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -43,6 +46,21 @@ const AccountManagement = () => {
       [name]: value,
     }));
   };
+
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Tạo URL cho file để hiển thị
+      const imageUrl = URL.createObjectURL(file);
+      // Cập nhật formData.avatar với URL của hình ảnh
+      setFormData((prevData) => ({
+        ...prevData,
+        avatar: imageUrl, // Cập nhật với URL hình ảnh
+      }));
+    }
+  };
+  
 
   const filteredUsers = users?.data.filter(
     (user) =>
@@ -182,7 +200,7 @@ const AccountManagement = () => {
           {selectedUsers.length > 0 && (
             <div className="mx-2 flex items-center">
               <p className="mr-4 text-lg font-semibold">
-                {`' `}Đã chọn {selectedUsers.length} mục{` '`}
+                {' }Đã chọn {selectedUsers.length} mục{ '}
               </p>
               <Button
                 className="rounded-md bg-blue-500 p-2 hover:bg-blue-600"
@@ -225,6 +243,7 @@ const AccountManagement = () => {
               </th>
               <th className="px-4 py-3 text-left text-white">Tên tài khoản</th>
               <th className="px-4 py-3 text-left text-white">Email</th>
+              <th className="px-4 py-3 text-start text-white">Ảnh đại diện</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
             </tr>
           </thead>
@@ -247,7 +266,12 @@ const AccountManagement = () => {
                   />
                 </td>
                 <td className="px-4 py-2">{user.fullname}</td>
-                <td className="px-4 py-2">{user.email}</td>
+                <td className="px-4 py-2">{user.email || ""}</td>
+                <td className="px-4 py-2"><img
+                  src={user.avatar}
+                  alt="Avatar"
+                  className="w-12 h-12 rounded-full border-2 border-white"
+                /></td>
                 <td className="px-4 py-2 text-center">
                   <Button
                     className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
@@ -274,104 +298,141 @@ const AccountManagement = () => {
         onPageChange={setCurrentPage}
       />
 
-      {isModalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <form
-            className="relative w-[400px] rounded-lg bg-[#111111] p-8 text-white shadow-lg"
-            onSubmit={handleSubmit}
-          >
-            <h2 className="mb-4 text-2xl font-semibold">
-              {selectedUser ? "Sửa tài khoản" : "Thêm tài khoản"}
-            </h2>
+{isModalVisible && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 transition-opacity duration-300 ease-in-out">
+    <form
+      className="relative w-full max-w-[900px] transform overflow-hidden rounded-lg bg-gradient-to-br from-purple-400 via-gray-900 to-gray-800 p-10 shadow-2xl transition-all duration-500 ease-out scale-105"
+      onSubmit={handleSubmit}
+    >
+      <h2 className="mb-10 text-center text-4xl font-bold text-white animate-fadeIn">
+        {selectedUser ? "SỬA TÀI KHOẢN" : "THÊM TÀI KHOẢN"}
+      </h2>
 
-            <div className="mb-4">
-              <label className="mb-1 block font-semibold">Tên:</label>
-              <Input
-                type="text"
-                name="fullname" // Đổi tên từ "name" thành "fullname"
-                value={formData.fullname} // Đổi thành formData.fullname
-                onChange={handleInputChange}
-                className="rounded-md bg-[#2d2d2d] p-2 text-white"
-                required
-              />
-            </div>
+      <div className="flex justify-center mb-5">
+        <img
+          src={formData.avatar || 'https://haycafe.vn/wp-content/uploads/2022/02/Avatar-trang-den.png'} // Nếu không có avatar, sử dụng ảnh mặc định
+          alt="Avatar"
+          className="w-32 h-32 rounded-full border-4 border-white object-cover"
+        />
+      </div>
 
-            <div className="mb-4">
-              <label className="mb-1 block font-semibold">Email:</label>
-              <Input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="rounded-md bg-[#2d2d2d] p-2 text-white"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="mb-1 block font-semibold">Mật khẩu:</label>
-              <Input
-                type="password" // Đảm bảo trường này là password
-                name="password"
-                value={formData.password} // Đảm bảo rằng password nằm trong formData
-                onChange={handleInputChange}
-                className="rounded-md bg-[#2d2d2d] p-2 text-white"
-                required // Bắt buộc nhập mật khẩu
-              />
-            </div>
-            <div className="mb-4">
-              <label className="mb-1 block font-semibold">Số điện thoại:</label>
-              <Input
-                type="text"
-                name="phone"
-                value={formData.phone} // Đảm bảo rằng phone cũng nằm trong formData
-                onChange={handleInputChange}
-                className="rounded-md bg-[#2d2d2d] p-2 text-white"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="mb-1 block font-semibold">Vai trò:</label>
-              <select
-                name="role"
-                value={formData.role} // Đảm bảo rằng role nằm trong formData
-                onChange={handleInputChange}
-                className="rounded-md bg-[#2d2d2d] p-2 text-white"
-              >
-                <option value="user">Khách hàng</option>
-                <option value="admin">Quản trị viên</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="mb-1 block font-semibold">Avatar:</label>
-              <Input
-                type="text"
-                name="avatar"
-                value={formData.avatar} // Đảm bảo rằng avatar nằm trong formData
-                onChange={handleInputChange}
-                className="rounded-md bg-[#2d2d2d] p-2 text-white"
-              />
-            </div>
-
-            <div className="flex justify-end">
-              <Button
-                type="button"
-                className="mr-2 rounded-md bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
-                onClick={handleCloseModal}
-              >
-                Hủy
-              </Button>
-              <Button
-                type="submit"
-                className="rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-              >
-                {selectedUser ? "Lưu thay đổi" : "Thêm"}
-              </Button>
-            </div>
-          </form>
+      <div className="grid grid-cols-2 gap-8">
+        {/* Tên */}
+        <div className="relative">
+          <label className="absolute -top-3 left-4 bg-gradient-to-r from-red-600 via-pink-500 to-purple-400 text-white px-2 rounded-md font-semibold transition-transform duration-300">
+            Tên
+          </label>
+          <input
+            type="text"
+            name="fullname"
+            value={formData.fullname}
+            onChange={handleInputChange}
+            className="w-full rounded-md bg-transparent border-2 border-gray-400 p-3 text-white focus:border-indigo-500 placeholder-transparent"
+            placeholder=" "
+            required
+          />
         </div>
-      )}
+
+        {/* Email */}
+        <div className="relative">
+          <label className="absolute -top-3 left-4 bg-gradient-to-r from-red-600 via-pink-500 to-purple-400 text-white px-2 rounded-md font-semibold transition-transform duration-300">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            className="w-full rounded-md bg-transparent border-2 border-gray-400 p-3 text-white focus:border-indigo-500 placeholder-transparent"
+            placeholder=" "
+            required
+          />
+        </div>
+
+        {/* Mật khẩu */}
+        <div className="relative">
+          <label className="absolute -top-3 left-4 bg-gradient-to-r from-red-600 via-pink-500 to-purple-400 text-white px-2 rounded-md font-semibold transition-transform duration-300">
+            Mật khẩu
+          </label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            className="w-full rounded-md bg-transparent border-2 border-gray-400 p-3 text-white focus:border-indigo-500 placeholder-transparent"
+            placeholder=" "
+            required
+          />
+        </div>
+
+        {/* Số điện thoại */}
+        <div className="relative">
+          <label className="absolute -top-3 left-4 bg-gradient-to-r from-red-600 via-pink-500 to-purple-400 text-white px-2 rounded-md font-semibold transition-transform duration-300">
+            Số điện thoại
+          </label>
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            className="w-full rounded-md bg-transparent border-2 border-gray-400 p-3 text-white focus:border-indigo-500 placeholder-transparent"
+            placeholder=" "
+            required
+          />
+        </div>
+
+        {/* Vai trò */}
+        <div className="relative">
+          <label className="absolute -top-3 left-4 bg-gradient-to-r from-red-600 via-pink-500 to-purple-400 text-white px-2 rounded-md font-semibold transition-transform duration-300">
+            Vai trò
+          </label>
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleInputChange}
+            className="w-full rounded-md bg-transparent border-2 border-gray-400 p-3 text-blue-500 focus:border-indigo-500 placeholder-transparent"
+          >
+            <option value="user">Khách hàng</option>
+            <option value="admin">Quản trị viên</option>
+          </select>
+        </div>
+
+        {/* Chọn file cho Avatar */}
+        <div className="relative">
+          <label className="absolute -top-3 left-4 bg-gradient-to-r from-red-600 via-pink-500 to-purple-400 text-white px-2 rounded-md font-semibold transition-transform duration-300">
+            Chọn file Avatar
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="mt-4 rounded-md bg-transparent text-white"
+          />
+        </div>
+      </div>
+
+      {/* Nút hành động */}
+      <div className="mt-10 flex justify-end space-x-5">
+        <button
+          type="button"
+          className="rounded-lg bg-gray-600 px-5 py-2 text-base font-medium text-white hover:bg-gray-700 transition duration-300 transform hover:scale-110"
+          onClick={handleCloseModal}
+        >
+          Hủy
+        </button>
+        <button
+          type="submit"
+          className="rounded-lg bg-red-500 px-5 py-2 text-base font-medium text-white transition duration-300 transform hover:scale-110"
+        >
+          {selectedUser ? "Lưu thay đổi" : "Thêm"}
+        </button>
+      </div>
+    </form>
+  </div>
+)}
+
+
+
     </div>
   );
 };
