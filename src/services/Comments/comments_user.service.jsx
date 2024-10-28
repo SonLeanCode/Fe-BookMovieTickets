@@ -10,7 +10,7 @@ export const commentsApi = createApi({
       const token = getAccessToken();
       console.log('Token từ localStorage:', token); // Log token để kiểm tra
       if (token) {
-        headers.set('x-access-token', `Bearer ${token}`);
+        headers.set('Authorization', `Bearer ${token}`);
         console.log('Authorization header set:', `Bearer ${token}`);
       }
       headers.set('Content-Type', 'application/json');
@@ -28,14 +28,8 @@ export const commentsApi = createApi({
     getComments: builder.query({
       query: (movieId) => `/api/comment/${movieId}`,
     }),
-    getUserById: builder.query({
-      query: (userId) => `/api/auth/${userId}`, 
-    }),
   }),
 });
 
-<<<<<<< HEAD
-export const { useGetCommentsQuery, usePostCommentsMutation,useGetUserByIdQuery } = apiComents;
-=======
 export const { useGetCommentsQuery, usePostCommentsMutation } = commentsApi;
->>>>>>> e900a0e5aa161952fba2d8877a9a589411f6b2d4
+
