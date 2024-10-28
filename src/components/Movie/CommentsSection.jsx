@@ -2,23 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import PropTypes from "prop-types";
 import { getUserByIdFormToken } from "../Utils/auth";
-import { useGetCommentsQuery, usePostCommentsMutation,useGetUserByIdQuery } from "../../services/Comments/comments_user.service";
+import { useGetCommentsQuery, usePostCommentsMutation } from "../../services/Comments/comments_user.service";
 
 const CommentsSection = ({ movieId }) => {
-<<<<<<< HEAD
-  const { data: comments } = useGetCommentsQuery(movieId);
-=======
-  console.log('IdMOVIE',movieId);
-  
   const { data: comments, refetch } = useGetCommentsQuery(movieId);
-  console.log('du lieu',comments);
-  
->>>>>>> e900a0e5aa161952fba2d8877a9a589411f6b2d4
   const [postComments] = usePostCommentsMutation();
+  const userId = getUserByIdFormToken();
   const [newComment, setNewComment] = useState("");
   const [allComments, setAllComments] = useState([]);
   const socketRef = useRef(null);
-
+  console.log(allComments)
   // Khởi tạo danh sách bình luận từ dữ liệu API ban đầu
   useEffect(() => {
     if (comments && Array.isArray(comments.data)) {
@@ -30,7 +23,7 @@ const CommentsSection = ({ movieId }) => {
 
   // Kết nối socket và lắng nghe sự kiện
   useEffect(() => {
-    socketRef.current = io("http://localhost:4003", { autoConnect: false });
+    socketRef.current = io("http://localhost:5173", { autoConnect: false });
     socketRef.current.connect();
 
     const handleNewComment = (comment) => {
@@ -48,12 +41,7 @@ const CommentsSection = ({ movieId }) => {
     };
   }, [movieId]);
   // user id token
-  const userId = getUserByIdFormToken();
 
-  const { data: userData } = useGetUserByIdQuery(userId, {
-    skip: !userId, 
-  });
-  console.log('userData',userData);
   
   // Xử lý gửi bình luận
   const handleSubmit = async (e) => {
@@ -84,6 +72,7 @@ const CommentsSection = ({ movieId }) => {
       const response = await postComments(commentData).unwrap();
       socketRef.current.emit("postComment", response); // Phát sự kiện tới server
       setNewComment(""); // Xóa nội dung input sau khi gửi
+      refetch()
     } catch (error) {
       console.error("Lỗi khi gửi bình luận:", error);
     }
@@ -125,12 +114,12 @@ const CommentsSection = ({ movieId }) => {
             <div key={comment._id || index} className="mt-5 flex items-start gap-2.5">
               <img
                 className="h-12 w-14 rounded-full"
-                src={userData?.avatar || "default-avatar-url"}
+                src={comment?.idUser.avatar || "default-avatar-url"}
                 alt="User Avatar"
               />
               <div className="flex w-full flex-col gap-1">
                 <div className="flex items-center space-x-2">
-                <span className="text-sm font-semibold text-white">{userData?.fullname || "Người dùng ẩn danh"}</span>
+                <span className="text-sm font-semibold text-white">{comment?.idUser.fullname || "Người dùng ẩn danh"}</span>
                   <span className="text-sm font-normal text-gray-500">{comment.time}</span>
                 </div>
                 <div className="leading-1.5 flex flex-col rounded-e-xl bg-gray-900 p-4">
