@@ -25,6 +25,10 @@ export const userApi = createApi({
       query: () => '/api/users', // Đường dẫn đến API lấy danh sách người dùng
     }),
 
+    getUserById: builder.query({
+      query: (id) => `/api/user/${id}`, // Đường dẫn đến API lấy danh sách người dùng
+    }),
+
     // Endpoint để sửa thông tin người dùng
     updateUser: builder.mutation({
       query: ({ id, userData }) => ({
@@ -47,6 +51,7 @@ export const userApi = createApi({
 // Xuất các hook để sử dụng trong component
 export const {
   useGetAllUsersQuery,
+  useGetUserByIdQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
 } = userApi;

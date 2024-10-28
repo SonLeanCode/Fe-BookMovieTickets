@@ -5,7 +5,6 @@ export const getUserByIdFormToken = () => {
     if (!token) return null;
     try {
         const decoded = jwtDecode(token)
-        console.log(decoded)
         return decoded.userId;
     } catch (error) {
         console.error("Lỗi khi giải mã token:", error);

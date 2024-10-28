@@ -8,10 +8,8 @@ export const commentsApi = createApi({
     baseUrl: 'http://localhost:4003/',
     prepareHeaders: (headers) => {
       const token = getAccessToken();
-      console.log('Token từ localStorage:', token); // Log token để kiểm tra
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
-        console.log('Authorization header set:', `Bearer ${token}`);
       }
       headers.set('Content-Type', 'application/json');
       return headers;
