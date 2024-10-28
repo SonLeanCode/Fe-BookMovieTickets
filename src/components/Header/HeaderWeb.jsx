@@ -3,16 +3,22 @@ import { useEffect, useState } from "react";
 import { FaUserAlt, FaHistory, FaSignOutAlt, FaBars } from "react-icons/fa"; // Import necessary icons
 import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
 import Toastify from "../../helper/Toastify";
-
+import { usePutLanguageMutation } from "../../services/Language/language_service"
+import { getUserByIdFormToken } from "../Utils/auth";
+import i18n  from "i18next";
+import { useTranslation } from 'react-i18next';
 const HeaderWeb = () => {
+  const { t } = useTranslation(); 
   const [scrolled, setScrolled] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const [putLanguage] = usePutLanguageMutation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userAvatar, setUserAvatar] = useState("");
   const [fullName, setFullName] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,11 +55,25 @@ const HeaderWeb = () => {
     // Example: navigate(`/search?query=${searchTerm}`);
   };
 
+  // changes languages
+  const changeLanguage = async (language) => {
+   
+    const userId = getUserByIdFormToken();
+     
+    try {
+      const result = await putLanguage({ id: userId, language }).unwrap();
+      console.log("Language updated:", result);
+      i18n.changeLanguage(language);
+      console.log("Current language:", i18n.language);
+    }
+    catch (error) {
+      console.error("Error updating language:", error);
+    }
+  };
   return (
     <header
-      className={`fixed left-0 top-0 z-50 w-full transition-colors  duration-300 ${
-        scrolled ? "bg-black" : "bg-black bg-opacity-20"
-      }`}
+      className={`fixed left-0 top-0 z-50 w-full transition-colors  duration-300 ${scrolled ? "bg-black" : "bg-black bg-opacity-20"
+        }`}
     >
       <div className="flex items-center justify-between p-2">
         <div className="flex items-center">
@@ -61,7 +81,7 @@ const HeaderWeb = () => {
             to="/cinema"
             className="font-montserrat animate-sparkle xs:text-4xl relative ml-16 bg-gradient-to-r from-red-600 via-red-300 to-red-600 bg-clip-text text-7xl font-bold text-transparent sm:text-5xl md:text-6xl" // Thay đổi kích thước chữ
           >
-            ST-FLIX
+            {t("ST-FLIX")}
           </Link>
         </div>
 
@@ -72,7 +92,7 @@ const HeaderWeb = () => {
             className="relative bg-red-600 px-6 py-2 font-bold text-white"
             style={{ clipPath: "polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)" }}
           >
-            Mua vé
+            {t("Mua vé")}
           </Link>
 
           <Link
@@ -140,9 +160,8 @@ const HeaderWeb = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSearch(e)} // Handle enter key for search
-              className={`rounded-lg border border-gray-300 bg-transparent py-2 pl-10 pr-4 text-white focus:outline-none focus:ring-2 ${
-                scrolled ? "bg-black" : "bg-gray-500"
-              }`}
+              className={`rounded-lg border border-gray-300 bg-transparent py-2 pl-10 pr-4 text-white focus:outline-none focus:ring-2 ${scrolled ? "bg-black" : "bg-gray-500"
+                }`}
             />
           </div>
         </div>
@@ -206,25 +225,26 @@ const HeaderWeb = () => {
               className="flex w-full items-center justify-between rounded-md bg-gray-800 px-4 py-2 text-white"
               onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
             >
-              Ngôn ngữ <i className="fas fa-language ml-2"></i>
+                {t('Ngôn ngữ')} <i className="fas fa-language ml-2"></i>
             </button>
 
             {languageMenuOpen && (
               <div className="absolute right-0 z-10 w-full rounded-md bg-gray-800">
-                <Link
-                  to="/language/vi"
+                <button
+                  onClick={() => changeLanguage("vi")}
                   className="block w-full px-4 py-2 text-sm text-white transition-none hover:bg-gray-700"
                 >
-                  Tiếng Việt
-                </Link>
-                <Link
-                  to="/language/en"
+                   {t('Tiếng Việt')}
+                </button>
+                <button
+                  onClick={() => changeLanguage("en")}
                   className="block w-full px-4 py-2 text-sm text-white transition-none hover:bg-gray-700"
                 >
-                  English
-                </Link>
+                    {t('English')}
+                </button>
               </div>
             )}
+
           </div>
           {/* Mobile Menu Button */}
           <button

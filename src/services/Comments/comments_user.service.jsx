@@ -28,7 +28,10 @@ export const apiComents = createApi({
     getComments: builder.query({
       query: (movieId) => `/api/comment/${movieId}`,
     }),
+    getUserById: builder.query({
+      query: (userId) => `/api/auth/${userId}`, 
+    }),
   }),
 });
 
-export const { useGetCommentsQuery, usePostCommentsMutation } = apiComents;
+export const { useGetCommentsQuery, usePostCommentsMutation,useGetUserByIdQuery } = apiComents;
