@@ -297,57 +297,142 @@ const Cinema_Management = () => {
 
       {/* Add/Edit cinema Modal */}
       {isModalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="max-w-lg rounded-lg bg-white p-6 text-black">
-            <h3 className="mb-4 text-2xl font-bold">
-              {selectedCinema ? "Chỉnh sửa rạp" : "Thêm rạp"}
-            </h3>
-            <form onSubmit={handleSubmit}>
-              <label className="mb-2 block">Tên rạp:</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="mb-4 w-full rounded border border-gray-300 p-2"
-              />
-              <label className="mb-2 block">Địa chỉ:</label>
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                required
-                className="mb-4 w-full rounded border border-gray-300 p-2"
-              />
-              <label className="mb-2 block">Khu vực:</label>
-              <select
-                name="region_id"
-                value={formData.region_id}
-                onChange={handleInputChange}
-                required
-                className="mb-4 w-full rounded border border-gray-300 p-2"
-              >
-                <option value="">Chọn khu vực</option>
-                {regionOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="rounded-md bg-blue-500 p-2 text-white"
-                >
-                  Lưu
-                </button>
-              </div>
-            </form>
-          </div>
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 transition-opacity duration-300 ease-in-out">
+    <div className="max-w-5xl w-full bg-white p-10 rounded-xl shadow-2xl transform transition-transform duration-300 ease-in-out text-black">
+      
+      <div className="flex justify-between items-center mb-8">
+        <h3 className="text-3xl font-semibold text-gray-800">
+          {selectedCinema ? "Chỉnh sửa rạp" : "Thêm rạp"}
+        </h3>
+        <button 
+          onClick={() => setIsModalVisible(false)} 
+          className="text-gray-500 hover:text-gray-700 text-2xl"
+        >
+          ✕
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div className="relative">
+          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-blue-800">
+            Tên rạp:
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
         </div>
-      )}
+
+        <div className="relative">
+          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-yellow-800">
+            Ảnh rạp:
+          </label>
+          <input
+            type="file"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+
+        <div className="relative">
+          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-indigo-800">
+            Số phòng VIP:
+          </label>
+          <input
+            type="number"
+            min="0"
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+
+        <div className="relative">
+          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-indigo-800">
+            Số phòng thường:
+          </label>
+          <input
+            type="number"
+            min="0"
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+
+        <div className="relative">
+          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-pink-800">
+            Số ghế:
+          </label>
+          <input
+            type="number"
+            min="1"
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+
+        <div className="relative">
+          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-green-800">
+            Địa chỉ:
+          </label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
+
+        <div className="relative">
+          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-purple-800">
+            Khu vực:
+          </label>
+          <select
+            name="region_id"
+            value={formData.region_id}
+            onChange={handleInputChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          >
+            <option value="">Chọn khu vực</option>
+            {regionOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex justify-end space-x-4 mt-8 md:col-span-2">
+          <button
+            type="button"
+            onClick={() => setIsModalVisible(false)}
+            className="px-6 py-2 rounded-md bg-gray-300 text-gray-700 hover:bg-gray-400 transition duration-300 ease-in-out"
+          >
+            Huỷ
+          </button>
+          <button
+            type="submit"
+            className="px-6 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300 ease-in-out"
+          >
+            Lưu
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+
+
+
+
+
     </div>
   );
 };
