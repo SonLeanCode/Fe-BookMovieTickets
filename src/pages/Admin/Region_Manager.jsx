@@ -6,14 +6,13 @@ import {
   useUpdateRegionMutation,
   useDeleteRegionMutation,
 } from "../../services/Regions/regions.service"; // Updated service import
-import { FaEdit, FaTrash,FaInfoCircle  } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import Pagination from "../../components/Admin/Pagination";
 import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
-import { useNavigate,Link } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 
 const Region_Management = () => {
   const {
@@ -31,10 +30,9 @@ const Region_Management = () => {
   const [deleteRegion] = useDeleteRegionMutation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedRegions, setSelectedRegions] = useState([]);
-  const navigate = useNavigate();
 
   const filteredRegions = regions?.data.filter((region) =>
-    region.name.toLowerCase().includes(searchTerm.toLowerCase())
+    region.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const totalPages = Math.ceil((filteredRegions?.length || 0) / regionsPerPage);
@@ -85,7 +83,9 @@ const Region_Management = () => {
     if (window.confirm("Bạn có chắc chắn muốn xóa những vùng đã chọn?")) {
       try {
         setLoading(true);
-        await Promise.all(selectedRegions.map((id) => deleteRegion(id).unwrap()));
+        await Promise.all(
+          selectedRegions.map((id) => deleteRegion(id).unwrap()),
+        );
         refetch();
         Toastify("Các vùng đã được xóa:", 200);
         setSelectedRegions([]);
@@ -97,7 +97,6 @@ const Region_Management = () => {
       }
     }
   };
-
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
@@ -118,13 +117,13 @@ const Region_Management = () => {
     setSelectedRegions((prev) =>
       prev.includes(id)
         ? prev.filter((regionId) => regionId !== id)
-        : [...prev, id]
+        : [...prev, id],
     );
   };
 
   const paginatedRegions = filteredRegions?.slice(
     (currentPage - 1) * regionsPerPage,
-    currentPage * regionsPerPage
+    currentPage * regionsPerPage,
   );
 
   if (regionDataLoading) {
@@ -165,7 +164,7 @@ const Region_Management = () => {
           {selectedRegions.length > 0 && (
             <div className="mx-2 flex items-center">
               <p className="mr-4 text-lg font-semibold">
-                {`' `}Đã chọn {selectedRegions.length} mục{` '`} 
+                {`' `}Đã chọn {selectedRegions.length} mục{` '`}
               </p>
               <Button
                 className="rounded-md bg-blue-500 p-2 hover:bg-blue-600"
@@ -194,14 +193,14 @@ const Region_Management = () => {
         <table className="w-full border-separate border-spacing-y-2 border-[#111111]">
           <thead className="bg-[#2d2d2d]">
             <tr>
-              <th className="px-4 py-3 text-white text-left">
+              <th className="px-4 py-3 text-left text-white">
                 <input
                   type="checkbox"
                   onChange={(e) =>
                     setSelectedRegions(
                       e.target.checked
                         ? paginatedRegions.map((region) => region._id)
-                        : []
+                        : [],
                     )
                   }
                   checked={
@@ -219,7 +218,7 @@ const Region_Management = () => {
           <tbody className="bg-black text-gray-400">
             {paginatedRegions?.map((region) => (
               <tr key={region._id}>
-                <td className="px-4 py-2 ">
+                <td className="px-4 py-2">
                   <input
                     type="checkbox"
                     checked={selectedRegions.includes(region._id)}
@@ -235,15 +234,16 @@ const Region_Management = () => {
                   >
                     <FaEdit />
                   </Button>
-                  <Button 
+                  <Button
                     className="mr-1 rounded-sm bg-[#ff2727] p-2 text-white"
                     onClick={() => handleDeleteRegion(region._id)}
                   >
                     <FaTrash />
                   </Button>
-                  
                 </td>
-                <td className="text-blue-500 font-bold" ><Link to={"/admin/region/" + region._id}> Xem các rạp</Link> </td>
+                <td className="font-bold text-blue-500">
+                  <Link to={"/admin/region/" + region._id}> Xem các rạp</Link>{" "}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -253,7 +253,7 @@ const Region_Management = () => {
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+        onPageChange={setCurrentPage}
       />
 
       {/* Add/Edit Region Modal */}
@@ -279,7 +279,7 @@ const Region_Management = () => {
                 name="name"
                 defaultValue={selectedRegion ? selectedRegion.name : ""}
                 required
-                className="mb-4 w-full p-2 border border-gray-300 rounded"
+                className="mb-4 w-full rounded border border-gray-300 p-2"
               />
               <div className="flex justify-end">
                 <Button

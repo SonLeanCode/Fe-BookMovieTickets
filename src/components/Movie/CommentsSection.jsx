@@ -5,7 +5,15 @@ import { getUserByIdFormToken } from "../Utils/auth";
 import { useGetCommentsQuery, usePostCommentsMutation,useGetUserByIdQuery } from "../../services/Comments/comments_user.service";
 
 const CommentsSection = ({ movieId }) => {
+<<<<<<< HEAD
   const { data: comments } = useGetCommentsQuery(movieId);
+=======
+  console.log('IdMOVIE',movieId);
+  
+  const { data: comments, refetch } = useGetCommentsQuery(movieId);
+  console.log('du lieu',comments);
+  
+>>>>>>> e900a0e5aa161952fba2d8877a9a589411f6b2d4
   const [postComments] = usePostCommentsMutation();
   const [newComment, setNewComment] = useState("");
   const [allComments, setAllComments] = useState([]);
