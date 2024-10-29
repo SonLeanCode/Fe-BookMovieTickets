@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useGetAllGenresQuery } from "../../services/Genre/genre.service";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
 import { Link, useParams } from "react-router-dom";
-
+import { useTranslation } from 'react-i18next';
 const MovieList = () => {
+  const { t } = useTranslation(); 
   const { id } = useParams();
   const { data: genreData } = useGetAllGenresQuery();
   const { data: allMoviesData } = useGetAllMoviesQuery();
@@ -34,7 +35,7 @@ const MovieList = () => {
         <div className="menuleft mb-6 flex flex-col sm:flex-row items-center content-center justify-start md:gap-10 text-center sm:text-left align-text-top">
           <h2 className="text-2xl md:mt-0 mt-8 font-bold uppercase">
             <span className="border-l-4 border-solid border-red-600 mr-2"></span>
-            Thể loại phim
+          {t("Thể loại phim")} 
           </h2>
 
           {/* Lọc theo thể loại */}
@@ -82,7 +83,7 @@ const MovieList = () => {
                       to={`/cinema/movie/${movie._id}`}
                       className="overlay-btn-xh w-38 py-2 text-center text-white"
                     >
-                      Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                     {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
                     </Link>
                   </div>
                 </div>
@@ -96,7 +97,7 @@ const MovieList = () => {
           ))
         ) : (
           <p className="col-span-4 text-center text-xl text-white">
-            Hiện chưa có phim với thể loại này
+           {t("Hiện chưa có phim với thể loại này")} 
           </p>
         )}
       </div>
@@ -108,7 +109,7 @@ const MovieList = () => {
           className="md:w-1/4 w-full rounded-full bg-red-500 px-4 py-2 text-white hover:bg-red-600"
           onClick={handleShowMore}
         >
-          Xem thêm
+         {t("Xem thêm")}
         </button>
       </div>
     </div>

@@ -3,15 +3,12 @@ import { useEffect, useState } from "react";
 import { FaUserAlt, FaHistory, FaSignOutAlt, FaBars } from "react-icons/fa"; // Import necessary icons
 import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
 import Toastify from "../../helper/Toastify";
-import { usePutLanguageMutation } from "../../services/Language/language_service"
-import { getUserByIdFormToken } from "../Utils/auth";
 import i18n  from "i18next";
 import { useTranslation } from 'react-i18next';
 const HeaderWeb = () => {
   const { t } = useTranslation(); 
   const [scrolled, setScrolled] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
-  const [putLanguage] = usePutLanguageMutation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userAvatar, setUserAvatar] = useState("");
   const [fullName, setFullName] = useState("");
@@ -57,12 +54,9 @@ const HeaderWeb = () => {
 
   // changes languages
   const changeLanguage = async (language) => {
-   
-    const userId = getUserByIdFormToken();
-     
+      
     try {
-      const result = await putLanguage({ id: userId, language }).unwrap();
-      console.log("Language updated:", result);
+
       i18n.changeLanguage(language);
       console.log("Current language:", i18n.language);
     }
@@ -99,12 +93,12 @@ const HeaderWeb = () => {
             to="/cinema/movie"
             className="font-medium text-white hover:text-gray-300"
           >
-            Phim
+            {t("Phim")}
           </Link>
 
           <div className="group relative">
             <button className="cinema-corner-button font-medium text-white hover:text-gray-300">
-              Góc điện ảnh
+              {t("Góc điện ảnh")}
             </button>
             <div className="absolute h-10 w-24"></div>
             <div className="absolute left-0 mt-2 hidden flex-col rounded-md bg-gray-700 shadow-md group-hover:flex">
@@ -112,20 +106,20 @@ const HeaderWeb = () => {
                 to="/cinema/genrefilm"
                 className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
               >
-                Thể loại phim
+                {t("Thể loại phim")}
               </Link>
               <Link
                 to="/cinema/actor"
                 className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
               >
-                Diễn viên
+                {t("Diễn viên")}
               </Link>
             </div>
           </div>
 
           <div className="group relative">
             <button className="cinema-corner-button font-medium text-white hover:text-gray-300">
-              Sự kiện
+              {t("Sự kiện")}
             </button>
             <div className="absolute h-10 w-24"></div>
 
@@ -134,13 +128,13 @@ const HeaderWeb = () => {
                 to="/cinema/voucher"
                 className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
               >
-                Ưu đãi
+                {t("Ưu đãi")}
               </Link>
               <Link
                 to=""
                 className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
               >
-                Phim hay tháng
+                {t("Phim hay tháng")}
               </Link>
             </div>
           </div>
@@ -149,14 +143,14 @@ const HeaderWeb = () => {
             to="/cinema/cheap-tickets"
             className="font-medium text-white hover:text-gray-300"
           >
-            Rạp/giá rẻ
+             {t("Rạp/giá rẻ")}
           </Link>
 
           <div className="relative flex-grow">
             <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 transform text-white"></i>
             <input
               type="text"
-              placeholder="Tìm kiếm..."
+              placeholder={t("Tìm kiếm...")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSearch(e)} // Handle enter key for search
@@ -184,27 +178,27 @@ const HeaderWeb = () => {
                       className="flex items-center space-x-2 px-4 py-2 text-white hover:bg-gray-600"
                     >
                       <FaUserAlt />
-                      <span>Tài khoản</span>
+                      <span>{t("Tài khoản")}</span>
                     </Link>
                     <Link
                       to="/cinema/transaction"
                       className="flex items-center space-x-2 px-4 py-2 text-white hover:bg-gray-600"
                     >
                       <FaHistory />
-                      <span>Lịch sử</span>
+                      <span>{t("Lịch sử")}</span>
                     </Link>
                     <button
                       onClick={handleLogout}
                       className="flex w-full items-center space-x-2 px-4 py-2 text-left text-white hover:bg-gray-600"
                     >
                       <FaSignOutAlt />
-                      <span>Đăng xuất</span>
+                      <span>{t("Đăng xuất")}</span>
                     </button>
                   </div>
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-white">Xin chào, </span>
+                <span className="text-white">{t("Xin chào")} </span>
                 <span className="max-w-32 truncate font-bold text-yellow-300">
                   {fullName}
                 </span>

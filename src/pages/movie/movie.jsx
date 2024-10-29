@@ -4,8 +4,9 @@ import { formatDate } from "../../utils/formatDate";
 import { useGetLatestMoviesByCreationDateQuery } from "../../services/Movies/movies.services";
 import Modal_Video from "../../components/Movie/Modal_Video";
 import LoadingLocal from "../Loading/LoadingLocal";
-
+import { useTranslation } from 'react-i18next';
 const Movie = () => {
+  const { t } = useTranslation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
   const [selectedTab, setSelectedTab] = useState("Đang chiếu"); // Default to "Đang chiếu"
@@ -39,26 +40,26 @@ const Movie = () => {
           <div className="flex justify-center items-center font-sans mx-auto mt-0">
             <div className="w-4/5 mt-28 pt-2 text-center font-semibold text-2xl md:text-3xl text-gray-300 border-b border-white">
               <div className="inline-flex items-center">
-                <strong className="text-orange-600 px-2">|</strong>Phim
+                <strong className="text-orange-600 px-2">|</strong> {t("Phim")} 
               </div>
               <div className="flex justify-center items-center space-x-2 md:space-x-4 my-2 text-lg md:text-xl">
                 <Link
                   onClick={() => handleTabClick("Đang chiếu")}
                   className={`${selectedTab === "Đang chiếu" ? "text-orange-600" : "text-white"} cursor-pointer`}
                 >
-                  Đang chiếu
+                  {t("Đang chiếu")}
                 </Link>
                 <Link
                   onClick={() => handleTabClick("Sắp chiếu")}
                   className={`${selectedTab === "Sắp chiếu" ? "text-orange-600" : "text-white"} cursor-pointer`}
                 >
-                  Sắp chiếu
+                  {t("Sắp chiếu")} 
                 </Link>
                 <Link
                   onClick={() => handleTabClick("Phim Imax")}
                   className={`${selectedTab === "Phim Imax" ? "text-orange-600" : "text-white"} cursor-pointer`}
                 >
-                  Phim Imax
+                 {t("Phim Imax")} 
                 </Link>
               </div>
             </div>

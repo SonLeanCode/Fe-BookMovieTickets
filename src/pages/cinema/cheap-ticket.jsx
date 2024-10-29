@@ -2,8 +2,9 @@ import {useState} from 'react';
 import LoadingLocal from "../Loading/LoadingLocal";
 import {useGetAllCinemasQuery, useGetCinemasByRegionIdQuery} from '../../services/Cinema/cinema.service';
 import {useGetAllRegionsQuery} from '../../services/Regions/regions.service'; // Import hook lấy khu vực
-
+import { useTranslation } from 'react-i18next';
 const CheapTicket = () => {
+    const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(1);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedRegionId, setSelectedRegionId] = useState(null); // Trạng thái khu vực được chọn
@@ -42,7 +43,6 @@ const CheapTicket = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentCinemas = cinemas.slice(indexOfFirstItem, indexOfLastItem);
-
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
@@ -76,7 +76,7 @@ const CheapTicket = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                     <h2
                         className="text-6xl font-bold text-white uppercase tracking-wider drop-shadow-lg">
-                        Trải nghiệm điện ảnh tuyệt vời
+                       {t("Trải nghiệm điện ảnh tuyệt vời")} 
                     </h2>
                 </div>
             </div>
@@ -100,18 +100,18 @@ const CheapTicket = () => {
                                             <button className="bg-orange-500 hover:bg-orange-600 text-white px-2 py-1 rounded flex items-center" onClick={() => openModal(cinema)}
                                                 // Mở modal với thông tin rạp
                                             >
-                                                Thông tin chi tiết
+                                               {t("Thông tin chi tiết")}
                                                 <i className="fas fa-info-circle ml-2"></i>
                                             </button>
                                             <button
                                                 className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded flex items-center">
-                                                Chia sẻ
+                                             {t("Chia sẻ")} 
                                                 <i className="fas fa-share ml-2"></i>
                                             </button>
                                         </div>
                                     </div>
                                 )))
-                                : (<div className="text-center">Không có rạp nào để hiển thị</div>)
+                                : (<div className="text-center">{t("Không có rạp nào để hiển thị")}</div>)
                         }
                     </div>
 
@@ -140,7 +140,7 @@ const CheapTicket = () => {
                     <h3
                         className="text-xl font-semibold cursor-pointer select-none"
                         onClick={toggleMenu}>
-                        | Khu vực của chúng tôi {
+                        | {t("Khu vực của chúng tôi")} {
                             isMenuOpen
                                 ? '▲'
                                 : '▼'
@@ -160,7 +160,7 @@ const CheapTicket = () => {
                                             {region.name}
                                         </li>
                                     )))
-                                    : (<div className="text-center">Không có khu vực nào để hiển thị</div>)
+                                    : (<div className="text-center"> {t("Không có khu vực nào để hiển thị")}</div>)
                             }
                         </ul>
                     </div>
@@ -180,45 +180,45 @@ const CheapTicket = () => {
 
                   <div className="mt-2 w-full text-gray-300 flex items-center">
                     <i className="fas fa-map-marker-alt mr-2"></i>
-                    <strong>Địa chỉ: </strong> {selectedCinema?.address || 'Không có địa chỉ.'}
+                    <strong>{t("Địa chỉ")}: </strong> {selectedCinema?.address || 'Không có địa chỉ.'}
                   </div>
 
                   <div className="mt-2 text-gray-300 flex items-center">
                     <i className="fas fa-info-circle mr-2"></i>
-                    <strong>Thông tin rạp: </strong> {selectedCinema?.info || 'Không có thông tin.'}
+                    <strong>{t("Thông tin rạp")}: </strong> {selectedCinema?.info || 'Không có thông tin.'}
                   </div>
 
                   <div className="mt-4 flex justify-between bg-black p-4 rounded-md">
                     <div className="flex-1 text-center">
-                      <h4 className="text-xl font-semibold text-white">Phòng VIP</h4>
+                      <h4 className="text-xl font-semibold text-white"> {t("Phòng VIP")}</h4>
                       <p className="mt-2 text-gray-300">
-                        <strong>Số phòng:</strong> {selectedCinema?.vipRoomCount || 0} phòng
+                        <strong>{t("Số phòng")}:</strong> {selectedCinema?.vipRoomCount || 0} phòng
                       </p>
                       <p className="text-gray-300">
-                        <strong>Số ghế:</strong> {selectedCinema?.vipSeatCount || 0} ghế
+                        <strong>{t("Số ghế")}:</strong> {selectedCinema?.vipSeatCount || 0} ghế
                       </p>
                     </div>
                     <div className="flex-1 border-l border-gray-500 pl-4 text-center">
-                      <h4 className="text-xl font-semibold text-white">Phòng Thường</h4>
+                      <h4 className="text-xl font-semibold text-white">{t("Phòng Thường")}</h4>
                       <p className="mt-2 text-gray-300">
-                        <strong>Số phòng:</strong> {selectedCinema?.regularRoomCount || 0} phòng
+                        <strong>{t("Số phòng")}:</strong> {selectedCinema?.regularRoomCount || 0} phòng
                       </p>
                       <p className="text-gray-300">
-                        <strong>Số ghế:</strong> {selectedCinema?.regularSeatCount || 0} ghế
+                        <strong>{("Số ghế")}:</strong> {selectedCinema?.regularSeatCount || 0} ghế
                       </p>
                     </div>
                   </div>
 
                   <div className="mt-2 text-gray-300 flex items-center">
                     <i className="fas fa-tv mr-2"></i>
-                    <strong>Loại màn hình:</strong> {selectedCinema?.screenType || 'Không có thông tin.'}
+                    <strong>{t("Loại màn hình")} :</strong> {selectedCinema?.screenType || 'Không có thông tin.'}
                   </div>
 
                   <button
                     className="mt-6 w-full font-bold bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600 transition duration-300 transform hover:scale-105"
                     onClick={closeModal} // Đóng modal
                   >
-                    Đóng
+                   {t("Đóng")} 
                   </button>
                 </div>
               </div>

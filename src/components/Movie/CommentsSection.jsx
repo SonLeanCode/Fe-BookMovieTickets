@@ -54,15 +54,6 @@ const CommentsSection = ({ movieId }) => {
       console.log("Bình luận trống, không gửi.");
       return;
     }
-
-    // Lấy userId từ token
-    // const userId = getUserByIdFormToken();
-    // if (!userId) {
-    //   console.error("Không thể gửi bình luận: userId không tồn tại");
-    //   return;
-    // }
-
-    // Dữ liệu bình luận
     const commentData = {
       userId,
       movieId,

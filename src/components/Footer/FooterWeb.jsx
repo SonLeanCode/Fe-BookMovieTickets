@@ -12,8 +12,9 @@ import {
   CogIcon,
   Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
-
+import { useTranslation } from 'react-i18next'
 const FooterWeb = () => {
+  const { t } = useTranslation();
   return (
     <>    
     <footer className="bg-slate-950 text-white py-10 md:p-20 p-10">
@@ -23,7 +24,7 @@ const FooterWeb = () => {
           <div className="md:w-1/4 w-full flex flex-col justify-between">
             <div>
               <h2 className="text-5xl font-bold text-red-600 mb-4">ST-FLIX</h2>
-              <p> Vé phim giá rẻ, đa dạng thể loại, trải nghiệm giải trí tuyệt vời!</p>
+              <p>{t("Vé phim giá rẻ, đa dạng thể loại, trải nghiệm giải trí tuyệt vời!")} </p>
             </div>
             <img src={logo} className="w-48 h-16 md:block hidden" alt="" />
           </div>
@@ -61,65 +62,65 @@ const FooterWeb = () => {
           <div className="flex flex-wrap justify-between text-center md:text-start md:w-3/4 w-full mt-5 md:mt-0">
             {/* Products */}
             <div className="mr-10">
-              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Sản phẩm</h3>
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Sản phẩm")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >Hành động</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Đặc biệt</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Kịch tính <span className="text-xs bg-white text-black px-2 py-1 rounded-full ml-2">Mới</span></li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Tình cảm</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Hạnh phúc</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Hài hước</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Hành động")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Đặc biệt")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Kịch tính Mới")} <span className="text-xs bg-white text-black px-2 py-1 rounded-full ml-2">Mới</span></li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Tình cảm")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Hạnh phúc")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Hài hước")}</li>
               </ul>
             </div>
             
             {/* Business */}
             <div className="md:mr-10">
-              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Doanh nghiệp</h3>
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Doanh nghiệp")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >Xem thêm</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Nghề nghiệp</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Nhấn nhá</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Tin tức</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Truyền thông</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Liên hệ</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Doanh nghiệp")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Xem thêm")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Nghề nghiệp")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Nhấn nhá")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Truyền thông")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Liên hệ")}</li>
               </ul>
             </div>
 
             {/* Resources */}
             <div className="mr-10 mt-7 md:mt-0">
-              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Tài nguyên</h3>
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Tài nguyên")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >Báo chí</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Bản tin</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Sự kiện</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Trung tâm</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Hướng dẫn</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Giúp đỡ</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Tài nguyên")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Báo chí")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Bản tin")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Trung tâm")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Hướng dẫn")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Giúp đỡ")}</li>
               </ul>
             </div>
 
             {/* Social */}
             <div className="mr-10 mt-7 md:mt-0">
-              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Xã hội</h3>
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{("Xã hội")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >Twitter</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Tiktok</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Facebook</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >GitHub</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Instagram</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Youtube</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Xã hội")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Twitter")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Tiktok")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("GitHub")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Instagram")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Youtube")}</li>
               </ul>
             </div>
 
             {/* Policies */}
             <div className='mt-7 md:mt-0'>
-              <h3 className="ffont-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">Chính sách</h3>
+              <h3 className="ffont-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Chính sách")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >Điều khoản</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Chính sách</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Cookies</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Giấy phép</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >Cài đặt</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Chính sách")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Điều khoản")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Chính sách Cookies")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Giấy phép")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("Cài đặt")}</li>
               </ul>
               <img src={logo} className="mt-7 md:mt-0 w-48 h-16 md:hidden" alt="" />
 

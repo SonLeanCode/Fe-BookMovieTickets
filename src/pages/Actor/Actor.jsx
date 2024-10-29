@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useGetAllActorsQuery } from "../../services/Actor/actor.service";
 import notfound_img from "../../assets/img/404/actor-default.png";
-
+import { useTranslation } from 'react-i18next';
 const Actor = () => {
+  const {t}= useTranslation()
   const { data: actorData} = useGetAllActorsQuery();
   console.log(actorData?.data)
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +31,7 @@ const Actor = () => {
           style={{ backgroundColor: "#181818" }}
         >
           <h2 className="font-roboto pb-2 text-2xl font-semibold text-white">
-          <span className="border-l-4 border-solid border-red-600 mr-2"></span> DIỄN VIÊN
+          <span className="border-l-4 border-solid border-red-600 mr-2"></span> {t("DIỄN VIÊN")} 
           </h2>
           <div className="flex">
             <select className="ml-4 mr-4 rounded-md border border-white bg-gray-900 p-2 text-white">

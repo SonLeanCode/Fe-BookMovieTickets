@@ -9,8 +9,10 @@ import { useGetLatestMoviesByCreationDateQuery } from "../../services/Movies/mov
 import Banner from "../../components/Home/Banner";
 import Modal_Video from "../../components/Movie/Modal_Video";
 import LoadingLocal from "../Loading/LoadingLocal";
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
+  const { t } = useTranslation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
@@ -295,7 +297,7 @@ const Home = () => {
               <div className="flex items-center justify-between py-2">
                 <h2 className="text-md flex items-center font-bold">
                   <FaStar className="mr-1" />
-                  PHỔ BIẾN TRONG TUẦN
+                 {t("PHỔ BIẾN TRONG TUẦN")}
                 </h2>
                 <div>
                   <button
@@ -345,7 +347,7 @@ const Home = () => {
         <section className="movie-section relative">
           <div className="containe mx-auto px-4">
             <h3 className="section-title mb-6 text-4xl font-bold text-center">
-              | Xu hướng hiện nay
+              | {t("Xu hướng hiện nay")}
             </h3>
             <div className="relative flex items-center justify-center px-8 w-full">
               {/* Nút trái */}
@@ -393,7 +395,7 @@ const Home = () => {
                               to="/"
                               className="overlay-btn-xh w-38 py-2 text-center text-white"
                             >
-                              Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                             {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
                             </Link>
                           </div>
                         </div>
@@ -424,7 +426,7 @@ const Home = () => {
 
         <section className="containe flex justify-center">
           <div className="update-section w-[96%] ml-5">
-            <h3 className="text-4xl font-bold">| Phim mới cập nhật</h3>
+            <h3 className="text-4xl font-bold">|{t("Phim mới cập nhật")} </h3>
             <div className="flex flex-col justify-center lg:flex-row">
               {/* Cột trái: 1 phim */}
               <div className="mb-6 flex w-full flex-col items-center justify-center p-4 hover:cursor-pointer lg:mb-0 lg:w-2/5">
@@ -457,7 +459,7 @@ const Home = () => {
                           to={`/cinema/movie/${movie._id}`}
                           className="overlay-btn-xh w-38 py-2 text-center text-white"
                         >
-                          Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                         {t("Mua vé")}<i className="fas fa-ticket-alt ml-1"></i>
                         </Link>
                       </div>
                     </div>
@@ -503,7 +505,7 @@ const Home = () => {
                             to={"/cinema/movie/" + movie._id}
                             className="overlay-btn-xh w-38 py-2 text-center text-white"
                           >
-                            Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                           {t("Mua vé")}  <i className="fas fa-ticket-alt ml-1"></i>
                           </Link>
                         </div>
                       </div>
@@ -520,7 +522,7 @@ const Home = () => {
 
         <section className="containe mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
           <div className="flex w-full flex-col p-10 lg:w-8/12">
-            <h3 className="gy-h3 mb-6 text-4xl font-bold">| Phim Gợi Ý</h3>
+            <h3 className="gy-h3 mb-6 text-4xl font-bold">|  {t("Phim Gợi Ý")}</h3>
             <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4"> {/* Sử dụng grid-cols-2 cho màn hình nhỏ và grid-cols-4 cho màn hình lớn */}
               {movies.slice(0, 8).map((movie) => (
                 <div
@@ -541,7 +543,7 @@ const Home = () => {
             </div>
           </div>
           <div className="flex w-full flex-col p-10 lg:w-4/12">
-            <h3 className="tt-h3 mb-6 text-4xl font-bold">| Top Trending</h3>
+            <h3 className="tt-h3 mb-6 text-4xl font-bold">|{t("Top Trending")}</h3>
             <div className="tt flex flex-grow flex-col gap-4 hover:cursor-pointer">
               {movies.slice(0, 6).map((movie, index) => (
                 <div
@@ -569,7 +571,7 @@ const Home = () => {
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="ml-20 text-4xl font-bold">| Phim mới cập nhật</h3>
+          <h3 className="ml-20 text-4xl font-bold">|  {t("Phim mới cập nhật")}</h3>
           <div className="top-movie-container grid grid-cols-2 gap-4 md:grid-cols-5" style={{ width: "90%", marginLeft: "5%" }}>
             {movies.map((movie) => (
               <div key={movie.id} className="top-movie-card rounded-lg">
@@ -597,7 +599,7 @@ const Home = () => {
                           to="/"
                           className="overlay-btn-xh w-38 py-2 text-center text-white"
                         >
-                          Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                         {t("Mua vé")}<i className="fas fa-ticket-alt ml-1"></i>
                         </Link>
                       </div>
                     </div>
@@ -615,10 +617,10 @@ const Home = () => {
             style={{ backgroundImage: "url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75')" }}
           >
             <h1 className="text-5xl font-bold text-red-600 mb-2 uppercase shadow-lg">
-              Chương trình thành viên
+          {t("Chương trình thành viên")}    
             </h1>
             <h2 className="text-lg font-bold text-white mb-10 shadow-lg">
-              Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn
+             {t("Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn")}  
             </h2> 
             <div className="w-full">
               <div className="flex">
@@ -628,10 +630,10 @@ const Home = () => {
                     alt="Thành viên mới"
                     className="w-full h-48 rounded-lg mb-3 object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">Thành viên mới</h2>
-                  <p className="text-gray-600 mb-4">Thẻ có nhiều ưu đãi cho thành viên mới</p>
+                  <h2 className="text-xl text-gray-800 mb-2"> {t("Thành viên mới")}</h2>
+                  <p className="text-gray-600 mb-4">{t("Thẻ có nhiều ưu đãi cho thành viên mới")}</p>
                   <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
-                    Tìm hiểu ngay
+                   {t("Tìm hiểu ngay")} 
                   </button>
                 </div>
                 <div className="bg-white mx-6 rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
@@ -640,10 +642,10 @@ const Home = () => {
                     alt="Thành viên Vip"
                     className="w-full h-48 rounded-lg mb-3 object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">Thành viên Vip</h2>
-                  <p className="text-gray-600 mb-4">Thẻ Vip sở hữu nhiều ưu đãi độc quyền</p>
+                  <h2 className="text-xl text-gray-800 mb-2"> {t("Thành viên Vip")}</h2>
+                  <p className="text-gray-600 mb-4">{t("Thẻ Vip sở hữu nhiều ưu đãi độc quyền")}</p>
                   <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
-                    Tìm hiểu ngay
+                   {t("Tìm hiểu ngay")} 
                   </button>
                 </div>
                 <div className="bg-white mx-6 rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
@@ -652,10 +654,10 @@ const Home = () => {
                     alt="Thành viên kì cựu"
                     className="w-full h-48 rounded-lg mb-3 object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">Thành viên kì cựu</h2>
-                  <p className="text-gray-600 mb-4">Độc quyền cho các thành viên lâu năm!</p>
+                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên kì cựu")}</h2>
+                  <p className="text-gray-600 mb-4">{t("Độc quyền cho các thành viên lâu năm!")}</p>
                   <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
-                    Tìm hiểu ngay
+                   {t("Tìm hiểu ngay")} 
                   </button>
                 </div>
               </div>

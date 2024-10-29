@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('profile'); // Set default tab
     const [userInfo, setUserInfo] = useState({
         image: 'https://i.pinimg.com/736x/e9/e0/7d/e9e07de22e3ef161bf92d1bcf241e4d0.jpg',
@@ -38,7 +40,7 @@ const Profile = () => {
 
     return (
         <div className="p-28 px-20 text-white">
-            <h1 className="text-3xl pb-4 uppercase font-semibold">Thông tin cá nhân</h1>
+            <h1 className="text-3xl pb-4 uppercase font-semibold">{t("Thông tin cá nhân")}</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16"> 
             <div className="bg-slate-900 p-6 rounded-lg shadow-lg " style={{boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)',}} >
             <div className='flex items-center justify-center space-x-4'> 
@@ -66,7 +68,7 @@ const Profile = () => {
             </div>
             <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
             <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-xl font-bold">Tổng chi tiêu 2024</h1>
+                    <h1 className="text-xl font-bold">{t("Tổng chi tiêu 2024")}</h1>
                     <div className="text-orange-500 text-xl font-semibold">0 đ</div>
                 </div>
             <div className="my-24 ">
@@ -97,7 +99,7 @@ const Profile = () => {
             <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
                 <div className="flex justify-between items-center py-5">
                     <div>
-                    <span className="font-bold">HOTLINE hỗ trợ: </span>
+                    <span className="font-bold">{t("HOTLINE hỗ trợ")} </span>
                     <a href="tel:19002224" className="text-blue-600">19002224</a>
                     <span> (9:00 - 22:00)</span>
                     </div>
@@ -105,7 +107,7 @@ const Profile = () => {
                 <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
                 <div className="flex justify-between items-center py-5">
                     <div>
-                        <span className="font-bold">Email: </span>
+                        <span className="font-bold">{t("Email")}: </span>
                         <a href="mailto:nqtuan1123@gmail.com" className="text-blue-600">nqtuan1123@gmail.com</a>
                     </div>
                     <div>
@@ -115,7 +117,7 @@ const Profile = () => {
                 <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
                 <div className="flex justify-between items-center py-5">
                     <div className="font-semibold">
-                    Câu hỏi thường gặp
+                    {t("Câu hỏi thường gặp")}
                     </div>
                     <div>
                     <span className="text-gray-400">&gt;</span>
@@ -134,11 +136,11 @@ const Profile = () => {
                                     className={`inline-flex items-center text-xl ${activeTab === tab ? 'text-white' : 'text-gray-400'} rounded-lg`}
                                     onClick={() => handleTabChange(tab)}
                                 >
-                                    {tab === 'profile' ? 'Thông tin' : 
-                                    tab === 'history' ? 'Lịch sử giao dịch' : 
-                                    tab === 'gift' ? 'Quà tặng' : 
-                                    tab === 'whislist' ? 'Yêu thích' :  
-                                    tab === 'Notification' ? 'Thông báo' : 
+                                    {tab === 'profile' ? t('Thông tin') : 
+                                    tab === 'history' ? t('Lịch sử giao dịch') : 
+                                    tab === 'gift' ? t('Quà tặng') : 
+                                    tab === 'whislist' ? t('Yêu thích') :  
+                                    tab === 'Notification' ? t('Thông báo') : 
                                     tab.charAt(0).toUpperCase() + tab.slice(1)}
                                 </a>
                                 {activeTab === tab && (
@@ -158,7 +160,7 @@ const Profile = () => {
                                         {/* Name and Date of Birth */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-white">Họ và tên</label>
+                                            <label className="block text-sm font-medium text-white">{t("Họ và tên")}</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
                                             <span className="material-icons text-gray-900"><i className="fa-solid fa-user"></i></span>
                                             <input
@@ -170,7 +172,7 @@ const Profile = () => {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-white">Ngày sinh</label>
+                                            <label className="block text-sm font-medium text-white">{t("Date of Birth")}</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
                                             <span className="material-icons text-gray-900"><i className="fa-regular fa-calendar"></i></span>
                                             <input
@@ -186,7 +188,7 @@ const Profile = () => {
                                         {/* Email and Phone Number */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-white">Email</label>
+                                            <label className="block text-sm font-medium text-white">{t("Email")}</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
                                             <span className="material-icons text-gray-900"><i className="fa-solid fa-envelope"></i></span>
                                             <input
@@ -195,11 +197,11 @@ const Profile = () => {
                                                 disabled
                                                 className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                             />
-                                            <a href="#" className="ml-2 text-orange-500 text-sm">Thay đổi</a>
+                                            <a href="#" className="ml-2 text-orange-500 text-sm">{t("Thay đổi")}</a>
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-white">Phone</label>
+                                            <label className="block text-sm font-medium text-white">{t("Điện thoại")}</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
                                             <span className="material-icons text-gray-900"><i className="fa-solid fa-phone"></i></span>
                                             <input
@@ -215,15 +217,15 @@ const Profile = () => {
                                         {/* Gender */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-white">Giới tính</label>
+                                            <label className="block text-sm font-medium text-white">{t("Giới tính")}</label>
                                             <div className="flex mt-1 space-x-4">
                                                 <label className="flex items-center">
                                                     <input type="checkbox" name="gender" value="male" className= " h-5 w-5 border border-gray-300 bg-white text-blue-500 focus:ring-blue-500" />
-                                                    <span className="ml-2">Nam</span>
+                                                    <span className="ml-2">{t("Nam")}</span>
                                                 </label>
                                                 <label className="flex items-center">
                                                     <input type="checkbox" name="gender" value="female" className= " h-5 w-5 border border-gray-300 bg-white text-blue-500 focus:ring-blue-500" />
-                                                    <span className="ml-2">Nữ</span>
+                                                    <span className="ml-2">{t("Nữ")}</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -232,7 +234,7 @@ const Profile = () => {
                                         {/* Password */}
                                         <div className="">
                                         <div>
-                                            <label className="block text-sm font-medium text-white">Mật khẩu</label>
+                                            <label className="block text-sm font-medium text-white">{t("Mật khẩu")}</label>
                                             <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
                                             <span className="material-icons text-gray-500"><i className="fa-solid fa-lock"></i></span>
                                             <input
@@ -241,7 +243,7 @@ const Profile = () => {
                                                 disabled
                                                 className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                             />
-                                            <a href="#" className="ml-2 text-orange-500 text-sm absolute right-36">Thay đổi</a>
+                                            <a href="#" className="ml-2 text-orange-500 text-sm absolute right-36">{t("Thay đổi")}</a>
                                             </div>
                                         </div>
                                         </div>
@@ -252,7 +254,7 @@ const Profile = () => {
                                         {/* Update Button */}
                                         <div className="flex justify-end">
                                         <button type="submit" className="bg-orange-500 text-white px-6 py-2 rounded shadow hover:bg-orange-600">
-                                            Cập nhập
+                                           {t("Cập nhập")}
                                         </button>
                                         </div>
                                     </form>
