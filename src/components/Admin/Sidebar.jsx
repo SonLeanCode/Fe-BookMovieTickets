@@ -11,6 +11,7 @@ import {
   FaVideo ,
   FaUser
 } from "react-icons/fa";
+import { MdOutlineTheaters } from 'react-icons/md';
 const menuItems = [
   { name: "Bảng điều khiển", icon: FaHome, link: "/admin/dashboard" },
   { name: "Quản lý phim", icon: FaFilm, link: "/admin/movies" },
@@ -19,6 +20,7 @@ const menuItems = [
   { name: "Quản lý khu vực", icon: FaMapMarkerAlt, link: "/admin/regions" },
   { name: "Quản lý rạp", icon: FaVideo , link: "/admin/cinemas" },
   { name: "Quản lý tài khoản", icon: FaUser , link: "/admin/users" },
+  { name: "Quản lý phòng chiếu", icon: MdOutlineTheaters , link: "/admin/rooms" },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
