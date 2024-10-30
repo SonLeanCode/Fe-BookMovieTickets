@@ -18,7 +18,8 @@ const UserForm = ({ userData, onSubmit, onCancel, isVisible }) => {
     if (userData) {
       setFormData({
         id: userData._id,
-        fullname: userData.name,
+        fullname: userData.fullname,
+        password: userData.password,
         email: userData.email,
         phone: userData.phone,
         role: userData.role || "user",
@@ -126,7 +127,7 @@ const UserForm = ({ userData, onSubmit, onCancel, isVisible }) => {
               <input
                 type="text"
                 name="fullname"
-                value={formData.name}
+                value={formData.fullname}
                 onChange={handleChange}
                 className={commonInputClasses}
                 placeholder=" "
