@@ -10,7 +10,7 @@ import { actorMovieApi } from '../services/Actor/actor_movies.service';
 import { commentsApi } from '../services/Comments/comments_user.service';
 import { userApi } from '../services/User/user.services';
 import {apiLanguage} from '../services/Language/language_service'
-
+import { roomsApi } from '../services/Room/room.service'
 const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
@@ -23,6 +23,7 @@ const store = configureStore({
     [actorMovieApi.reducerPath]: actorMovieApi.reducer,
     [commentsApi.reducerPath]: commentsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [roomsApi.reducerPath]: roomsApi.reducer,
     [apiLanguage.reducerPath]: apiLanguage.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -37,6 +38,7 @@ const store = configureStore({
       .concat(actorMovieApi.middleware)
       .concat(commentsApi.middleware)
       .concat(userApi.middleware)
+      .concat(roomsApi.middleware)
       .concat(apiLanguage.middleware)
 });
 

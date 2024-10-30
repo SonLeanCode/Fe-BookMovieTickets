@@ -14,7 +14,7 @@ import { useRegisterMutation } from "../../services/Auth/auth.service";
 import avatar_default from "../../assets/img/avatar_defaut/avatar_default.png";
 import UserForm from "../../components/Admin/Users/UserForm";
 
-const AccountManagement = () => {
+const Account_Management = () => {
   const {
     data: users,
     isLoading: userDataLoading,
@@ -271,4 +271,4 @@ const AccountManagement = () => {
   );
 };
 
-export default AccountManagement;
+export default Account_Management;
