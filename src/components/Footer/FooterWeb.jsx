@@ -101,7 +101,7 @@ const FooterWeb = () => {
 
             {/* Social */}
             <div className="mr-10 mt-7 md:mt-0">
-              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{("Xã hội")}</h3>
+              <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Xã hội")}</h3>
               <ul className='flex flex-col gap-2'>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Xã hội")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Twitter")}</li>

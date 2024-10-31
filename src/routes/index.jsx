@@ -101,7 +101,7 @@ export default function AppRoutes() {
               element={<PrivateRoute allowedRoles={[ROLE.USER, ROLE.ADMIN]} />}
             >
               <Route element={<UserLayout />}>
-                <Route path="profile" element={<Profile />} />
+                <Route path="profile/:userId" element={<Profile />} />
                 <Route path="transaction" element={<Transaction />} />
               </Route>
             </Route>
