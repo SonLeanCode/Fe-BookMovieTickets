@@ -1,47 +1,76 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { useGetUserQuery, usePatchUserMutation } from '../../services/Auth/auth.service'
+import { useGetUserQuery, usePatchUserMutation ,usePatchProfileMutation} from '../../services/Auth/auth.service'
 const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
     const { data: userData } = useGetUserQuery(userId)
-    console.log('userdat',userData);
-    
+    console.log('userdat', userData);
+
     const [isEditing, setIsEditing] = useState(false);
+    const [isEdiEmail, setIsEdiEmail] = useState(false);
     const [email, setEmail] = useState(userData?.data?.email || "");
+    const [currentPassword, setCurrentPassword] = useState(userData?.data?.password || "")
+    const [newPassword, setNewPassword] = useState();
+    const [confirmNewPassword, setConfirmNewPassword] = useState()
     const [patchUser] = usePatchUserMutation();
+    const [ patchProfile] = usePatchProfileMutation();
+
+
 
     // Cập nhật email khi userData thay đổi
     useEffect(() => {
-      if (userData) {
-        setEmail(userData.data.email);
-      }
+        if (userData) {
+            setEmail(userData.data.email);
+        }
     }, [userData]);
-  
+
     const handleEditClick = () => {
-      setIsEditing(true);
+        setIsEditing(true);
+        setCurrentPassword("");
     };
-  
+    const handleEmailClick = ()=>{
+        setIsEdiEmail(true)
+    }
+
     const handleSaveClick = async (e) => {
         e.preventDefault();
-        if(email  === userData?.data?.email){
+        if (email === userData?.data?.email) {
             alert(t("Bạn phải thay đổi địa chỉ email trước khi lưu."));
-            return; 
+            return;
         }
-      try {
-        console.log("Updating user with ID:", userId);
-        await patchUser({ userId, email }).unwrap();
-        console.log("Cập nhật thành công");
-        setIsEditing(false);
-      } catch (err) {
-        console.error("Lỗi khi cập nhật:", err);
-      }
+        try {
+            await patchUser({ userId, email }).unwrap();
+            console.log("Cập nhật thành công");
+            setIsEditing(false);
+        } catch (err) {
+            console.error("Lỗi khi cập nhật:", err);
+        }
     };
+    
+    const handleSave  = async(e)=>{
+        e.preventDefault();
+        if (newPassword !== confirmNewPassword) {
+            alert("Mật khẩu không khớp, vui lòng kiểm tra lại.");
+            return;
+          }
+            try{
+            await patchProfile({userId, email,currentPassword,newPassword}).unwrap();
+            console.log("Cập nhật all thành công");
+            setIsEditing(false);
+            }
+        catch(err){
+            console.error("Lỗi khi cập nhật:", err);
+        }
+    }
+
+
+
 
     const [activeTab, setActiveTab] = useState('profile'); // Set default tab
 
-    
+
     const handleTabChange = (tab) => {
         setActiveTab(tab);
     };
@@ -198,16 +227,16 @@ const Profile = () => {
                                                         <input
                                                             type="email"
                                                             value={email}
-                                                            disabled={!isEditing}
+                                                            disabled={!isEdiEmail}
                                                             onChange={(e) => setEmail(e.target.value)}
                                                             className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                                         />
-                                                        {!isEditing ? (
-                                                            <button  type="button" className="ml-2 text-orange-500 text-sm" onClick={handleEditClick}>
+                                                        {!isEdiEmail ? (
+                                                            <button type="button" className="ml-2 text-orange-500 text-sm" onClick={handleEmailClick}>
                                                                 {t("Thay đổi")}
                                                             </button>
                                                         ) : (
-                                                            <button  type="button" className="ml-2 text-green-500 text-sm" onClick={handleSaveClick}>
+                                                            <button type="button" className="ml-2 text-green-500 text-sm" onClick={handleSaveClick}>
                                                                 {t("Lưu")}
                                                             </button>
                                                         )}
@@ -226,7 +255,6 @@ const Profile = () => {
                                                     </div>
                                                 </div>
                                             </div>
-
                                             {/* Gender */}
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div>
@@ -242,22 +270,62 @@ const Profile = () => {
                                                         </label>
                                                     </div>
                                                 </div>
-
-
                                                 {/* Password */}
                                                 <div className="">
                                                     <div>
                                                         <label className="block text-sm font-medium text-white">{t("Mật khẩu")}</label>
                                                         <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                                            <span className="material-icons text-gray-500"><i className="fa-solid fa-lock"></i></span>
-                                                            <input
-                                                                type="password"
-                                                                value="********"
-                                                                disabled
-                                                                className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
-                                                            />
-                                                            <a href="#" className="ml-2 text-orange-500 text-sm absolute right-36">{t("Thay đổi")}</a>
+                                                            <span className="material-icons text-gray-500">
+                                                                <i className="fa-solid fa-lock"></i>
+                                                            </span>
+                                                            {isEditing ? (
+                                        
+                                                                <input
+                                                                    type="password"
+                                                                    placeholder={t("Mật khẩu hiện tại")}
+                                                                    value={currentPassword}
+                                                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                                                    className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
+                                                                />
+                                                            ) : (
+                                                                // Hiển thị ****** khi không chỉnh sửa
+                                                                <input
+                                                                    type="password"
+                                                                    value="*********"
+                                                                    disabled
+                                                                    className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none"
+                                                                />
+                                                            )}
+                                                            {!isEditing ? (
+                                                                // Nút Thay đổi chỉ hiển thị khi không ở chế độ chỉnh sửa
+                                                                <button
+                                                                    className="ml-2 text-orange-500 text-sm absolute right-36"
+                                                                    onClick={handleEditClick}
+                                                                >
+                                                                    {t("Thay đổi")}
+                                                                </button>
+                                                            ) : null}
                                                         </div>
+
+                                                        {/* Các trường nhập liệu cho Mật khẩu mới và Xác nhận mật khẩu sẽ hiển thị khi isEditing là true */}
+                                                        {isEditing && (
+                                                            <div className="mt-4 space-y-3">
+                                                                <input
+                                                                    type="password"
+                                                                    placeholder={t("Mật khẩu mới")}
+                                                                    value={newPassword}
+                                                                    onChange={(e) => setNewPassword(e.target.value)}
+                                                                    className="w-full bg-transparent border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
+                                                                />
+                                                                <input
+                                                                    type="password"
+                                                                    placeholder={t("Xác nhận mật khẩu")}
+                                                                    value={confirmNewPassword}
+                                                                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                                                    className="w-full bg-transparent border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
+                                                                />
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,7 +334,7 @@ const Profile = () => {
 
                                             {/* Update Button */}
                                             <div className="flex justify-end">
-                                                <button type="submit" className="bg-orange-500 text-white px-6 py-2 rounded shadow hover:bg-orange-600">
+                                                <button type="submit" className="bg-orange-500 text-white px-6 py-2 rounded shadow hover:bg-orange-600" onClick={handleSave}>
                                                     {t("Cập nhập")}
                                                 </button>
                                             </div>
