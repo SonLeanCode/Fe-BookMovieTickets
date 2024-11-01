@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { FaUserAlt, FaHistory, FaSignOutAlt, FaBars } from "react-icons/fa"; // Import necessary icons
 import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
 import Toastify from "../../helper/Toastify";
+import { getUserByIdFormToken } from "../Utils/auth";
 import i18n  from "i18next";
+
 import { useTranslation } from 'react-i18next';
 const HeaderWeb = () => {
   const { t } = useTranslation(); 
@@ -15,6 +17,7 @@ const HeaderWeb = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const navigate = useNavigate();
+  const userIdToken = getUserByIdFormToken();
 
 
   useEffect(() => {
@@ -174,7 +177,7 @@ const HeaderWeb = () => {
                   <div className="absolute h-10 w-10"></div>
                   <div className="absolute -right-28 mt-2 hidden w-40 rounded-lg bg-gray-700 shadow-lg group-hover:block">
                     <Link
-                      to="/cinema/profile"
+                      to={`/cinema/profile/${userIdToken}`}
                       className="flex items-center space-x-2 px-4 py-2 text-white hover:bg-gray-600"
                     >
                       <FaUserAlt />

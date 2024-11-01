@@ -55,7 +55,25 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
+    getUser:builder.query({
+       query:(userId)=> `/api/user/${userId}`
+    }),
+    patchUser:builder.mutation({
+      query:({userId,email})=>({
+        url:`/api/user/${userId}`,
+        method:'PATCH',
+        body: {email}
+      })
+    }),
+    patchProfile:builder.mutation({
+      query:({userId,email,currentPassword,newPassword})=>({
+        url:`/api/changePassword/${userId}`,
+        method:'PATCH',
+        body: {email,currentPassword,newPassword}
+      })
+    })
   }),
+
 });
 
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useFacebookLoginMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useFacebookLoginMutation,useGetUserQuery,usePatchUserMutation,usePatchProfileMutation } = authApi;
