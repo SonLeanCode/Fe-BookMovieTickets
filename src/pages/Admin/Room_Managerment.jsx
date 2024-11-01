@@ -14,6 +14,7 @@ import Pagination from "../../components/Admin/Pagination";
 import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
+import { Link } from "react-router-dom";
 
 const Room_Managerment = () => {
   const {
@@ -214,6 +215,7 @@ const Room_Managerment = () => {
               <th className="px-4 py-3 text-left text-white">Loại phòng</th>
               <th className="px-4 py-3 text-left text-white">Rạp chiếu</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
+              <th className="px-4 py-3 text-center text-white"></th>
             </tr>
           </thead>
           <tbody className="bg-black text-gray-400">
@@ -244,6 +246,7 @@ const Room_Managerment = () => {
                     <FaTrash />
                   </button>
                 </td>
+                <td className="px-4 py-2"><Link to={`/admin/rooms/`+room._id+`/seats`} className="text-yellow-300 font-bold">Quản Lý Ghế</Link></td>
               </tr>
             ))}
           </tbody>
