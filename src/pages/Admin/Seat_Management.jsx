@@ -10,6 +10,7 @@ import {
 } from '../../services/Seat/seat.serviecs';
 import Pagination from '../../components/Admin/Pagination';
 import Toastify from "../../helper/Toastify";
+import SeatDisplay from '../../components/Seat/SeatDisplay';
 
 const Seat_Management = () => {
   const { roomId } = useParams();
@@ -231,6 +232,8 @@ const Seat_Management = () => {
         totalPages={totalPages}
         onPageChange={setCurrentPage}
       />
+
+      <SeatDisplay seatsData={seats} />
       {isModalVisible && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div className="rounded-lg bg-[#2d2d2d] p-6 shadow-lg">
@@ -275,7 +278,7 @@ const Seat_Management = () => {
               required
             >
               <option value="Single">Ghế Đơn</option>
-              <option value="Double">Ghế Đôi</option>
+              <option value="Sweetbox">Ghế Đôi</option>
               <option value="VIP">Ghế VIP</option>
               {/* Thêm các loại ghế khác nếu cần */}
             </select>
