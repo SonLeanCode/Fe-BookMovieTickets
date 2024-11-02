@@ -32,10 +32,10 @@ export const seatApi = createApi({
 
     // Thêm một ghế
     addSeat: builder.mutation({
-      query: ({ room_id, row, seatCount, seat_type, base_price }) => ({
+      query: ({ room_id, row, seat_number, seat_type, base_price }) => ({
         url: `/api/rooms/${room_id}/seat`,
         method: 'POST',
-        body: { room_id, row, seatCount, seat_type, base_price }, 
+        body: { room_id, row, seat_number, seat_type, base_price }, 
       }),
     }),
 

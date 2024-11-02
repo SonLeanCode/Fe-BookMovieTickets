@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
+import { MdDashboard } from "react-icons/md";
 import {
   useGetSeatsByRoomQuery,
   useAddSeatMutation,
@@ -12,6 +13,8 @@ import {
 import Pagination from "../../components/Admin/Pagination";
 import Toastify from "../../helper/Toastify";
 import SeatDisplay from "../../components/Seat/SeatDisplay";
+import { Input } from "react-daisyui";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const Seat_Management = () => {
   const { roomId } = useParams();
@@ -26,13 +29,14 @@ const Seat_Management = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [isOpenSeatAdd, setIsOpenSeatAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const [newSeat, setNewSeat] = useState({
     room_id: roomId, // Ensure room_id is initialized
     row: "",
     seatCount: 1,
+    seat_number: null,
     seatType: "Single",
     basePrice: 10000,
     priceVariations: [],
@@ -75,7 +79,7 @@ const Seat_Management = () => {
       ];
 
       // Send request with all necessary information
-      await addSeatsInRow({
+      const res = await addSeatsInRow({
         room_id: roomId, // Use room_id from params
         row,
         seatCount,
@@ -83,13 +87,12 @@ const Seat_Management = () => {
         base_price: basePrice,
         price_variations: priceVariations,
       });
-      Toastify("Ghế mới đã được thêm:", 200);
+      Toastify(res.messeges, res.status);
       refetchSeats();
       // Reset form after adding seats
       setNewSeat({
         room_id: roomId, // Reset to the current room_id
         row: "",
-        seatCount: 1,
         seatType: "Single",
         basePrice: 10000,
         priceVariations: [],
@@ -97,6 +100,46 @@ const Seat_Management = () => {
       });
       setIsModalVisible(false);
     } catch (error) {
+      console.error(error); // Check for errors
+    }
+  };
+
+  const handleAddSingleSeat = async () => {
+    const { row, seatType, seat_number, basePrice } = newSeat;
+
+    try {
+      const priceVariations = [
+        { day_type: "weekday", price: basePrice },
+        { day_type: "weekend", price: basePrice * 1.2 },
+        { day_type: "holiday", price: basePrice * 1.5 },
+      ];
+
+      const res = await addSeat({
+        room_id: roomId,
+        row,
+        seat_number,
+        seat_type: seatType,
+        base_price: basePrice,
+        price_variations: priceVariations,
+      });
+
+      Toastify(res.data.message, res.data.status);
+      refetchSeats();
+
+      setNewSeat({
+        room_id: roomId,
+        row: "",
+        seatCount: 1,
+        seat_number: null,
+        seatType: "Single",
+        basePrice: 10000,
+        priceVariations: [],
+        status: "available",
+      });
+
+      setIsOpenSeatAdd(false);
+    } catch (error) {
+      Toastify("Có lỗi xảy ra khi thêm ghế:", 400);
       console.error(error); // Check for errors
     }
   };
@@ -146,12 +189,6 @@ const Seat_Management = () => {
     <div className="ml-64 mt-8 bg-[#111111] p-6 text-white">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-2xl font-bold">Quản lý danh sách phòng chiếu</h3>
-        <button
-          className="flex rounded-md bg-red-600 p-2 hover:bg-red-700 hover:brightness-125"
-          onClick={() => setIsModalVisible(true)}
-        >
-          + Thêm phòng
-        </button>
       </div>
 
       <div className="mb-4 flex items-center justify-between">
@@ -188,28 +225,16 @@ const Seat_Management = () => {
         <div className="flex items-center">
           <button
             onClick={() => setIsOpen(true)}
-            className="flex items-center rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
+            className="mr-4 flex items-center rounded-md bg-[#33e24a] px-4 py-2 text-white hover:bg-green-400 focus:outline-none"
           >
-            Quản Lý Ghế
-            <svg
-              className="ml-2 h-5 w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <MdDashboard className="h-5 w-5" /> {/* Biểu tượng quản lý */}
           </button>
           <h2>Tìm kiếm:</h2>
           <AiOutlineSearch className="relative left-[12.5rem] size-5" />
-          <input
+          <Input
             type="text"
             placeholder="Search..."
-            className="rounded-md bg-[#2d2d2d] p-1 text-white"
+            className="rounded-md bg-[#2d2d2d] p-2 text-white"
             value={searchTerm}
             onChange={handleSearchChange}
           />
@@ -258,7 +283,7 @@ const Seat_Management = () => {
                 </td>
                 <td className="px-4 py-2">{seat.seat_type}</td>
                 <td className="px-4 py-2">{seat.status}</td>
-                <td className="px-4 py-2">{seat.base_price}</td>
+                <td className="px-4 py-2">{formatCurrency(seat.base_price)}</td>
                 <td className="px-4 py-2 text-center">
                   <button
                     className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
@@ -373,7 +398,7 @@ const Seat_Management = () => {
           <div className="rounded-lg bg-transparent p-6 shadow-lg">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <button
-                onClick={() => console.log("Thêm một ghế")}
+                onClick={() => setIsOpenSeatAdd(true)}
                 className="block rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
               >
                 Thêm một ghế
@@ -397,6 +422,87 @@ const Seat_Management = () => {
                 Cập nhật giá
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {isOpenSeatAdd && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="rounded-lg bg-[#2d2d2d] p-6 shadow-lg">
+            <h2 className="mb-4 text-xl font-bold">Thêm Ghế</h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleAddSingleSeat(newSeat);
+              }}
+            >
+              {/* Hàng ghế */}
+              <label htmlFor="row">Hàng Ghế:</label>
+              <input
+                type="text"
+                name="row"
+                value={newSeat.row}
+                onChange={handleChange}
+                placeholder="Nhập hàng ghế (ví dụ: A, B, C)"
+                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
+                required
+              />
+
+              {/* Số ghế */}
+              <label htmlFor="seat_number">Số Ghế:</label>
+              <input
+                type="number"
+                name="seat_number"
+                value={newSeat.seat_number}
+                onChange={handleChange}
+                min="1"
+                placeholder="Nhập số ghế (ví dụ: 1, 2, 3)"
+                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
+                required
+              />
+
+              {/* Loại ghế */}
+              <label htmlFor="seatType">Loại Ghế:</label>
+              <select
+                name="seatType"
+                value={newSeat.seatType}
+                onChange={handleChange}
+                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
+                required
+              >
+                <option value="Single">Ghế Thường</option>
+                <option value="Sweetbox">Ghế Đôi</option>
+                <option value="VIP">Ghế VIP</option>
+              </select>
+
+              {/* Giá cơ bản */}
+              <label htmlFor="basePrice">Giá Cơ Bản:</label>
+              <input
+                type="number"
+                name="basePrice"
+                value={newSeat.basePrice}
+                onChange={handleChange}
+                placeholder="Nhập giá cơ bản (ví dụ: 100000)"
+                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
+                required
+              />
+
+              <div className="flex justify-between">
+                <button
+                  type="submit"
+                  className="mr-2 rounded-md bg-[#0728dd] p-2 text-white"
+                >
+                  Thêm
+                </button>
+                <button
+                  type="button"
+                  className="rounded-md bg-red-600 p-2 text-white"
+                  onClick={() => setIsOpenSeatAdd(false)}
+                >
+                  Hủy
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
