@@ -71,9 +71,21 @@ export const authApi = createApi({
         method:'PATCH',
         body: {email,currentPassword,newPassword}
       })
-    })
+    }),
+    uploadAvatar: builder.mutation({
+      query: ({ userId, selectedFile }) => {
+          const formData = new FormData();
+          formData.append('avatar', selectedFile);
+  
+          return {
+              url: `/api/upload-avatar/${userId}`,
+              method: 'PATCH',
+              body: formData,
+          };
+      },
+  }),
   }),
 
 });
 
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useFacebookLoginMutation,useGetUserQuery,usePatchUserMutation,usePatchProfileMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useFacebookLoginMutation,useGetUserQuery,usePatchUserMutation,usePatchProfileMutation,useUploadAvatarMutation } = authApi;

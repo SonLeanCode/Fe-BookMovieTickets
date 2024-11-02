@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { useGetUserQuery, usePatchUserMutation ,usePatchProfileMutation} from '../../services/Auth/auth.service'
+import { useGetUserQuery, usePatchUserMutation, usePatchProfileMutation, useUploadAvatarMutation } from '../../services/Auth/auth.service'
 const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
     const { data: userData } = useGetUserQuery(userId)
-    console.log('userdat', userData);
-
+    const fileInputRef = useRef(null);
+    const [selectedImage, setSelectedImage] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [isEdiEmail, setIsEdiEmail] = useState(false);
     const [email, setEmail] = useState(userData?.data?.email || "");
@@ -15,7 +15,8 @@ const Profile = () => {
     const [newPassword, setNewPassword] = useState();
     const [confirmNewPassword, setConfirmNewPassword] = useState()
     const [patchUser] = usePatchUserMutation();
-    const [ patchProfile] = usePatchProfileMutation();
+    const [patchProfile] = usePatchProfileMutation();
+    const [uploadAvatar] = useUploadAvatarMutation()
 
 
 
@@ -30,7 +31,7 @@ const Profile = () => {
         setIsEditing(true);
         setCurrentPassword("");
     };
-    const handleEmailClick = ()=>{
+    const handleEmailClick = () => {
         setIsEdiEmail(true)
     }
 
@@ -48,22 +49,47 @@ const Profile = () => {
             console.error("Lỗi khi cập nhật:", err);
         }
     };
-    
-    const handleSave  = async(e)=>{
+
+    const handleSave = async (e) => {
         e.preventDefault();
         if (newPassword !== confirmNewPassword) {
             alert("Mật khẩu không khớp, vui lòng kiểm tra lại.");
             return;
-          }
-            try{
-            await patchProfile({userId, email,currentPassword,newPassword}).unwrap();
+        }
+        try {
+            await patchProfile({ userId, email, currentPassword, newPassword }).unwrap();
             console.log("Cập nhật all thành công");
             setIsEditing(false);
-            }
-        catch(err){
+        }
+        catch (err) {
             console.error("Lỗi khi cập nhật:", err);
         }
     }
+    // image change 
+    const handleOnClick = () => {
+        fileInputRef.current.click()
+    }
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedImage(URL.createObjectURL(file)); // Hiển thị ảnh tạm thời
+
+            // Gọi mutation để upload ảnh
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            try {
+                const data = await uploadAvatar({ userId, selectedFile: file }).unwrap();
+                console.log('data', data);
+
+                console.log('Avatar uploaded successfully');
+            } catch (error) {
+                console.error('Error uploading avatar:', error);
+            }
+        }
+    };
+
 
 
 
@@ -76,8 +102,6 @@ const Profile = () => {
     };
 
 
-
-
     return (
         <div className="p-28 px-20 text-white">
             <h1 className="text-3xl pb-4 uppercase font-semibold">{t("Thông tin cá nhân")}</h1>
@@ -85,14 +109,24 @@ const Profile = () => {
                 <div className="bg-slate-900 p-6 rounded-lg shadow-lg " style={{ boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)', }} >
                     <div className='flex items-center justify-center space-x-4'>
                         <div className="flex flex-col items-center">
+                            <i className="fa-regular fa-pen-to-square ml-[100px]  w-4"
+                                onClick={handleOnClick}></i>
+
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                style={{ display: 'none' }}
+                                onChange={handleFileChange}
+                                accept="image/*"
+                            />
                             {userData && (
-                                <img src={userData.data.avatar} alt="User" className="w-24 h-24 rounded-full mb-4" />
+                                <img src={selectedImage || userData.data.avatar} alt="User" className="w-24 h-24 rounded-full mb-4" />
                             )}
                         </div>
                         {userData ? (
                             <div className="flex flex-col justify-center items-center">
                                 <h4 className="text-lg font-semibold">{userData.data.fullname} </h4>
-                                <h4 className="text-lg font-semibold">Star </h4>
+                                <h4 className="text-lg font-semibold">  Member </h4>
                             </div>
                         ) : (
                             <p>{t("Không tìm thấy thông tin người dùng.")}</p>
@@ -279,7 +313,7 @@ const Profile = () => {
                                                                 <i className="fa-solid fa-lock"></i>
                                                             </span>
                                                             {isEditing ? (
-                                        
+
                                                                 <input
                                                                     type="password"
                                                                     placeholder={t("Mật khẩu hiện tại")}
