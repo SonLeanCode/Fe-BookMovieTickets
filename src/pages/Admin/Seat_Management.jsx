@@ -97,13 +97,36 @@ const Seat_Management = () => {
     }
   };
 
-
-  const handleDeleteSelectedSeats = async () => {
-    for (const seatId of selectedSeats) {
+  const handleDeleteSeat = async (seatId) => {
+    const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa ghế này không?");
+    if (!isConfirmed) return;
+  
+    try {
       await deleteSeat(seatId);
+      Toastify("Xóa ghế thành công", 200);
+      refetchSeats();
+    } catch (error) {
+      console.error("Lỗi khi xóa ghế:", error);
+      Toastify("Xóa ghế thất bại", 400, "error");
     }
-    setSelectedSeats([]);
-    refetchSeats();
+  };
+  
+  // Hàm xóa nhiều ghế với xác nhận
+  const handleDeleteSelectedSeats = async () => {
+    const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa các ghế đã chọn không?");
+    if (!isConfirmed) return;
+  
+    try {
+      for (const seatId of selectedSeats) {
+        await deleteSeat(seatId);
+      }
+      setSelectedSeats([]);
+      Toastify("Xóa các ghế thành công", 200);
+      refetchSeats();
+    } catch (error) {
+      console.error("Lỗi khi xóa các ghế:", error);
+      Toastify("Xóa các ghế thất bại", 400, "error");
+    }
   };
 
   const paginatedSeats = filteredSeats?.slice(
@@ -142,7 +165,7 @@ const Seat_Management = () => {
           {selectedSeats.length > 0 && (
             <div className="mx-2 flex items-center">
               <p className="mr-4 text-lg font-semibold">
-                {`Đã chọn ${selectedSeats.length} mục`}
+                {"'"} Đã chọn {selectedSeats.length} mục {"'"}
               </p>
               <button
                 className="rounded-md bg-blue-500 p-2 hover:bg-blue-600"
@@ -277,7 +300,7 @@ const Seat_Management = () => {
               className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
               required
             >
-              <option value="Single">Ghế Đơn</option>
+              <option value="Single">Ghế Thường</option>
               <option value="Sweetbox">Ghế Đôi</option>
               <option value="VIP">Ghế VIP</option>
               {/* Thêm các loại ghế khác nếu cần */}

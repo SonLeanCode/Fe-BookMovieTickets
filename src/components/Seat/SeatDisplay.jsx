@@ -3,15 +3,19 @@ import PropTypes from "prop-types";
 const SeatDisplay = ({ seatsData }) => {
   // Hàm lấy class cho ghế
   const getSeatClass = (seat) => {
+    if (seat.status === "booked") {
+      return "bg-gray-600 cursor-not-allowed";
+    } else if (seat.status === "unavailable") {
+      return "border-4 border-white relative";
+    }
+
     switch (seat.seat_type) {
       case "VIP":
         return "bg-yellow-300";
       case "Sweetbox":
-        return "bg-red-500 w-20"; // Ghế Sweetbox rộng gấp đôi
-      case "Double":
-        return "bg-blue-500";
+        return "bg-red-500 w-20";
       default:
-        return "bg-green-500";
+        return "bg-indigo-600";
     }
   };
 
@@ -46,11 +50,7 @@ const SeatDisplay = ({ seatsData }) => {
                   <button
                     key={`${row}${seatNum}`}
                     className={`mx-1 my-1 w-10 rounded-lg font-bold text-white ${seat ? getSeatClass(seat) : "cursor-default bg-transparent"} ${
-                      seat?.status === "booked"
-                        ? "cursor-not-allowed bg-gray-600"
-                        : seat?.status === "unavailable"
-                          ? "line-through"
-                          : ""
+                      seat?.status === "unavailable" ? "button-unavailable" : ""
                     } h-10`}
                     disabled={
                       !seat ||
@@ -66,7 +66,7 @@ const SeatDisplay = ({ seatsData }) => {
           ))}
         </div>
         {sweetboxSeats?.length > 0 && (
-          <div className="mb-2 flex justify-center relative -top-12">
+          <div className="relative -top-12 mb-2 flex justify-center">
             {sweetboxSeats.map((seat) => (
               <button
                 key={`${seat.row}${seat.seat_number}`}
@@ -95,7 +95,7 @@ const SeatDisplay = ({ seatsData }) => {
         </div>
         <div className="mx-2">
           <div className="mb-1 flex items-center">
-            <span className="mr-2 block h-4 w-4 bg-green-500"></span>
+            <span className="mr-2 block h-4 w-4  bg-indigo-800"></span>
             <span>Ghế thường</span>
           </div>
           <div className="mb-1 flex items-center">
@@ -103,12 +103,7 @@ const SeatDisplay = ({ seatsData }) => {
             <span>Ghế đã đặt</span>
           </div>
           <div className="mb-1 flex items-center">
-            <span className="relative mr-2 block h-4 w-4 border-2 border-white">
-              {/* X mark for unavailable seat */}
-              <span className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-xl text-white">
-                &#10006;
-              </span>
-            </span>
+            <button className="mr-2 border-2 h-4 w-4 border-white relative button-unavailable"></button>
             <span className="text-white">Ghế không khả dụng</span>
           </div>
         </div>
