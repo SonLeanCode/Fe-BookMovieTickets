@@ -19,3 +19,28 @@ body{
   background-color: black;
 }
 
+/* button unavailable */
+.button-unavailable {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-unavailable::before,
+.button-unavailable::after {
+  content: "";
+  position: absolute;
+  top: 50%; /* Đặt điểm giữa của đường chéo */
+  left: 50%; /* Đặt điểm giữa của đường chéo */
+  width: 140%; /* Điều chỉnh độ dài để vừa đủ bao phủ button */
+  height: 2px; /* Độ dày của đường chéo */
+  background-color: white;
+  transform-origin: center;
+}
+
+.button-unavailable::before {
+  transform: translate(-50%, -50%) rotate(45deg); /* Đường chéo đầu tiên */
+}
+
+.button-unavailable::after {
+  transform: translate(-50%, -50%) rotate(-45deg); /* Đường chéo thứ hai */
+}
