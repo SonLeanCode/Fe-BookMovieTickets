@@ -616,29 +616,27 @@ const Home = () => {
                     <p className="movie-rating">Đánh giá: {movie.rating}</p>
 
                     <div className="button-container mt-2">
-  <div className="flex flex-col space-x-y-2"> {/* Điều chỉnh khoảng cách ở đây */}
-    <Link
-      to="/cinema/detail"
-      className="overlay-btn-xh w-32 text-center text-white bg-blue-600 rounded"
-    >
-      Yêu thích <i className="fas fa-heart"></i> 
-    </Link>
-    <Link
-      to="/cinema/detail"
-      className="overlay-btn-xh w-32 py-2 text-center text-white bg-blue-600 rounded"
-    >
-      Trailer <i className="fas fa-video ml-1"></i>
-    </Link>
-    <Link
-      to="/"
-      className="overlay-btn-xh w-32 py-2 text-center text-white bg-green-600 rounded"
-    >
-      {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
-    </Link>
-  </div>
-</div>
-
-
+                      <div className="flex flex-col space-x-y-2"> {/* Điều chỉnh khoảng cách ở đây */}
+                        <Link
+                          to="/cinema/detail"
+                          className="overlay-btn-xh w-32 text-center text-white bg-blue-600 rounded"
+                        >
+                          Yêu thích <i className="fas fa-heart"></i> 
+                        </Link>
+                        <Link
+                          to="/cinema/detail"
+                          className="overlay-btn-xh w-32 py-2 text-center text-white bg-blue-600 rounded"
+                        >
+                          Trailer <i className="fas fa-video ml-1"></i>
+                        </Link>
+                        <Link
+                          to="/"
+                          className="overlay-btn-xh w-32 py-2 text-center text-white bg-green-600 rounded"
+                        >
+                          {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
