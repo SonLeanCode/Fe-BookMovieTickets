@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaClock, FaMapMarkerAlt, FaQuoteLeft } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { useGetMovieByIdQuery } from "../../services/Movies/movies.services";
 import { formatDate } from "../../utils/formatDate";
 import notfound_img from "../../assets/img/404/not_found_img.jpg";
@@ -12,8 +13,10 @@ import LoadingLocal from "../Loading/LoadingLocal";
 const MovieDetailPage = () => {
   const { id } = useParams();
   const { data: movieData, isLoading: movieDataLoading  } = useGetMovieByIdQuery(id);
+  // const { data: allMoviesData} = useGetAllMoviesQuery();
+
   const [activeTab, setActiveTab] = useState("content");
-  console.log(movieData)
+  // console.log(allMoviesData)
   const tabs = [
     { id: "content", label: "Nội dung", content: movieData?.data.description },
     {
@@ -212,7 +215,12 @@ const MovieDetailPage = () => {
                 </div>
 
                 <div className="mt-4 flex justify-start pr-4 md:px-0">
-                  <Link to={`/cinema/buy-tickets/`+movieData?.data?._id} className="btn p-1 px-3 md:w-32 w-full text-black bg-white rounded border">Mua Ngay</Link>
+                  <Link
+                    to={`/cinema/buy-tickets/` + movieData?.data?._id}
+                    className="btn flex items-center justify-center p-2 md:w-32 w-full text-white bg-gradient-to-r from-red-500 to-red-700 rounded-lg border border-transparent hover:from-red-600 hover:to-red-800 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+                  >
+                    <FaShoppingCart className="mr-2" /> Mua Ngay
+                  </Link>
                 </div>
               </div>
             </div>

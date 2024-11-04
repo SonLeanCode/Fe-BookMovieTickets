@@ -28,7 +28,7 @@ const PopupNotification = () => {
   return (
     isVisible && (
       <div className={`fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-700 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="relative w-[43%] bg-white p-6 rounded-lg shadow-lg text-center transition-all duration-700 transform scale-100">
+        <div className="relative w-[33%] bg-white p-6 rounded-lg shadow-lg text-center transition-all duration-700 transform scale-100">
           {/* Nút đóng ở góc trên bên phải */}
           <button
             className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full hover:bg-red-700 focus:outline-none"
@@ -40,7 +40,7 @@ const PopupNotification = () => {
           <h2 className="text-2xl text-black capitalize font-semibold mb-4 animate-text bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500 bg-clip-text text-transparent">
             <span role="img" aria-label="Loa loa">📢</span> Chương trình khuyến mãi đặc biệt <span className="uppercase">sự kiện</span>
           </h2>
-          <img src="https://i.pinimg.com/originals/4c/11/f7/4c11f751f8d87ba74ba90f3588d67022.gif" className="h-56 text-center flex justify-center items-center w-full" alt="" />
+          <img src="https://i.pinimg.com/originals/a5/94/84/a59484eca920ef4f1e8581fc5b9f18d6.gif" className="h-56 text-center flex justify-center items-center w-full" alt="" />
           <p className="mb-4 text-lg text-gray-700">
             Loa loa! Chúng tôi đang tổ chức một sự kiện cực kỳ hấp dẫn với nhiều ưu đãi và quà tặng đặc biệt dành cho bạn.
             Đừng bỏ lỡ cơ hội này, tham gia ngay để nhận ngay ưu đãi khủng chỉ trong thời gian giới hạn!
