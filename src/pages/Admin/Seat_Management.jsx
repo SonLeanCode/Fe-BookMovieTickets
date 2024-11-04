@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdDashboard } from "react-icons/md";
@@ -7,7 +7,7 @@ import {
   useGetSeatsByRoomQuery,
   useAddSeatMutation,
   useAddSeatsInRowMutation,
-  useUpdateSeatPricesMutation,
+  // useUpdateSeatPricesMutation,
   useDeleteSeatMutation,
 } from "../../services/Seat/seat.serviecs";
 import Pagination from "../../components/Admin/Pagination";
@@ -15,13 +15,15 @@ import Toastify from "../../helper/Toastify";
 import SeatDisplay from "../../components/Seat/SeatDisplay";
 import { Input } from "react-daisyui";
 import { formatCurrency } from "../../utils/formatCurrency";
+import AddSeatModal from "../../components/Seat/AddSeatModal";
+import AddMultipleSeatsModal from "../../components/Seat/AddMultipleSeatsModal";
 
 const Seat_Management = () => {
   const { roomId } = useParams();
   const { data: seats, refetch: refetchSeats } = useGetSeatsByRoomQuery(roomId);
   const [addSeat] = useAddSeatMutation();
   const [addSeatsInRow] = useAddSeatsInRowMutation();
-  const [updateSeatPrices] = useUpdateSeatPricesMutation();
+  // const [updateSeatPrices] = useUpdateSeatPricesMutation();
   const [seatsPerPage, setSeatsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteSeat] = useDeleteSeatMutation();
@@ -31,25 +33,6 @@ const Seat_Management = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isOpenSeatAdd, setIsOpenSeatAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  const [newSeat, setNewSeat] = useState({
-    room_id: roomId, // Ensure room_id is initialized
-    row: "",
-    seatCount: 1,
-    seat_number: null,
-    seatType: "Single",
-    basePrice: 10000,
-    priceVariations: [],
-    status: "available",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewSeat((prev) => ({
-      ...prev,
-      [name]: name === "seatCount" ? Number(value) : value, // Convert seatCount to number
-    }));
-  };
 
   const filteredSeats = seats?.filter((seat) => {
     const seatIdentifier = `${seat.row}${seat.seat_number}`;
@@ -68,81 +51,6 @@ const Seat_Management = () => {
     );
   };
 
-  const handleAddSeats = async () => {
-    const { row, seatCount, seatType, basePrice } = newSeat;
-    try {
-      // Prepare price variations based on the base price
-      const priceVariations = [
-        { day_type: "weekday", price: basePrice },
-        { day_type: "weekend", price: basePrice * 1.2 },
-        { day_type: "holiday", price: basePrice * 1.5 },
-      ];
-
-      // Send request with all necessary information
-      const res = await addSeatsInRow({
-        room_id: roomId, // Use room_id from params
-        row,
-        seatCount,
-        seat_type: seatType,
-        base_price: basePrice,
-        price_variations: priceVariations,
-      });
-      Toastify(res.messeges, res.status);
-      refetchSeats();
-      // Reset form after adding seats
-      setNewSeat({
-        room_id: roomId, // Reset to the current room_id
-        row: "",
-        seatType: "Single",
-        basePrice: 10000,
-        priceVariations: [],
-        status: "available",
-      });
-      setIsModalVisible(false);
-    } catch (error) {
-      console.error(error); // Check for errors
-    }
-  };
-
-  const handleAddSingleSeat = async () => {
-    const { row, seatType, seat_number, basePrice } = newSeat;
-
-    try {
-      const priceVariations = [
-        { day_type: "weekday", price: basePrice },
-        { day_type: "weekend", price: basePrice * 1.2 },
-        { day_type: "holiday", price: basePrice * 1.5 },
-      ];
-
-      const res = await addSeat({
-        room_id: roomId,
-        row,
-        seat_number,
-        seat_type: seatType,
-        base_price: basePrice,
-        price_variations: priceVariations,
-      });
-
-      Toastify(res.data.message, res.data.status);
-      refetchSeats();
-
-      setNewSeat({
-        room_id: roomId,
-        row: "",
-        seatCount: 1,
-        seat_number: null,
-        seatType: "Single",
-        basePrice: 10000,
-        priceVariations: [],
-        status: "available",
-      });
-
-      setIsOpenSeatAdd(false);
-    } catch (error) {
-      Toastify("Có lỗi xảy ra khi thêm ghế:", 400);
-      console.error(error); // Check for errors
-    }
-  };
 
   const handleDeleteSeat = async (seatId) => {
     const isConfirmed = window.confirm(
@@ -287,7 +195,7 @@ const Seat_Management = () => {
                 <td className="px-4 py-2 text-center">
                   <button
                     className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
-                    onClick={() => handleEditSeat(seat._id)}
+                    // onClick={() => handleEditSeat(seat._id)}
                   >
                     <FaEdit />
                   </button>
@@ -310,84 +218,14 @@ const Seat_Management = () => {
       />
 
       <SeatDisplay seatsData={seats} />
+
       {isModalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="rounded-lg bg-[#2d2d2d] p-6 shadow-lg">
-            <h2 className="mb-4 text-xl font-bold">Thêm Ghế</h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleAddSeats(newSeat);
-              }}
-            >
-              {/* Hàng ghế */}
-              <label htmlFor="row">Hàng Ghế:</label>
-              <input
-                type="text"
-                name="row"
-                value={newSeat.row}
-                onChange={handleChange}
-                placeholder="Nhập hàng ghế"
-                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
-                required
-              />
-
-              {/* Số lượng ghế */}
-              <label htmlFor="seatCount">Số Lượng Ghế:</label>
-              <input
-                type="number"
-                name="seatCount"
-                value={newSeat.seatCount}
-                onChange={handleChange}
-                min="1"
-                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
-                required
-              />
-
-              {/* Loại ghế */}
-              <label htmlFor="seatType">Loại Ghế:</label>
-              <select
-                name="seatType"
-                value={newSeat.seatType}
-                onChange={handleChange}
-                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
-                required
-              >
-                <option value="Single">Ghế Thường</option>
-                <option value="Sweetbox">Ghế Đôi</option>
-                <option value="VIP">Ghế VIP</option>
-                {/* Thêm các loại ghế khác nếu cần */}
-              </select>
-
-              {/* Giá cơ bản */}
-              <label htmlFor="basePrice">Giá Cơ Bản:</label>
-              <input
-                type="number"
-                name="basePrice"
-                value={newSeat.basePrice}
-                onChange={handleChange}
-                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
-                required
-              />
-
-              <div className="flex justify-between">
-                <button
-                  type="submit"
-                  className="mr-2 rounded-md bg-[#0728dd] p-2 text-white"
-                >
-                  Thêm
-                </button>
-                <button
-                  type="button"
-                  className="rounded-md bg-red-600 p-2 text-white"
-                  onClick={() => setIsModalVisible(false)}
-                >
-                  Hủy
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <AddMultipleSeatsModal
+          roomId={roomId}
+          onAddSeat={addSeatsInRow}
+          refetchSeats={refetchSeats}
+          setIsOpen={setIsModalVisible}
+        />
       )}
 
       {isOpen && (
@@ -401,7 +239,7 @@ const Seat_Management = () => {
                 onClick={() => setIsOpenSeatAdd(true)}
                 className="block rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
               >
-                Thêm một ghế
+                Thêm ghế
               </button>
               <button
                 onClick={() => setIsModalVisible(true)}
@@ -427,84 +265,12 @@ const Seat_Management = () => {
       )}
 
       {isOpenSeatAdd && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="rounded-lg bg-[#2d2d2d] p-6 shadow-lg">
-            <h2 className="mb-4 text-xl font-bold">Thêm Ghế</h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleAddSingleSeat(newSeat);
-              }}
-            >
-              {/* Hàng ghế */}
-              <label htmlFor="row">Hàng Ghế:</label>
-              <input
-                type="text"
-                name="row"
-                value={newSeat.row}
-                onChange={handleChange}
-                placeholder="Nhập hàng ghế (ví dụ: A, B, C)"
-                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
-                required
-              />
-
-              {/* Số ghế */}
-              <label htmlFor="seat_number">Số Ghế:</label>
-              <input
-                type="number"
-                name="seat_number"
-                value={newSeat.seat_number}
-                onChange={handleChange}
-                min="1"
-                placeholder="Nhập số ghế (ví dụ: 1, 2, 3)"
-                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
-                required
-              />
-
-              {/* Loại ghế */}
-              <label htmlFor="seatType">Loại Ghế:</label>
-              <select
-                name="seatType"
-                value={newSeat.seatType}
-                onChange={handleChange}
-                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
-                required
-              >
-                <option value="Single">Ghế Thường</option>
-                <option value="Sweetbox">Ghế Đôi</option>
-                <option value="VIP">Ghế VIP</option>
-              </select>
-
-              {/* Giá cơ bản */}
-              <label htmlFor="basePrice">Giá Cơ Bản:</label>
-              <input
-                type="number"
-                name="basePrice"
-                value={newSeat.basePrice}
-                onChange={handleChange}
-                placeholder="Nhập giá cơ bản (ví dụ: 100000)"
-                className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
-                required
-              />
-
-              <div className="flex justify-between">
-                <button
-                  type="submit"
-                  className="mr-2 rounded-md bg-[#0728dd] p-2 text-white"
-                >
-                  Thêm
-                </button>
-                <button
-                  type="button"
-                  className="rounded-md bg-red-600 p-2 text-white"
-                  onClick={() => setIsOpenSeatAdd(false)}
-                >
-                  Hủy
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <AddSeatModal
+          roomId={roomId}
+          onAddSeat={addSeat}
+          refetchSeats={refetchSeats}
+          setIsOpen={setIsOpenSeatAdd}
+        />
       )}
     </div>
   );
