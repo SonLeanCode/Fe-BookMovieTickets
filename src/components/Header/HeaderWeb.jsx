@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { FaUserAlt, FaHistory, FaSignOutAlt, FaBars } from "react-icons/fa"; // Import necessary icons
 import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
 import Toastify from "../../helper/Toastify";
@@ -40,6 +40,8 @@ const HeaderWeb = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+  
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
@@ -47,13 +49,58 @@ const HeaderWeb = () => {
     navigate("/auth/login");
   };
 
-  // Function to handle search submission
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Implement search logic here, e.g., navigate to search results page
-    console.log("Searching for:", searchTerm);
-    // Example: navigate(`/search?query=${searchTerm}`);
+
+
+
+  // const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const products = [
+    {
+      id: 1,
+      name: "Harry Potter",
+      price: "200,000 VND",
+      image: "https://i.pinimg.com/736x/2b/14/da/2b14da6668dcc8e6456ab0ce9bcf1a5d.jpg",
+    },
+    {
+      id: 2,
+      name: "Cướp biển Angular",
+      price: "300,000 VND",
+      image: "https://i.pinimg.com/564x/1f/17/d5/1f17d51b79b5066739a4d9ac52416800.jpg",
+    },
+    {
+      id: 2,
+      name: "Người sói",
+      price: "60,000 VND",
+      image: "https://i.pinimg.com/564x/1c/9b/8b/1c9b8b06c0635d7f29b54459d2fb2cdc.jpg",
+    },
+    // Thêm các sản phẩm mẫu
+  ];
+
+  const handleSearch = (term) => {
+    const results = products.filter((product) =>
+      product.name.toLowerCase().includes(term.toLowerCase())
+    );
+    setSearchResults(results);
+    setIsDropdownOpen(true); // Mở dropdown khi có kết quả
   };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownOpen(false); // Đóng dropdown nếu nhấn ra ngoài
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  
+  
+
+
 
   // changes languages
   const changeLanguage = async (language) => {
@@ -149,18 +196,60 @@ const HeaderWeb = () => {
              {t("Rạp/giá rẻ")}
           </Link>
 
-          <div className="relative flex-grow">
-            <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 transform text-white"></i>
-            <input
-              type="text"
-              placeholder={t("Tìm kiếm...")}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSearch(e)} // Handle enter key for search
-              className={`rounded-lg border border-gray-300 bg-transparent py-2 pl-10 pr-4 text-white focus:outline-none focus:ring-2 ${scrolled ? "bg-black" : "bg-gray-500"
-                }`}
-            />
-          </div>
+
+
+
+          <div className="relative flex-grow" ref={dropdownRef}>
+              <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 transform text-white"></i>
+              <input
+                type="text"
+                placeholder="Tìm kiếm..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  handleSearch(e.target.value);
+                }}
+                className="rounded-lg border border-gray-300 bg-transparent py-2 pl-10 pr-4 text-white focus:outline-none focus:ring-2"
+              />
+              
+              {isDropdownOpen && (
+                <div className="absolute left-0 z-10 mt-2 w-full rounded-md bg-gray-700 shadow-lg">
+                  {searchResults.length > 0 ? (
+                    searchResults.map((product) => (
+                      <Link
+                        to={`/product/${product.id}`}
+                        key={product.id}
+                        className="flex items-center px-4 py-2 hover:bg-gray-600"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        {/* Hiển thị ảnh sản phẩm */}
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="h-12 w-12 rounded-md mr-4"
+                        />
+                        {/* Hiển thị tên và giá sản phẩm */}
+                        <div>
+                          <div className="text-white font-semibold">{product.name}</div>
+                          <div className="text-gray-300">{product.price}</div>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <div className="px-4 py-2 text-gray-300">Không có sản phẩm này</div>
+                  )}
+                </div>
+              )}
+            </div>
+       
+
+
+
+
+
+
+
+
         </div>
 
         {/* User Actions */}
