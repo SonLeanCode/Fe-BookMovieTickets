@@ -74,6 +74,14 @@ export const seatApi = createApi({
       }),
     }),
 
+    updateSeatStatus: builder.mutation({
+      query: ({ seatId, newStatus }) => ({
+        url: `/api/seats/${seatId}/status`,
+        method: "PUT",
+        body: { newStatus },
+      }),
+    }),
+
     // Xóa một ghế cụ thể
     deleteSeat: builder.mutation({
       query: (seatId) => ({
@@ -102,6 +110,7 @@ export const {
   useAddSeatsInRowMutation,
   useUpdateSeatPricesMutation,
   useUpdateAllSeatPricesMutation,
+  useUpdateSeatStatusMutation,
   useDeleteSeatMutation,
   useDeleteSeatsByRowMutation,
 } = seatApi;
