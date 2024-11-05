@@ -132,7 +132,7 @@ const Home = () => {
       views: 10,
       name: "Pulp Fiction",
       image:
-        "https://www.theoriginalunderground.com/cdn/shop/products/pulp-fiction-film-poster-print-281196_1024x.jpg?v=1661524235",
+        "https://i.pinimg.com/564x/31/80/4a/31804a1fc117ebca00ba2344238a0d1b.jpg",
       rating: "8.9",
     },
     {

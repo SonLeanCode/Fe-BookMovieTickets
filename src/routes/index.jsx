@@ -44,6 +44,7 @@ const CheapTicket = lazy(() => import("../pages/cinema/cheap-ticket"));
 const Movie_Management = lazy(() => import("../pages/Admin/Movie_Management"));
 const Genre_Management = lazy(() => import("../pages/Admin/Genre_Management"));
 const Actor_Management = lazy(() => import("../pages/Admin/Actor_Management"));
+const Policy = lazy(() => import("../pages/Policy/chinhsach"));
 
 
 export default function AppRoutes() {
@@ -87,6 +88,9 @@ export default function AppRoutes() {
               <Route path="voucher/detail" element={<VoucherDetail />} />
               <Route path="genrefilm" element={<Genre />} />
               <Route path="genrefilm/:id" element={<Genre />} />
+
+              {/* All page policy  */}
+              <Route path="policy/chinh-sach" element={<Policy />} />
             </Route>
           </Route>
 

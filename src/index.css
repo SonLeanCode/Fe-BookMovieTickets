@@ -19,6 +19,9 @@ body{
   background-color: black;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 /* button unavailable */
 .button-unavailable {
   position: relative;
