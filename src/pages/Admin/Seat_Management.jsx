@@ -20,6 +20,7 @@ import AddMultipleSeatsModal from "../../components/Seat/AddMultipleSeatsModal";
 import LoadingLocal from "../Loading/LoadingLocal";
 import { getPriceByDayType } from "../../utils/getPriceByDayType";
 import UpdateSeatPricesModal from "../../components/Seat/UpdateSeatPricesModal";
+import UpdateAllSeatPricesModal from "../../components/Seat/UpdateAllSeatPricesModal";
 
 const Seat_Management = () => {
   const { roomId } = useParams();
@@ -43,7 +44,7 @@ const Seat_Management = () => {
   const [isOpenSeatAdd, setIsOpenSeatAdd] = useState(false);
   const [isOpenPricesModal, setIsOpenPricesModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isOpenAllSeatModal, setIsOpenAllSeatModal] = useState(false);
   const filteredSeats = seats?.filter((seat) => {
     const seatIdentifier = `${seat.row}${seat.seat_number}`;
     return seatIdentifier.toLowerCase().includes(searchTerm.toLowerCase());
@@ -282,6 +283,12 @@ const Seat_Management = () => {
               >
                 Cập nhật giá
               </button>
+              <button
+                onClick={() => setIsOpenAllSeatModal(true)}
+                className="block rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+              >
+                Giá tất cả phòng
+              </button>
             </div>
           </div>
         </div>
@@ -301,6 +308,13 @@ const Seat_Management = () => {
           isOpen={setIsOpenPricesModal}
           onClose={() => setIsOpenPricesModal(false)}
           roomId={roomId}
+          refetchSeats={refetchSeats}
+        />
+      )}
+      {isOpenAllSeatModal && (
+        <UpdateAllSeatPricesModal
+          isOpen={setIsOpenAllSeatModal}
+          onClose={() => setIsOpenAllSeatModal(false)}
           refetchSeats={refetchSeats}
         />
       )}
