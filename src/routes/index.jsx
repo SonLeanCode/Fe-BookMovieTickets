@@ -45,6 +45,7 @@ const Movie_Management = lazy(() => import("../pages/Admin/Movie_Management"));
 const Genre_Management = lazy(() => import("../pages/Admin/Genre_Management"));
 const Actor_Management = lazy(() => import("../pages/Admin/Actor_Management"));
 const Policy = lazy(() => import("../pages/Policy/chinhsach"));
+const Contact = lazy(() => import("../pages/Policy/Contact"));
 
 
 export default function AppRoutes() {
@@ -90,7 +91,8 @@ export default function AppRoutes() {
               <Route path="genrefilm/:id" element={<Genre />} />
 
               {/* All page policy  */}
-              <Route path="policy/chinh-sach" element={<Policy />} />
+              <Route path="policy" element={<Policy />} />
+              <Route path="contact" element={<Contact />} />
             </Route>
           </Route>
 
