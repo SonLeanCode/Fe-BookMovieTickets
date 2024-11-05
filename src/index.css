@@ -44,3 +44,28 @@ body{
 .button-unavailable::after {
   transform: translate(-50%, -50%) rotate(-45deg); /* Đường chéo thứ hai */
 }
+
+
+/*scrollbar-hidden  */
+.scrollbar-hidden {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: transparent transparent; /* Firefox */
+}
+
+/* Chrome, Safari, and Opera */
+.scrollbar-hidden::-webkit-scrollbar {
+  width: 8px; /* Chiều rộng thanh cuộn */
+}
+
+.scrollbar-hidden::-webkit-scrollbar-track {
+  background: transparent; /* Nền của thanh cuộn */
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.6); /* Màu của thanh cuộn */
+  border-radius: 10px; /* Đường viền của thanh cuộn */
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Màu của thanh cuộn khi hover */
+}
