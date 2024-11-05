@@ -241,7 +241,7 @@ const Seat_Management = () => {
         onPageChange={setCurrentPage}
       />
 
-      <SeatDisplay seatsData={seats} />
+      <SeatDisplay seatsData={seats} refetchSeats={refetchSeats} handleDeleteSeat={handleDeleteSeat}/>
 
       {isModalVisible && (
         <AddMultipleSeatsModal
