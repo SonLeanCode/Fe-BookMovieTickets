@@ -30,6 +30,14 @@ export const seatApi = createApi({
       query: ({ roomId, row }) => `/api/rooms/${roomId}/seats/row/${row}`, // Đường dẫn đến API lấy ghế theo hàng
     }),
 
+    getSeatTypesByRoomID: builder.query({
+      query: (roomId) => `api/rooms/${roomId}/seats/types`,
+    }),
+
+    getSeatTypes: builder.query({
+      query: () => `api/rooms/seats/types`,
+    }),
+
     // Thêm một ghế
     addSeat: builder.mutation({
       query: ({ room_id, row, seat_number, seat_type, base_price }) => ({
@@ -52,8 +60,17 @@ export const seatApi = createApi({
     updateSeatPrices: builder.mutation({
       query: ({ roomId, seat_type, day_type, new_price }) => ({
         url: `/api/rooms/${roomId}/seats/update-price`,
-        method: 'PUT',
+        method: 'PATCH',
         body: { seat_type, day_type, new_price }, // Dữ liệu để cập nhật giá
+      }),
+    }),
+
+    // Cập nhật all
+    updateAllSeatPrices: builder.mutation({
+      query: (prices) => ({
+        url: '/api/seats/update-all',
+        method: 'PATCH',  // Đổi thành PATCH
+        body: prices,
       }),
     }),
 
@@ -79,9 +96,12 @@ export const seatApi = createApi({
 export const {
   useGetSeatsByRoomQuery,
   useGetSeatsByRoomAndRowQuery,
+  useGetSeatTypesQuery,
+  useGetSeatTypesByRoomIDQuery,
   useAddSeatMutation,
   useAddSeatsInRowMutation,
   useUpdateSeatPricesMutation,
+  useUpdateAllSeatPricesMutation,
   useDeleteSeatMutation,
   useDeleteSeatsByRowMutation,
 } = seatApi;

@@ -1,7 +1,10 @@
 import { useState } from "react";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
+import Toastify from "../../helper/Toastify";
+import LoadingLocal from "../../pages/Loading/LoadingLocal";
 
 const AddSeatModal = ({ roomId, onAddSeat, refetchSeats, setIsOpen }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [newSeat, setNewSeat] = useState({
     room_id: roomId,
     row: "",
@@ -23,16 +26,16 @@ const AddSeatModal = ({ roomId, onAddSeat, refetchSeats, setIsOpen }) => {
 
   const handleAddSingleSeat = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const { row, seatType, seat_number, basePrice } = newSeat;
 
     try {
       const priceVariations = [
-        { day_type: "weekday", price: basePrice },
         { day_type: "weekend", price: basePrice * 1.2 },
         { day_type: "holiday", price: basePrice * 1.5 },
       ];
 
-      await onAddSeat({
+      const res = await onAddSeat({
         room_id: roomId,
         row,
         seat_number,
@@ -52,14 +55,22 @@ const AddSeatModal = ({ roomId, onAddSeat, refetchSeats, setIsOpen }) => {
         priceVariations: [],
         status: "available",
       });
-      setIsOpen(false); // Close modal after adding seat successfully
+      setTimeout(() => {
+        Toastify(res.data.message, res.data.status);
+        setIsOpen(false);
+        setIsLoading(false);
+      }, 1000); // Close modal after adding seat successfully
     } catch (error) {
       console.error("Có lỗi xảy ra khi thêm ghế:", error);
     }
   };
 
+  if (isLoading) {
+    return <LoadingLocal />;
+  }
+
   return (
-    <div  className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="rounded-lg bg-[#2d2d2d] p-6 shadow-lg">
         <h2 className="mb-4 text-xl font-bold">Thêm Ghế</h2>
         <form onSubmit={handleAddSingleSeat}>
@@ -116,7 +127,10 @@ const AddSeatModal = ({ roomId, onAddSeat, refetchSeats, setIsOpen }) => {
           />
 
           <div className="flex justify-between">
-            <button type="submit" className="mr-2 rounded-md bg-[#0728dd] p-2 text-white">
+            <button
+              type="submit"
+              className="mr-2 rounded-md bg-[#0728dd] p-2 text-white"
+            >
               Thêm
             </button>
             <button
@@ -134,10 +148,10 @@ const AddSeatModal = ({ roomId, onAddSeat, refetchSeats, setIsOpen }) => {
 };
 
 AddSeatModal.propTypes = {
-  roomId: PropTypes.string.isRequired, 
-  onAddSeat: PropTypes.func.isRequired, 
-  refetchSeats: PropTypes.func.isRequired, 
-  setIsOpen: PropTypes.func.isRequired, 
+  roomId: PropTypes.string.isRequired,
+  onAddSeat: PropTypes.func.isRequired,
+  refetchSeats: PropTypes.func.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
 };
 
 export default AddSeatModal;

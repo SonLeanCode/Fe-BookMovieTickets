@@ -17,13 +17,23 @@ import { Input } from "react-daisyui";
 import { formatCurrency } from "../../utils/formatCurrency";
 import AddSeatModal from "../../components/Seat/AddSeatModal";
 import AddMultipleSeatsModal from "../../components/Seat/AddMultipleSeatsModal";
+import LoadingLocal from "../Loading/LoadingLocal";
+import { getPriceByDayType } from "../../utils/getPriceByDayType";
+import UpdateSeatPricesModal from "../../components/Seat/UpdateSeatPricesModal";
+import UpdateAllSeatPricesModal from "../../components/Seat/UpdateAllSeatPricesModal";
 
 const Seat_Management = () => {
   const { roomId } = useParams();
-  const { data: seats, refetch: refetchSeats } = useGetSeatsByRoomQuery(roomId);
+  const {
+    data: seats,
+    isLoading: seatsLoading,
+    refetch: refetchSeats,
+  } = useGetSeatsByRoomQuery(roomId);
   const [addSeat] = useAddSeatMutation();
   const [addSeatsInRow] = useAddSeatsInRowMutation();
   // const [updateSeatPrices] = useUpdateSeatPricesMutation();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [seatsPerPage, setSeatsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteSeat] = useDeleteSeatMutation();
@@ -32,8 +42,9 @@ const Seat_Management = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isOpenSeatAdd, setIsOpenSeatAdd] = useState(false);
+  const [isOpenPricesModal, setIsOpenPricesModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isOpenAllSeatModal, setIsOpenAllSeatModal] = useState(false);
   const filteredSeats = seats?.filter((seat) => {
     const seatIdentifier = `${seat.row}${seat.seat_number}`;
     return seatIdentifier.toLowerCase().includes(searchTerm.toLowerCase());
@@ -51,17 +62,17 @@ const Seat_Management = () => {
     );
   };
 
-
   const handleDeleteSeat = async (seatId) => {
     const isConfirmed = window.confirm(
       "Bạn có chắc chắn muốn xóa ghế này không?",
     );
     if (!isConfirmed) return;
-
+    setIsLoading(true);
     try {
       await deleteSeat(seatId);
       Toastify("Xóa ghế thành công", 200);
       refetchSeats();
+      setIsLoading(false);
     } catch (error) {
       console.error("Lỗi khi xóa ghế:", error);
       Toastify("Xóa ghế thất bại", 400, "error");
@@ -74,7 +85,7 @@ const Seat_Management = () => {
       "Bạn có chắc chắn muốn xóa các ghế đã chọn không?",
     );
     if (!isConfirmed) return;
-
+    setIsLoading(true);
     try {
       for (const seatId of selectedSeats) {
         await deleteSeat(seatId);
@@ -82,6 +93,7 @@ const Seat_Management = () => {
       setSelectedSeats([]);
       Toastify("Xóa các ghế thành công", 200);
       refetchSeats();
+      setIsLoading(false);
     } catch (error) {
       console.error("Lỗi khi xóa các ghế:", error);
       Toastify("Xóa các ghế thất bại", 400, "error");
@@ -92,6 +104,10 @@ const Seat_Management = () => {
     (currentPage - 1) * seatsPerPage,
     currentPage * seatsPerPage,
   );
+
+  if (seatsLoading || isLoading) {
+    return <LoadingLocal />;
+  }
 
   return (
     <div className="ml-64 mt-8 bg-[#111111] p-6 text-white">
@@ -170,7 +186,9 @@ const Seat_Management = () => {
               <th className="px-4 py-3 text-left text-white">Số ghế</th>
               <th className="px-4 py-3 text-left text-white">Loại ghế</th>
               <th className="px-4 py-3 text-left text-white">Trạng thái</th>
-              <th className="px-4 py-3 text-left text-white">Giá</th>
+              <th className="px-4 py-3 text-left text-white">Giá Gốc</th>
+              <th className="px-4 py-3 text-left text-white">Giá Cuối Tuần</th>
+              <th className="px-4 py-3 text-left text-white">Giá Ngày Lễ</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
             </tr>
           </thead>
@@ -192,6 +210,12 @@ const Seat_Management = () => {
                 <td className="px-4 py-2">{seat.seat_type}</td>
                 <td className="px-4 py-2">{seat.status}</td>
                 <td className="px-4 py-2">{formatCurrency(seat.base_price)}</td>
+                <td className="px-4 py-2">
+                  {getPriceByDayType(seat.price_variations, "weekend")}
+                </td>
+                <td className="px-4 py-2">
+                  {getPriceByDayType(seat.price_variations, "holiday")}
+                </td>
                 <td className="px-4 py-2 text-center">
                   <button
                     className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
@@ -254,10 +278,16 @@ const Seat_Management = () => {
                 Cập nhật ghế
               </button>
               <button
-                onClick={() => console.log("Cập nhật giá")}
+                onClick={() => setIsOpenPricesModal(true)}
                 className="block rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
               >
                 Cập nhật giá
+              </button>
+              <button
+                onClick={() => setIsOpenAllSeatModal(true)}
+                className="block rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+              >
+                Giá tất cả phòng
               </button>
             </div>
           </div>
@@ -270,6 +300,22 @@ const Seat_Management = () => {
           onAddSeat={addSeat}
           refetchSeats={refetchSeats}
           setIsOpen={setIsOpenSeatAdd}
+        />
+      )}
+
+      {isOpenPricesModal && (
+        <UpdateSeatPricesModal
+          isOpen={setIsOpenPricesModal}
+          onClose={() => setIsOpenPricesModal(false)}
+          roomId={roomId}
+          refetchSeats={refetchSeats}
+        />
+      )}
+      {isOpenAllSeatModal && (
+        <UpdateAllSeatPricesModal
+          isOpen={setIsOpenAllSeatModal}
+          onClose={() => setIsOpenAllSeatModal(false)}
+          refetchSeats={refetchSeats}
         />
       )}
     </div>
