@@ -33,7 +33,7 @@ i18n
           "Yêu thích": "Favorites",
           "Thông báo": "Notifications",
           "Quà tặng": "Gifts",
-          "Ngày sinh": " Date of Birth ",
+          "Ngày sinh": "Date of Birth",
           "Giới tính": "Gender",
           "Họ và tên": "Full name",
           "Thay đổi": "Change",
