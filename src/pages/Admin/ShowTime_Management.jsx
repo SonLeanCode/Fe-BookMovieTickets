@@ -12,7 +12,7 @@ import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
 import ShowtimeForm from "../../components/Admin/Showtimes/ShowtimeForm";
-import { formatTime } from "../../utils/FormatTime";
+import { formatTime } from "../../utils/formatTime";
 import { formatShowtime } from "../../utils/formatShowtime";
 import { formatShowDate } from "../../utils/formatShowDate";
 
