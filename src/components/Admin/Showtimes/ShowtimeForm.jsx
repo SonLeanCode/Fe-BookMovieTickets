@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useGetAllMoviesQuery } from '../../../services/Movies/movies.services';
 import { useGetAllRoomsQuery } from '../../../services/Room/room.service';
-
+import PropTypes from 'prop-types';
 const ShowtimeForm = ({ showtimeData, onSubmit, onCancel, isVisible }) => {
   const [formData, setFormData] = useState({
     movie_id: '',
@@ -18,10 +18,10 @@ const ShowtimeForm = ({ showtimeData, onSubmit, onCancel, isVisible }) => {
   useEffect(() => {
     if (showtimeData) {
       setFormData({
-        movie_id: showtimeData.data.movie || '',
-        room_id: showtimeData.data.room || '',
-        start_time: showtimeData.data.start_time || '',
-        end_time: showtimeData.data.end_time || '',
+        movie_id: showtimeData || '',
+        room_id: showtimeData|| '',
+        start_time: showtimeData || '',
+        end_time: showtimeData || '',
       });
     }
   }, [showtimeData]);
@@ -128,6 +128,18 @@ const ShowtimeForm = ({ showtimeData, onSubmit, onCancel, isVisible }) => {
       </div>
     </div>
   );
+};
+
+ShowtimeForm.propTypes = {
+  showtimeData: PropTypes.shape({
+    movie_id: PropTypes.string,
+    room_id: PropTypes.string,
+    start_time: PropTypes.string,
+    end_time: PropTypes.string,
+  }),
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  isVisible: PropTypes.bool.isRequired,
 };
 
 export default ShowtimeForm;
