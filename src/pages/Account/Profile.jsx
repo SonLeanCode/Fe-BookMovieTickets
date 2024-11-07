@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { useGetUserQuery, usePatchUserMutation, usePatchProfileMutation, useUploadAvatarMutation } from '../../services/Auth/auth.service'
+import { useGetUserQuery, usePatchUserMutation, usePatchProfileMutation, useUploadAvatarMutation } from '../../services/Auth/auth.service';
+import Toastify from '../../helper/Toastify';
+
 const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
@@ -54,8 +56,10 @@ const Profile = () => {
             await patchUser({ userId, email }).unwrap();
             console.log("Cập nhật thành công");
             setIsEditing(false);
+            Toastify("Email cập nhập thành công!", 200);
         } catch (err) {
             console.error("Lỗi khi cập nhật:", err);
+            Toastify("Email chưa được cập nhập", 400);
         }
     };
 
@@ -69,9 +73,11 @@ const Profile = () => {
             await patchProfile({ userId, email, currentPassword, newPassword }).unwrap();
             console.log("Cập nhật all thành công");
             setIsEditing(false);
+            Toastify("Cập nhập tất cả thành công!", 200);
         }
         catch (err) {
             console.error("Lỗi khi cập nhật:", err);
+            Toastify("Vui lòng cập nhập lại !", 400);
         }
     }
     // image change 
@@ -93,8 +99,11 @@ const Profile = () => {
                 console.log('data', data);
 
                 console.log('Avatar uploaded successfully');
+                // Hiển thị thông báo thành công
+                Toastify("Ảnh đại diện thay đổi thành công!", 200);
             } catch (error) {
                 console.error('Error uploading avatar:', error);
+                Toastify("Lỗi khi tải ảnh lên. Vui lòng thử lại.", 400);
             }
         }
     };

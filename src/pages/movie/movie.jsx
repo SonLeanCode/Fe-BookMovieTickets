@@ -71,17 +71,17 @@ const Movie = () => {
             {latestMovies?.data?.slice(0, 20).map((movie) => (
               <div key={movie._id} className="group w-full">
                 <div className="relative flex flex-col items-center my-2">
-                  <img src={movie.img} alt={movie.name} className="w-full h-auto" />
+                  <img src={movie.img} alt={movie.name} className="w-full h-[385px]" />
                   <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="button-container flex flex-col space-y-4">
                       <button
                         onClick={() => handleTrailerClick(movie?.url_video)} // Use the movie's trailer URL
-                        className="overlay-btn-xh w-38 py-2 text-center text-white"
+                        className="overlay-btn-xh bg-orange-500 w-38 py-2 text-center text-white"
                       >
                         Trailer <i className="fas fa-video ml-1"></i>
                       </button>
                       <Link
-                        to={`/cinema/buy-tickets/` + movie._id}
+                        to={`/cinema/movie/${movie._id}`}
                         className="overlay-btn-xh w-38 py-2 text-center text-white"
                       >
                         Mua vé <i className="fas fa-ticket-alt ml-1"></i>

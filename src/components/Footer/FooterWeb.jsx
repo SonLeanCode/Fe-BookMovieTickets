@@ -10,6 +10,7 @@ import {
   PlusIcon,
   HomeIcon,
   CogIcon,
+  EnvelopeIcon,
   Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
 import { useTranslation } from 'react-i18next'
@@ -47,12 +48,20 @@ const FooterWeb = () => {
                     <HomeIcon className="h-5 w-5" />
                   </SpeedDialAction>
                 </a>
-                <SpeedDialAction className="bg-gray-900 p-2 mb-3">
-                  <CogIcon className="h-5 w-5" />
-                </SpeedDialAction>
-                <SpeedDialAction className="bg-gray-900 p-2 mb-3">
-                  <Square3Stack3DIcon className="h-5 w-5" />
-                </SpeedDialAction>
+                
+                <a href='/cinema/contact'>
+                  <SpeedDialAction className="bg-gray-900 p-2 mb-3">
+                    <EnvelopeIcon className="h-5 w-5" />
+                  </SpeedDialAction>
+                </a>
+
+ 
+                  <SpeedDialAction className="bg-gray-900 p-2 mb-3">
+                    <CogIcon className="h-5 w-5" />
+                  </SpeedDialAction>
+   
+                
+
               </SpeedDialContent>
             </SpeedDial>
           </div>
@@ -82,7 +91,7 @@ const FooterWeb = () => {
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Nghề nghiệp")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Nhấn nhá")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Truyền thông")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Liên hệ")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/contact">{t("Liên hệ")}</a></li>
               </ul>
             </div>
 
@@ -116,8 +125,8 @@ const FooterWeb = () => {
             <div className='mt-7 md:mt-0'>
               <h3 className="ffont-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Chính sách")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Chính sách")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Điều khoản")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/policy">{t("Chính sách")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/policy">{t("Điều khoản")}</a></li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Chính sách Cookies")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Giấy phép")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Cài đặt")}</li>

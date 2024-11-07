@@ -3,6 +3,7 @@ import { useGetAllGenresQuery } from "../../services/Genre/genre.service";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+
 const MovieList = () => {
   const { t } = useTranslation(); 
   const { id } = useParams();

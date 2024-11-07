@@ -19,6 +19,9 @@ body{
   background-color: black;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 /* button unavailable */
 .button-unavailable {
   position: relative;
@@ -43,4 +46,62 @@ body{
 
 .button-unavailable::after {
   transform: translate(-50%, -50%) rotate(-45deg); /* Đường chéo thứ hai */
+}
+
+/* button unavailable cho ghế Sweetbox */
+.button-unavailable-sweetbox {
+  width: 5rem; /* w-20 (gấp đôi) */
+  height: 2.5rem; /* Độ cao tùy chỉnh */
+  background-color: transparent; /* Hoặc một màu nền tùy chỉnh */
+  border: 2px solid white; /* Viền tùy chỉnh */
+  border-radius: 0.5rem; /* Đường bo góc */
+  font-weight: bold; /* Định dạng chữ */
+  color: white; /* Màu chữ */
+  position: relative; /* Để có thể sử dụng pseudo-elements */
+  overflow: hidden; /* Đảm bảo đường chéo không tràn ra ngoài */
+}
+
+.button-unavailable-sweetbox::before,
+.button-unavailable-sweetbox::after {
+  content: "";
+  position: absolute;
+  top: 50%; /* Đặt điểm giữa của đường chéo */
+  left: 50%; /* Đặt điểm giữa của đường chéo */
+  width: 140%; /* Điều chỉnh độ dài để vừa đủ bao phủ button */
+  height: 2px; /* Độ dày của đường chéo */
+  background-color: white; /* Màu sắc của đường chéo */
+  transform-origin: center;
+}
+
+.button-unavailable-sweetbox::before {
+  transform: translate(-50%, -50%) rotate(25deg); /* Đường chéo đầu tiên */
+}
+
+.button-unavailable-sweetbox::after {
+  transform: translate(-50%, -50%) rotate(-25deg); /* Đường chéo thứ hai */
+}
+
+
+/*scrollbar-hidden  */
+.scrollbar-hidden {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: transparent transparent; /* Firefox */
+}
+
+/* Chrome, Safari, and Opera */
+.scrollbar-hidden::-webkit-scrollbar {
+  width: 8px; /* Chiều rộng thanh cuộn */
+}
+
+.scrollbar-hidden::-webkit-scrollbar-track {
+  background: transparent; /* Nền của thanh cuộn */
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.6); /* Màu của thanh cuộn */
+  border-radius: 10px; /* Đường viền của thanh cuộn */
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Màu của thanh cuộn khi hover */
 }

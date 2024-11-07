@@ -132,7 +132,7 @@ const Home = () => {
       views: 10,
       name: "Pulp Fiction",
       image:
-        "https://www.theoriginalunderground.com/cdn/shop/products/pulp-fiction-film-poster-print-281196_1024x.jpg?v=1661524235",
+        "https://i.pinimg.com/564x/31/80/4a/31804a1fc117ebca00ba2344238a0d1b.jpg",
       rating: "8.9",
     },
     {
@@ -381,10 +381,13 @@ const Home = () => {
                             {movie.name}
                           </h4>
                           <p className="movie-rating">Đánh giá: {movie.rating}</p>
-                          <button className="overlay-favorite">
-                            <FaHeart />
-                          </button>
                           <div className="button-container flex flex-col space-y-4">
+                            <Link
+                              to="/cinema/detail"
+                              className="overlay-btn-xh w-38 py-2 text-center text-white"
+                            >
+                              Yêu thích <i className="fas fa-heart"></i> 
+                            </Link>
                             <Link
                               to="/cinema/detail"
                               className="overlay-btn-xh w-38 py-2 text-center text-white"
@@ -453,6 +456,12 @@ const Home = () => {
                           onClick={() => handleTrailerClick(movie?.url_video)}
                           className="overlay-btn-xh w-38 py-2 text-center text-white"
                         >
+                          Yêu Thích <i className="fas fa-heart"></i> 
+                        </button>
+                        <button
+                          onClick={() => handleTrailerClick(movie?.url_video)}
+                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                        >
                           Trailer <i className="fas fa-video ml-1"></i>
                         </button>
                         <Link
@@ -495,6 +504,12 @@ const Home = () => {
                       {/* Overlay buttons */}
                       <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="flex flex-col">
+                        <button
+                          onClick={() => handleTrailerClick(movie?.url_video)}
+                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                        >
+                          Yêu Thích <i className="fas fa-heart"></i> 
+                        </button>
                           <button
                             onClick={() => handleTrailerClick(movie?.url_video)}
                             className="overlay-btn-xh w-38 py-2 text-center text-white"
@@ -522,12 +537,12 @@ const Home = () => {
 
         <section className="containe mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
           <div className="flex w-full flex-col p-10 lg:w-8/12">
-            <h3 className="gy-h3 mb-6 text-4xl font-bold">|  {t("Phim Gợi Ý")}</h3>
-            <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4"> {/* Sử dụng grid-cols-2 cho màn hình nhỏ và grid-cols-4 cho màn hình lớn */}
+            <h3 className="gy-h3 mb-6 text-4xl font-bold">| {t("Phim Gợi Ý")}</h3>
+            <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4">
               {movies.slice(0, 8).map((movie) => (
                 <div
                   key={movie.id}
-                  className="overflow-hidden rounded-lg shadow-lg"
+                  className="relative overflow-hidden rounded-lg shadow-lg group"
                 >
                   <img
                     src={movie.image}
@@ -537,6 +552,20 @@ const Home = () => {
                   />
                   <div className="p-2">
                     <strong className="block text-center">{movie.name}</strong>
+                  </div>
+                  {/* Overlay buttons */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="flex flex-col space-y-2">
+                      <button className="py-2 px-4 text-white bg-orange-500 rounded">
+                      Trailer <i className="fas fa-video"></i> 
+                      </button>
+                      <button className="py-2 px-4 text-white  bg-orange-500 rounded">
+                      Mua vé <i className="fas fa-ticket-alt"></i>
+                      </button>
+                      <button className="py-2 px-4 text-white  bg-orange-500 rounded">
+                      Yêu thích  <i className="fas fa-heart"></i> 
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -554,7 +583,7 @@ const Home = () => {
                     className={`mr-4 text-2xl font-bold number-color-${index + 1}`}
                   >
                     {index + 1}
-                  </span>
+                  </span> 
                   <img
                     src={movie.image}
                     alt={movie.name}
@@ -571,35 +600,40 @@ const Home = () => {
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="ml-20 text-4xl font-bold">|  {t("Phim mới cập nhật")}</h3>
-          <div className="top-movie-container grid grid-cols-2 gap-4 md:grid-cols-5" style={{ width: "90%", marginLeft: "5%" }}>
+          <h3 className="ml-20 text-4xl font-bold">| {t("Phim mới cập nhật")}</h3>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5" style={{ width: "90%", marginLeft: "5%" }}>
             {movies.map((movie) => (
-              <div key={movie.id} className="top-movie-card rounded-lg">
+              <div key={movie.id} className="top-movie-card rounded-lg relative overflow-hidden">
                 <img
                   src={movie.image}
                   alt={movie.name}
                   className="rounded-t-lg object-cover"
+                  style={{ height: "300px" }} // Đặt chiều cao cố định cho hình ảnh
                 />
-                <div className="overlay">
-                  <div className="overlay-content">
+                <div className="overlay absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100">
+                  <div className="overlay-content text-white text-center">
                     <h4 className="movie-name">{movie.name}</h4>
                     <p className="movie-rating">Đánh giá: {movie.rating}</p>
-                    <button className="overlay-favorite">
-                      <FaHeart />
-                    </button>
-                    <div className="button-container">
-                      <div className="flex flex-col space-y-4">
+
+                    <div className="button-container mt-2">
+                      <div className="flex flex-col space-x-y-2"> {/* Điều chỉnh khoảng cách ở đây */}
                         <Link
                           to="/cinema/detail"
-                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          className="overlay-btn-xh w-32 text-center text-white bg-blue-600 rounded"
+                        >
+                          Yêu thích <i className="fas fa-heart"></i> 
+                        </Link>
+                        <Link
+                          to="/cinema/detail"
+                          className="overlay-btn-xh w-32 py-2 text-center text-white bg-blue-600 rounded"
                         >
                           Trailer <i className="fas fa-video ml-1"></i>
                         </Link>
                         <Link
                           to="/"
-                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          className="overlay-btn-xh w-32 py-2 text-center text-white bg-green-600 rounded"
                         >
-                         {t("Mua vé")}<i className="fas fa-ticket-alt ml-1"></i>
+                          {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
                         </Link>
                       </div>
                     </div>
@@ -617,38 +651,38 @@ const Home = () => {
             style={{ backgroundImage: "url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75')" }}
           >
             <h1 className="text-5xl font-bold text-red-600 mb-2 uppercase shadow-lg">
-          {t("Chương trình thành viên")}    
+              {t("Chương trình thành viên")}
             </h1>
             <h2 className="text-lg font-bold text-white mb-10 shadow-lg">
-             {t("Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn")}  
-            </h2> 
-            <div className="w-full">
-              <div className="flex">
-                <div className="bg-white mx-6 rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+              {t("Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn")}
+            </h2>
+            <div className="w-[90%]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
                   <img
                     src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/Desktop519x282_CMember.webp"
                     alt="Thành viên mới"
                     className="w-full h-48 rounded-lg mb-3 object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2"> {t("Thành viên mới")}</h2>
+                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên mới")}</h2>
                   <p className="text-gray-600 mb-4">{t("Thẻ có nhiều ưu đãi cho thành viên mới")}</p>
                   <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
-                   {t("Tìm hiểu ngay")} 
+                    {t("Tìm hiểu ngay")}
                   </button>
                 </div>
-                <div className="bg-white mx-6 rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
                   <img
                     src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/c-vip.webp"
                     alt="Thành viên Vip"
                     className="w-full h-48 rounded-lg mb-3 object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2"> {t("Thành viên Vip")}</h2>
+                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên Vip")}</h2>
                   <p className="text-gray-600 mb-4">{t("Thẻ Vip sở hữu nhiều ưu đãi độc quyền")}</p>
                   <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
-                   {t("Tìm hiểu ngay")} 
+                    {t("Tìm hiểu ngay")}
                   </button>
                 </div>
-                <div className="bg-white mx-6 rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300 w-full sm:w-1/2 md:w-1/3 flex-grow">
+                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
                   <img
                     src="https://bizweb.dktcdn.net/thumb/1024x1024/100/411/892/products/the-thanh-vien-vip-danh-cho-khach-hang-tai-salon-cao-cap.jpg?v=1611827787823"
                     alt="Thành viên kì cựu"
@@ -657,17 +691,13 @@ const Home = () => {
                   <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên kì cựu")}</h2>
                   <p className="text-gray-600 mb-4">{t("Độc quyền cho các thành viên lâu năm!")}</p>
                   <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
-                   {t("Tìm hiểu ngay")} 
+                    {t("Tìm hiểu ngay")}
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </section>
-
-
-
-
 
       </main>
     </div>
