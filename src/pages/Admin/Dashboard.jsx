@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
 const Dashboard = () => {
+  const [tickets, setTickets] = useState([]);
+
   useEffect(() => {
     // Initialize the Visitor Statistics Chart (Bar Chart)
     const ctx = document.getElementById('myChart');
@@ -19,7 +21,7 @@ const Dashboard = () => {
 
       // Create a new Chart instance (Bar Chart)
       myChart = new Chart(myCanvas, {
-        type: 'bar', // Bar chart
+        type: 'line', // Bar chart
         data: {
           labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
           datasets: [
@@ -124,6 +126,19 @@ const Dashboard = () => {
       });
     }
 
+    // Simulate fetching ticket data (replace this with actual API call)
+    const fetchTickets = () => {
+      const recentTickets = [
+        { id: 1, customer: 'John Doe', movie: 'Inception', date: '2024-11-01', amount: '$12.00' },
+        { id: 2, customer: 'Jane Smith', movie: 'Avatar', date: '2024-11-02', amount: '$15.00' },
+        { id: 3, customer: 'Alice Johnson', movie: 'Titanic', date: '2024-11-03', amount: '$10.00' },
+        // Add more tickets as needed
+      ];
+      setTickets(recentTickets);
+    };
+
+    fetchTickets();
+
     // Clean up the chart instances on component unmount
     return () => {
       if (myChart) {
@@ -137,14 +152,13 @@ const Dashboard = () => {
 
   return (
     <div className="ml-64 mt-8 bg-[#111111] p-6">
-      <main className=" main users chart-page" id="skip-target">
+      <main className="main users chart-page" id="skip-target">
         <div className="container mx-auto">
           <h2 className="text-2xl font-semibold text-white mb-6">Dashboard</h2>
 
           {/* Stats Section */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white p-4  shadow-lg rounded-lg flex items-center space-x-4">
-              {/* Icon */}
+            <div className="bg-white p-4 shadow-lg rounded-lg flex items-center space-x-4">
               <div className="bg-blue-100 p-2 rounded-full">
                 <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18"></path>
@@ -152,7 +166,6 @@ const Dashboard = () => {
                 </svg>
               </div>
 
-              {/* Content */}
               <div>
                 <p className="text-2xl font-bold">1,478,286</p>
                 <p className="text-gray-500">Total visits</p>
@@ -166,7 +179,6 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="bg-white px-4 shadow-lg rounded-lg flex flex-col items-center " style={{ height: '200px' }}>
-              {/* <h3 className="text-xl font-semibold mb-4">Revenue</h3> */}
               <canvas
                 id="revenueChart"
                 aria-label="Revenue distribution"
@@ -186,16 +198,51 @@ const Dashboard = () => {
           {/* Main Content */}
           <div className="flex flex-wrap -mx-4">
             {/* Left Section */}
-            <div className="w-full px-4">
-              <div className="text-white p-6 shadow-lg rounded-lg mb-6" style={{background:'#222235', height: '550px', width:'100%' }}>
+            <div className="w-3/4 px-4">
+              <div className="text-white p-6 shadow-lg rounded-lg mb-6" style={{ background: '#ffffff' }}>
                 <canvas
                   id="myChart"
                   aria-label="Site statistics"
                   role="img"
-                  style={{ }} 
+                  style={{ }}
                 ></canvas>
               </div>
-              
+
+              {/* Recent Ticket Purchases Table */}
+              <div className="bg-white p-6 shadow-lg rounded-lg mb-6">
+                <h3 className="text-xl font-semibold mb-4">Recent Ticket Purchases</h3>
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Customer</th>
+                      <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Movie</th>
+                      <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Date</th>
+                      <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {tickets.map(ticket => (
+                      <tr key={ticket.id}>
+                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{ticket.customer}</td>
+                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{ticket.movie}</td>
+                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{ticket.date}</td>
+                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{ticket.amount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {/*right session  */}
+            <div className="w-1/4 px-1 pr-4">
+            <div className="text-white shadow-lg rounded-lg mb-6" style={{ background: '#ffffff' }}>
+                <canvas
+                  id="myChart"
+                  aria-label="Site statistics"
+                  role="img"
+                  style={{ }}
+                ></canvas>
+              </div>
             </div>
           </div>
         </div>

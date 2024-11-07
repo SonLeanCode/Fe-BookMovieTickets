@@ -17,7 +17,16 @@ const Profile = () => {
     const [patchUser] = usePatchUserMutation();
     const [patchProfile] = usePatchProfileMutation();
     const [uploadAvatar] = useUploadAvatarMutation()
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0'); // Lấy ngày
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Lấy tháng. Nhớ cộng 1 vì tháng bắt đầu từ 0
+        const year = date.getFullYear(); // Lấy năm
 
+        return `${day}/${month}/${year}`; // Định dạng DD/MM/YYYY
+    };
 
 
     // Cập nhật email khi userData thay đổi
@@ -106,7 +115,7 @@ const Profile = () => {
         <div className="p-28 px-20 text-white">
             <h1 className="text-3xl pb-4 uppercase font-semibold">{t("Thông tin cá nhân")}</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div className="bg-slate-900 p-6 rounded-lg shadow-lg " style={{ boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)', }} >
+                <div className="bg-black p-6 rounded-lg shadow-lg " style={{ boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)', }} >
                     <div className='flex items-center justify-center space-x-4'>
                         <div className="flex flex-col items-center">
                             <i className="fa-regular fa-pen-to-square ml-[100px]  w-4"
@@ -181,14 +190,7 @@ const Profile = () => {
                             </div>
                         </div>
                         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
-                        <div className="flex justify-between items-center py-5">
-                            <div className="font-semibold">
-                                {t("Câu hỏi thường gặp")}
-                            </div>
-                            <div>
-                                <span className="text-gray-400">&gt;</span>
-                            </div>
-                        </div>
+                        
                     </div>
 
                 </div>
@@ -222,31 +224,31 @@ const Profile = () => {
                         {userData ? (
                             <div className="flex-1  rounded-lg p-2" style={{ boxShadow: '0 4px 20px rgba(255, 255, 255, 0.5)', }}>
                                 {activeTab === 'profile' && (
-                                    <div className=" p-6 bg-slate-900 shadow-lg rounded-lg">
+                                    <div className=" p-6 bg-black shadow-lg rounded-lg">
                                         <form className="space-y-6">
                                             {/* Name and Date of Birth */}
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div>
                                                     <label className="block text-sm font-medium text-white">{t("Họ và tên")}</label>
-                                                    <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                                        <span className="material-icons text-gray-900"><i className="fa-solid fa-user"></i></span>
+                                                    <div className="flex items-center mt-1 bg-gray-100 rounded">
+                                                        <span className="material-icons ml-2 text-gray-900"><i className="fa-solid fa-user"></i></span>
                                                         <input
                                                             type="text"
                                                             value={userData?.data?.fullname}
                                                             disabled
-                                                            className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
+                                                            className=" flex-1 bg-transparent border-hidden  border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                                         />
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium text-white">{t("Date of Birth")}</label>
-                                                    <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                                        <span className="material-icons text-gray-900"><i className="fa-regular fa-calendar"></i></span>
+                                                    <label className="block text-sm font-medium text-white">{t("Ngày sinh")}</label>
+                                                    <div className="flex items-center mt-1 bg-gray-100 rounded">
+                                                        <span className="material-icons ml-2 text-gray-900"><i className="fa-regular fa-calendar"></i></span>
                                                         <input
                                                             type="text"
-                                                            value={userData?.data?.brithDay}
+                                                            value={formatDate(userData?.data?.brithDay)}
                                                             disabled
-                                                            className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
+                                                            className="flex-1 bg-transparent border-hidden  border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                                         />
                                                     </div>
                                                 </div>
@@ -256,21 +258,21 @@ const Profile = () => {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div>
                                                     <label className="block text-sm font-medium text-white">{t("Email")}</label>
-                                                    <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                                        <span className="material-icons text-gray-900"><i className="fa-solid fa-envelope"></i></span>
+                                                    <div className="flex items-center mt-1 bg-gray-100 rounded">
+                                                        <span className="material-icons ml-2 text-gray-900"><i className="fa-solid fa-envelope"></i></span>
                                                         <input
                                                             type="email"
                                                             value={email}
                                                             disabled={!isEdiEmail}
                                                             onChange={(e) => setEmail(e.target.value)}
-                                                            className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
+                                                            className="flex-1 bg-transparent border-hidden  border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                                         />
                                                         {!isEdiEmail ? (
-                                                            <button type="button" className="ml-2 text-orange-500 text-sm" onClick={handleEmailClick}>
+                                                            <button type="button" className="mr-2 text-orange-500 text-sm" onClick={handleEmailClick}>
                                                                 {t("Thay đổi")}
                                                             </button>
                                                         ) : (
-                                                            <button type="button" className="ml-2 text-green-500 text-sm" onClick={handleSaveClick}>
+                                                            <button type="button" className="mr-2 text-green-500 text-sm" onClick={handleSaveClick}>
                                                                 {t("Lưu")}
                                                             </button>
                                                         )}
@@ -278,38 +280,26 @@ const Profile = () => {
                                                 </div>
                                                 <div>
                                                     <label className="block text-sm font-medium text-white">{t("Điện thoại")}</label>
-                                                    <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                                        <span className="material-icons text-gray-900"><i className="fa-solid fa-phone"></i></span>
+                                                    <div className="flex items-center mt-1 bg-gray-100 rounded">
+                                                        <span className="material-icons ml-2 text-gray-900"><i className="fa-solid fa-phone"></i></span>
                                                         <input
                                                             type="text"
                                                             value={userData?.data?.phone}
                                                             disabled
-                                                            className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none "
+                                                            className="flex-1 bg-transparent border-hidden  border-gray-400 rounded-md text-gray-400 focus:outline-none "
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>  
                                             {/* Gender */}
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div>
-                                                    <label className="block text-sm font-medium text-white">{t("Giới tính")}</label>
-                                                    <div className="flex mt-1 space-x-4">
-                                                        <label className="flex items-center">
-                                                            <input type="checkbox" name="gender" value="male" className=" h-5 w-5 border border-gray-300 bg-white text-blue-500 focus:ring-blue-500" />
-                                                            <span className="ml-2">{t("Nam")}</span>
-                                                        </label>
-                                                        <label className="flex items-center">
-                                                            <input type="checkbox" name="gender" value="female" className=" h-5 w-5 border border-gray-300 bg-white text-blue-500 focus:ring-blue-500" />
-                                                            <span className="ml-2">{t("Nữ")}</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                
                                                 {/* Password */}
                                                 <div className="">
                                                     <div>
                                                         <label className="block text-sm font-medium text-white">{t("Mật khẩu")}</label>
-                                                        <div className="flex items-center mt-1 bg-gray-100 p-2 rounded">
-                                                            <span className="material-icons text-gray-500">
+                                                        <div className="flex items-center mt-1 bg-gray-100 rounded">
+                                                            <span className="material-icons ml-2 text-gray-900">
                                                                 <i className="fa-solid fa-lock"></i>
                                                             </span>
                                                             {isEditing ? (
@@ -319,7 +309,7 @@ const Profile = () => {
                                                                     placeholder={t("Mật khẩu hiện tại")}
                                                                     value={currentPassword}
                                                                     onChange={(e) => setCurrentPassword(e.target.value)}
-                                                                    className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
+                                                                    className="ml-2 flex-1 bg-transparent border-hidden border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
                                                                 />
                                                             ) : (
                                                                 // Hiển thị ****** khi không chỉnh sửa
@@ -327,20 +317,19 @@ const Profile = () => {
                                                                     type="password"
                                                                     value="*********"
                                                                     disabled
-                                                                    className="ml-2 flex-1 bg-transparent border border-gray-400 rounded-md text-gray-400 focus:outline-none"
+                                                                    className="flex-1 bg-transparent border-hidden  border-gray-400 rounded-md text-gray-400 focus:outline-none"
                                                                 />
                                                             )}
                                                             {!isEditing ? (
                                                                 // Nút Thay đổi chỉ hiển thị khi không ở chế độ chỉnh sửa
                                                                 <button
-                                                                    className="ml-2 text-orange-500 text-sm absolute right-36"
+                                                                    className="ml-2 text-orange-500 text-sm absolute left-[800px]"
                                                                     onClick={handleEditClick}
                                                                 >
                                                                     {t("Thay đổi")}
                                                                 </button>
                                                             ) : null}
                                                         </div>
-
                                                         {/* Các trường nhập liệu cho Mật khẩu mới và Xác nhận mật khẩu sẽ hiển thị khi isEditing là true */}
                                                         {isEditing && (
                                                             <div className="mt-4 space-y-3">
@@ -349,14 +338,14 @@ const Profile = () => {
                                                                     placeholder={t("Mật khẩu mới")}
                                                                     value={newPassword}
                                                                     onChange={(e) => setNewPassword(e.target.value)}
-                                                                    className="w-full bg-transparent border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
+                                                                    className="w-full bg-white border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
                                                                 />
                                                                 <input
                                                                     type="password"
                                                                     placeholder={t("Xác nhận mật khẩu")}
                                                                     value={confirmNewPassword}
                                                                     onChange={(e) => setConfirmNewPassword(e.target.value)}
-                                                                    className="w-full bg-transparent border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
+                                                                    className="w-full bg-white border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
                                                                 />
                                                             </div>
                                                         )}
