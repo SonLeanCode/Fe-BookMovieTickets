@@ -14,6 +14,7 @@ import LoadingPage from "../Loading/LoadingSpinner";
 import ShowtimeForm from "../../components/Admin/Showtimes/ShowtimeForm";
 import { formatTime } from "../../utils/FormatTime";
 import { formatShowtime } from "../../utils/formatShowtime";
+import { formatShowDate } from "../../utils/formatShowDate";
 
 const ShowTime_Management = () => {
   const {
@@ -240,6 +241,7 @@ const ShowTime_Management = () => {
               <th className="px-4 py-3 text-left text-white">Phòng</th>
               <th className="px-4 py-3 text-left text-white">Địa chỉ</th>
               <th className="px-4 py-3 text-left text-white">Suất chiếu</th>
+              <th className="px-4 py-3 text-left text-white">Ngày chiếu</th>
               <th className="px-4 py-3 text-left text-white">Trạng thái</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
             </tr>
@@ -256,7 +258,7 @@ const ShowTime_Management = () => {
                     className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                   />
                 </td>
-                <td className="px-4 py-2">
+                <td className="px-2 py-2">
                   <div className="flex">
                     <img
                       src={showtime?.movie_id.img}
@@ -274,13 +276,16 @@ const ShowTime_Management = () => {
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-2 text-center">
+                <td className="px-2 py-2 text-center">
                     {showtime?.room_id.name}
                 </td>
                 <td className="w-[20%] px-4 py-2">
                 {showtime?.room_id?.cinema_id.address}
                 </td>
-                <td className="px-4 py-2">{formatShowtime(showtime?.start_time, showtime?.end_time)}</td>
+                <td className="px-6 w-[15%] py-2">{formatShowtime(showtime?.start_time, showtime?.end_time)}</td>
+                <td className="px-4 py-2 text-center">
+                    {formatShowDate(showtime?.start_time, showtime?.end_time)}
+                </td>
                 <td className="px-4 py-2 text-center">
                     {formatTime(showtime?.start_time, showtime?.end_time)}
                 </td>
