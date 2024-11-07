@@ -20,6 +20,7 @@ import Room_Managerment from "../pages/Admin/Room_Managerment";
 import Account_Management from "../pages/Admin/User_Management";
 import RegionDetails from "../pages/Admin/Region_detail";
 import Seat_Management from "../pages/Admin/Seat_Management";
+import ShowTime_Management from "../pages/Admin/ShowTime_Management";
 
 
 // Lazy-loaded pages
@@ -127,6 +128,7 @@ export default function AppRoutes() {
                 <Route path="users" element={<Account_Management />} />
                 <Route path="rooms" element={<Room_Managerment />} />
                 <Route path="rooms/:roomId/seats" element={<Seat_Management />} />
+                <Route path="showtimes" element={<ShowTime_Management />} />
               </Route>
             </Route>
           </Route>

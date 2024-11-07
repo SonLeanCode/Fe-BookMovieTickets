@@ -48,7 +48,7 @@ export const seatApi = createApi({
     }),
 
     // Thêm nhiều ghế vào một hàng trong phòng
-    addSeatsInRow: builder.mutation({
+   addSeatsInRow: builder.mutation({
       query: ({ room_id, row, seatCount, seat_type, base_price }) => ({
         url: `/api/rooms/${room_id}/seats`,
         method: 'POST',
@@ -61,7 +61,7 @@ export const seatApi = createApi({
       query: ({ roomId, seat_type, day_type, new_price }) => ({
         url: `/api/rooms/${roomId}/seats/update-price`,
         method: 'PATCH',
-        body: { seat_type, day_type, new_price }, // Dữ liệu để cập nhật giá
+         body: { seat_type, day_type, new_price }, // Dữ liệu để cập nhật giá
       }),
     }),
 
