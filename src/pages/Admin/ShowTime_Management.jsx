@@ -5,7 +5,6 @@ import {
     useCreateShowtimeMutation,
     useUpdateShowtimeMutation,
     useDeleteShowtimeMutation, } from "../../services/Showtimes/showtimes.serviecs";
-import { formatDate } from "../../utils/formatDate";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import Pagination from "../../components/Admin/Pagination";
@@ -13,6 +12,8 @@ import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
 import ShowtimeForm from "../../components/Admin/Showtimes/ShowtimeForm";
+import { formatTime } from "../../utils/FormatTime";
+import { formatShowtime } from "../../utils/formatShowtime";
 
 const ShowTime_Management = () => {
   const {
@@ -238,7 +239,7 @@ const ShowTime_Management = () => {
               <th className="px-4 py-3 text-left text-white">Phim</th>
               <th className="px-4 py-3 text-left text-white">Phòng</th>
               <th className="px-4 py-3 text-left text-white">Địa chỉ</th>
-              <th className="px-4 py-3 text-left text-white">Thời gian</th>
+              <th className="px-4 py-3 text-left text-white">Suất chiếu</th>
               <th className="px-4 py-3 text-left text-white">Trạng thái</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
             </tr>
@@ -279,9 +280,9 @@ const ShowTime_Management = () => {
                 <td className="w-[20%] px-4 py-2">
                 {showtime?.room_id?.cinema_id.address}
                 </td>
-                <td className="px-4 py-2">{formatDate(showtime.start_time)}-{formatDate(showtime.end_time)}</td>
+                <td className="px-4 py-2">{formatShowtime(showtime?.start_time, showtime?.end_time)}</td>
                 <td className="px-4 py-2 text-center">
-
+                    {formatTime(showtime?.start_time, showtime?.end_time)}
                 </td>
                 <td className="px-4 py-2 text-center">
                   <Button
