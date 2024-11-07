@@ -21,6 +21,7 @@ const menuItems = [
   { name: "Quản lý rạp", icon: FaVideo , link: "/admin/cinemas" },
   { name: "Quản lý tài khoản", icon: FaUser , link: "/admin/users" },
   { name: "Quản lý phòng chiếu", icon: MdOutlineTheaters , link: "/admin/rooms" },
+  { name: "Quản lý suất chiếu", icon: MdOutlineTheaters , link: "/admin/showtimes" },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
