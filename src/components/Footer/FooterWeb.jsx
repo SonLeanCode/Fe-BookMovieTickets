@@ -55,11 +55,11 @@ const FooterWeb = () => {
                   </SpeedDialAction>
                 </a>
 
- 
+                <a href='/cinema/setting'>
                   <SpeedDialAction className="bg-gray-900 p-2 mb-3">
                     <CogIcon className="h-5 w-5" />
                   </SpeedDialAction>
-   
+                </a>
                 
 
               </SpeedDialContent>
@@ -86,7 +86,7 @@ const FooterWeb = () => {
             <div className="md:mr-10">
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Doanh nghiệp")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Doanh nghiệp")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/business">{t("Doanh nghiệp")}</a></li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Xem thêm")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Nghề nghiệp")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Nhấn nhá")}</li>
@@ -104,7 +104,7 @@ const FooterWeb = () => {
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Bản tin")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Trung tâm")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Hướng dẫn")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Giúp đỡ")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/contact">{t("Giúp đỡ")}</a></li>
               </ul>
             </div>
 
@@ -112,7 +112,7 @@ const FooterWeb = () => {
             <div className="mr-10 mt-7 md:mt-0">
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Xã hội")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Xã hội")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" >{t("FaceBook")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Twitter")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Tiktok")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("GitHub")}</li>
@@ -127,9 +127,9 @@ const FooterWeb = () => {
               <ul className='flex flex-col gap-2'>
                 <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/policy">{t("Chính sách")}</a></li>
                 <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/policy">{t("Điều khoản")}</a></li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Chính sách Cookies")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Giấy phép")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Cài đặt")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/setting">{t("Chính sách Cookies")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/license">{t("Giấy phép")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/setting">{t("Cài đặt")}</a></li>
               </ul>
               <img src={logo} className="mt-7 md:mt-0 w-48 h-16 md:hidden" alt="" />
 

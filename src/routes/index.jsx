@@ -20,6 +20,7 @@ import Room_Managerment from "../pages/Admin/Room_Managerment";
 import Account_Management from "../pages/Admin/User_Management";
 import RegionDetails from "../pages/Admin/Region_detail";
 import Seat_Management from "../pages/Admin/Seat_Management";
+import Business from "../pages/Business/business";
 
 
 // Lazy-loaded pages
@@ -46,6 +47,9 @@ const Genre_Management = lazy(() => import("../pages/Admin/Genre_Management"));
 const Actor_Management = lazy(() => import("../pages/Admin/Actor_Management"));
 const Policy = lazy(() => import("../pages/Policy/chinhsach"));
 const Contact = lazy(() => import("../pages/Policy/Contact"));
+const Setting = lazy(() => import("../pages/Policy/setting"));
+const License = lazy(() => import("../pages/Policy/License"));
+
 
 
 export default function AppRoutes() {
@@ -89,10 +93,18 @@ export default function AppRoutes() {
               <Route path="voucher/detail" element={<VoucherDetail />} />
               <Route path="genrefilm" element={<Genre />} />
               <Route path="genrefilm/:id" element={<Genre />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="setting" element={<Setting />} />
+              <Route path="license" element={<License />} />
+              
+
 
               {/* All page policy  */}
               <Route path="policy" element={<Policy />} />
-              <Route path="contact" element={<Contact />} />
+
+               {/* All page policy  */}
+               <Route path="business" element={<Business />} />
+
             </Route>
           </Route>
 
