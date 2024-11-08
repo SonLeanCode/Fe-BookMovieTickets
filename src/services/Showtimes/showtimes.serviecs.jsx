@@ -31,6 +31,11 @@ export const showtimesApi = createApi({
       query: (id) => `/api/showtime/${id}`,
       providesTags: (result, error, id) => [{ type: 'Showtime', id }],
     }),
+
+    getShowtimesByRegion: builder.query({
+      query: (id) => `/api/showtime/regions/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Showtime', id }],
+    }),
     
     // Thêm một suất chiếu mới
     createShowtime: builder.mutation({
@@ -67,6 +72,7 @@ export const showtimesApi = createApi({
 export const {
   useGetAllShowtimesQuery,
   useGetShowtimeByIdQuery,
+  useGetShowtimesByRegionQuery,
   useCreateShowtimeMutation,
   useUpdateShowtimeMutation,
   useDeleteShowtimeMutation,
