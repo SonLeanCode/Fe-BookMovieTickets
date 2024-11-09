@@ -20,11 +20,9 @@ import Room_Managerment from "../pages/Admin/Room_Managerment";
 import Account_Management from "../pages/Admin/User_Management";
 import RegionDetails from "../pages/Admin/Region_detail";
 import Seat_Management from "../pages/Admin/Seat_Management";
-<<<<<<< HEAD
 import Business from "../pages/Business/business";
-=======
 import ShowTime_Management from "../pages/Admin/ShowTime_Management";
->>>>>>> 69883cf83279755f3202d119036f6fd77792ed05
+
 
 
 // Lazy-loaded pages
