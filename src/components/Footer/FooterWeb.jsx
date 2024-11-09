@@ -73,12 +73,12 @@ const FooterWeb = () => {
             <div className="mr-10">
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Sản phẩm")}</h3>
               <ul className='flex flex-col gap-2'>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Hành động")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Đặc biệt")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Kịch tính Mới")} <span className="text-xs bg-white text-black px-2 py-1 rounded-full ml-2">Mới</span></li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Tình cảm")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Hạnh phúc")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Hài hước")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/genrefilm">{t("Hành động")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/genrefilm">{t("Đặc biệt")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/genrefilm">{t("Kịch tính Mới")}</a> <span className="text-xs bg-white text-black px-2 py-1 rounded-full ml-2">Mới</span></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/genrefilm">{t("Tình cảm")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/genrefilm">{t("Hạnh phúc")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/genrefilm">{t("Hài hước")}</a></li>
               </ul>
             </div>
             
@@ -87,10 +87,10 @@ const FooterWeb = () => {
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Doanh nghiệp")}</h3>
               <ul className='flex flex-col gap-2'>
                 <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/business">{t("Doanh nghiệp")}</a></li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Xem thêm")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/business">{t("Xem thêm")}</a></li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Nghề nghiệp")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Nhấn nhá")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Truyền thông")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/business">{t("Nhấn nhá")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/business">{t("Truyền thông")}</a></li>
                 <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/contact">{t("Liên hệ")}</a></li>
               </ul>
             </div>
@@ -100,8 +100,8 @@ const FooterWeb = () => {
               <h3 className="font-semibold mb-6 text-xl border-b-4 pb-2 text-center border-red-500 uppercase rounded-b-xl">{t("Tài nguyên")}</h3>
               <ul className='flex flex-col gap-2'>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Tài nguyên")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Báo chí")}</li>
-                <li className="hover:text-red-400 transition-colors duration-300" >{t("Bản tin")}</li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/voucher">{t("Báo chí")}</a></li>
+                <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/voucher">{t("Bản tin")}</a></li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Trung tâm")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" >{t("Hướng dẫn")}</li>
                 <li className="hover:text-red-400 transition-colors duration-300" ><a href="/cinema/contact">{t("Giúp đỡ")}</a></li>
