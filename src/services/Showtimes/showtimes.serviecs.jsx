@@ -32,9 +32,23 @@ export const showtimesApi = createApi({
       providesTags: (result, error, id) => [{ type: 'Showtime', id }],
     }),
 
-    getShowtimesByRegion: builder.query({
+    getMoviesByRegion: builder.query({
       query: (id) => `/api/showtime/regions/${id}`,
       providesTags: (result, error, id) => [{ type: 'Showtime', id }],
+    }),
+
+    getShowDatesByMovie: builder.query({
+      query: (movieId) => `/api/showtimes/dates/${movieId}`,
+    }),
+
+    getCinemasWithShowtimesByMovieAndRegion: builder.query({
+      query: ({movieId, regionId}) => `/api/cinemas/showtimes/${movieId}/${regionId}`,
+    }),
+
+    // Lọc suất chiếu theo phim, ngày và rạp
+    filterShowtimes: builder.query({
+      query: ({ movieId, date, cinemaId }) =>
+        `/api/showtimes/filter?movieId=${movieId}&date=${date}&cinemaId=${cinemaId}`,
     }),
     
     // Thêm một suất chiếu mới
@@ -72,7 +86,10 @@ export const showtimesApi = createApi({
 export const {
   useGetAllShowtimesQuery,
   useGetShowtimeByIdQuery,
-  useGetShowtimesByRegionQuery,
+  useGetMoviesByRegionQuery,
+  useGetShowDatesByMovieQuery,
+  useFilterShowtimesQuery,
+  useGetCinemasWithShowtimesByMovieAndRegionQuery,
   useCreateShowtimeMutation,
   useUpdateShowtimeMutation,
   useDeleteShowtimeMutation,
