@@ -380,23 +380,19 @@ const Home = () => {
                           <h4 className="movie-name text-red-500 font-bold">
                             {movie.name}
                           </h4>
-                          <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                          <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
                           <div className="button-container flex flex-col space-y-4">
+                          <i className="fas fa-heart text-center text-red-600"></i>
+
                             <Link
                               to="/cinema/detail"
-                              className="overlay-btn-xh w-38 py-2 text-center text-white"
-                            >
-                              Yêu thích <i className="fas fa-heart"></i> 
-                            </Link>
-                            <Link
-                              to="/cinema/detail"
-                              className="overlay-btn-xh w-38 py-2 text-center text-white"
+                              className="overlay-btn-xh w-28  text-center text-white"
                             >
                               Trailer <i className="fas fa-video ml-1"></i>
                             </Link>
                             <Link
                               to="/"
-                              className="overlay-btn-xh w-38 py-2 text-center text-white"
+                              className="overlay-btn-xh w-28 text-center text-white"
                             >
                              {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
                             </Link>
@@ -452,21 +448,16 @@ const Home = () => {
                     {/* Overlay buttons */}
                     <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                       <div className="button-container flex flex-col space-y-4">
+                        <i className="fas fa-heart  w-38 text-center text-red-600"></i> 
                         <button
                           onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 py-2 text-center text-white"
-                        >
-                          Yêu Thích <i className="fas fa-heart"></i> 
-                        </button>
-                        <button
-                          onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          className="overlay-btn-xh w-38  text-center text-white"
                         >
                           Trailer <i className="fas fa-video ml-1"></i>
                         </button>
                         <Link
                           to={`/cinema/movie/${movie._id}`}
-                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          className="overlay-btn-xh w-38 text-center text-white"
                         >
                          {t("Mua vé")}<i className="fas fa-ticket-alt ml-1"></i>
                         </Link>
@@ -504,12 +495,7 @@ const Home = () => {
                       {/* Overlay buttons */}
                       <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="flex flex-col">
-                        <button
-                          onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 py-2 text-center text-white"
-                        >
-                          Yêu Thích <i className="fas fa-heart"></i> 
-                        </button>
+                          <i className="fas fa-heart  w-38 text-center text-red-600"></i>
                           <button
                             onClick={() => handleTrailerClick(movie?.url_video)}
                             className="overlay-btn-xh w-38 py-2 text-center text-white"
@@ -555,17 +541,21 @@ const Home = () => {
                   </div>
                   {/* Overlay buttons */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="flex flex-col space-y-2">
-                      <button className="py-2 px-4 text-white bg-orange-500 rounded">
-                      Trailer <i className="fas fa-video"></i> 
-                      </button>
-                      <button className="py-2 px-4 text-white  bg-orange-500 rounded">
-                      Mua vé <i className="fas fa-ticket-alt"></i>
-                      </button>
-                      <button className="py-2 px-4 text-white  bg-orange-500 rounded">
-                      Yêu thích  <i className="fas fa-heart"></i> 
-                      </button>
-                    </div>
+                  <div className="flex flex-col">
+                          <i className="fas fa-heart  w-38 text-center text-red-600"></i>
+                          <button
+                            onClick={() => handleTrailerClick(movie?.url_video)}
+                            className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          >
+                            Trailer <i className="fas fa-video ml-1"></i>
+                          </button>
+                          <Link
+                            to={"/cinema/movie/" + movie._id}
+                            className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          >
+                           {t("Mua vé")}  <i className="fas fa-ticket-alt ml-1"></i>
+                          </Link>
+                        </div>
                   </div>
                 </div>
               ))}
@@ -610,35 +600,30 @@ const Home = () => {
                   className="rounded-t-lg object-cover"
                   style={{ height: "300px" }} // Đặt chiều cao cố định cho hình ảnh
                 />
-                <div className="overlay absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100">
-                  <div className="overlay-content text-white text-center">
-                    <h4 className="movie-name">{movie.name}</h4>
-                    <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                <div className="overlay">
+                        <div className="overlay-content">
+                          <h4 className="movie-name text-red-500 font-bold">
+                            {movie.name}
+                          </h4>
+                          <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
+                          <div className="button-container flex flex-col space-y-4">
+                          <i className="fas fa-heart text-center  text-red-600"></i>
 
-                    <div className="button-container mt-2">
-                      <div className="flex flex-col space-x-y-2"> {/* Điều chỉnh khoảng cách ở đây */}
-                        <Link
-                          to="/cinema/detail"
-                          className="overlay-btn-xh w-32 text-center text-white bg-blue-600 rounded"
-                        >
-                          Yêu thích <i className="fas fa-heart"></i> 
-                        </Link>
-                        <Link
-                          to="/cinema/detail"
-                          className="overlay-btn-xh w-32 py-2 text-center text-white bg-blue-600 rounded"
-                        >
-                          Trailer <i className="fas fa-video ml-1"></i>
-                        </Link>
-                        <Link
-                          to="/"
-                          className="overlay-btn-xh w-32 py-2 text-center text-white bg-green-600 rounded"
-                        >
-                          {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
-                        </Link>
+                            <Link
+                              to="/cinema/detail"
+                              className="overlay-btn-xh w-28  text-center text-white"
+                            >
+                              Trailer <i className="fas fa-video ml-1"></i>
+                            </Link>
+                            <Link
+                              to="/"
+                              className="overlay-btn-xh w-28 text-center text-white"
+                            >
+                             {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
+                            </Link>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             ))}
           </div>
