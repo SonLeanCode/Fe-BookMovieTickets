@@ -24,3 +24,22 @@ export const formatShowDate2 = (dateStr) => {
 
   return `${dayOfWeek}  ${formattedDate}`;
 };
+
+export function formatShowDate3(start_time) {
+  const daysOfWeek = [
+    "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", 
+    "Thứ Năm", "Thứ Sáu", "Thứ Bảy"
+  ];
+
+  // Chuyển đổi start_time thành đối tượng Date
+  const date = new Date(start_time);
+
+  // Lấy ngày, tháng, năm và ngày trong tuần
+  const dayOfWeek = daysOfWeek[date.getDay()];
+  const day = date.getDate().toString().padStart(2, '0'); // Đảm bảo có hai chữ số
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng bắt đầu từ 0
+  const year = date.getFullYear();
+
+  // Trả về chuỗi định dạng
+  return `${dayOfWeek}, ${day}/${month}/${year}`;
+}

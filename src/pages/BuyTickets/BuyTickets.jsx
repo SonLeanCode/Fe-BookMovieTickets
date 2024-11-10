@@ -6,7 +6,7 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 import LoadingLocal from "../Loading/LoadingLocal";
-import { formatShowDate2 } from "../../utils/formatShowDate";
+import { formatShowDate2, formatShowDate3 } from "../../utils/formatShowDate";
 import { formatShowtime } from "../../utils/formatShowtime";
 import { useGetAllRegionsQuery } from "../../services/Regions/regions.service";
 import {
@@ -15,6 +15,9 @@ import {
   useFilterShowtimesQuery,
   useGetCinemasWithShowtimesByMovieAndRegionQuery,
 } from "../../services/Showtimes/showtimes.serviecs";
+import { useGetSeatsByRoomQuery } from "../../services/Seat/seat.serviecs";
+import SeatSelection from "../../components/Seat/SeatSelection";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const BuyTickets = () => {
   const { data: regionsData, isLoading: regionsLoading } =
@@ -22,12 +25,16 @@ const BuyTickets = () => {
   const [isAreaOpen, setAreaOpen] = useState(false);
   const [isMovieOpen, setMovieOpen] = useState(false);
   const [isShowtimeOpen, setShowtimeOpen] = useState(false);
+  const [isShowSeatSelection, setShowSeatSelection] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedShowtime, setSelectedShowtime] = useState(null);
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedCinema, setSelectedCinema] = useState("");
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  const [dataChange, setDataChange] = useState(null);
 
   const { data: showtimesData, isLoading: showtimesLoading } =
     useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
@@ -48,14 +55,26 @@ const BuyTickets = () => {
       cinemaId: selectedCinema,
     });
 
-  console.log(filteredShowtimes);
+  const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
+    selectedShowtime ? selectedShowtime?.room_id._id : null,
+  );
+
+  useEffect(() => {
+    if (seatsData) {
+      setShowSeatSelection(true); // Hiển thị SeatSelection khi seatsData có dữ liệu
+    } else {
+      setShowSeatSelection(false); // Đóng SeatSelection khi không có dữ liệu
+    }
+  }, [seatsData]);
 
   const handleDateSelect = (date) => {
     setSelectedDate(date);
+    setDataChange("dateChanged");
   };
 
   const handleCinemaSelect = (event) => {
     setSelectedCinema(event.target.value);
+    setDataChange("cinemaChanged");
   };
 
   useEffect(() => {
@@ -69,32 +88,89 @@ const BuyTickets = () => {
     localStorage.removeItem("selectedArea");
     localStorage.removeItem("selectedMovie");
     localStorage.removeItem("selectedShowtime");
-  
+    localStorage.removeItem("selectedSeats");
     // Đặt lại các trạng thái
-    setSelectedArea(area);  // Cập nhật khu vực đã chọn
-    setSelectedMovie(null);  // Đặt lại phim đã chọn về null
-    setSelectedShowtime(null);  // Đặt lại suất chiếu đã chọn về null
-  
+    setSelectedArea(area); // Cập nhật khu vực đã chọn
+    setSelectedMovie(null); // Đặt lại phim đã chọn về null
+    setSelectedShowtime(null); // Đặt lại suất chiếu đã chọn về null
+    setSelectedSeats([]); // Reset ghế đã chọn về mảng rỗng
+    setDataChange("areaChanged");
     // Điều chỉnh trạng thái mở/đóng
     setAreaOpen(false);
-    setMovieOpen(true);  // Mở chọn phim khi chọn khu vực
-    setShowtimeOpen(false);  // Đóng chọn suất chiếu khi chọn khu vực
-  
+    setMovieOpen(true); // Mở chọn phim khi chọn khu vực
+    setShowtimeOpen(false); // Đóng chọn suất chiếu khi chọn khu vực
+
     // Lưu lại khu vực đã chọn vào localStorage
     localStorage.setItem("selectedArea", JSON.stringify(area));
   };
 
   const handleMovieSelect = (movieTitle) => {
+    localStorage.removeItem("selectedSeats");
+
     setSelectedMovie(movieTitle);
     setMovieOpen(false);
     setShowtimeOpen(true); // Mở chọn suất chiếu khi chọn phim
+    setSelectedSeats([]); // Reset ghế đã chọn về mảng rỗng
+    setDataChange("movieChanged");
     localStorage.setItem("selectedMovie", JSON.stringify(movieTitle));
   };
 
   const handleShowtimeSelect = (showtime) => {
+    setShowSeatSelection(true)
+    localStorage.removeItem("selectedSeats");
+
     setSelectedShowtime(showtime);
     setShowtimeOpen(false);
+    setSelectedSeats([]); // Reset ghế đã chọn về mảng rỗng
+    setDataChange("showtimeChanged");
     localStorage.setItem("selectedShowtime", JSON.stringify(showtime));
+  };
+
+  const handleSeatSelect = (seats) => {
+    setSelectedSeats(seats);
+    localStorage.setItem("selectedSeats", JSON.stringify(seats));
+  };
+
+  const renderSelectedSeats = () => {
+    // Nhóm ghế theo loại
+    const seatGroups = selectedSeats.reduce((acc, seat) => {
+      if (!acc[seat.seat_type]) {
+        acc[seat.seat_type] = [];
+      }
+      acc[seat.seat_type].push(seat);
+      return acc;
+    }, {});
+
+    return (
+      <>
+        {Object.keys(seatGroups).map((seatType) => {
+          // Tạo chuỗi vị trí ghế, ví dụ: "A1, A2"
+          const seatPositions = seatGroups[seatType]
+            .map((seat) => `${seat.row}${seat.seat_number}`)
+            .join(", ");
+
+          // Tính tổng giá cho từng loại ghế
+          const totalPrice = seatGroups[seatType].reduce(
+            (sum, seat) => sum + seat.base_price,
+            0,
+          );
+
+          return (
+            <div key={seatType} className="my-2 flex justify-between p-2">
+              <div>
+                <div className="font-bold">
+                  {seatGroups[seatType].length}x Ghế {seatType}
+                </div>
+                <div>Ghế: {seatPositions}</div>
+              </div>
+              <div>
+                <div>{formatCurrency(totalPrice)} </div>
+              </div>
+            </div>
+          );
+        })}
+      </>
+    );
   };
 
   if (
@@ -102,7 +178,8 @@ const BuyTickets = () => {
     regionsLoading ||
     datesLoading ||
     loadingShowtimes ||
-    cinemasLoading
+    cinemasLoading ||
+    seatsLoading
   ) {
     return <LoadingLocal />;
   }
@@ -111,7 +188,7 @@ const BuyTickets = () => {
     <div className="mt-28">
       <div className="mx-auto flex w-[90%]">
         {/* Left Column - 70% */}
-        <div className="w-[70%] bg-[#111111] p-4 mr-8 mb-10 text-white">
+        <div className="mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white">
           {/* Choose Area */}
           <div>
             <h2 className="mb-4 text-xl font-bold text-white">
@@ -119,7 +196,10 @@ const BuyTickets = () => {
             </h2>
             <div className="mb-6">
               <button
-                onClick={() => setAreaOpen(!isAreaOpen)}
+                onClick={() => {
+                  setAreaOpen(!isAreaOpen)
+                  setShowSeatSelection(false);
+                }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
                 Chọn vị trí {selectedArea ? " - " + selectedArea?.name : ""}
@@ -146,7 +226,12 @@ const BuyTickets = () => {
             <h2 className="mb-4 text-xl font-bold text-white">Chọn phim :</h2>
             <div className="mb-6">
               <button
-                onClick={() => setMovieOpen(!isMovieOpen)}
+                onClick={() => {
+                  setMovieOpen(!isMovieOpen)
+                  setShowSeatSelection(false);
+                  setSelectedShowtime(null);
+                }}
+                  
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
                 Chọn phim {selectedMovie ? " - " + selectedMovie?.name : ""}
@@ -182,7 +267,11 @@ const BuyTickets = () => {
             <h2 className="mb-4 text-xl font-bold text-white">Chọn suất :</h2>
             <div className="mb-6">
               <button
-                onClick={() => setShowtimeOpen(!isShowtimeOpen)}
+                onClick={() => {setShowtimeOpen(!isShowtimeOpen);
+                  setShowSeatSelection(false)
+                  setSelectedShowtime(null);
+                  setSelectedSeats([]);
+                }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
                 Chọn suất chiếu
@@ -243,84 +332,129 @@ const BuyTickets = () => {
                   </div>
 
                   {/* Hiển thị các suất chiếu */}
-                  {filteredShowtimes?.data?.map((showtimes, index) => (
-                    <div key={index} className="rounded p-4">
-                      <div className="flex items-center">
-                        <div>
-                          <h1 className="text-2xl font-semibold">
-                            {showtimes?.cinemaName}
-                          </h1>
-                          {/* Hiển thị danh sách các phòng chiếu */}
-                          <p className="text-sm">
-                            {showtimes?.rooms.map((room) => (
-                              <span key={room.roomId} className="block">
-                                {room.roomName}
-                              </span>
-                            ))}
-                          </p>
-                        </div>
-                        <div className="ml-2 flex space-x-3">
-                          {/* Lặp qua các suất chiếu trong từng phòng chiếu */}
-                          {showtimes?.rooms.map((room) =>
-                            room?.showtimes.map((showtime) => (
+                  {filteredShowtimes?.data?.map((showtimes, index) =>
+                    showtimes?.rooms.map((room) => (
+                      <div
+                        key={`${index}-${room.roomId}`}
+                        className="rounded p-4"
+                      >
+                        <div className="flex items-center">
+                          <div>
+                            <h1 className="text-2xl font-semibold">
+                              {showtimes?.cinemaName}
+                            </h1>
+                            {/* Hiển thị danh sách các phòng chiếu */}
+                            <p className="text-sm">
+                              <span className="block">{room.roomName}</span>
+                            </p>
+                          </div>
+                          <div className="ml-2 flex space-x-3">
+                            {/* Lặp qua các suất chiếu trong từng phòng chiếu */}
+                            {room?.showtimes.map((showtime) => (
                               <button
                                 key={showtime._id}
-                                onClick={() =>
-                                  handleShowtimeSelect(showtime._id)
-                                }
-                                className="rounded bg-gray-700 px-4 py-2 text-white hover:bg-red-500"
+                                onClick={() => handleShowtimeSelect(showtime)}
+                                className="ml-10 rounded bg-white px-4 py-2 text-black hover:bg-red-500 hover:text-white"
                               >
                                 {/* Hiển thị thời gian bắt đầu của suất chiếu */}
-                                {formatShowtime(showtime.start_time,showtime.end_time)}
+                                {formatShowtime(
+                                  showtime.start_time,
+                                  showtime.end_time,
+                                )}
                               </button>
-                            )),
-                          )}
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    )),
+                  )}
                 </div>
               )}
             </div>
           </div>
+
+          {isShowSeatSelection && seatsData && (
+            <SeatSelection
+              seatsData={seatsData}
+              onSeatSelect={handleSeatSelect}
+              resetSeats={dataChange}
+            />
+          )}
         </div>
 
         {/* Right Column - 30% */}
         <div className="w-[30%] text-black">
           <div>
             <div className="rounded border-t-8 border-red-600 bg-white">
-              <div className="mx-2 mt-2 flex border-b-2 border-dashed border-gray-500 p-2">
-                <img
-                  src={
-                    selectedMovie?.img ||
-                    "https://www.galaxycine.vn/_next/static/media/img-blank.bb695736.svg"
-                  }
-                  alt={""}
-                  className="mr-4 w-32 rounded object-cover"
-                />
-                <div>
-                  <p className="text-lg">
-                    <span className="font-semibold">
-                      {selectedMovie?.name || "Vui lòng chọn phim để tiếp tục"}
-                    </span>
-                  </p>
-                  {selectedMovie && (
-                    <p className="mt-4 text-sm">
-                      <span className="">
-                        {"Phụ đề: " + selectedMovie.subtitles || ""}
-                      </span>{" "}
-                      {"- "}
-                      <span className="mr-2 rounded-full bg-red-500 p-1 px-2 font-bold text-white">
-                        {selectedMovie.age_limit || 0}+
+              <div className="mx-2 mt-2 border-b-2 border-dashed border-gray-500 p-2">
+                <div className="flex">
+                  <img
+                    src={
+                      selectedMovie?.img ||
+                      "https://www.galaxycine.vn/_next/static/media/img-blank.bb695736.svg"
+                    }
+                    alt={""}
+                    className="mr-4 w-32 rounded object-cover"
+                  />
+                  <div>
+                    <p className="text-lg">
+                      <span className="font-semibold">
+                        {selectedMovie?.name ||
+                          "Vui lòng chọn phim để tiếp tục"}
                       </span>
                     </p>
-                  )}
+                    {selectedMovie && (
+                      <p className="mt-4 text-sm">
+                        <span className="">
+                          {"Phụ đề: " + selectedMovie.subtitles || ""}
+                        </span>{" "}
+                        {"- "}
+                        <span className="mr-2 rounded-full bg-red-500 p-1 px-2 font-bold text-white">
+                          {selectedMovie.age_limit || 0}+
+                        </span>
+                      </p>
+                    )}
+                  </div>
                 </div>
+                {selectedShowtime && (
+                  <div>
+                    <div className="mt-4 flex">
+                      <h2 className="mr-2 font-bold">
+                        {selectedShowtime?.room_id.cinema_id.name}
+                      </h2>
+                      {"-"}
+                      <span className="ml-2">
+                        {selectedShowtime?.room_id.name}
+                      </span>
+                    </div>
+                    <div className="">
+                      Suất:{" "}
+                      <span className="mr-2 font-semibold">
+                        {formatShowtime(
+                          selectedShowtime.start_time,
+                          selectedShowtime.end_time,
+                        )}
+                      </span>
+                      {"-"}
+                      <span className="ml-2">
+                        {formatShowDate3(selectedShowtime.start_time)}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
+              {selectedSeats && selectedSeats.length > 0 && (
+                <div className="border-b-2 border-dashed border-gray-500">
+                  {renderSelectedSeats()}
+                </div>
+              )}
+
               <div className="flex justify-between p-2">
                 <h2 className="text-base font-semibold">Tổng cộng</h2>
                 <span className="text-primary inline-block font-bold text-red-600">
-                  0&nbsp;₫
+                  {selectedSeats && selectedSeats.length > 0
+                    ? `${formatCurrency(selectedSeats.reduce((sum, seat) => sum + seat.base_price, 0))} `
+                    : `0 VNĐ`}
                 </span>
               </div>
               <div className="mt-10 flex justify-between p-2">
