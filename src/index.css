@@ -53,9 +53,6 @@ html {
   width: 5rem; /* w-20 (gấp đôi) */
   height: 2.5rem; /* Độ cao tùy chỉnh */
   background-color: transparent; /* Hoặc một màu nền tùy chỉnh */
-  border: 2px solid white; /* Viền tùy chỉnh */
-  border-radius: 0.5rem; /* Đường bo góc */
-  font-weight: bold; /* Định dạng chữ */
   color: white; /* Màu chữ */
   position: relative; /* Để có thể sử dụng pseudo-elements */
   overflow: hidden; /* Đảm bảo đường chéo không tràn ra ngoài */
