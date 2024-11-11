@@ -25,7 +25,7 @@ const BuyTickets = () => {
   const [isAreaOpen, setAreaOpen] = useState(false);
   const [isMovieOpen, setMovieOpen] = useState(false);
   const [isShowtimeOpen, setShowtimeOpen] = useState(false);
-  const [isShowSeatSelection, setShowSeatSelection] = useState(false);
+  const [isSeatOpen, setSeatOpen] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedShowtime, setSelectedShowtime] = useState(null);
@@ -33,8 +33,6 @@ const BuyTickets = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedCinema, setSelectedCinema] = useState("");
   const [selectedSeats, setSelectedSeats] = useState([]);
-
-  const [dataChange, setDataChange] = useState(null);
 
   const { data: showtimesData, isLoading: showtimesLoading } =
     useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
@@ -52,29 +50,28 @@ const BuyTickets = () => {
     useFilterShowtimesQuery({
       movieId: selectedMovie ? selectedMovie?._id : null,
       date: selectedDate,
-      cinemaId: selectedCinema,
+      cinemaId: selectedCinema || "",
     });
 
   const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
     selectedShowtime ? selectedShowtime?.room_id._id : null,
   );
 
-  useEffect(() => {
-    if (seatsData) {
-      setShowSeatSelection(true); // Hiển thị SeatSelection khi seatsData có dữ liệu
-    } else {
-      setShowSeatSelection(false); // Đóng SeatSelection khi không có dữ liệu
-    }
-  }, [seatsData]);
+
 
   const handleDateSelect = (date) => {
     setSelectedDate(date);
-    setDataChange("dateChanged");
   };
 
   const handleCinemaSelect = (event) => {
-    setSelectedCinema(event.target.value);
-    setDataChange("cinemaChanged");
+    const value = event.target.value;
+    setSelectedCinema(value);
+
+    if (value === "all") {
+      setSelectedCinema("");
+    } else {
+      setSelectedCinema(value);
+    }
   };
 
   useEffect(() => {
@@ -94,7 +91,6 @@ const BuyTickets = () => {
     setSelectedMovie(null); // Đặt lại phim đã chọn về null
     setSelectedShowtime(null); // Đặt lại suất chiếu đã chọn về null
     setSelectedSeats([]); // Reset ghế đã chọn về mảng rỗng
-    setDataChange("areaChanged");
     // Điều chỉnh trạng thái mở/đóng
     setAreaOpen(false);
     setMovieOpen(true); // Mở chọn phim khi chọn khu vực
@@ -111,18 +107,15 @@ const BuyTickets = () => {
     setMovieOpen(false);
     setShowtimeOpen(true); // Mở chọn suất chiếu khi chọn phim
     setSelectedSeats([]); // Reset ghế đã chọn về mảng rỗng
-    setDataChange("movieChanged");
     localStorage.setItem("selectedMovie", JSON.stringify(movieTitle));
   };
 
   const handleShowtimeSelect = (showtime) => {
-    setShowSeatSelection(true)
     localStorage.removeItem("selectedSeats");
-
+    setSeatOpen(!isSeatOpen);
     setSelectedShowtime(showtime);
     setShowtimeOpen(false);
     setSelectedSeats([]); // Reset ghế đã chọn về mảng rỗng
-    setDataChange("showtimeChanged");
     localStorage.setItem("selectedShowtime", JSON.stringify(showtime));
   };
 
@@ -185,7 +178,7 @@ const BuyTickets = () => {
   }
 
   return (
-    <div className="mt-28">
+    <div className="bg-black pt-28">
       <div className="mx-auto flex w-[90%]">
         {/* Left Column - 70% */}
         <div className="mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white">
@@ -197,8 +190,12 @@ const BuyTickets = () => {
             <div className="mb-6">
               <button
                 onClick={() => {
-                  setAreaOpen(!isAreaOpen)
-                  setShowSeatSelection(false);
+                  setAreaOpen(!isAreaOpen);
+                  setMovieOpen(isMovieOpen ? !isMovieOpen : isMovieOpen);
+                  setShowtimeOpen(
+                    isShowtimeOpen ? !isShowtimeOpen : isShowtimeOpen,
+                  );
+                  setSeatOpen(isSeatOpen ? !isSeatOpen : isSeatOpen);
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
@@ -227,11 +224,13 @@ const BuyTickets = () => {
             <div className="mb-6">
               <button
                 onClick={() => {
-                  setMovieOpen(!isMovieOpen)
-                  setShowSeatSelection(false);
-                  setSelectedShowtime(null);
+                  setAreaOpen(isAreaOpen ? !isAreaOpen : isAreaOpen);
+                  setShowtimeOpen(
+                    isShowtimeOpen ? !isShowtimeOpen : isShowtimeOpen,
+                  );
+                  setSeatOpen(isSeatOpen ? !isSeatOpen : isSeatOpen);
+                  setMovieOpen(!isMovieOpen);
                 }}
-                  
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
                 Chọn phim {selectedMovie ? " - " + selectedMovie?.name : ""}
@@ -264,13 +263,14 @@ const BuyTickets = () => {
 
           {/* Choose Showtime */}
           <div>
-            <h2 className="mb-4 text-xl font-bold text-white">Chọn suất :</h2>
+            <h2 className="mb-4 text-xl font-bold text-white">Chọn suất:</h2>
             <div className="mb-6">
               <button
-                onClick={() => {setShowtimeOpen(!isShowtimeOpen);
-                  setShowSeatSelection(false)
-                  setSelectedShowtime(null);
-                  setSelectedSeats([]);
+                onClick={() => {
+                  setAreaOpen(isAreaOpen ? !isAreaOpen : isAreaOpen);
+                  setSeatOpen(isSeatOpen ? !isSeatOpen : isSeatOpen);
+                  setShowtimeOpen(!isShowtimeOpen);
+                  setMovieOpen(isMovieOpen ? !isMovieOpen : isMovieOpen);
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
@@ -279,107 +279,129 @@ const BuyTickets = () => {
               </button>
               {isShowtimeOpen && (
                 <div className="mt-4 flex flex-col space-y-2">
-                  {/* Hiển thị các ngày chiếu và chọn rạp nằm cùng một hàng */}
                   <div className="flex items-center justify-between">
-                    <div className="flex w-full space-x-3 overflow-x-auto">
-                      <button
-                        className="flex-shrink-0 rounded bg-gray-300 p-2 text-black"
-                        onClick={() => scrollDays("left")}
-                      >
-                        <FaChevronLeft />
-                      </button>
-                      <div className="flex space-x-3 scroll-smooth">
-                        {showDates?.data.map((date, index) => (
-                          <button
-                            key={index}
-                            onClick={() => handleDateSelect(date)}
-                            className={`w-[100px] rounded px-2 py-2 ${
-                              selectedDate === date
-                                ? "bg-blue-500 text-white"
-                                : "bg-white text-black"
-                            }`}
-                          >
-                            {formatShowDate2(date)}
+                    {filteredShowtimes?.data?.length > 0 && (
+                      <div className="flex w-full justify-between">
+                        <div className="flex w-full space-x-3 overflow-x-auto">
+                          <button className="flex-shrink-0 rounded bg-gray-300 p-2 text-black">
+                            <FaChevronLeft />
                           </button>
-                        ))}
-                      </div>
-                      <button
-                        className="flex-shrink-0 rounded bg-gray-300 p-2 text-black"
-                        onClick={() => scrollDays("right")}
-                      >
-                        <FaChevronRight />
-                      </button>
-                    </div>
-
-                    {/* Dropdown chọn rạp */}
-                    <div className="ml-4">
-                      <select
-                        id="cinema-select"
-                        value={selectedCinema}
-                        onChange={handleCinemaSelect}
-                        className="mt-1 block w-[200px] rounded-md border-gray-300 bg-white text-black shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                      >
-                        <option value="" disabled>
-                          Chọn một rạp
-                        </option>
-                        {cinemas?.data.map((cinema, index) => (
-                          <option key={index} value={cinema._id}>
-                            {cinema?.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Hiển thị các suất chiếu */}
-                  {filteredShowtimes?.data?.map((showtimes, index) =>
-                    showtimes?.rooms.map((room) => (
-                      <div
-                        key={`${index}-${room.roomId}`}
-                        className="rounded p-4"
-                      >
-                        <div className="flex items-center">
-                          <div>
-                            <h1 className="text-2xl font-semibold">
-                              {showtimes?.cinemaName}
-                            </h1>
-                            {/* Hiển thị danh sách các phòng chiếu */}
-                            <p className="text-sm">
-                              <span className="block">{room.roomName}</span>
-                            </p>
-                          </div>
-                          <div className="ml-2 flex space-x-3">
-                            {/* Lặp qua các suất chiếu trong từng phòng chiếu */}
-                            {room?.showtimes.map((showtime) => (
+                          <div className="flex space-x-3 scroll-smooth">
+                            {showDates?.data.map((date, index) => (
                               <button
-                                key={showtime._id}
-                                onClick={() => handleShowtimeSelect(showtime)}
-                                className="ml-10 rounded bg-white px-4 py-2 text-black hover:bg-red-500 hover:text-white"
+                                key={index}
+                                onClick={() => handleDateSelect(date)}
+                                className={`w-[100px] rounded px-2 py-2 ${
+                                  selectedDate === date
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-white text-black"
+                                }`}
                               >
-                                {/* Hiển thị thời gian bắt đầu của suất chiếu */}
-                                {formatShowtime(
-                                  showtime.start_time,
-                                  showtime.end_time,
-                                )}
+                                {formatShowDate2(date)}
                               </button>
                             ))}
                           </div>
+                          <button className="flex-shrink-0 rounded bg-gray-300 p-2 text-black">
+                            <FaChevronRight />
+                          </button>
+                        </div>
+
+                        <div className="ml-4">
+                          <select
+                            id="cinema-select"
+                            value={selectedCinema}
+                            onChange={handleCinemaSelect}
+                            className="mt-1 block w-[200px] rounded-md border-gray-300 bg-white text-black shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                          >
+                            <option value="all">Tất cả các rạp</option>
+                            {cinemas?.data.map((cinema, index) => (
+                              <option key={index} value={cinema._id}>
+                                {cinema?.name}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       </div>
-                    )),
+                    )}
+                  </div>
+
+                  {/* Kiểm tra nếu không có suất chiếu */}
+                  {filteredShowtimes?.data?.length > 0 ? (
+                    filteredShowtimes.data.map((showtimes, index) =>
+                      showtimes?.rooms.map((room) => (
+                        <div
+                          key={`${index}-${room.roomId}`}
+                          className="rounded p-4"
+                        >
+                          <div className="flex items-center">
+                            <div>
+                              <h1 className="text-2xl font-semibold">
+                                {showtimes?.cinemaName}
+                              </h1>
+                              {/* Hiển thị danh sách các phòng chiếu */}
+                              <p className="text-sm">
+                                <span className="block">{room.roomName}</span>
+                              </p>
+                            </div>
+                            <div className="ml-2 flex space-x-3">
+                              {/* Lặp qua các suất chiếu trong từng phòng chiếu */}
+                              {room?.showtimes.map((showtime) => (
+                                <button
+                                  key={showtime._id}
+                                  onClick={() => handleShowtimeSelect(showtime)}
+                                  className="ml-10 rounded bg-white px-4 py-2 text-black hover:bg-red-500 hover:text-white"
+                                >
+                                  {/* Hiển thị thời gian bắt đầu của suất chiếu */}
+                                  {formatShowtime(
+                                    showtime.start_time,
+                                    showtime.end_time,
+                                  )}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )),
+                    )
+                  ) : (
+                    <div className="mt-4 text-center text-white">
+                      Vui lòng chọn phim
+                    </div>
                   )}
                 </div>
               )}
             </div>
           </div>
 
-          {isShowSeatSelection && seatsData && (
-            <SeatSelection
-              seatsData={seatsData}
-              onSeatSelect={handleSeatSelect}
-              resetSeats={dataChange}
-            />
-          )}
+          <div className="mb-6">
+            <h2 className="mb-4 text-xl font-bold text-white">Chọn ghế :</h2>
+            <button
+              onClick={() => {
+                setAreaOpen(isAreaOpen ? !isAreaOpen : isAreaOpen);
+                setShowtimeOpen(
+                  isShowtimeOpen ? !isShowtimeOpen : isShowtimeOpen,
+                );
+                setMovieOpen(isMovieOpen ? !isMovieOpen : isMovieOpen);
+                setSeatOpen(!isSeatOpen);
+              }}
+              className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
+            >
+              Chọn ghế
+              {isSeatOpen ? <FaChevronUp /> : <FaChevronDown />}
+            </button>
+            {isSeatOpen &&
+              (seatsData && seatsData.length > 0 ? (
+              <SeatSelection
+                seatsData={seatsData}
+                selectedSeats={selectedSeats} 
+                onSeatSelect={handleSeatSelect}
+              />
+              ) : (
+                <div className="mt-4 text-center text-white">
+                  Vui lòng chọn suất chiếu.
+                </div>
+              ))}
+          </div>
         </div>
 
         {/* Right Column - 30% */}

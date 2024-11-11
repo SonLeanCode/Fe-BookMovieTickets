@@ -236,7 +236,6 @@ const Home = () => {
   
 
   return (
-    
     <div className="bg-black text-gray-100 overflow-x-hidden">
       <main className="bg-black">
       
