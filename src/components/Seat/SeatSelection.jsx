@@ -1,16 +1,7 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
 
-const SeatSelection = ({ seatsData, onSeatSelect, resetSeats }) => {
-  const [selectedSeats, setSelectedSeats] = useState([]); // Trạng thái ghế đã chọn
-
-  // Khi prop resetSeats thay đổi (tức là khu vực, phim, suất chiếu đã thay đổi)
-  useEffect(() => {
-    if (resetSeats) {
-      setSelectedSeats([]); // Reset ghế đã chọn
-    }
-  }, [resetSeats]); // Khi resetSeats thay đổi, reset selectedSeats
-
+const SeatSelection = ({ seatsData, selectedSeats, onSeatSelect }) => {
+  
   const handleSeatClick = (seat) => {
     const seatIndex = selectedSeats.findIndex(
       (selectedSeat) => selectedSeat._id === seat._id,
@@ -26,11 +17,11 @@ const SeatSelection = ({ seatsData, onSeatSelect, resetSeats }) => {
       updatedSeats = [...selectedSeats, seat];
     }
 
-    setSelectedSeats(updatedSeats);
-
     // Gọi hàm onSeatSelect để gửi danh sách ghế đã chọn lên component cha
     onSeatSelect(updatedSeats);
   };
+
+  
 
   const getSeatClass = (seat) => {
     const baseClass = `w-10 h-10 rounded-lg font-bold text-white`;
@@ -174,7 +165,7 @@ SeatSelection.propTypes = {
     }),
   ).isRequired,
   onSeatSelect: PropTypes.func.isRequired, // Function to handle seat selection
-  resetSeats: PropTypes.bool.isRequired, // Prop to trigger seat reset
+  selectedSeats: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default SeatSelection;

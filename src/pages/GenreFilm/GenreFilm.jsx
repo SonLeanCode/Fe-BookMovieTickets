@@ -31,7 +31,7 @@ const MovieList = () => {
   };
 
   return (
-    <div className="mt-28 bg-gray-900 p-[4.5rem] pt-7 text-white">
+    <div className="pt-28 bg-gray-900 p-[4.5rem] pt-7 text-white">
       <div className="flex justify-between filter">
         <div className="menuleft mb-6 flex flex-col sm:flex-row items-center content-center justify-start md:gap-10 text-center sm:text-left align-text-top">
           <h2 className="text-2xl md:mt-0 mt-8 font-bold uppercase">
