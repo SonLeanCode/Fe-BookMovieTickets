@@ -18,6 +18,11 @@ import {
 import { useGetSeatsByRoomQuery } from "../../services/Seat/seat.serviecs";
 import SeatSelection from "../../components/Seat/SeatSelection";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useCreateTicketMutation } from "../../services/Ticket/ticket.serviecs";
+import { useUpdateSeatStatusMutation } from "../../services/Seat/seat.serviecs";
+import { v4 as uuidv4 } from "uuid";
+import Toastify from "../../helper/Toastify";
+import { useNavigate } from 'react-router-dom';
 
 const BuyTickets = () => {
   const { data: regionsData, isLoading: regionsLoading } =
@@ -26,6 +31,7 @@ const BuyTickets = () => {
   const [isMovieOpen, setMovieOpen] = useState(false);
   const [isShowtimeOpen, setShowtimeOpen] = useState(false);
   const [isSeatOpen, setSeatOpen] = useState(false);
+  const [isContinueClicked, setIsContinueClicked] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedShowtime, setSelectedShowtime] = useState(null);
@@ -33,7 +39,7 @@ const BuyTickets = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedCinema, setSelectedCinema] = useState("");
   const [selectedSeats, setSelectedSeats] = useState([]);
-
+  const navigate = useNavigate();
   const { data: showtimesData, isLoading: showtimesLoading } =
     useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
 
@@ -53,11 +59,67 @@ const BuyTickets = () => {
       cinemaId: selectedCinema || "",
     });
 
-  const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
+  const { data: seatsData, isLoading: seatsLoading, refetch: seatRefetch } = useGetSeatsByRoomQuery(
     selectedShowtime ? selectedShowtime?.room_id._id : null,
   );
 
+  const [addTicket] = useCreateTicketMutation();
+  const [updateSeatStatus] = useUpdateSeatStatusMutation();
 
+  const generateInvoiceCode = () => {
+    const uniqueId = uuidv4().split("-")[0]; // Tạo mã duy nhất từ uuid
+    return `MMT-${uniqueId.toUpperCase()}`;
+  };
+
+  const getSeatNumbers = (seats) => {
+    return seats.map((seat) => `${seat.row}${seat.seat_number}`).join(", ");
+  };
+
+  const handleAddTicket = async () => {
+    // Lấy dữ liệu từ localStorage
+    const selectedMovie = JSON.parse(localStorage.getItem("selectedMovie"));
+    const selectedShowtime = JSON.parse(localStorage.getItem("selectedShowtime"));
+    const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
+    const getUser = JSON.parse(localStorage.getItem("user"));
+
+    const ticketData = {
+      invoice_code: generateInvoiceCode(),
+      name_movie: selectedMovie.name,
+      subtitles: selectedMovie.subtitles,
+      age_limit: selectedMovie.age_limit || 0,
+      seat_number: getSeatNumbers(selectedSeats), // Nếu danh sách ghế là mảng, nối thành chuỗi
+      room_name: selectedShowtime.room_id.name,
+      cinema_name: selectedShowtime.room_id.cinema_id.name,
+      address_cinema: selectedShowtime.room_id.cinema_id.address,
+      showtime:
+        formatShowtime(selectedShowtime.start_time, selectedShowtime.end_time) +
+        " - " +
+        formatShowDate3(selectedShowtime.start_time),
+      price: selectedSeats.reduce((sum, seat) => sum + seat.base_price, 0),
+      voucher_name: selectedShowtime.voucher_name || null, // Nếu có voucher
+      voucher_percent: selectedShowtime.voucher_percent || 0,
+      showtime_id: selectedShowtime._id,
+      user_id: getUser._id,
+    };
+
+    try {
+      const response = await addTicket(ticketData).unwrap();
+      if(response){
+        for (const seat of selectedSeats) {
+          const seatId = seat._id; 
+          const newStatus = 'booked'; //set tragj thái đã đặt
+          // Gọi hàm updateSeatStatus cho từng ghế
+          await updateSeatStatus({ seatId, newStatus }).unwrap();
+        }
+      }
+      seatRefetch()
+      Toastify("Thanh toán thành công", 200)
+      navigate('/cinema');
+      console.log("Ticket added successfully:", response);
+    } catch (error) {
+      console.error("Failed to add ticket:", error);
+    }
+  };
 
   const handleDateSelect = (date) => {
     setSelectedDate(date);
@@ -166,6 +228,10 @@ const BuyTickets = () => {
     );
   };
 
+  const handleContinue = () => {
+    setIsContinueClicked(true);
+  };
+
   if (
     showtimesLoading ||
     regionsLoading ||
@@ -181,7 +247,11 @@ const BuyTickets = () => {
     <div className="bg-black pt-28">
       <div className="mx-auto flex w-[90%]">
         {/* Left Column - 70% */}
-        <div className="mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white">
+        <div
+          className={`mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white transition-opacity duration-500 ${
+            isContinueClicked ? "hidden" : ""
+          }`}
+        >
           {/* Choose Area */}
           <div>
             <h2 className="mb-4 text-xl font-bold text-white">
@@ -391,11 +461,11 @@ const BuyTickets = () => {
             </button>
             {isSeatOpen &&
               (seatsData && seatsData.length > 0 ? (
-              <SeatSelection
-                seatsData={seatsData}
-                selectedSeats={selectedSeats} 
-                onSeatSelect={handleSeatSelect}
-              />
+                <SeatSelection
+                  seatsData={seatsData}
+                  selectedSeats={selectedSeats}
+                  onSeatSelect={handleSeatSelect}
+                />
               ) : (
                 <div className="mt-4 text-center text-white">
                   Vui lòng chọn suất chiếu.
@@ -405,7 +475,11 @@ const BuyTickets = () => {
         </div>
 
         {/* Right Column - 30% */}
-        <div className="w-[30%] text-black">
+        <div
+          className={`mb-8 w-[30%] text-black transition-transform duration-[5000ms] ${
+            isContinueClicked ? "mr-8" : ""
+          }`}
+        >
           <div>
             <div className="rounded border-t-8 border-red-600 bg-white">
               <div className="mx-2 mt-2 border-b-2 border-dashed border-gray-500 p-2">
@@ -466,12 +540,12 @@ const BuyTickets = () => {
                 )}
               </div>
               {selectedSeats && selectedSeats.length > 0 && (
-                <div className="border-b-2 border-dashed border-gray-500">
+                <div className="mx-2 border-b-2 border-dashed border-gray-500">
                   {renderSelectedSeats()}
                 </div>
               )}
 
-              <div className="flex justify-between p-2">
+              <div className="mx-2 flex justify-between p-2">
                 <h2 className="text-base font-semibold">Tổng cộng</h2>
                 <span className="text-primary inline-block font-bold text-red-600">
                   {selectedSeats && selectedSeats.length > 0
@@ -480,15 +554,45 @@ const BuyTickets = () => {
                 </span>
               </div>
               <div className="mt-10 flex justify-between p-2">
-                <button className="mr-2 w-1/2 rounded-md bg-gray-300 p-2 text-black">
+                <button
+                  onClick={() => setIsContinueClicked(false)}
+                  className={`mr-2 w-1/2 rounded-md bg-gray-300 p-2 text-black ${
+                    !isContinueClicked
+                      ? "cursor-not-allowed opacity-50"
+                      : ""
+                  }`}
+                  disabled={!isContinueClicked}
+                >
                   Quay lại
                 </button>
-                <button className="w-1/2 rounded-md bg-red-600 p-2 text-white">
-                  Tiếp tục
-                </button>
+                {!isContinueClicked ? (
+                  <button
+                    onClick={handleContinue}
+                    className={`w-1/2 rounded-md bg-red-600 p-2 text-white ${
+                      selectedSeats.length === 0
+                        ? "cursor-not-allowed opacity-50"
+                        : ""
+                    }`}
+                    disabled={selectedSeats.length === 0}
+                  >
+                    Thanh Toán
+                  </button>
+                ) : (
+                  <button onClick={handleAddTicket} className="w-1/2 rounded-md bg-red-600 p-2 text-white">
+                    Xác nhận
+                  </button>
+                )}
               </div>
             </div>
           </div>
+        </div>
+
+        <div
+          className={`mb-8 transition-opacity duration-500 ${
+            isContinueClicked ? "w-[70%] opacity-100" : "absolute opacity-0"
+          } bg-[#111111] p-4 text-white`}
+        >
+          Chọn voucher, tích hợp momo, zalo, giữ ghế, ...
         </div>
       </div>
     </div>
