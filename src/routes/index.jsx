@@ -23,8 +23,6 @@ import Seat_Management from "../pages/Admin/Seat_Management";
 import Business from "../pages/Business/business";
 import ShowTime_Management from "../pages/Admin/ShowTime_Management";
 
-
-
 // Lazy-loaded pages
 const Home = lazy(() => import("../pages/Home/Home"));
 const Dashboard = lazy(() => import("../pages/Admin/Dashboard"));
@@ -57,7 +55,6 @@ const License = lazy(() => import("../pages/Policy/License"));
 export default function AppRoutes() {
   return (
     <Router>
-     
         <Routes>
           {/* Landing page */}
           <Route element={<DefaultLayout />}>
