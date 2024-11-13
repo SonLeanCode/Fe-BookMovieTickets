@@ -79,7 +79,7 @@ const MovieDetailPage = () => {
   }
 
   return (
-    <div className="mt-[88px] min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white">
       {/* Show video */}
       <VideoPlayer
         urlvideo={movieData?.data.url_video}

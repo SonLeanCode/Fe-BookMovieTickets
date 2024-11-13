@@ -332,7 +332,7 @@ const Profile = () => {
                                                             {!isEditing ? (
                                                                 // Nút Thay đổi chỉ hiển thị khi không ở chế độ chỉnh sửa
                                                                 <button
-                                                                    className="ml-2 text-orange-500 text-sm absolute left-[800px]"
+                                                                    className="mr-2 text-orange-500 text-sm"
                                                                     onClick={handleEditClick}
                                                                 >
                                                                     {t("Thay đổi")}
