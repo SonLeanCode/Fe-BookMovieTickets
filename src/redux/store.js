@@ -14,6 +14,7 @@ import { roomsApi } from '../services/Room/room.service';
 import { seatApi } from '../services/Seat/seat.serviecs';
 import { showtimesApi } from '../services/Showtimes/showtimes.serviecs';
 import { ticketApi } from '../services/Ticket/ticket.serviecs';
+import {paymentApi} from '../services/payment/Payment.services';
 
 const store = configureStore({
   reducer: {
@@ -32,6 +33,7 @@ const store = configureStore({
     [showtimesApi.reducerPath]: showtimesApi.reducer,
     [ticketApi.reducerPath]: ticketApi.reducer,
     [apiLanguage.reducerPath]: apiLanguage.reducer,
+    [paymentApi.reducerPath]: paymentApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -50,6 +52,7 @@ const store = configureStore({
       .concat(showtimesApi.middleware)
       .concat(ticketApi.middleware)
       .concat(apiLanguage.middleware)
+      .concat(paymentApi.middleware)
 });
 
 export default store;
