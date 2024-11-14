@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "react-daisyui";
 import "./Home.css";
 import PopupNotification from "./Popup";
-import { FaHeart, FaStar, FaTicketAlt } from "react-icons/fa";
+import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useGetLatestMoviesByCreationDateQuery } from "../../services/Movies/movies.services";
 import Banner from "../../components/Home/Banner";
@@ -250,7 +250,7 @@ const Home = () => {
 
           <div className="absolute top-0 h-screen w-full md:w-1/2">
             {/* Giới thiệu phim */}
-            <div className="absolute top-[100px] mt-8 ml-20 h-48 w-full">
+            <div className="absolute top-[100px] mt-8 ml-4 md:ml-20 h-48 w-full flex flex-col items-center md:items-start md:text-left text-center">
               {carouselBanners.map((banner, index) => (
                 <div
                   key={banner.id}
@@ -260,32 +260,39 @@ const Home = () => {
                       : "translate-x-full opacity-0"
                   }`}
                 >
-                  <h2 className="text-lg font-semibold">
+                  <h2 className="text-sm sm:text-lg font-semibold">
                     {banner.genres.join(" | ")}
                   </h2>
-                  <h5 className="mt-2 text-3xl md:text-5xl font-bold">{banner.title}</h5>
-                  <div className="mt-2 flex flex-wrap">
-                    <h2 className="mr-4">{banner.releaseYear}</h2> {" | "}
-                    <h2 className="ml-4 mr-4 flex">
-                      DIRECTOR:{" "}
-                      <p className="ml-2 text-gray-300">{banner.author}</p>
+                  <h5 className="mt-1 text-2xl sm:mt-2 sm:text-3xl md:text-5xl font-bold">
+                    {banner.title}
+                  </h5>
+                  <div className="mt-1 sm:mt-2 flex flex-col items-center sm:flex-row sm:flex-wrap sm:justify-center">
+                    <h2 className="text-sm sm:text-base mr-0 sm:mr-4">
+                      {banner.releaseYear}
                     </h2>
-                    {" | "}
-                    <h2 className="ml-4 flex">
+                    <span className="hidden sm:inline">{" | "}</span>
+                    <h2 className="text-sm sm:text-base mt-1 sm:mt-0 ml-0 sm:ml-4 mr-0 sm:mr-4 flex">
+                      DIRECTOR:{" "}
+                      <p className="ml-1 sm:ml-2 text-gray-300">{banner.author}</p>
+                    </h2>
+                    <span className="hidden sm:inline">{" | "}</span>
+                    <h2 className="text-sm sm:text-base mt-1 sm:mt-0 ml-0 sm:ml-4 flex">
                       SEASONS:{" "}
-                      <p className="ml-2 text-gray-300">
+                      <p className="ml-1 sm:ml-2 text-gray-300">
                         {banner.seasons} (26 Episodes)
                       </p>
                     </h2>
                   </div>
-                  <p className="mt-2 text-gray-300 text-sm md:text-base">{banner.description}</p>
-                  <div className="mt-4 flex flex-col md:flex-row">
-                    <Button className=" flex items-center rounded bg-red-600 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500 md:px-6">
-                      BOOK NOW <FaTicketAlt size={20} className="ml-2" />
+                  <p className="mt-2 font-bold  text-gray-300">
+                    {banner.description}
+                  </p>
+                  <div className="mt-4 flex flex-col items-center sm:flex-row">
+                    <Button className="flex items-center justify-center rounded bg-red-600 px-3 py-2 sm:px-4 font-semibold text-white transition-colors duration-300 hover:bg-red-500 md:px-6">
+                      BOOK NOW <FaTicketAlt size={18} className="ml-2" />
                     </Button>
-                    <Button className="ml-0 mt-2 md:mt-0 md:ml-4 rounded border border-solid border-gray-300 px-4 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 md:px-6">
-                      VIEW MORE
-                    </Button>
+                    <Button className="ml-0 mt-2 sm:mt-0 sm:ml-4 rounded border border-solid border-gray-300 px-3 py-2 sm:px-4 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 md:px-6">
+                      VIEW MORE  <FaRegHandPointRight size={18} className="ml-2" />
+                    </Button> 
                   </div>
                 </div>
               ))}
@@ -381,19 +388,20 @@ const Home = () => {
                           </h4>
                           <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
                           <div className="button-container flex flex-col space-y-4">
-                          <i className="fas fa-heart text-center text-red-600"></i>
-
+                            <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
                             <Link
-                              to="/cinema/detail"
-                              className="overlay-btn-xh w-28  text-center text-white"
+                              to={``}
+                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                             >
-                              Trailer <i className="fas fa-video ml-1"></i>
+                              {t("Trailer")}
+                              <FaPhotoVideo size={18} className="mt-1 ml-2" />
                             </Link>
                             <Link
-                              to="/"
-                              className="overlay-btn-xh w-28 text-center text-white"
+                              to={`/cinema/movie/${movie._id}`}
+                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                             >
-                             {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
+                              {t("Mua vé")}
+                              <FaTicketAlt size={18} className="mt-1 ml-2" />
                             </Link>
                           </div>
                         </div>
@@ -447,18 +455,20 @@ const Home = () => {
                     {/* Overlay buttons */}
                     <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                       <div className="button-container flex flex-col space-y-4">
-                        <i className="fas fa-heart  w-38 text-center text-red-600"></i> 
+                        <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
                         <button
                           onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38  text-center text-white"
+                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                         >
-                          Trailer <i className="fas fa-video ml-1"></i>
+                          Trailer
+                          <FaPhotoVideo size={18} className="ml-2" />
                         </button>
                         <Link
                           to={`/cinema/movie/${movie._id}`}
-                          className="overlay-btn-xh w-38 text-center text-white"
+                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                         >
-                         {t("Mua vé")}<i className="fas fa-ticket-alt ml-1"></i>
+                          {t("Mua vé")}
+                          <FaTicketAlt size={18} className="mt-1 ml-2" />
                         </Link>
                       </div>
                     </div>
@@ -494,19 +504,21 @@ const Home = () => {
                       {/* Overlay buttons */}
                       <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="flex flex-col">
-                          <i className="fas fa-heart  w-38 text-center text-red-600"></i>
+                          <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
                           <button
-                            onClick={() => handleTrailerClick(movie?.url_video)}
-                            className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          onClick={() => handleTrailerClick(movie?.url_video)}
+                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                           >
-                            Trailer <i className="fas fa-video ml-1"></i>
+                            Trailer
+                            <FaPhotoVideo size={18} className="ml-2" />
                           </button>
                           <Link
-                            to={"/cinema/movie/" + movie._id}
-                            className="overlay-btn-xh w-38 py-2 text-center text-white"
-                          >
-                           {t("Mua vé")}  <i className="fas fa-ticket-alt ml-1"></i>
-                          </Link>
+                              to={`/cinema/movie/${movie._id}`}
+                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                            >
+                              {t("Mua vé")}
+                              <FaTicketAlt size={18} className="mt-1 ml-2" />
+                            </Link>
                         </div>
                       </div>
                     </div>
@@ -541,18 +553,20 @@ const Home = () => {
                   {/* Overlay buttons */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <div className="flex flex-col">
-                          <i className="fas fa-heart  w-38 text-center text-red-600"></i>
+                          <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
                           <button
-                            onClick={() => handleTrailerClick(movie?.url_video)}
-                            className="overlay-btn-xh w-38 py-2 text-center text-white"
+                          onClick={() => handleTrailerClick(movie?.url_video)}
+                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                           >
-                            Trailer <i className="fas fa-video ml-1"></i>
+                            Trailer
+                            <FaPhotoVideo size={18} className="ml-2" />
                           </button>
                           <Link
-                            to={"/cinema/movie/" + movie._id}
-                            className="overlay-btn-xh w-38 py-2 text-center text-white"
+                            to={`/cinema/movie/${movie._id}`}
+                            className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                           >
-                           {t("Mua vé")}  <i className="fas fa-ticket-alt ml-1"></i>
+                            {t("Mua vé")}
+                            <FaTicketAlt size={18} className="mt-1 ml-2" />
                           </Link>
                         </div>
                   </div>
@@ -606,19 +620,20 @@ const Home = () => {
                           </h4>
                           <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
                           <div className="button-container flex flex-col space-y-4">
-                          <i className="fas fa-heart text-center  text-red-600"></i>
-
+                          <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
+                          <button
+                          onClick={() => handleTrailerClick(movie?.url_video)}
+                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                          >
+                            Trailer
+                            <FaPhotoVideo size={18} className="ml-2" />
+                          </button>
                             <Link
-                              to="/cinema/detail"
-                              className="overlay-btn-xh w-28  text-center text-white"
+                              to={`/cinema/movie/${movie._id}`}
+                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                             >
-                              Trailer <i className="fas fa-video ml-1"></i>
-                            </Link>
-                            <Link
-                              to="/"
-                              className="overlay-btn-xh w-28 text-center text-white"
-                            >
-                             {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
+                              {t("Mua vé")}
+                              <FaTicketAlt size={18} className="mt-1 ml-2" />
                             </Link>
                           </div>
                         </div>

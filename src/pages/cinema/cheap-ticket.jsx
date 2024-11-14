@@ -72,91 +72,32 @@ const CheapTicket = () => {
                 <img
                     src="https://diadiemvietnam.vn/wp-content/uploads/2022/10/rap-chieu-phim-hai-duong.jpg"
                     alt="Hệ thống rạp"
-                    className="w-full h-[600px] object-cover"/>
+                    className="w-full h-[700px] object-cover sm:h-[400px] md:h-[500px]"
+                />
                 <div className="absolute inset-0 flex items-center justify-center">
                     <h2
-                        className="text-6xl font-bold text-white uppercase tracking-wider drop-shadow-lg">
-                       {t("Trải nghiệm điện ảnh tuyệt vời")} 
+                        className="text-4xl text-center sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-wider drop-shadow-lg">
+                        {t("Trải nghiệm điện ảnh tuyệt vời")} 
                     </h2>
                 </div>
             </div>
 
-            <div className="flex w-11/12 mx-auto mt-4">
-                {/* Cột bên trái (80%) */}
-                <div className="w-8/12">
-                    <div className="grid grid-cols-2 gap-4">
-                        {
-                            currentCinemas.length > 0
-                                ? (currentCinemas.map((cinema) => (
-                                    <div
-                                        key={cinema._id}
-                                        className="bg-gray-700 p-4 rounded-lg flex flex-col items-center">
-                                        <img
-                                            src={cinema.img || 'https://via.placeholder.com/150'}
-                                            alt={cinema.name}
-                                            className="w-full h-72 object-cover hover:cursor-pointer rounded-md"/>
-                                        <h3 className="text-center font-bold mt-2">{cinema.name}</h3>
-                                        <div className="mt-2 flex space-x-2">
-                                            <button className="bg-orange-500 hover:bg-orange-600 text-white px-2 py-1 rounded flex items-center" onClick={() => openModal(cinema)}
-                                                // Mở modal với thông tin rạp
-                                            >
-                                               {t("Thông tin chi tiết")}
-                                                <i className="fas fa-info-circle ml-2"></i>
-                                            </button>
-                                            <button
-                                                className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded flex items-center">
-                                             {t("Chia sẻ")} 
-                                                <i className="fas fa-share ml-2"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                )))
-                                : (<div className="text-center">{t("Không có rạp nào để hiển thị")}</div>)
-                        }
-                    </div>
 
-                    {/* Phân trang */}
-                    <div className="mt-4 p-3 flex justify-center space-x-2">
-                        {
-                            Array.from({
-                                length: totalPages
-                            }, (_, index) => (
-                                <button
-                                    key={index + 1}
-                                    onClick={() => handlePageChange(index + 1)}
-                                    className={`px-3 py-1 rounded ${
-                                    currentPage === index + 1
-                                        ? 'bg-red-500 text-white'
-                                        : 'bg-gray-500 text-white hover:bg-gray-600'}`}>
-                                    {index + 1}
-                                </button>
-                            ))
-                        }
-                    </div>
-                </div>
-
-                {/* Cột bên phải (20%) */}
-                <div className="w-4/12 pl-4">
+            <div className="w-11/12 mx-auto mt-4">
+                {/* Chọn lọc khu vực - Hiển thị trên cùng khi màn hình <= 430px */}
+                <div className="flex sm:hidden mb-4">
                     <h3
-                        className="text-xl font-semibold cursor-pointer select-none"
+                        className="text-xl font-semibold cursor-pointer select-none truncate w-full"
                         onClick={toggleMenu}>
-                        | {t("Khu vực của chúng tôi")} {
-                            isMenuOpen
-                                ? '▲'
-                                : '▼'
-                        }
+                        | {t("Khu vực của chúng tôi")} {isMenuOpen ? '▲' : '▼'}
                     </h3>
                     <div
-                        className={`transition-all duration-500 ${isMenuOpen
-                            ? 'max-h-96 opacity-100'
-                            : 'max-h-0 opacity-0'} overflow-hidden`}>
+                        className={`transition-all duration-500 ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden w-full`}>
                         <ul className="mt-2">
                             {
                                 regions.length > 0
                                     ? (regions.map(region => (
-                                        <li key={region._id} className="bg-gray-600 p-2 rounded-md mb-2 hover:bg-gray-500 cursor-pointer transition-all duration-300" onClick={() => handleRegionChange(region._id)}
-                                            // Thay đổi khu vực khi nhấp
->
+                                        <li key={region._id} className="bg-gray-600 p-2 rounded-md mb-2 hover:bg-gray-500 cursor-pointer transition-all duration-300" onClick={() => handleRegionChange(region._id)}>
                                             {region.name}
                                         </li>
                                     )))
@@ -165,7 +106,87 @@ const CheapTicket = () => {
                         </ul>
                     </div>
                 </div>
+
+                {/* Layout chính với 2 cột */}
+                <div className="flex flex-col sm:flex-row">
+                    {/* Cột bên trái (80%) */}
+                    <div className="w-full sm:w-8/12">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {
+                                currentCinemas.length > 0
+                                    ? (currentCinemas.map((cinema) => (
+                                        <div
+                                            key={cinema._id}
+                                            className="bg-gray-700 p-4 rounded-lg flex flex-col items-center">
+                                            <img
+                                                src={cinema.img || 'https://via.placeholder.com/150'}
+                                                alt={cinema.name}
+                                                className="w-full h-72 object-cover hover:cursor-pointer rounded-md"/>
+                                            <h3 className="text-center font-bold mt-2">{cinema.name}</h3>
+                                            <div className="mt-2 flex space-x-2">
+                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-2 py-1 rounded flex items-center" onClick={() => openModal(cinema)}>
+                                                    {t("Thông tin chi tiết")}
+                                                    <i className="fas fa-info-circle ml-2"></i>
+                                                </button>
+                                                <button
+                                                    className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded flex items-center">
+                                                    {t("Chia sẻ")} 
+                                                    <i className="fas fa-share ml-2"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )))
+                                    : (<div className="text-center">{t("Không có rạp nào để hiển thị")}</div>)
+                            }
+                        </div>
+
+                        {/* Phân trang */}
+                        <div className="mt-4 p-3 flex justify-center space-x-2">
+                            {
+                                Array.from({
+                                    length: totalPages
+                                }, (_, index) => (
+                                    <button
+                                        key={index + 1}
+                                        onClick={() => handlePageChange(index + 1)}
+                                        className={`px-3 py-1 rounded ${
+                                            currentPage === index + 1
+                                                ? 'bg-red-500 text-white'
+                                                : 'bg-gray-500 text-white hover:bg-gray-600'}`}>
+                                        {index + 1}
+                                    </button>
+                                ))
+                            }
+                        </div>
+                    </div>
+
+                    {/* Cột bên phải (20%) */}
+                    <div className="hidden sm:block w-full sm:w-4/12 pl-0 sm:pl-4 mt-4 sm:mt-0">
+                        <h3
+                            className="text-xl font-semibold cursor-pointer select-none truncate"
+                            onClick={toggleMenu}>
+                            | {t("Khu vực của chúng tôi")} {isMenuOpen ? '▲' : '▼'}
+                        </h3>
+                        <div
+                            className={`transition-all duration-500 ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
+                            <ul className="mr-2">
+                                {
+                                    regions.length > 0
+                                        ? (regions.map(region => (
+                                            <li key={region._id} className="bg-gray-600 p-2 rounded-md mb-2 hover:bg-gray-500 cursor-pointer transition-all duration-300" onClick={() => handleRegionChange(region._id)}>
+                                                {region.name}
+                                            </li>
+                                        )))
+                                        : (<div className="text-center"> {t("Không có khu vực nào để hiển thị")}</div>)
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
+
 
             
             {isModalOpen && (
