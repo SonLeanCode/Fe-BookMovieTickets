@@ -42,31 +42,32 @@ const BuyTickets = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [isContinueClicked, setIsContinueClicked] = useState(false);
 
-   // Lấy totalAmount từ localStorage khi component được tải
-
+  // Lấy totalAmount từ localStorage khi component được tải
   const [paymentMomo, { isLoading, isError, error }] = usePaymentMomoMutation();
 
+
+
   //api  momo 
-  const handlePayment = async ()=>{
-  const amount = localStorage.getItem('totalAmount');
-  if(!amount){
-    alert('Số tiền không hợp lệ!');
+  const handlePayment = async () => {
+    const amount = localStorage.getItem('totalAmount');
+    if (!amount) {
+      alert('Số tiền không hợp lệ!');
       return;
-  }
-  try{
-    const response =  await paymentMomo({amount })
-    if (response.data && response.data.payUrl) {
-      console.log(response.data)
-      // Chuyển hướng người dùng đến trang thanh toán MoMo
-      window.location.href = response.data.payUrl;
-    }else {
-      console.error('Lỗi từ MoMo:', response.data);
-      alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!');
     }
-  }catch(error){
-    console.error('Thanh toán MoMo thất bại:', error);
-   alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!')
- }
+    try {
+      const response = await paymentMomo({ amount })
+      if (response.data && response.data.payUrl) {
+        console.log(response.data)
+        // Chuyển hướng người dùng đến trang thanh toán MoMo
+        window.location.href = response.data.payUrl;
+      } else {
+        console.error('Lỗi từ MoMo:', response.data);
+        alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!');
+      }
+    } catch (error) {
+      console.error('Thanh toán MoMo thất bại:', error);
+      alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!')
+    }
   }
   const navigate = useNavigate();
   const { data: showtimesData, isLoading: showtimesLoading, refetch: refetchShowtime } =
@@ -88,7 +89,7 @@ const BuyTickets = () => {
       cinemaId: selectedCinema || "",
     });
 
-  const { data: seatsData, isLoading: seatsLoading} = useGetSeatsByRoomQuery(
+  const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
     selectedShowtime ? selectedShowtime?.room_id._id : null,
   );
 
@@ -138,7 +139,7 @@ const BuyTickets = () => {
 
     try {
       const response = await addTicket(ticketData).unwrap();
-      await addSeatStatus({ showtimeId: selectedShowtime._id, seatStatuses}).unwrap();
+      await addSeatStatus({ showtimeId: selectedShowtime._id, seatStatuses }).unwrap();
       refetchShowtime()
       Toastify("Thanh toán thành công", 200)
       navigate('/cinema');
@@ -388,8 +389,8 @@ const BuyTickets = () => {
                                 key={index}
                                 onClick={() => handleDateSelect(date)}
                                 className={`w-[100px] rounded px-2 py-2 ${selectedDate === date
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-white text-black"
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-white text-black"
                                   }`}
                               >
                                 {formatShowDate2(date)}
@@ -589,8 +590,8 @@ const BuyTickets = () => {
                 <button
                   onClick={() => setIsContinueClicked(false)}
                   className={`mr-2 w-1/2 rounded-md bg-gray-300 p-2 text-black ${!isContinueClicked
-                      ? "cursor-not-allowed opacity-50"
-                      : ""
+                    ? "cursor-not-allowed opacity-50"
+                    : ""
                     }`}
                   disabled={!isContinueClicked}
                 >
@@ -600,8 +601,8 @@ const BuyTickets = () => {
                   <button
                     onClick={handleContinue}
                     className={`w-1/2 rounded-md bg-red-600 p-2 text-white ${selectedSeats.length === 0
-                        ? "cursor-not-allowed opacity-50"
-                        : ""
+                      ? "cursor-not-allowed opacity-50"
+                      : ""
                       }`}
                     disabled={selectedSeats.length === 0}
                   >
@@ -616,24 +617,40 @@ const BuyTickets = () => {
             </div>
           </div>
         </div>
-
         <div
-          className={`mb-8 transition-opacity duration-500 ${isContinueClicked ? "w-[70%] opacity-100" : "absolute opacity-0"
-            } bg-[#111111] p-4 text-white`}
+          className={`mb-8 transition-opacity duration-500 ${isContinueClicked ? "w-[70%] opacity-100" : "hidden"
+            } bg-[#111111] p-4 text-white relative`}
         >
-        <button
-        onClick={handlePayment}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-        disabled={isLoading}
-      >
-        {isLoading ? 'Đang xử lý...' : 'Thanh toán MoMo'}
-      </button>
-      {isError && (
-        <div className="text-red-500 mt-2">
-          {error.message || 'Có lỗi xảy ra khi thực hiện thanh toán.'}
+          <img
+            src="/src/assets/momo2.jpg"
+            alt="MoMo Payment"
+            className="w-[700px] h-[300px] mx-auto mb-4"
+          />
+          <div className="mb-4">
+            <p className="text-center">Chúc mừng bạn đã chọn vé! Vui lòng làm theo hướng dẫn để hoàn tất giao dịch.</p>
+            <p className="text-center">Mô tả: Thanh toán vé xem phim qua ví MoMo.</p>
+
+
+          </div>
+          <button
+            onClick={handlePayment}
+            className="bg-blue-500 text-white px-4 py-2 rounded mx-auto block"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Đang xử lý...' : 'Thanh toán MoMo'}
+          </button>
+          {isError && (
+            <div className="text-red-500 mt-2 text-center">
+              {error.message || 'Có lỗi xảy ra khi thực hiện thanh toán.'}
+            </div>
+          )}
+          <div className="text-sm text-gray-400 mt-2 text-center">
+            <p>Bước 1: Nhấn vào nút Thanh toán MoMo.</p>
+            <p>Bước 2: Quét mã QR hoặc đăng nhập ví MoMo để hoàn tất giao dịch.</p>
+          </div>
         </div>
-      )}
-        </div>
+
+
       </div>
     </div>
   );
