@@ -70,6 +70,14 @@ export const showtimesApi = createApi({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Showtime', id }],
     }),
+
+    addSeatStatuses: builder.mutation({
+      query: ({ showtimeId, seatStatuses }) => ({
+        url: `/api/showtimes/${showtimeId}/seat-statuses`,
+        method: 'POST', 
+        body: { seatStatuses },
+      }),
+    }),
     
     // Xóa một suất chiếu
     deleteShowtime: builder.mutation({
@@ -92,5 +100,6 @@ export const {
   useGetCinemasWithShowtimesByMovieAndRegionQuery,
   useCreateShowtimeMutation,
   useUpdateShowtimeMutation,
+  useAddSeatStatusesMutation,
   useDeleteShowtimeMutation,
 } = showtimesApi;

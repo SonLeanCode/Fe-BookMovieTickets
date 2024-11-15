@@ -1,7 +1,11 @@
 import PropTypes from "prop-types";
 
-const SeatSelection = ({ seatsData, selectedSeats, onSeatSelect }) => {
-  
+const SeatSelection = ({
+  showtime,
+  seatsData,
+  selectedSeats,
+  onSeatSelect,
+}) => {
   const handleSeatClick = (seat) => {
     const seatIndex = selectedSeats.findIndex(
       (selectedSeat) => selectedSeat._id === seat._id,
@@ -21,29 +25,41 @@ const SeatSelection = ({ seatsData, selectedSeats, onSeatSelect }) => {
     onSeatSelect(updatedSeats);
   };
 
-  
-
-  const getSeatClass = (seat) => {
+  const getSeatClass = (seat, showtime) => {
     const baseClass = `w-10 h-10 rounded-lg font-bold text-white`;
-    const selectedClass = selectedSeats.some(
-        (selectedSeat) => selectedSeat._id === seat._id
-      )
-        ? "border-4 border-white"
-        : "";
 
-    if (seat.status === "booked") {
-      return `${baseClass} bg-gray-600  ${selectedClass}`;
-    } else if (seat.status === "unavailable") {
-      return `${baseClass} border-4 border-white relative  ${selectedClass}`;
+    // Kiểm tra nếu ghế được chọn
+    const selectedClass = selectedSeats.some(
+      (selectedSeat) => selectedSeat._id === seat._id,
+    )
+      ? "border-4 border-white"
+      : "";
+
+    // Kiểm tra nếu `showtime` và `seat_statuses` tồn tại
+    const isBooked = showtime?.seat_statuses?.some(
+      (statusSeat) =>
+        statusSeat.seat_id === seat._id &&
+        statusSeat.status === "booked",
+    );
+    console.log("123:",showtime)
+    
+    if (isBooked) {
+      return `${baseClass} bg-gray-600 ${selectedClass}`;
     }
 
+    // Nếu ghế có trạng thái "unavailable"
+    if (seat.status === "unavailable") {
+      return `${baseClass} border-4 border-white relative ${selectedClass}`;
+    }
+
+    // Kiểm tra loại ghế và áp dụng lớp thích hợp
     switch (seat.seat_type) {
       case "VIP":
-        return `${baseClass} bg-yellow-300  ${selectedClass}`;
+        return `${baseClass} bg-yellow-300 ${selectedClass}`;
       case "Sweetbox":
-        return `${baseClass} bg-red-500 w-20  ${selectedClass}`;
+        return `${baseClass} bg-red-500 w-20 ${selectedClass}`;
       default:
-        return `${baseClass} bg-indigo-600  ${selectedClass}`;
+        return `${baseClass} bg-indigo-600 ${selectedClass}`;
     }
   };
 
@@ -88,7 +104,7 @@ const SeatSelection = ({ seatsData, selectedSeats, onSeatSelect }) => {
                 return (
                   <div key={`${row}${seatNum}`} className="flex justify-center">
                     <button
-                      className={`mx-1 my-1 ${getSeatClass(seat)} ${seat?.status === "unavailable" ? "button-unavailable" : ""} h-10`}
+                      className={`mx-1 my-1 ${getSeatClass(seat, showtime)} ${seat?.status === "unavailable" ? "button-unavailable" : ""} h-10`}
                       onClick={() => handleSeatClick(seat)}
                       disabled={
                         seat.status === "booked" ||
@@ -110,7 +126,7 @@ const SeatSelection = ({ seatsData, selectedSeats, onSeatSelect }) => {
           {sweetboxSeats?.map((seat) => (
             <button
               key={seat._id}
-              className={`mx-1 my-1 rounded-lg font-bold text-white ${getSeatClass(seat)} ${seat.status === "booked" ? "cursor-not-allowed bg-gray-600" : seat.status === "unavailable" ? "button-unavailable-sweetbox" : ""} h-10`}
+              className={`mx-1 my-1 rounded-lg font-bold text-white ${getSeatClass(seat, showtime)} ${seat.status === "booked" ? "cursor-not-allowed bg-gray-600" : seat.status === "unavailable" ? "button-unavailable-sweetbox" : ""} h-10`}
               onClick={() => handleSeatClick(seat)}
               disabled={
                 seat.status === "booked" || seat.status === "unavailable"
@@ -153,6 +169,21 @@ const SeatSelection = ({ seatsData, selectedSeats, onSeatSelect }) => {
 };
 
 SeatSelection.propTypes = {
+  showtime: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    start_time: PropTypes.instanceOf(Date).isRequired,
+    end_time: PropTypes.instanceOf(Date).isRequired,
+    seat_statuses: PropTypes.arrayOf(
+      PropTypes.shape({
+        seat_id: PropTypes.string.isRequired,
+        status: PropTypes.oneOf(["booked", "locked"]),
+      }),
+    ),
+    movie_id: PropTypes.string.isRequired,
+    room_id: PropTypes.string.isRequired,
+    created_at: PropTypes.instanceOf(Date),
+    updated_at: PropTypes.instanceOf(Date),
+  }).isRequired,
   seatsData: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,

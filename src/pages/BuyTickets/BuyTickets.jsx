@@ -19,7 +19,7 @@ import { useGetSeatsByRoomQuery } from "../../services/Seat/seat.serviecs";
 import SeatSelection from "../../components/Seat/SeatSelection";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useCreateTicketMutation } from "../../services/Ticket/ticket.serviecs";
-import { useUpdateSeatStatusMutation } from "../../services/Seat/seat.serviecs";
+import { useAddSeatStatusesMutation } from "../../services/Showtimes/showtimes.serviecs";
 import { usePaymentMomoMutation } from "../../services/payment/Payment.services"
 import { v4 as uuidv4 } from "uuid";
 import Toastify from "../../helper/Toastify";
@@ -69,7 +69,7 @@ const BuyTickets = () => {
  }
   }
   const navigate = useNavigate();
-  const { data: showtimesData, isLoading: showtimesLoading } =
+  const { data: showtimesData, isLoading: showtimesLoading, refetch: refetchShowtime } =
     useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
 
   const { data: showDates, isLoading: datesLoading } =
@@ -88,12 +88,12 @@ const BuyTickets = () => {
       cinemaId: selectedCinema || "",
     });
 
-  const { data: seatsData, isLoading: seatsLoading, refetch: seatRefetch } = useGetSeatsByRoomQuery(
+  const { data: seatsData, isLoading: seatsLoading} = useGetSeatsByRoomQuery(
     selectedShowtime ? selectedShowtime?.room_id._id : null,
   );
 
   const [addTicket] = useCreateTicketMutation();
-  const [updateSeatStatus] = useUpdateSeatStatusMutation();
+  const [addSeatStatus] = useAddSeatStatusesMutation();
 
   const generateInvoiceCode = () => {
     const uniqueId = uuidv4().split("-")[0]; // Tạo mã duy nhất từ uuid
@@ -131,17 +131,15 @@ const BuyTickets = () => {
       user_id: getUser._id,
     };
 
+    const seatStatuses = selectedSeats.map(seat => ({
+      seat_id: seat._id,  // ID của ghế
+      status: "booked"    // Trạng thái đặt
+    }));
+
     try {
       const response = await addTicket(ticketData).unwrap();
-      if (response) {
-        for (const seat of selectedSeats) {
-          const seatId = seat._id;
-          const newStatus = 'booked'; //set tragj thái đã đặt
-          // Gọi hàm updateSeatStatus cho từng ghế
-          await updateSeatStatus({ seatId, newStatus }).unwrap();
-        }
-      }
-      seatRefetch()
+      await addSeatStatus({ showtimeId: selectedShowtime._id, seatStatuses}).unwrap();
+      refetchShowtime()
       Toastify("Thanh toán thành công", 200)
       navigate('/cinema');
       console.log("Ticket added successfully:", response);
@@ -489,6 +487,7 @@ const BuyTickets = () => {
             {isSeatOpen &&
               (seatsData && seatsData.length > 0 ? (
                 <SeatSelection
+                  showtime={selectedShowtime}
                   seatsData={seatsData}
                   selectedSeats={selectedSeats}
                   onSeatSelect={handleSeatSelect}
