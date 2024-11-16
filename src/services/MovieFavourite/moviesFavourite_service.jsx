@@ -16,8 +16,8 @@ export const moviesFavouriteApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllFavourite: builder.query({
-      query: () => ({
-        url: '/api/favouratiteMovie',
+      query: (id) => ({
+        url: `/api/favouratiteMovie/${id}`,
         method: 'GET',
       }),
     }),
