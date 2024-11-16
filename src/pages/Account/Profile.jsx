@@ -418,38 +418,48 @@ const Profile = () => {
                                     </div>
 
                                 }
-                                {activeTab === 'whislist' && <div >
-                                    <div className="text-red-400 font-bold text-lg uppercase">BỘ PHIM YÊU THÍCH </div>
-                                    {movieFavourite.map((fav, index) => (
-                                        <div className=" shadow-sm overflow-hidden mt-2" key={index}>
-                                            <div className='flex bg-slate-100 rounded-sm mb-3'>
-                                                <div className="w-2/12">
-                                                    <img
-                                                        src={fav.movie.img}
-                                                        alt={fav.movie.name}
-                                                        className="w-auto  m-auto p-2 "
-                                                    />
-                                                </div>
-                                                <div className="p-4 w-10/12">
-                                                    <h3 className="text-lg text-gray-800 font-semibold">{fav.movie.name}</h3>
-                                                    <div className="mt-2 flex items-center">
-                                                        <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">{fav.movie.subtitles}</span>
-                                                        <span className="bg-orange-600 text-white px-2 py-1 rounded">{fav.movie.country}</span>
-                                                    </div>
-                                                    <div className="mt-2 text-gray-600 w-[70ch] break-words">Ngày phát hành: {new Date(fav.movie.release_date).toLocaleDateString()}</div>
-                                                    <div className="mt-2 text-gray-600 w-[70ch] break-words">Thể loại:  {fav.movie.genres.map((genre, index) => (
-                                                        <span key={genre._id}>
-                                                            {genre.name}
-                                                            {index < fav.movie.genres.length - 1 && ', '}
-                                                        </span>
-                                                    ))}</div>
-                                                    <div className="mt-1 text-gray-500"><span>Đạo diễn: {fav.movie.director}</span> - <span>Nhà sản xuất: {fav.movie.producer}</span></div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    ))}
-                                </div>}
+                                {activeTab === 'whislist' && (
+  <div>
+    <div className="text-red-400 font-bold text-lg uppercase">BỘ PHIM YÊU THÍCH</div>
+    <div className="max-h-[500px] overflow-y-auto">
+      {movieFavourite.map((fav, index) => (
+        <div className="shadow-sm overflow-hidden mt-2" key={index}>
+          <div className="flex bg-slate-100 rounded-sm mb-3">
+            <div className="w-2/12">
+              <img
+                src={fav.movie.img}
+                alt={fav.movie.name}
+                className="w-auto m-auto p-2"
+              />
+            </div>
+            <div className="p-4 w-10/12">
+              <h3 className="text-lg text-gray-800 font-semibold">{fav.movie.name}</h3>
+              <div className="mt-2 flex items-center">
+                <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">{fav.movie.subtitles}</span>
+                <span className="bg-orange-600 text-white px-2 py-1 rounded">{fav.movie.country}</span>
+              </div>
+              <div className="mt-2 text-gray-600 w-[70ch] break-words">
+                Ngày phát hành: {new Date(fav.movie.release_date).toLocaleDateString()}
+              </div>
+              <div className="mt-2 text-gray-600 w-[70ch] break-words">
+                Thể loại: {fav.movie.genres.map((genre, index) => (
+                  <span key={genre._id}>
+                    {genre.name}
+                    {index < fav.movie.genres.length - 1 && ', '}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-1 text-gray-500">
+                <span>Đạo diễn: {fav.movie.director}</span> -{' '}
+                <span>Nhà sản xuất: {fav.movie.producer}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
                                 {activeTab === 'Notification' && <div>Thông báo</div>}
                                 {activeTab === 'out' && <div>Đăng xuất ra ngoài</div>}
                             </div>
