@@ -10,15 +10,17 @@ import Banner from "../../components/Home/Banner";
 import Modal_Video from "../../components/Movie/Modal_Video";
 import LoadingLocal from "../Loading/LoadingLocal";
 import { useTranslation } from 'react-i18next';
-
+import  {useCreateMoviesFavouriteMutation} from '../../services/MovieFavourite/moviesFavourite_service'
+import { getUserByIdFormToken } from "../../components/Utils/auth";
 const Home = () => {
   const { t } = useTranslation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userId = getUserByIdFormToken()
   const [videoUrl, setVideoUrl] = useState("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
   const { data: latestMovies, isLoading: latestMoviesLoading } = useGetLatestMoviesByCreationDateQuery();
-
+  const [createMoviesFavourite]  = useCreateMoviesFavouriteMutation()
   const handleTrailerClick = (url) => {
     setVideoUrl(url);
     setIsModalOpen(true);
@@ -231,7 +233,24 @@ const Home = () => {
     return <LoadingLocal />
   }
 
+  const handleMovieFavourite = async (movId)=>{
+  const dataFaMoive = {
+    userId:userId,
+    movieFavourite:movId
+  }
+  console.log('dataFsss',dataFaMoive)
+    try {
+      const dataMovieFa =  await createMoviesFavourite(dataFaMoive);
+      console.log('dataFa',dataMovieFa);
+      
 
+    } catch (err) {
+      console.error("Lỗi khi thêm vào yêu thích:", err);
+    }
+
+ 
+  
+  }
   // hiển thị cửa sô popup 
   
 
@@ -388,7 +407,7 @@ const Home = () => {
                           </h4>
                           <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
                           <div className="button-container flex flex-col space-y-4">
-                            <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
+                            <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
                             <Link
                               to={``}
                               className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
@@ -455,13 +474,13 @@ const Home = () => {
                     {/* Overlay buttons */}
                     <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                       <div className="button-container flex flex-col space-y-4">
-                        <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
+                        <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
                         <button
                           onClick={() => handleTrailerClick(movie?.url_video)}
                           className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                         >
                           Trailer
-                          <FaPhotoVideo size={18} className="ml-2" />
+                          <FaPhotoVideo  size={18} className="ml-2" />
                         </button>
                         <Link
                           to={`/cinema/movie/${movie._id}`}
@@ -504,7 +523,7 @@ const Home = () => {
                       {/* Overlay buttons */}
                       <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="flex flex-col">
-                          <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
+                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
                           <button
                           onClick={() => handleTrailerClick(movie?.url_video)}
                           className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
@@ -553,7 +572,7 @@ const Home = () => {
                   {/* Overlay buttons */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <div className="flex flex-col">
-                          <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
+                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
                           <button
                           onClick={() => handleTrailerClick(movie?.url_video)}
                           className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
@@ -620,7 +639,7 @@ const Home = () => {
                           </h4>
                           <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
                           <div className="button-container flex flex-col space-y-4">
-                          <FaRegKissWinkHeart size={18} className="ml-11 font-bold flex items-center justify-center" />
+                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
                           <button
                           onClick={() => handleTrailerClick(movie?.url_video)}
                           className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"

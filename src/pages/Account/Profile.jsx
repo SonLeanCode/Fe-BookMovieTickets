@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { useGetUserQuery, usePatchUserMutation, usePatchProfileMutation, useUploadAvatarMutation } from '../../services/Auth/auth.service';
+import { useGetAllFavouriteQuery } from '../../services/MovieFavourite/moviesFavourite_service'
 import Toastify from '../../helper/Toastify';
 
 const Profile = () => {
@@ -18,10 +19,12 @@ const Profile = () => {
     const [confirmNewPassword, setConfirmNewPassword] = useState()
     const [patchUser] = usePatchUserMutation();
     const [patchProfile] = usePatchProfileMutation();
-    const [uploadAvatar] = useUploadAvatarMutation()
+    const [uploadAvatar] = useUploadAvatarMutation();
+    const { data: movieFavourite } = useGetAllFavouriteQuery();
+    console.log('movieFGet', movieFavourite)
     const formatDate = (dateString) => {
         if (!dateString) return '';
-        
+
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, '0'); // Lấy ngày
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Lấy tháng. Nhớ cộng 1 vì tháng bắt đầu từ 0
@@ -199,7 +202,7 @@ const Profile = () => {
                             </div>
                         </div>
                         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
-                        
+
                     </div>
 
                 </div>
@@ -299,10 +302,10 @@ const Profile = () => {
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>  
+                                            </div>
                                             {/* Gender */}
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                
+
                                                 {/* Password */}
                                                 <div className="">
                                                     <div>
@@ -415,7 +418,38 @@ const Profile = () => {
                                     </div>
 
                                 }
-                                {activeTab === 'whislist' && <div>Yêu thích của bạn</div>}
+                                {activeTab === 'whislist' && <div >
+                                    <div className="text-red-400 font-bold text-lg uppercase">BỘ PHIM YÊU THÍCH </div>
+                                    {movieFavourite.map((fav, index) => (
+                                        <div className=" shadow-sm overflow-hidden mt-2" key={index}>
+                                            <div className='flex bg-slate-100 rounded-sm mb-3'>
+                                                <div className="w-2/12">
+                                                    <img
+                                                        src={fav.movie.img}
+                                                        alt={fav.movie.name}
+                                                        className="w-auto  m-auto p-2 "
+                                                    />
+                                                </div>
+                                                <div className="p-4 w-10/12">
+                                                    <h3 className="text-lg text-gray-800 font-semibold">{fav.movie.name}</h3>
+                                                    <div className="mt-2 flex items-center">
+                                                        <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">{fav.movie.subtitles}</span>
+                                                        <span className="bg-orange-600 text-white px-2 py-1 rounded">{fav.movie.country}</span>
+                                                    </div>
+                                                    <div className="mt-2 text-gray-600 w-[70ch] break-words">Ngày phát hành: {new Date(fav.movie.release_date).toLocaleDateString()}</div>
+                                                    <div className="mt-2 text-gray-600 w-[70ch] break-words">Thể loại:  {fav.movie.genres.map((genre, index) => (
+                                                        <span key={genre._id}>
+                                                            {genre.name}
+                                                            {index < fav.movie.genres.length - 1 && ', '}
+                                                        </span>
+                                                    ))}</div>
+                                                    <div className="mt-1 text-gray-500"><span>Đạo diễn: {fav.movie.director}</span> - <span>Nhà sản xuất: {fav.movie.producer}</span></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    ))}
+                                </div>}
                                 {activeTab === 'Notification' && <div>Thông báo</div>}
                                 {activeTab === 'out' && <div>Đăng xuất ra ngoài</div>}
                             </div>
