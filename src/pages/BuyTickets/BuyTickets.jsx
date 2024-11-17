@@ -24,8 +24,10 @@ import { usePaymentMomoMutation } from "../../services/payment/Payment.services"
 import { v4 as uuidv4 } from "uuid";
 import Toastify from "../../helper/Toastify";
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const BuyTickets = () => {
+  const { t } = useTranslation(); 
   const { data: regionsData, isLoading: regionsLoading } =
     useGetAllRegionsQuery();
   const [isAreaOpen, setAreaOpen] = useState(false);
@@ -282,7 +284,7 @@ const BuyTickets = () => {
           {/* Choose Area */}
           <div>
             <h2 className="mb-4 text-xl font-bold text-white">
-              Chọn khu vực :
+            {t("Chọn khu vực")}:
             </h2>
             <div className="mb-6">
               <button
@@ -296,7 +298,7 @@ const BuyTickets = () => {
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
-                Chọn vị trí {selectedArea ? " - " + selectedArea?.name : ""}
+                {t("Chọn vị trí")} {selectedArea ? " - " + selectedArea?.name : ""}
                 {isAreaOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {isAreaOpen && (
@@ -317,7 +319,7 @@ const BuyTickets = () => {
 
           {/* Choose Movie */}
           <div>
-            <h2 className="mb-4 text-xl font-bold text-white">Chọn phim :</h2>
+            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn phim")}:</h2>
             <div className="mb-6">
               <button
                 onClick={() => {
@@ -330,7 +332,7 @@ const BuyTickets = () => {
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
-                Chọn phim {selectedMovie ? " - " + selectedMovie?.name : ""}
+                {t("Chọn phim")} {selectedMovie ? " - " + selectedMovie?.name : ""}
                 {isMovieOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {isMovieOpen && (
@@ -351,7 +353,7 @@ const BuyTickets = () => {
                       </div>
                     ))
                   ) : (
-                    <p className="mt-4 text-white">Vui lòng chọn khu vực</p>
+                    <p className="mt-4 text-white">{t("Vui lòng chọn khu vực")}</p>
                   )}
                 </div>
               )}
@@ -360,7 +362,7 @@ const BuyTickets = () => {
 
           {/* Choose Showtime */}
           <div>
-            <h2 className="mb-4 text-xl font-bold text-white">Chọn suất:</h2>
+            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn xuất")}:</h2>
             <div className="mb-6">
               <button
                 onClick={() => {
@@ -371,7 +373,7 @@ const BuyTickets = () => {
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
-                Chọn suất chiếu
+                {t("Chọn xuất chiếu")}
                 {isShowtimeOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {isShowtimeOpen && (
@@ -461,7 +463,7 @@ const BuyTickets = () => {
                     )
                   ) : (
                     <div className="mt-4 text-center text-white">
-                      Vui lòng chọn phim
+                      {t("Vui lòng chọn phim")}
                     </div>
                   )}
                 </div>
@@ -470,7 +472,7 @@ const BuyTickets = () => {
           </div>
 
           <div className="mb-6">
-            <h2 className="mb-4 text-xl font-bold text-white">Chọn ghế :</h2>
+            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn ghế")}:</h2>
             <button
               onClick={() => {
                 setAreaOpen(isAreaOpen ? !isAreaOpen : isAreaOpen);
@@ -482,7 +484,7 @@ const BuyTickets = () => {
               }}
               className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
             >
-              Chọn ghế
+              {t("Chọn ghế")}
               {isSeatOpen ? <FaChevronUp /> : <FaChevronDown />}
             </button>
             {isSeatOpen &&
@@ -495,7 +497,7 @@ const BuyTickets = () => {
                 />
               ) : (
                 <div className="mt-4 text-center text-white">
-                  Vui lòng chọn suất chiếu.
+                  {t("Vui lòng chọn suất chiếu")}.
                 </div>
               ))}
           </div>
@@ -522,7 +524,7 @@ const BuyTickets = () => {
                     <p className="text-lg">
                       <span className="font-semibold">
                         {selectedMovie?.name ||
-                          "Vui lòng chọn phim để tiếp tục"}
+                          t("Vui lòng chọn phim để tiếp tục")}
                       </span>
                     </p>
                     {selectedMovie && (
@@ -572,7 +574,7 @@ const BuyTickets = () => {
               )}
 
               <div className="mx-2 flex justify-between p-2">
-                <h2 className="text-base font-semibold">Tổng cộng</h2>
+                <h2 className="text-base font-semibold">{t("Tổng cộng")}</h2>
                 <span className="text-primary inline-block font-bold text-red-600">
                   {selectedSeats && selectedSeats.length > 0
                     ? `${formatCurrency(
@@ -595,7 +597,7 @@ const BuyTickets = () => {
                     }`}
                   disabled={!isContinueClicked}
                 >
-                  Quay lại
+                  {t("Quay lại")}
                 </button>
                 {!isContinueClicked ? (
                   <button
@@ -606,7 +608,7 @@ const BuyTickets = () => {
                       }`}
                     disabled={selectedSeats.length === 0}
                   >
-                    Thanh Toán
+                    {t("Thanh toán")}
                   </button>
                 ) : (
                   <button onClick={handleAddTicket} className="w-1/2 rounded-md bg-red-600 p-2 text-white">

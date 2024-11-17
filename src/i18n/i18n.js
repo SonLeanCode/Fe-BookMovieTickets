@@ -113,8 +113,22 @@ i18n
           "Không có khu vực nào để hiển thị": "No areas available to display.",
           "Đóng": "Close",
           "Xin chào": "Greetings",
-          "Tìm kiếm...": "Search"
-
+          "Tìm kiếm...": "Search",
+          "Vui lòng chọn phim để tiếp tục": "Please select a movie to continue",
+          "Chọn khu vực": "Select Region",
+          "Chọn phim": "Select Movie",
+          "Chọn xuất": "Select Showtime",
+          "Chọn ghế": "Select Seat",
+          "Chọn vị trí": "Select Location",
+          "Chọn xuất chiếu": "Select Screening",
+          "Vui lòng chọn khu vực": "Please select a region",
+          "Vui lòng chọn phim": "Please select a movie",
+          "Vui lòng chọn suất chiếu": "Please select a showtime",
+          "Tổng cộng": "Total",
+          "Quay lại": "Back",
+          "Thanh toán": "Payment",
+          "Đang cập nhật": "Updating",
+          "Xem thêm": "See More"
         },
       },
       vi: {
@@ -225,12 +239,28 @@ i18n
           "Không có khu vực nào để hiển thị": "Không có khu vực nào để hiển thị.",
           "Đóng": "Đóng",
           "Xin chào": "Xin chào",
-          "Tìm kiếm...": "Tìm kiếm"
+          "Tìm kiếm...": "Tìm kiếm",
+          "Vui lòng chọn phim để tiếp tục": "Vui lòng chọn phim để tiếp tục",
+          "Chọn khu vực": "Chọn khu vực",
+          "Chọn phim": "Chọn phim",
+          "Chọn xuất": "Chọn xuất",
+          "Chọn ghế": "Chọn ghế",
+          "Chọn vị trí": "Chọn vị trí",
+          "Chọn xuất chiếu": "Chọn xuất chiếu",
+          "Vui lòng chọn khu vực": "Vui lòng chọn khu vực",
+          "Vui lòng chọn phim": "Vui lòng chọn phim",
+          "Vui lòng chọn suất chiếu": "Vui lòng chọn suất chiếu",
+          "Tổng cộng": "Tổng cộng",
+          "Quay lại": "Quay lại",
+          "Thanh toán": "Thanh toán",
+          "Đang cập nhật": "Đang cập nhật",
+          "Xem thêm": "Xem thêm"
+
         },
       },
     },
-    lng: "en", // Ngôn ngữ mặc định
-    fallbackLng: "en", // Ngôn ngữ dự phòng
+    lng: "vi", // Ngôn ngữ mặc định
+    fallbackLng: "vi", // Ngôn ngữ dự phòng
     interpolation: {
       escapeValue: false, // Không thoát ký tự HTML
     },

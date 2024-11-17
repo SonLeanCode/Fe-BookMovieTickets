@@ -421,7 +421,7 @@ const Profile = () => {
                                 }
                                 {activeTab === 'whislist' && <div >
                                     <div className="text-red-400 font-bold text-lg uppercase">BỘ PHIM YÊU THÍCH </div>
-                                    <div className="mt-4">
+                                    <div className="max-h-[500px] overflow-y-auto">
                                         {movieFavourite && movieFavourite.length > 0 ? (
                                             movieFavourite.map((fav, index) => (
                                                 <div className="shadow-sm overflow-hidden mt-2" key={index}>

@@ -109,7 +109,7 @@ const Movie = () => {
 
       <div className="flex flex-col w-4/5 justify-center m-auto text-white py-5 px-5">
         <div className="w-full py-8 text-center font-semibold text-2xl md:text-3xl text-gray-300">
-          Phim đang chiếu
+        {t("Phim đang chiếu")}
         </div>
 
         {latestMovies?.data?.slice(0, 20).map((movie) => (
