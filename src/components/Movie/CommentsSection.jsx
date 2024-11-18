@@ -31,7 +31,6 @@ const CommentsSection = ({ movieId }) => {
     socketRef.current.connect();
 
     const handleNewComment = (comment) => {
-      console.log("comment", comment);
       if (comment && comment.data.movieId === movieId) {
         setAllComments((prevComments) => [...prevComments, comment.data]);
       }
@@ -51,7 +50,6 @@ const CommentsSection = ({ movieId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newComment.trim() === "") {
-      console.log("Bình luận trống, không gửi.");
       return;
     }
     const commentData = {

@@ -11,7 +11,6 @@ import {
   HomeIcon,
   CogIcon,
   EnvelopeIcon,
-  Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
 import { useTranslation } from 'react-i18next'
 const FooterWeb = () => {
@@ -24,7 +23,7 @@ const FooterWeb = () => {
           {/* Left section */}
           <div className="md:w-1/4 w-full flex flex-col justify-between">
             <div>
-              <h2 className="text-5xl font-bold text-red-600 mb-4">ST-FLIX</h2>
+              <h2 className="text-5xl font-bold text-red-600 mb-4">SBC-FLIX</h2>
               <p>{t("Vé phim giá rẻ, đa dạng thể loại, trải nghiệm giải trí tuyệt vời!")} </p>
             </div>
             <img src={logo} className="w-48 h-16 md:block hidden" alt="" />

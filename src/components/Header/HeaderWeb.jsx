@@ -97,18 +97,10 @@ const HeaderWeb = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  
-  
-
-
-
   // changes languages
-  const changeLanguage = async (language) => {
-      
+  const changeLanguage = async (language) => {  
     try {
-
       i18n.changeLanguage(language);
-      console.log("Current language:", i18n.language);
     }
     catch (error) {
       console.error("Error updating language:", error);
@@ -125,7 +117,7 @@ const HeaderWeb = () => {
             to="/cinema"
             className="font-montserrat animate-sparkle xs:text-4xl relative ml-16 bg-gradient-to-r from-red-600 via-red-300 to-red-600 bg-clip-text text-7xl font-bold text-transparent sm:text-5xl md:text-6xl" // Thay đổi kích thước chữ
           >
-            {t("ST-FLIX")}
+            {t("SBC-FLIX")}
           </Link>
         </div>
 

@@ -47,8 +47,6 @@ const AddMultipleSeatsModal = ({
         base_price: basePrice,
         price_variations: priceVariations,
       });
-
-      console.log(res, res.data.message, res.data.status);
       refetchSeats(); // Call to refetch the seats after adding
 
       // Reset form after adding seats

@@ -24,7 +24,6 @@ const Profile = () => {
     const [uploadAvatar] = useUploadAvatarMutation();
 
     const { data: movieFavourite } = useGetAllFavouriteQuery(userId);
-    console.log('movieFGet', movieFavourite)
     const formatDate = (dateString) => {
         if (!dateString) return '';
 
@@ -60,7 +59,6 @@ const Profile = () => {
         }
         try {
             await patchUser({ userId, email }).unwrap();
-            console.log("Cập nhật thành công");
             setIsEditing(false);
             Toastify("Email cập nhập thành công!", 200);
         } catch (err) {
@@ -77,7 +75,6 @@ const Profile = () => {
         }
         try {
             await patchProfile({ userId, email, currentPassword, newPassword }).unwrap();
-            console.log("Cập nhật all thành công");
             setIsEditing(false);
             Toastify("Cập nhập tất cả thành công!", 200);
         }
