@@ -194,7 +194,7 @@ const Profile = () => {
                                     className="w-7 h-10 mb-5"
                                 />
                                 <div className="absolute left-1/3 w-2/3 h-full rounded-full"></div>
-                                <span className="text-xs mt-1">70.000 đ</span>
+                                <span className="text-xs mt-1">100.000 đ</span>
                             </div>
 
                             {/* Cột mốc 100.000 đ */}
@@ -205,7 +205,7 @@ const Profile = () => {
                                     className="w-8 h-12 mb-5"
                                 />
                                 <div className="absolute right-0 w-1/3 h-full rounded-full"></div>
-                                <span className="text-xs mt-1">100.000 đ</span>
+                                <span className="text-xs mt-1">500.000 đ</span>
                             </div>
 
                             {/* Thanh timeline */}
@@ -219,7 +219,7 @@ const Profile = () => {
                                             (idTicketData && idTicketData.dataSticket.reduce(
                                                 (total, ticket) => total + ticket.price,
                                                 0
-                                            ) / 100000) * 100
+                                            ) / 500000) * 100
                                         )}%`, // Phần đã chi tiêu (background color)
                                         transition: 'width 0.5s ease-in-out', // Thêm hiệu ứng chuyển động
                                     }}
@@ -243,7 +243,7 @@ const Profile = () => {
                                             (idTicketData && idTicketData.dataSticket.reduce(
                                                 (total, ticket) => total + ticket.price,
                                                 0
-                                            ) / 100000) * 100
+                                            ) / 500000) * 100
                                         )}%`,
                                     }}
                                 >
