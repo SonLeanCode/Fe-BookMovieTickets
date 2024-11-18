@@ -54,9 +54,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <div className="flex items-center gap-2 text-center">
               <Link
                 to="/cinema"
-                className="font-montserrat animate-sparkle relative bg-gradient-to-r from-red-600 via-red-300 to-red-600 bg-clip-text text-6xl font-bold text-transparent"
+                className="font-montserrat animate-sparkle relative bg-gradient-to-r from-red-600 via-red-300 to-red-600 bg-clip-text text-5xl font-bold text-transparent"
               >
-                ST-FLIX
+                SBC-FLIX
               </Link>
             </div>
           </div>
@@ -107,8 +107,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </Button>
           </div>
           <div className="mt-2 text-xs text-gray-400">
-            <p className="text-center font-bold uppercase">ST-Flix</p>
-            <p className="font-light">Created by NTD @2024</p>
+            <p className="text-center font-bold uppercase">SBC-Flix</p>
+            <p className="font-light">Created by SBC @2024</p>
           </div>
         </div>
       </div>
