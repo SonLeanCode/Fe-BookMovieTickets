@@ -187,7 +187,7 @@ const Profile = () => {
                             </div>
 
                             {/* Cột mốc 70.000 đ */}
-                            <div className={`absolute left-1/3 transform -translate-x-1/2 -top-12 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) >= 70000 ? 'opacity-100' : 'opacity-50'}`}>
+                            <div className={`absolute left-1/3 transform -translate-x-1/2 -top-12 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) >= 100000 ? 'opacity-100' : 'opacity-50'}`}>
                                 <img
                                     src="https://www.galaxycine.vn/_next/static/media/silver.6313aa20.png"
                                     alt=""
@@ -198,14 +198,14 @@ const Profile = () => {
                             </div>
 
                             {/* Cột mốc 100.000 đ */}
-                            <div className={`absolute right-0 -top-14 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) >= 100000 ? 'opacity-100' : 'opacity-50'}`}>
+                            <div className={`absolute right-0 -top-14 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) >= 400000 ? 'opacity-100' : 'opacity-50'}`}>
                                 <img
                                     src="https://www.galaxycine.vn/_next/static/media/gold.ff661579.png"
                                     alt=""
                                     className="w-8 h-12 mb-5"
                                 />
                                 <div className="absolute right-0 w-1/3 h-full rounded-full"></div>
-                                <span className="text-xs mt-1">500.000 đ</span>
+                                <span className="text-xs mt-1">400.000 đ</span>
                             </div>
 
                             {/* Thanh timeline */}
@@ -219,7 +219,7 @@ const Profile = () => {
                                             (idTicketData && idTicketData.dataSticket.reduce(
                                                 (total, ticket) => total + ticket.price,
                                                 0
-                                            ) / 500000) * 100
+                                            ) / 400000) * 100
                                         )}%`, // Phần đã chi tiêu (background color)
                                         transition: 'width 0.5s ease-in-out', // Thêm hiệu ứng chuyển động
                                     }}
@@ -243,7 +243,7 @@ const Profile = () => {
                                             (idTicketData && idTicketData.dataSticket.reduce(
                                                 (total, ticket) => total + ticket.price,
                                                 0
-                                            ) / 500000) * 100
+                                            ) / 400000) * 100
                                         )}%`,
                                     }}
                                 >
