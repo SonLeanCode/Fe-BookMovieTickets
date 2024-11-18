@@ -10,7 +10,7 @@ const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
     const { data: userData } = useGetUserQuery(userId)
-    const { data: idTicketData } = useGetTicketByIdQuery(userId)
+    const { data: idTicketData,  } = useGetTicketByIdQuery(userId)
     const fileInputRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -25,6 +25,7 @@ const Profile = () => {
 
     const { data: movieFavourite } = useGetAllFavouriteQuery(userId);
     console.log('movieFGet', movieFavourite)
+
     const formatDate = (dateString) => {
         if (!dateString) return '';
 
@@ -457,45 +458,42 @@ const Profile = () => {
 
                                 )}
                                 {activeTab === 'history' &&
-                                    <div className=" shadow-sm overflow-hidden">
-                                        <div className='flex bg-slate-100 rounded-sm mb-3'>
+                                    <div>
+                                    {idTicketData?.dataSticket?.length > 0 ? (
+                                      <div className="shadow-sm overflow-hidden">
+                                        {idTicketData.dataSticket.map((ticket) => (
+                                          <div key={ticket._id} className="flex bg-slate-100 rounded-sm mb-3">
                                             <div className="w-2/12">
-                                                <img
-                                                    src="https://cdn.galaxycine.vn/media/2024/10/10/tee-yod-2-500_1728531355521.jpg"
-                                                    alt="Movie Poster"
-                                                    className="w-auto  m-auto p-2 "
-                                                />
+                                              <img
+                                                src={ticket.moviePoster || "default_poster_url.jpg"}
+                                                alt={ticket.movieTitle || "Movie Poster"}
+                                                className="w-auto m-auto p-2"
+                                              />
                                             </div>
                                             <div className="p-4 w-10/12">
-                                                <h3 className="text-lg text-gray-800 font-semibold">Quỷ Ăn Tạng Phần 2</h3>
-                                                <div className="mt-2 flex items-center">
-                                                    <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">2D PHÙ ĐỀ</span>
-                                                    <span className="bg-orange-600 text-white px-2 py-1 rounded">C13</span>
-                                                </div>
-                                                <div className="mt-2 text-gray-600">Galaxy Mipec Long Biên - Rạp 3</div>
-                                                <div className="mt-1 text-gray-500"><span>14:15 - Chủ Nhật</span>, <span>13/12/2020</span></div>
+                                              <h3 className="text-2xl text-red-700 font-semibold">{ticket.name_movie}</h3>
+                                              <div className="mt-2 flex items-center">
+                                                <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">
+                                                  {ticket.subtitles}
+                                                </span>
+                                                <span className="bg-orange-600 text-white px-2 py-1 rounded">
+                                                {ticket.age_limit}
+                                                </span>
+                                              </div>
+                                              <div className="mt-2 font-bold text-black">{ticket.cinema_name}</div>
+                                              <div className="mt-2 text-gray-600">{ticket.address_cinema}</div>
+                                              <div className="mt-2 text-gray-600">Suất chiếu: {ticket.showtime}</div>
+                                              <div className="mt-1 font-bold text-red-600">
+                                                <span>Ghế: {ticket.seat_number}</span> 
+                                              </div>
                                             </div>
-                                        </div>
-                                        <div className='flex bg-slate-100 rounded-sm mb-3'>
-                                            <div className="w-2/12">
-                                                <img
-                                                    src="https://cdn.galaxycine.vn/media/2024/10/10/tee-yod-2-500_1728531355521.jpg"
-                                                    alt="Movie Poster"
-                                                    className="w-auto  m-auto p-2 "
-                                                />
-                                            </div>
-                                            <div className="p-4 w-10/12">
-                                                <h3 className="text-lg text-gray-800 font-semibold">Quỷ Ăn Tạng Phần 2</h3>
-                                                <div className="mt-2 flex items-center">
-                                                    <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">2D PHÙ ĐỀ</span>
-                                                    <span className="bg-orange-600 text-white px-2 py-1 rounded">C13</span>
-                                                </div>
-                                                <div className="mt-2 text-gray-600">Galaxy Mipec Long Biên - Rạp 3</div>
-                                                <div className="mt-1 text-gray-500"><span>14:15 - Chủ Nhật</span>, <span>13/12/2020</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                          </div>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      <p>No tickets found for this user.</p>
+                                    )}
+                                  </div>
                                 }
                                 {activeTab === 'whislist' && <div >
                                     <div className="text-red-400 font-bold text-lg uppercase">BỘ PHIM YÊU THÍCH </div>
