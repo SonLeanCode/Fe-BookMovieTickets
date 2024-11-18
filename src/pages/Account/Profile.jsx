@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { useGetUserQuery, usePatchUserMutation, usePatchProfileMutation, useUploadAvatarMutation } from '../../services/Auth/auth.service';
 import { useGetAllFavouriteQuery } from '../../services/MovieFavourite/moviesFavourite_service'
+import { useGetTicketByIdQuery } from '../../services/Ticket/ticket.serviecs'
 import Toastify from '../../helper/Toastify';
 
 const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
     const { data: userData } = useGetUserQuery(userId)
+    const { data: idTicketData } = useGetTicketByIdQuery(userId)
     const fileInputRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -155,34 +157,110 @@ const Profile = () => {
                         )}
                     </div>
                     <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
-                    <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-xl font-bold">{t("Tổng chi tiêu 2024")}</h1>
-                        <div className="text-orange-500 text-xl font-semibold">0 đ</div>
-                    </div>
-                    <div className="my-24 ">
+                    {(idTicketData && idTicketData.dataSticket && idTicketData.dataSticket.length > 0) ? (
+                        <div className="flex justify-between items-center mb-4">
+                            <h1 className="text-xl font-bold">{t("Tổng chi tiêu 2024")}</h1>
+                            <div className="text-orange-500 text-xl font-semibold">
+                                {idTicketData.dataSticket.reduce(
+                                    (total, ticket) => total + ticket.price,
+                                    0
+                                ).toLocaleString()} đ
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex justify-between items-center mb-4">
+                            <h1 className="text-xl font-bold">{t("Tổng chi tiêu 2024")}</h1>
+                            <div className="text-orange-500 text-xl font-semibold">
+                                0 đ
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="my-24">
                         <div className="relative m-10">
-                            <div className="absolute left-0 -top-10 flex flex-col items-center">
-                                <img src="https://www.galaxycine.vn/_next/static/media/bronze.6c2b2f39.png" alt="" className="w-5 h-8 mb-5" />
-                                <div className="absolute left-0 w-1/3 h-full  rounded-full"></div>
+                            {/* Cột mốc 0 đ */}
+                            <div className={`absolute left-0 -top-10 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) > 0 ? 'opacity-100' : 'opacity-50'}`}>
+                                <img
+                                    src="https://www.galaxycine.vn/_next/static/media/bronze.6c2b2f39.png"
+                                    alt=""
+                                    className="w-5 h-8 mb-5"
+                                />
+                                <div className="absolute left-0 w-1/3 h-full rounded-full"></div>
                                 <span className="text-xs mt-1">0 đ</span>
                             </div>
-                            <div className="absolute left-1/2 transform -translate-x-1/2 -top-12 flex flex-col items-center">
-                                <img src="https://www.galaxycine.vn/_next/static/media/silver.6313aa20.png" alt="" className="w-7 h-10 mb-5" />
-                                <div className="absolute left-1/3 w-2/3 h-full  rounded-full"></div>
-                                <span className="text-xs mt-1">2.000.000 đ</span>
+
+                            {/* Cột mốc 70.000 đ */}
+                            <div className={`absolute left-1/3 transform -translate-x-1/2 -top-12 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) >= 70000 ? 'opacity-100' : 'opacity-50'}`}>
+                                <img
+                                    src="https://www.galaxycine.vn/_next/static/media/silver.6313aa20.png"
+                                    alt=""
+                                    className="w-7 h-10 mb-5"
+                                />
+                                <div className="absolute left-1/3 w-2/3 h-full rounded-full"></div>
+                                <span className="text-xs mt-1">70.000 đ</span>
                             </div>
-                            <div className="absolute right-0 -top-14 flex flex-col items-center">
-                                <img src="https://www.galaxycine.vn/_next/static/media/gold.ff661579.png" alt="" className="w-8 h-12 mb-5" />
+
+                            {/* Cột mốc 100.000 đ */}
+                            <div className={`absolute right-0 -top-14 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) >= 100000 ? 'opacity-100' : 'opacity-50'}`}>
+                                <img
+                                    src="https://www.galaxycine.vn/_next/static/media/gold.ff661579.png"
+                                    alt=""
+                                    className="w-8 h-12 mb-5"
+                                />
                                 <div className="absolute right-0 w-1/3 h-full rounded-full"></div>
-                                <span className="text-xs mt-1">4.000.000 đ</span>
+                                <span className="text-xs mt-1">100.000 đ</span>
                             </div>
+
+                            {/* Thanh timeline */}
                             <div className="relative w-full h-2 bg-gray-200 rounded-full">
+                                {/* Thanh nền màu xanh di động */}
+                                <div
+                                    className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
+                                    style={{
+                                        width: `${Math.min(
+                                            100, // Đảm bảo không vượt quá 100%
+                                            (idTicketData && idTicketData.dataSticket.reduce(
+                                                (total, ticket) => total + ticket.price,
+                                                0
+                                            ) / 100000) * 100
+                                        )}%`, // Phần đã chi tiêu (background color)
+                                        transition: 'width 0.5s ease-in-out', // Thêm hiệu ứng chuyển động
+                                    }}
+                                ></div>
+
+                                {/* Dấu mốc 0 đ */}
                                 <div className="absolute left-0 w-3 h-3 bg-white border-2 border-blue-500 rounded-full top-1/2 transform -translate-y-1/2"></div>
-                                <div className="absolute left-1/2 w-3 h-3 bg-white border-2 border-blue-500 rounded-full top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+
+                                {/* Dấu mốc 70.000 đ */}
+                                <div className="absolute left-1/3 w-3 h-3 bg-white border-2 border-blue-500 rounded-full top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+
+                                {/* Dấu mốc 100.000 đ */}
                                 <div className="absolute right-6 w-3 h-3 bg-white border-2 border-blue-500 rounded-full top-1/2 transform -translate-y-1/2"></div>
+
+                                {/* Dấu mốc di động */}
+                                <div
+                                    className="absolute top-[-5px] w-6 h-6 rounded-full"
+                                    style={{
+                                        left: `${Math.min(
+                                            100,
+                                            (idTicketData && idTicketData.dataSticket.reduce(
+                                                (total, ticket) => total + ticket.price,
+                                                0
+                                            ) / 100000) * 100
+                                        )}%`,
+                                    }}
+                                >
+                                    <img
+                                        src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/avatar-cute-cho-co-nang-nghien-tra-sua.jpg"
+                                        alt="Icon milestone"
+                                        className="w-full h-full object-cover rounded-full"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
                     <div className="p-4">
                         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
                         <div className="flex justify-between items-center py-5">

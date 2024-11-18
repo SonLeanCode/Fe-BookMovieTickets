@@ -33,7 +33,7 @@ export const ticketApi = createApi({
     }),
     // Endpoint để lấy một ticket cụ thể theo ID
     getTicketById: builder.query({
-      query: (id) => `tickets/${id}`,
+      query: (id) => `/api/tickets/${id}`,
     }),
     // Endpoint để cập nhật một ticket theo ID
     updateTicket: builder.mutation({
