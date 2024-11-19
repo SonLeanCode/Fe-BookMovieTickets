@@ -362,7 +362,7 @@ const BuyTickets = () => {
 
           {/* Choose Showtime */}
           <div>
-            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn xuất")}:</h2>
+            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn suất")}:</h2>
             <div className="mb-6">
               <button
                 onClick={() => {
@@ -373,7 +373,7 @@ const BuyTickets = () => {
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
-                {t("Chọn xuất chiếu")}
+                {t("Chọn suất chiếu")}
                 {isShowtimeOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {isShowtimeOpen && (
