@@ -41,8 +41,6 @@ const SeatSelection = ({
         statusSeat.seat_id === seat._id &&
         statusSeat.status === "booked",
     );
-    console.log("123:",showtime)
-    
     if (isBooked) {
       return `${baseClass} bg-gray-600 ${selectedClass}`;
     }

@@ -6,7 +6,6 @@ const UpdateSeatPricesModal = ({ isOpen, onClose, roomId ,refetchSeats}) => {
   const { data: seatTypesData, isLoading, refetch } = useGetSeatTypesByRoomIDQuery(roomId);
   const [updateSeatPrices] = useUpdateSeatPricesMutation();
   const [prices, setPrices] = useState({});
-    console.log(seatTypesData)
   useEffect(() => {
     if (seatTypesData) {
       const initialPrices = seatTypesData.data.reduce((acc, seat) => {
