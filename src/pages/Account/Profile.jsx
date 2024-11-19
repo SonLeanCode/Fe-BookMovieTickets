@@ -11,6 +11,8 @@ const Profile = () => {
     const { userId } = useParams();
     const { data: userData } = useGetUserQuery(userId)
     const { data: idTicketData,  } = useGetTicketByIdQuery(userId)
+    console.log('đsff', idTicketData)
+
     const fileInputRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -25,6 +27,7 @@ const Profile = () => {
 
     const { data: movieFavourite } = useGetAllFavouriteQuery(userId);
     console.log('movieFGet', movieFavourite)
+
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
@@ -465,7 +468,7 @@ const Profile = () => {
                                           <div key={ticket._id} className="flex bg-slate-100 rounded-sm mb-3">
                                             <div className="w-2/12">
                                               <img
-                                                src={ticket.moviePoster || "default_poster_url.jpg"}
+                                                src={ticket.showtime_id.movie_id.img || "default_poster_url.jpg"}
                                                 alt={ticket.movieTitle || "Movie Poster"}
                                                 className="w-auto m-auto p-2"
                                               />
