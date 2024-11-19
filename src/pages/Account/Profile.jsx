@@ -433,7 +433,7 @@ const Profile = () => {
                                                                     className="w-full bg-white border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
                                                                 />
                                                                 <input
-                                                                    type="password"
+                                                                    type="password" 
                                                                     placeholder={t("Xác nhận mật khẩu")}
                                                                     value={confirmNewPassword}
                                                                     onChange={(e) => setConfirmNewPassword(e.target.value)}
