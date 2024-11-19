@@ -108,13 +108,13 @@ const CommentsSection = ({ movieId }) => {
             >
               <img
                 className="h-12 w-14 rounded-full"
-                src={comment?.idUser.avatar || avatar_defaut}
+                src={comment?.avatar || avatar_defaut}
                 alt="User Avatar"
               />
               <div className="flex w-full flex-col gap-1">
                 <div className="flex items-center space-x-2">
                   <span className="text-sm font-semibold text-white">
-                    {comment?.idUser.fullname}
+                    {comment?.fullname}
                   </span>
                   <span className="text-sm font-normal text-gray-500">
                     {comment.time}
