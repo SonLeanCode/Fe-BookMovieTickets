@@ -113,7 +113,7 @@ const Movie = () => {
         </div>
 
         {latestMovies?.data?.slice(0, 20).map((movie) => (
-          <div key={movie.id} className="text-sm md:text-base mt-4">
+          <div key={movie?.id} className="text-sm md:text-base mt-4">
             <div className="flex items-center space-x-2 font-bold">
               <div>1. {movie.name}</div>
               <div>– Kinh dị, Hài</div>
