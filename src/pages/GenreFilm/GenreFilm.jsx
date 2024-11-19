@@ -21,7 +21,7 @@ const MovieList = () => {
   // Xác định phim nào cần hiển thị dựa trên thể loại đã chọn
   const moviesToDisplay = selectedGenre
     ? allMoviesData?.data.filter((movie) => 
-        movie.genres.includes(selectedGenre)
+         movie.genres.some((genre) => genre._id === selectedGenre)
       )
     : allMoviesData?.data;
 
