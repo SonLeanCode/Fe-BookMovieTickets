@@ -491,7 +491,7 @@ const Profile = () => {
                                         ))}
                                       </div>
                                     ) : (
-                                      <p>No tickets found for this user.</p>
+                                      <p>Bạn chưa đặt vé.</p>
                                     )}
                                   </div>
                                 }
