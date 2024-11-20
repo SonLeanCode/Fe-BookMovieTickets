@@ -464,10 +464,10 @@ const Home = () => {
                     <img
                       src={movie.img}
                       alt={movie.name}
-                      className="w-full object-cover"
+                      className="h-[560px] w-[450px]  object-cover"
                     />
                     <div className="flex flex-1 items-center justify-center p-2">
-                      <strong className="block p-2 text-center text-xl transition-colors duration-300 group-hover:text-red-500">
+                      <strong className="block  text-center text-xl transition-colors duration-300 group-hover:text-red-500">
                         {movie.name}
                       </strong>
                     </div>
@@ -509,13 +509,13 @@ const Home = () => {
                 {latestMovies?.data?.slice(1, 9).map((movie) => (
                   <div
                     key={movie._id}
-                    className="p-5 flex w-1/2 lg:w-1/4" // Hiển thị 2 box phim trên màn hình nhỏ
+                    className="flex w-1/2 lg:w-1/4" // Hiển thị 2 box phim trên màn hình nhỏ
                   >
                     <div className="group relative flex h-full flex-col overflow-hidden rounded-lg shadow-md">
                       <img
                         src={movie.img}
                         alt={movie.name}
-                        className="h-[250px] w-[230px] object-cover"
+                        className="h-[250px] w-[200px] object-cover"
                       />
                       <strong className="block p-2 text-center text-sm transition-colors duration-300 group-hover:text-red-500">
                         {movie.name}
@@ -630,7 +630,7 @@ const Home = () => {
                   src={movie.image}
                   alt={movie.name}
                   className="rounded-t-lg object-cover"
-                  style={{ height: "300px" }} // Đặt chiều cao cố định cho hình ảnh
+                  style={{ height: "350px" }} // Đặt chiều cao cố định cho hình ảnh
                 />
                 <div className="overlay">
                         <div className="overlay-content">

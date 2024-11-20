@@ -22,6 +22,8 @@ import RegionDetails from "../pages/Admin/Region_detail";
 import Seat_Management from "../pages/Admin/Seat_Management";
 import Business from "../pages/Business/business";
 import ShowTime_Management from "../pages/Admin/ShowTime_Management";
+import Revenue from "../pages/Admin/Revenue";
+
 
 // Lazy-loaded pages
 const Home = lazy(() => import("../pages/Home/Home"));
@@ -139,6 +141,7 @@ export default function AppRoutes() {
                 <Route path="rooms" element={<Room_Managerment />} />
                 <Route path="rooms/:roomId/seats" element={<Seat_Management />} />
                 <Route path="showtimes" element={<ShowTime_Management />} />
+                <Route path="revenue" element={<Revenue />} />
               </Route>
             </Route>
           </Route>

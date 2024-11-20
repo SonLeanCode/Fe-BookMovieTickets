@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -185,12 +186,15 @@ const Dashboard = () => {
                 role="img" style={{ height: '200px' }}
               ></canvas>
             </div>
-            <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
-              <h3 className="text-xl font-semibold mb-4">doanh</h3>
+            <Link
+              to="/Admin/revenue"
+              className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center"
+            >
+              <h3 className="text-xl font-semibold mb-4">Doanh thu trong tháng</h3>
               <p className="text-2xl font-bold">1,478,286</p>
-            </div>
-            <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
-              <h3 className="text-xl font-semibold mb-4">Doanh thu trong tuần</h3>
+            </Link>
+            <div  className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
+              <h3 className="text-xl font-semibold mb-4">Doanh thu trong tháng</h3>
               <p className="text-2xl font-bold">1,478,286</p>
             </div>
           </div>

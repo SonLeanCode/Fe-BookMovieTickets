@@ -22,14 +22,14 @@ export const ticketApi = createApi({
     // Endpoint để tạo một ticket
     createTicket: builder.mutation({
       query: (ticketData) => ({
-        url: '/api/tickets',
+        url: `/api/tickets`,
         method: 'POST',
         body: ticketData,
       }),
     }),
     // Endpoint để lấy tất cả tickets
     getTickets: builder.query({
-      query: () => 'tickets',
+      query: () => `/api/tickets`,
     }),
     // Endpoint để lấy một ticket cụ thể theo ID
     getTicketById: builder.query({
