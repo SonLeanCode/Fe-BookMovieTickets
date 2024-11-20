@@ -71,7 +71,7 @@ const Movie = () => {
             {latestMovies?.data?.slice(0, 20).map((movie) => (
               <div key={movie._id} className="group w-full">
                 <div className="relative flex flex-col items-center my-2">
-                  <img src={movie.img} alt={movie.name} className="w-full h-[385px]" />
+                  <img src={movie.img} alt={movie.name} className="w-full" />
                   <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="button-container flex flex-col space-y-4">
                       <button
@@ -112,10 +112,10 @@ const Movie = () => {
         {t("Phim đang chiếu")}
         </div>
 
-        {latestMovies?.data?.slice(0, 20).map((movie) => (
+        {latestMovies?.data?.map((movie,index) => (
           <div key={movie.id} className="text-sm md:text-base mt-4">
             <div className="flex items-center space-x-2 font-bold">
-              <div>1. {movie.name}</div>
+              <div>{index + 1}. {movie.name}</div>
               <div>– Kinh dị, Hài</div>
               <div>– {formatDate(movie.release_date)}</div>
             </div>
