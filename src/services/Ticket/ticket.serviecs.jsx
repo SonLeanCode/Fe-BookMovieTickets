@@ -35,6 +35,10 @@ export const ticketApi = createApi({
     getTicketById: builder.query({
       query: (id) => `/api/tickets/${id}`,
     }),
+    // Endpoint để lấy tất cả tickets với `user_id`
+    getTicketsByUserId: builder.query({
+      query: (id) => `/api/tickets/user/${id}`,
+    }),
     // Endpoint để cập nhật một ticket theo ID
     updateTicket: builder.mutation({
       query: ({ id, ...updatedData }) => ({
@@ -46,7 +50,7 @@ export const ticketApi = createApi({
     // Endpoint để xóa một ticket theo ID
     deleteTicket: builder.mutation({
       query: (id) => ({
-        url: `tickets/${id}`,
+        url: `/api/tickets/${id}`,
         method: 'DELETE',
       }),
     }),
@@ -58,6 +62,7 @@ export const {
   useCreateTicketMutation,
   useGetTicketsQuery,
   useGetTicketByIdQuery,
+  useGetTicketsByUserIdQuery,
   useUpdateTicketMutation,
   useDeleteTicketMutation,
 } = ticketApi;
