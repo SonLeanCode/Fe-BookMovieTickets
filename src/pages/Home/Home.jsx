@@ -3,30 +3,37 @@ import { Link } from "react-router-dom";
 import { Button } from "react-daisyui";
 import "./Home.css";
 import PopupNotification from "./Popup";
-import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
+import {
+  FaRegKissWinkHeart,
+  FaPhotoVideo,
+  FaRegHandPointRight,
+  FaStar,
+  FaTicketAlt,
+} from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useGetLatestMoviesByCreationDateQuery } from "../../services/Movies/movies.services";
 import Banner from "../../components/Home/Banner";
 import Modal_Video from "../../components/Movie/Modal_Video";
 import LoadingLocal from "../Loading/LoadingLocal";
-import { useTranslation } from 'react-i18next';
-import  {useCreateMoviesFavouriteMutation} from '../../services/MovieFavourite/moviesFavourite_service'
+import { useTranslation } from "react-i18next";
+import { useCreateMoviesFavouriteMutation } from "../../services/MovieFavourite/moviesFavourite_service";
 import { getUserByIdFormToken } from "../../components/Utils/auth";
 import {
   useGetMoviesNowShowingQuery,
   useGetMoviesComingSoonQuery,
 } from "../../services/Movies/movies.services";
 const Home = () => {
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userId = getUserByIdFormToken()
+  const userId = getUserByIdFormToken();
   const [videoUrl, setVideoUrl] = useState("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
-  const { data: latestMovies, isLoading: latestMoviesLoading } = useGetLatestMoviesByCreationDateQuery();
+  const { data: latestMovies, isLoading: latestMoviesLoading } =
+    useGetLatestMoviesByCreationDateQuery();
   const [selectedTab, setSelectedTab] = useState("Đang chiếu"); // Default tab: Đang chiếu
 
-  const [createMoviesFavourite]  = useCreateMoviesFavouriteMutation()
+  const [createMoviesFavourite] = useCreateMoviesFavouriteMutation();
   const handleTrailerClick = (url) => {
     setVideoUrl(url);
     setIsModalOpen(true);
@@ -202,32 +209,25 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [carouselBanners.length]);
-    // Fetch data for each category
-    const {
-      data: nowShowingMovies,
-      isLoading: nowShowingLoading,
-    } = useGetMoviesNowShowingQuery();
-  
-    const {
-      data: comingSoonMovies,
-      isLoading: comingSoonLoading,
-    } = useGetMoviesComingSoonQuery();
-  
-    
+  // Fetch data for each category
+  const { data: nowShowingMovies, isLoading: nowShowingLoading } =
+    useGetMoviesNowShowingQuery();
 
-  
-    const handleTabClick = (tabName) => {
-      setSelectedTab(tabName); // Update the selected tab
-    };
+  const { data: comingSoonMovies, isLoading: comingSoonLoading } =
+    useGetMoviesComingSoonQuery();
+
+  const handleTabClick = (tabName) => {
+    setSelectedTab(tabName); // Update the selected tab
+  };
   const isLoading =
-  selectedTab === "Đang chiếu" ? nowShowingLoading : comingSoonLoading;
+    selectedTab === "Đang chiếu" ? nowShowingLoading : comingSoonLoading;
   console.log("Selected Tab:", selectedTab);
   const movies =
-  selectedTab === "Đang chiếu"
-    ? nowShowingMovies?.nowShowingMovies || []  // Kiểm tra đúng thuộc tính
-    : comingSoonMovies?.comingSoonMovies || [];
+    selectedTab === "Đang chiếu"
+      ? nowShowingMovies?.nowShowingMovies || [] // Kiểm tra đúng thuộc tính
+      : comingSoonMovies?.comingSoonMovies || [];
 
-console.log("Movies to render:", movies);
+  console.log("Movies to render:", movies);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -260,35 +260,28 @@ console.log("Movies to render:", movies);
     }
   };
 
-  if(latestMoviesLoading){
-    return <LoadingLocal />
+  if (latestMoviesLoading) {
+    return <LoadingLocal />;
   }
 
-  const handleMovieFavourite = async (movId)=>{
-  const dataFaMoive = {
-    userId:userId,
-    movieFavourite:movId
-  }
-  console.log('dataFsss',dataFaMoive)
+  const handleMovieFavourite = async (movId) => {
+    const dataFaMoive = {
+      userId: userId,
+      movieFavourite: movId,
+    };
+    console.log("dataFsss", dataFaMoive);
     try {
-      const dataMovieFa =  await createMoviesFavourite(dataFaMoive);
-      console.log('dataFa',dataMovieFa);
-      
-
+      const dataMovieFa = await createMoviesFavourite(dataFaMoive);
+      console.log("dataFa", dataMovieFa);
     } catch (err) {
       console.error("Lỗi khi thêm vào yêu thích:", err);
     }
-
- 
-  
-  }
-  // hiển thị cửa sô popup 
-  
+  };
+  // hiển thị cửa sô popup
 
   return (
-    <div className="bg-black text-gray-100 overflow-x-hidden">
+    <div className="overflow-x-hidden bg-black text-gray-100">
       <main className="bg-black">
-      
         <section className="relative mb-12 bg-black">
           {/* show popup */}
           <PopupNotification />
@@ -300,7 +293,7 @@ console.log("Movies to render:", movies);
 
           <div className="absolute top-0 h-screen w-full md:w-1/2">
             {/* Giới thiệu phim */}
-            <div className="absolute top-[100px] mt-8 ml-4 md:ml-20 h-48 w-full flex flex-col items-center md:items-start md:text-left text-center">
+            <div className="absolute top-[100px] ml-4 mt-8 flex h-48 w-full flex-col items-center text-center md:ml-20 md:items-start md:text-left">
               {carouselBanners.map((banner, index) => (
                 <div
                   key={banner.id}
@@ -310,39 +303,42 @@ console.log("Movies to render:", movies);
                       : "translate-x-full opacity-0"
                   }`}
                 >
-                  <h2 className="text-sm sm:text-lg font-semibold">
+                  <h2 className="text-sm font-semibold sm:text-lg">
                     {banner.genres.join(" | ")}
                   </h2>
-                  <h5 className="mt-1 text-2xl sm:mt-2 sm:text-3xl md:text-5xl font-bold">
+                  <h5 className="mt-1 text-2xl font-bold sm:mt-2 sm:text-3xl md:text-5xl">
                     {banner.title}
                   </h5>
-                  <div className="mt-1 sm:mt-2 flex flex-col items-center sm:flex-row sm:flex-wrap sm:justify-center">
-                    <h2 className="text-sm sm:text-base mr-0 sm:mr-4">
+                  <div className="mt-1 flex flex-col items-center sm:mt-2 sm:flex-row sm:flex-wrap sm:justify-center">
+                    <h2 className="mr-0 text-sm sm:mr-4 sm:text-base">
                       {banner.releaseYear}
                     </h2>
                     <span className="hidden sm:inline">{" | "}</span>
-                    <h2 className="text-sm sm:text-base mt-1 sm:mt-0 ml-0 sm:ml-4 mr-0 sm:mr-4 flex">
+                    <h2 className="ml-0 mr-0 mt-1 flex text-sm sm:ml-4 sm:mr-4 sm:mt-0 sm:text-base">
                       DIRECTOR:{" "}
-                      <p className="ml-1 sm:ml-2 text-gray-300">{banner.author}</p>
+                      <p className="ml-1 text-gray-300 sm:ml-2">
+                        {banner.author}
+                      </p>
                     </h2>
                     <span className="hidden sm:inline">{" | "}</span>
-                    <h2 className="text-sm sm:text-base mt-1 sm:mt-0 ml-0 sm:ml-4 flex">
+                    <h2 className="ml-0 mt-1 flex text-sm sm:ml-4 sm:mt-0 sm:text-base">
                       SEASONS:{" "}
-                      <p className="ml-1 sm:ml-2 text-gray-300">
+                      <p className="ml-1 text-gray-300 sm:ml-2">
                         {banner.seasons} (26 Episodes)
                       </p>
                     </h2>
                   </div>
-                  <p className="mt-2 font-bold  text-gray-300">
+                  <p className="mt-2 font-bold text-gray-300">
                     {banner.description}
                   </p>
                   <div className="mt-4 flex flex-col items-center sm:flex-row">
-                    <Button className="flex items-center justify-center rounded bg-red-600 px-3 py-2 sm:px-4 font-semibold text-white transition-colors duration-300 hover:bg-red-500 md:px-6">
+                    <Button className="flex items-center justify-center rounded bg-red-600 px-3 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500 sm:px-4 md:px-6">
                       BOOK NOW <FaTicketAlt size={18} className="ml-2" />
                     </Button>
-                    <Button className="ml-0 mt-2 sm:mt-0 sm:ml-4 rounded border border-solid border-gray-300 px-3 py-2 sm:px-4 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 md:px-6">
-                      VIEW MORE  <FaRegHandPointRight size={18} className="ml-2" />
-                    </Button> 
+                    <Button className="ml-0 mt-2 rounded border border-solid border-gray-300 px-3 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 sm:ml-4 sm:mt-0 sm:px-4 md:px-6">
+                      VIEW MORE{" "}
+                      <FaRegHandPointRight size={18} className="ml-2" />
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -353,7 +349,7 @@ console.log("Movies to render:", movies);
               <div className="flex items-center justify-between py-2">
                 <h2 className="text-md flex items-center font-bold">
                   <FaStar className="mr-1" />
-                 {t("PHỔ BIẾN TRONG TUẦN")}
+                  {t("PHỔ BIẾN TRONG TUẦN")}
                 </h2>
                 <div>
                   <button
@@ -401,90 +397,111 @@ console.log("Movies to render:", movies);
         </section>
         {/* {Tuấn} */}
         <div className="flex justify-center bg-black">
-        <div className="w-full">
-          <div className="flex justify-center items-center font-sans mx-auto mt-0">
-            <div className="w-10/12 mt-28 pt-2 text-center font-semibold text-2xl md:text-3xl text-gray-300 border-b border-white">
-              <div className="inline-flex items-center">
-                <strong className="text-orange-600 px-2">|</strong> {t("Phim")}
-              </div>
-              <div className="flex justify-center items-center space-x-2 md:space-x-4 my-2 text-lg md:text-xl">
-                <Link
-                  onClick={() => handleTabClick("Đang chiếu")}
-                  className={`${
-                    selectedTab === "Đang chiếu" ? "text-orange-600" : "text-white"
-                  } cursor-pointer`}
-                >
-                  {t("Đang chiếu")}
-                </Link>
-                <Link
-                  onClick={() => handleTabClick("Sắp chiếu")}
-                  className={`${
-                    selectedTab === "Sắp chiếu" ? "text-orange-600" : "text-white"
-                  } cursor-pointer`}
-                >
-                  {t("Sắp chiếu")}
-                </Link>
+          <div className="w-full">
+            <div className="mx-auto mt-0 flex items-center justify-center font-sans">
+              <div className="flex w-10/12 justify-between border-b border-white pt-2 text-center text-2xl font-semibold text-gray-300 md:text-3xl">
+                {/* Tiêu đề phim */}
+                <div className="inline-flex items-center">
+                  <strong className="px-2 text-orange-600">|</strong>{" "}
+                  {t("Phim")}
+                </div>
+
+                {/* Tabs "Đang chiếu" và "Sắp chiếu" */}
+                <div>
+                  <div className="my-2 flex items-center justify-center space-x-4 text-lg md:text-xl">
+                    <Link
+                      onClick={() => handleTabClick("Đang chiếu")}
+                      className={`relative flex cursor-pointer text-md p-1 ${
+                        selectedTab === "Đang chiếu"
+                          ? "text-white after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-12 after:-translate-x-1/2 after:bg-blue-600 after:content-['']"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {t("Đang chiếu")}
+                    </Link>
+                    <Link
+                      onClick={() => handleTabClick("Sắp chiếu")}
+                      className={`relative cursor-pointer text-md p-1 ${
+                        selectedTab === "Sắp chiếu"
+                          ? "text-white after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-12 after:-translate-x-1/2 after:bg-orange-600 after:content-['']"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {t("Sắp chiếu")}
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Select "Toàn quốc" */}
+                <div>
+                  <select
+                    className="w-full rounded border border-gray-400 bg-white py-[2px] text-lg text-black focus:outline-none focus:ring"
+                    onChange={(e) => console.log(e)}
+                  >
+                    <option value="">{t("Toàn quốc")}</option>
+                    <option value="HCM">{t("Hồ Chí Minh")}</option>
+                    <option value="HN">{t("Hà Nội")}</option>
+                    <option value="DN">{t("Đà Nẵng")}</option>
+                    {/* Thêm các khu vực khác nếu cần */}
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Movie Grid */}
-          <div className="w-10/12 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
-            {movies.slice(0, 10).map((movie) => (
-              <div key={movie._id} className="group w-full">
-                <div className="relative flex flex-col items-center my-2">
-                  <img src={movie.img} alt={movie.name} className="w-full" />
-                  <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="button-container flex flex-col space-y-4">
-                      <button
-                        onClick={() => handleTrailerClick(movie?.url_video)}
-                        className="overlay-btn-xh bg-orange-500 w-38 py-2 text-center text-white"
-                      >
-                        Trailer <i className="fas fa-video ml-1"></i>
-                      </button>
-                      <Link
-                        to={`/cinema/movie/${movie._id}`}
-                        className="overlay-btn-xh w-38 py-2 text-center text-white"
-                      >
-                        Mua vé <i className="fas fa-ticket-alt ml-1"></i>
-                      </Link>
+            {/* Movie Grid */}
+            <div className="mx-auto mt-4 grid w-10/12 grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+              {movies.slice(0, 10).map((movie) => (
+                <div key={movie._id} className="group w-full">
+                  <div className="relative my-2 flex flex-col items-center">
+                    <img src={movie.img} alt={movie.name} className="w-full" />
+                    <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="button-container flex flex-col space-y-4">
+                        <button
+                          onClick={() => handleTrailerClick(movie?.url_video)}
+                          className="overlay-btn-xh w-38 bg-orange-500 py-2 text-center text-white"
+                        >
+                          Trailer <i className="fas fa-video ml-1"></i>
+                        </button>
+                        <Link
+                          to={`/cinema/movie/${movie._id}`}
+                          className="overlay-btn-xh w-38 py-2 text-center text-white"
+                        >
+                          Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 right-0 bg-orange-600 px-2 py-1 text-white">
+                      T18
+                    </div>
+                    <div className="absolute bottom-14 right-2 text-yellow-400">
+                      ★★★★☆
                     </div>
                   </div>
-                  <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">
-                    T18
-                  </div>
-                  <div className="absolute bottom-14 right-2 text-yellow-400">
-                    ★★★★☆
+                  <div className="mt-2 text-center text-sm text-white md:text-base">
+                    {movie.name}
                   </div>
                 </div>
-                <div className="text-white text-center mt-2 text-sm md:text-base">
-                  {movie.name}
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* Modal to display video */}
-          {isModalOpen && (
-            <Modal_Video
-              urlvideo={videoUrl}
-              isModalOpen={isModalOpen}
-              handleCloseModal={handleCloseModal}
-            />
-          )}
-          <h2 className="font-roboto m-auto mt-5 w-48 rounded-sm border border-orange-600 p-2 text-center text-lg text-orange-600 hover:bg-orange-600 hover:text-white">
+              ))}
+            </div>
+            {/* Modal to display video */}
+            {isModalOpen && (
+              <Modal_Video
+                urlvideo={videoUrl}
+                isModalOpen={isModalOpen}
+                handleCloseModal={handleCloseModal}
+              />
+            )}
+            <h2 className="font-roboto m-auto mt-5 w-48 rounded-sm border border-orange-600 p-2 text-center text-lg text-orange-600 hover:bg-orange-600 hover:text-white">
               <Link to="/cinema/movie">{t("Xem thêm")}</Link>
             </h2>
+          </div>
         </div>
-        
-      </div>
-        {/* {Tuấn kết thúc} */} 
-        
-
+        {/* {Tuấn kết thúc} */}
 
         <div className="section-divider-animation"></div>
 
         <section className="containe flex justify-center">
-          <div className="update-section w-[96%] ml-5">
+          <div className="update-section ml-5 w-[96%]">
             <h3 className="text-4xl font-bold">|{t("Phim mới cập nhật")} </h3>
             <div className="flex flex-col justify-center lg:flex-row">
               {/* Cột trái: 1 phim */}
@@ -498,30 +515,34 @@ console.log("Movies to render:", movies);
                     <img
                       src={movie.img}
                       alt={movie.name}
-                      className="h-[560px] w-[450px]  object-cover"
+                      className="h-[560px] w-[450px] object-cover"
                     />
                     <div className="flex flex-1 items-center justify-center p-2">
-                      <strong className="block  text-center text-xl transition-colors duration-300 group-hover:text-red-500">
+                      <strong className="block text-center text-xl transition-colors duration-300 group-hover:text-red-500">
                         {movie.name}
                       </strong>
                     </div>
                     {/* Overlay buttons */}
                     <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                       <div className="button-container flex flex-col space-y-4">
-                        <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
+                        <FaRegKissWinkHeart
+                          onClick={() => handleMovieFavourite(movie._id)}
+                          size={18}
+                          className="ml-11 flex items-center justify-center font-bold"
+                        />
                         <button
                           onClick={() => handleTrailerClick(movie?.url_video)}
                           className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                         >
                           Trailer
-                          <FaPhotoVideo  size={18} className="ml-2" />
+                          <FaPhotoVideo size={18} className="ml-2" />
                         </button>
                         <Link
                           to={`/cinema/movie/${movie._id}`}
                           className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                         >
                           {t("Mua vé")}
-                          <FaTicketAlt size={18} className="mt-1 ml-2" />
+                          <FaTicketAlt size={18} className="ml-2 mt-1" />
                         </Link>
                       </div>
                     </div>
@@ -557,21 +578,25 @@ console.log("Movies to render:", movies);
                       {/* Overlay buttons */}
                       <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="flex flex-col">
-                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
+                          <FaRegKissWinkHeart
+                            onClick={() => handleMovieFavourite(movie._id)}
+                            size={18}
+                            className="ml-11 flex items-center justify-center font-bold"
+                          />
                           <button
-                          onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                            onClick={() => handleTrailerClick(movie?.url_video)}
+                            className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                           >
                             Trailer
                             <FaPhotoVideo size={18} className="ml-2" />
                           </button>
                           <Link
-                              to={`/cinema/movie/${movie._id}`}
-                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                            >
-                              {t("Mua vé")}
-                              <FaTicketAlt size={18} className="mt-1 ml-2" />
-                            </Link>
+                            to={`/cinema/movie/${movie._id}`}
+                            className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                          >
+                            {t("Mua vé")}
+                            <FaTicketAlt size={18} className="ml-2 mt-1" />
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -582,17 +607,18 @@ console.log("Movies to render:", movies);
           </div>
         </section>
 
-
         <div className="section-divider-animation"></div>
 
         <section className="containe mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
           <div className="flex w-full flex-col p-10 lg:w-8/12">
-            <h3 className="gy-h3 mb-6 text-4xl font-bold">| {t("Phim Gợi Ý")}</h3>
+            <h3 className="gy-h3 mb-6 text-4xl font-bold">
+              | {t("Phim Gợi Ý")}
+            </h3>
             <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4">
               {movies.slice(0, 8).map((movie) => (
                 <div
                   key={movie.id}
-                  className="relative overflow-hidden rounded-lg shadow-lg group"
+                  className="group relative overflow-hidden rounded-lg shadow-lg"
                 >
                   <img
                     src={movie.image}
@@ -605,30 +631,36 @@ console.log("Movies to render:", movies);
                   </div>
                   {/* Overlay buttons */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="flex flex-col">
-                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
-                          <button
-                          onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                          >
-                            Trailer
-                            <FaPhotoVideo size={18} className="ml-2" />
-                          </button>
-                          <Link
-                            to={`/cinema/movie/${movie._id}`}
-                            className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                          >
-                            {t("Mua vé")}
-                            <FaTicketAlt size={18} className="mt-1 ml-2" />
-                          </Link>
-                        </div>
+                    <div className="flex flex-col">
+                      <FaRegKissWinkHeart
+                        onClick={() => handleMovieFavourite(movie._id)}
+                        size={18}
+                        className="ml-11 flex items-center justify-center font-bold"
+                      />
+                      <button
+                        onClick={() => handleTrailerClick(movie?.url_video)}
+                        className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                      >
+                        Trailer
+                        <FaPhotoVideo size={18} className="ml-2" />
+                      </button>
+                      <Link
+                        to={`/cinema/movie/${movie._id}`}
+                        className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                      >
+                        {t("Mua vé")}
+                        <FaTicketAlt size={18} className="ml-2 mt-1" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
           <div className="flex w-full flex-col p-10 lg:w-4/12">
-            <h3 className="tt-h3 mb-6 text-4xl font-bold">|{t("Top Trending")}</h3>
+            <h3 className="tt-h3 mb-6 text-4xl font-bold">
+              |{t("Top Trending")}
+            </h3>
             <div className="tt flex flex-grow flex-col gap-4 hover:cursor-pointer">
               {movies.slice(0, 6).map((movie, index) => (
                 <div
@@ -639,7 +671,7 @@ console.log("Movies to render:", movies);
                     className={`mr-4 text-2xl font-bold number-color-${index + 1}`}
                   >
                     {index + 1}
-                  </span> 
+                  </span>
                   <img
                     src={movie.image}
                     alt={movie.name}
@@ -652,14 +684,21 @@ console.log("Movies to render:", movies);
           </div>
         </section>
 
-
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="ml-20 text-4xl font-bold">| {t("Phim mới cập nhật")}</h3>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5" style={{ width: "90%", marginLeft: "5%" }}>
+          <h3 className="ml-20 text-4xl font-bold">
+            | {t("Phim mới cập nhật")}
+          </h3>
+          <div
+            className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+            style={{ width: "90%", marginLeft: "5%" }}
+          >
             {movies.map((movie) => (
-              <div key={movie.id} className="top-movie-card rounded-lg relative overflow-hidden">
+              <div
+                key={movie.id}
+                className="top-movie-card relative overflow-hidden rounded-lg"
+              >
                 <img
                   src={movie.image}
                   alt={movie.name}
@@ -667,82 +706,101 @@ console.log("Movies to render:", movies);
                   style={{ height: "350px" }} // Đặt chiều cao cố định cho hình ảnh
                 />
                 <div className="overlay">
-                        <div className="overlay-content">
-                          <h4 className="movie-name text-red-500 font-bold">
-                            {movie.name}
-                          </h4>
-                          <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
-                          <div className="button-container flex flex-col space-y-4">
-                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
-                          <button
-                          onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                          >
-                            Trailer
-                            <FaPhotoVideo size={18} className="ml-2" />
-                          </button>
-                            <Link
-                              to={`/cinema/movie/${movie._id}`}
-                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                            >
-                              {t("Mua vé")}
-                              <FaTicketAlt size={18} className="mt-1 ml-2" />
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
+                  <div className="overlay-content">
+                    <h4 className="movie-name font-bold text-red-500">
+                      {movie.name}
+                    </h4>
+                    <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                    <br></br>
+                    <div className="button-container flex flex-col space-y-4">
+                      <FaRegKissWinkHeart
+                        onClick={() => handleMovieFavourite(movie._id)}
+                        size={18}
+                        className="ml-11 flex items-center justify-center font-bold"
+                      />
+                      <button
+                        onClick={() => handleTrailerClick(movie?.url_video)}
+                        className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                      >
+                        Trailer
+                        <FaPhotoVideo size={18} className="ml-2" />
+                      </button>
+                      <Link
+                        to={`/cinema/movie/${movie._id}`}
+                        className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                      >
+                        {t("Mua vé")}
+                        <FaTicketAlt size={18} className="ml-2 mt-1" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-
         <section className="member-section">
           <div
-            className="flex flex-col items-center p-5 bg-cover bg-center"
-            style={{ backgroundImage: "url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75')" }}
+            className="flex flex-col items-center bg-cover bg-center p-5"
+            style={{
+              backgroundImage:
+                "url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75')",
+            }}
           >
-            <h1 className="text-5xl font-bold text-red-600 mb-2 uppercase shadow-lg">
+            <h1 className="mb-2 text-5xl font-bold uppercase text-red-600 shadow-lg">
               {t("Chương trình thành viên")}
             </h1>
-            <h2 className="text-lg font-bold text-white mb-10 shadow-lg">
+            <h2 className="mb-10 text-lg font-bold text-white shadow-lg">
               {t("Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn")}
             </h2>
             <div className="w-[90%]">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                <div className="flex flex-col items-center rounded-lg bg-white p-5 shadow-lg transition-transform duration-300 hover:scale-105">
                   <img
                     src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/Desktop519x282_CMember.webp"
                     alt="Thành viên mới"
-                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                    className="mb-3 h-48 w-full rounded-lg object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên mới")}</h2>
-                  <p className="text-gray-600 mb-4">{t("Thẻ có nhiều ưu đãi cho thành viên mới")}</p>
-                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                  <h2 className="mb-2 text-xl text-gray-800">
+                    {t("Thành viên mới")}
+                  </h2>
+                  <p className="mb-4 text-gray-600">
+                    {t("Thẻ có nhiều ưu đãi cho thành viên mới")}
+                  </p>
+                  <button className="rounded bg-gradient-to-r from-red-600 to-purple-600 px-4 py-2 text-white transition-transform duration-300 hover:scale-105">
                     {t("Tìm hiểu ngay")}
                   </button>
                 </div>
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
+                <div className="flex flex-col items-center rounded-lg bg-white p-5 shadow-lg transition-transform duration-300 hover:scale-105">
                   <img
                     src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/c-vip.webp"
                     alt="Thành viên Vip"
-                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                    className="mb-3 h-48 w-full rounded-lg object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên Vip")}</h2>
-                  <p className="text-gray-600 mb-4">{t("Thẻ Vip sở hữu nhiều ưu đãi độc quyền")}</p>
-                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                  <h2 className="mb-2 text-xl text-gray-800">
+                    {t("Thành viên Vip")}
+                  </h2>
+                  <p className="mb-4 text-gray-600">
+                    {t("Thẻ Vip sở hữu nhiều ưu đãi độc quyền")}
+                  </p>
+                  <button className="rounded bg-gradient-to-r from-red-600 to-purple-600 px-4 py-2 text-white transition-transform duration-300 hover:scale-105">
                     {t("Tìm hiểu ngay")}
                   </button>
                 </div>
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
+                <div className="flex flex-col items-center rounded-lg bg-white p-5 shadow-lg transition-transform duration-300 hover:scale-105">
                   <img
                     src="https://bizweb.dktcdn.net/thumb/1024x1024/100/411/892/products/the-thanh-vien-vip-danh-cho-khach-hang-tai-salon-cao-cap.jpg?v=1611827787823"
                     alt="Thành viên kì cựu"
-                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                    className="mb-3 h-48 w-full rounded-lg object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên kì cựu")}</h2>
-                  <p className="text-gray-600 mb-4">{t("Độc quyền cho các thành viên lâu năm!")}</p>
-                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                  <h2 className="mb-2 text-xl text-gray-800">
+                    {t("Thành viên kì cựu")}
+                  </h2>
+                  <p className="mb-4 text-gray-600">
+                    {t("Độc quyền cho các thành viên lâu năm!")}
+                  </p>
+                  <button className="rounded bg-gradient-to-r from-red-600 to-purple-600 px-4 py-2 text-white transition-transform duration-300 hover:scale-105">
                     {t("Tìm hiểu ngay")}
                   </button>
                 </div>
@@ -750,7 +808,6 @@ console.log("Movies to render:", movies);
             </div>
           </div>
         </section>
-
       </main>
     </div>
   );
