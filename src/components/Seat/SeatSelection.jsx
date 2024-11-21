@@ -25,6 +25,7 @@ const SeatSelection = ({
     onSeatSelect(updatedSeats);
   };
 
+
   const getSeatClass = (seat, showtime) => {
     const baseClass = `w-10 h-10 rounded-lg font-bold text-white`;
 
@@ -105,8 +106,11 @@ const SeatSelection = ({
                       className={`mx-1 my-1 ${getSeatClass(seat, showtime)} ${seat?.status === "unavailable" ? "button-unavailable" : ""} h-10`}
                       onClick={() => handleSeatClick(seat)}
                       disabled={
-                        seat.status === "booked" ||
-                        seat.status === "unavailable"
+                        seat.status === "unavailable"||
+                        showtime?.seat_statuses?.some(
+                          (statusSeat) =>
+                            statusSeat.seat_id === seat._id && statusSeat.status === "booked"
+                        )
                       }
                     >
                       {`${seat.row}${seat.seat_number}`}
@@ -124,10 +128,14 @@ const SeatSelection = ({
           {sweetboxSeats?.map((seat) => (
             <button
               key={seat._id}
-              className={`mx-1 my-1 rounded-lg font-bold text-white ${getSeatClass(seat, showtime)} ${seat.status === "booked" ? "cursor-not-allowed bg-gray-600" : seat.status === "unavailable" ? "button-unavailable-sweetbox" : ""} h-10`}
+              className={`mx-1 my-1 rounded-lg font-bold text-white ${getSeatClass(seat, showtime)} ${seat?.status === "unavailable" ? "button-unavailable" : ""} h-10`}
               onClick={() => handleSeatClick(seat)}
               disabled={
-                seat.status === "booked" || seat.status === "unavailable"
+                seat.status === "unavailable" ||
+                showtime?.seat_statuses?.some(
+                  (statusSeat) =>
+                    statusSeat.seat_id === seat._id && statusSeat.status === "booked"
+                )
               }
             >
               {`${seat.row}${seat.seat_number}`}
