@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { useGetUserQuery, usePatchUserMutation, usePatchProfileMutation, useUploadAvatarMutation } from '../../services/Auth/auth.service';
 import { useGetAllFavouriteQuery } from '../../services/MovieFavourite/moviesFavourite_service'
-import { useGetTicketByIdQuery } from '../../services/Ticket/ticket.serviecs'
+import { useGetTicketsByUserIdQuery } from '../../services/Ticket/ticket.serviecs'
 import Toastify from '../../helper/Toastify';
 
 const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
     const { data: userData } = useGetUserQuery(userId)
-    const { data: idTicketData,  } = useGetTicketByIdQuery(userId)
+    const { data: idTicketData,  } = useGetTicketsByUserIdQuery(userId)
     console.log('đsff', idTicketData)
 
     const fileInputRef = useRef(null);
@@ -161,11 +161,11 @@ const Profile = () => {
                         )}
                     </div>
                     <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', height: '1px' }} className="my-3" />
-                    {(idTicketData && idTicketData.dataSticket && idTicketData.dataSticket.length > 0) ? (
+                    {(idTicketData && idTicketData.tickets && idTicketData.tickets.length > 0) ? (
                         <div className="flex justify-between items-center mb-4">
                             <h1 className="text-xl font-bold">{t("Tổng chi tiêu 2024")}</h1>
                             <div className="text-orange-500 text-xl font-semibold">
-                                {idTicketData.dataSticket.reduce(
+                                {idTicketData.tickets.reduce(
                                     (total, ticket) => total + ticket.price,
                                     0
                                 ).toLocaleString()} đ
@@ -183,7 +183,7 @@ const Profile = () => {
                     <div className="my-24">
                         <div className="relative m-10">
                             {/* Cột mốc 0 đ */}
-                            <div className={`absolute left-0 -top-10 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) > 0 ? 'opacity-100' : 'opacity-50'}`}>
+                            <div className={`absolute left-0 -top-10 flex flex-col items-center ${idTicketData && idTicketData.tickets.reduce((total, ticket) => total + ticket.price, 0) > 0 ? 'opacity-100' : 'opacity-50'}`}>
                                 <img
                                     src="https://www.galaxycine.vn/_next/static/media/bronze.6c2b2f39.png"
                                     alt=""
@@ -194,7 +194,7 @@ const Profile = () => {
                             </div>
 
                             {/* Cột mốc 70.000 đ */}
-                            <div className={`absolute left-1/3 transform -translate-x-1/2 -top-12 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) >= 70000 ? 'opacity-100' : 'opacity-50'}`}>
+                            <div className={`absolute left-1/3 transform -translate-x-1/2 -top-12 flex flex-col items-center ${idTicketData && idTicketData.tickets.reduce((total, ticket) => total + ticket.price, 0) >= 70000 ? 'opacity-100' : 'opacity-50'}`}>
                                 <img
                                     src="https://www.galaxycine.vn/_next/static/media/silver.6313aa20.png"
                                     alt=""
@@ -205,7 +205,7 @@ const Profile = () => {
                             </div>
 
                             {/* Cột mốc 100.000 đ */}
-                            <div className={`absolute right-0 -top-14 flex flex-col items-center ${idTicketData && idTicketData.dataSticket.reduce((total, ticket) => total + ticket.price, 0) >= 100000 ? 'opacity-100' : 'opacity-50'}`}>
+                            <div className={`absolute right-0 -top-14 flex flex-col items-center ${idTicketData && idTicketData.tickets.reduce((total, ticket) => total + ticket.price, 0) >= 100000 ? 'opacity-100' : 'opacity-50'}`}>
                                 <img
                                     src="https://www.galaxycine.vn/_next/static/media/gold.ff661579.png"
                                     alt=""
@@ -223,7 +223,7 @@ const Profile = () => {
                                     style={{
                                         width: `${Math.min(
                                             100, // Đảm bảo không vượt quá 100%
-                                            (idTicketData && idTicketData.dataSticket.reduce(
+                                            (idTicketData && idTicketData.tickets.reduce(
                                                 (total, ticket) => total + ticket.price,
                                                 0
                                             ) / 100000) * 100
@@ -247,7 +247,7 @@ const Profile = () => {
                                     style={{
                                         left: `${Math.min(
                                             100,
-                                            (idTicketData && idTicketData.dataSticket.reduce(
+                                            (idTicketData && idTicketData.tickets.reduce(
                                                 (total, ticket) => total + ticket.price,
                                                 0
                                             ) / 100000) * 100
@@ -462,9 +462,9 @@ const Profile = () => {
                                 )}
                                 {activeTab === 'history' &&
                                     <div>
-                                    {idTicketData?.dataSticket?.length > 0 ? (
+                                    {idTicketData?.tickets?.length > 0 ? (
                                       <div className="shadow-sm overflow-hidden">
-                                        {idTicketData.dataSticket.map((ticket) => (
+                                        {idTicketData.tickets.map((ticket) => (
                                           <div key={ticket._id} className="flex bg-slate-100 rounded-sm mb-3">
                                             <div className="w-2/12">
                                               <img

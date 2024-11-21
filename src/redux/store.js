@@ -16,6 +16,7 @@ import { showtimesApi } from '../services/Showtimes/showtimes.serviecs';
 import { ticketApi } from '../services/Ticket/ticket.serviecs';
 import {paymentApi} from '../services/payment/Payment.services';
 import {moviesFavouriteApi}  from '../services/MovieFavourite/moviesFavourite_service';
+import {statsApi} from '../services/RevenueStatistics/revenuestatistics.service'
 
 const store = configureStore({
   reducer: {
@@ -36,6 +37,7 @@ const store = configureStore({
     [apiLanguage.reducerPath]: apiLanguage.reducer,
     [paymentApi.reducerPath]: paymentApi.reducer,
     [moviesFavouriteApi.reducerPath]: moviesFavouriteApi.reducer,
+    [statsApi.reducerPath]: statsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -56,6 +58,8 @@ const store = configureStore({
       .concat(apiLanguage.middleware)
       .concat(paymentApi.middleware)
       .concat(moviesFavouriteApi.middleware)
+      .concat(statsApi.middleware)
+
 });
 
 export default store;
