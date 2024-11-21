@@ -34,6 +34,20 @@ export const moviesApi = createApi({
       }),
     }),
 
+    getMoviesNowShowing: builder.query({
+      query: () => ({
+        url: '/api/movies/now-showing',
+        method: 'GET',
+      }),
+    }),
+
+    getMoviesComingSoon: builder.query({
+      query: () => ({
+        url: '/api/movies/coming-soon',
+        method: 'GET',
+      }),
+    }),
+
     getMoviesByActorId: builder.query({
       query: (id) => ({
         url: `/api/movies/actor/${id}`,
@@ -82,6 +96,8 @@ export const {
   useGetAllMoviesQuery,
   useGetMovieByIdQuery,
   useGetLatestMoviesByCreationDateQuery,
+  useGetMoviesNowShowingQuery,
+  useGetMoviesComingSoonQuery,
   useGetMoviesByActorIdQuery,
   useAddMovieMutation,
   useUpdateMovieMutation,
