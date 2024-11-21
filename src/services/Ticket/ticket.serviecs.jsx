@@ -1,19 +1,19 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Function to get the access token from localStorage
-const getAccessToken = () => localStorage.getItem('accessToken');
+const getAccessToken = () => localStorage.getItem("accessToken");
 
 // Tạo API service bằng redux-toolkit
 export const ticketApi = createApi({
-  reducerPath: 'ticketApi',
+  reducerPath: "ticketApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:4003/', // Your API base URL
+    baseUrl: "http://localhost:4003/", // Your API base URL
     prepareHeaders: (headers) => {
       // Get token from localStorage
       const token = getAccessToken();
       // If token exists, add it to the Authorization header
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
@@ -23,7 +23,7 @@ export const ticketApi = createApi({
     createTicket: builder.mutation({
       query: (ticketData) => ({
         url: `/api/tickets`,
-        method: 'POST',
+        method: "POST",
         body: ticketData,
       }),
     }),
@@ -35,15 +35,15 @@ export const ticketApi = createApi({
     getTicketById: builder.query({
       query: (id) => `/api/tickets/${id}`,
     }),
-  // Endpoint để lấy tất cả tickets với `user_id`
-  getTicketsByUserId: builder.query({
-    query: (id) => `/api/tickets/user/${id}`,
-  }),
+    // Endpoint để lấy tất cả tickets với `user_id`
+    getTicketsByUserId: builder.query({
+      query: (id) => `/api/tickets/user/${id}`,
+    }),
     // Endpoint để xóa một ticket theo ID
     deleteTicket: builder.mutation({
       query: (id) => ({
         url: `/api/tickets/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
     }),
   }),
