@@ -12,6 +12,10 @@ import LoadingLocal from "../Loading/LoadingLocal";
 import { useTranslation } from 'react-i18next';
 import  {useCreateMoviesFavouriteMutation} from '../../services/MovieFavourite/moviesFavourite_service'
 import { getUserByIdFormToken } from "../../components/Utils/auth";
+import {
+  useGetMoviesNowShowingQuery,
+  useGetMoviesComingSoonQuery,
+} from "../../services/Movies/movies.services";
 const Home = () => {
   const { t } = useTranslation(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +24,8 @@ const Home = () => {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
   const { data: latestMovies, isLoading: latestMoviesLoading } = useGetLatestMoviesByCreationDateQuery();
+  const [selectedTab, setSelectedTab] = useState("Đang chiếu"); // Default tab: Đang chiếu
+
   const [createMoviesFavourite]  = useCreateMoviesFavouriteMutation()
   const handleTrailerClick = (url) => {
     setVideoUrl(url);
@@ -104,88 +110,88 @@ const Home = () => {
     },
   ];
 
-  const movies = [
-    {
-      id: 1,
-      views: 10,
-      name: "Inception",
-      image:
-        "https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg",
-      rating: "8.8",
-    },
-    {
-      id: 2,
-      views: 9,
-      name: "The Dark Knight",
-      image:
-        "https://cms-assets.webediamovies.pro/cdn-cgi/image/dpr=1,fit=scale-down,gravity=auto,metadata=none,quality=85,width=2500/production/4756/da6d320019b0cffcb187e7a20bf9cdcb.jpg",
-      rating: "9.0",
-    },
-    {
-      id: 3,
-      views: 10,
-      name: "Interstellar",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS9maE7-yWPpULS8xay8yVKGnVZctnXkOXMg&s",
-      rating: "8.6",
-    },
-    {
-      id: 4,
-      views: 10,
-      name: "Pulp Fiction",
-      image:
-        "https://i.pinimg.com/564x/31/80/4a/31804a1fc117ebca00ba2344238a0d1b.jpg",
-      rating: "8.9",
-    },
-    {
-      id: 5,
-      views: 10,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 6,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 7,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 8,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 9,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 10,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-  ];
+  // const movies = [
+  //   {
+  //     id: 1,
+  //     views: 10,
+  //     name: "Inception",
+  //     image:
+  //       "https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg",
+  //     rating: "8.8",
+  //   },
+  //   {
+  //     id: 2,
+  //     views: 9,
+  //     name: "The Dark Knight",
+  //     image:
+  //       "https://cms-assets.webediamovies.pro/cdn-cgi/image/dpr=1,fit=scale-down,gravity=auto,metadata=none,quality=85,width=2500/production/4756/da6d320019b0cffcb187e7a20bf9cdcb.jpg",
+  //     rating: "9.0",
+  //   },
+  //   {
+  //     id: 3,
+  //     views: 10,
+  //     name: "Interstellar",
+  //     image:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS9maE7-yWPpULS8xay8yVKGnVZctnXkOXMg&s",
+  //     rating: "8.6",
+  //   },
+  //   {
+  //     id: 4,
+  //     views: 10,
+  //     name: "Pulp Fiction",
+  //     image:
+  //       "https://i.pinimg.com/564x/31/80/4a/31804a1fc117ebca00ba2344238a0d1b.jpg",
+  //     rating: "8.9",
+  //   },
+  //   {
+  //     id: 5,
+  //     views: 10,
+  //     name: "The Matrix",
+  //     image:
+  //       "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
+  //     rating: "8.7",
+  //   },
+  //   {
+  //     id: 6,
+  //     views: 9,
+  //     name: "The Matrix",
+  //     image:
+  //       "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
+  //     rating: "8.7",
+  //   },
+  //   {
+  //     id: 7,
+  //     views: 9,
+  //     name: "The Matrix",
+  //     image:
+  //       "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
+  //     rating: "8.7",
+  //   },
+  //   {
+  //     id: 8,
+  //     views: 9,
+  //     name: "The Matrix",
+  //     image:
+  //       "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
+  //     rating: "8.7",
+  //   },
+  //   {
+  //     id: 9,
+  //     views: 9,
+  //     name: "The Matrix",
+  //     image:
+  //       "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
+  //     rating: "8.7",
+  //   },
+  //   {
+  //     id: 10,
+  //     views: 9,
+  //     name: "The Matrix",
+  //     image:
+  //       "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
+  //     rating: "8.7",
+  //   },
+  // ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -196,7 +202,32 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [carouselBanners.length]);
+    // Fetch data for each category
+    const {
+      data: nowShowingMovies,
+      isLoading: nowShowingLoading,
+    } = useGetMoviesNowShowingQuery();
+  
+    const {
+      data: comingSoonMovies,
+      isLoading: comingSoonLoading,
+    } = useGetMoviesComingSoonQuery();
+  
+    
 
+  
+    const handleTabClick = (tabName) => {
+      setSelectedTab(tabName); // Update the selected tab
+    };
+  const isLoading =
+  selectedTab === "Đang chiếu" ? nowShowingLoading : comingSoonLoading;
+  console.log("Selected Tab:", selectedTab);
+  const movies =
+  selectedTab === "Đang chiếu"
+    ? nowShowingMovies?.nowShowingMovies || []  // Kiểm tra đúng thuộc tính
+    : comingSoonMovies?.comingSoonMovies || [];
+
+console.log("Movies to render:", movies);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -368,83 +399,86 @@ const Home = () => {
             </div>
           </div>
         </section>
-
-        <section className="movie-section relative">
-          <div className="containe mx-auto px-4">
-            <h3 className="section-title mb-6 text-4xl font-bold text-center">
-              | {t("Xu hướng hiện nay")}
-            </h3>
-            <div className="relative flex items-center justify-center px-8 w-full">
-              {/* Nút trái */}
-              <button
-                className="absolute left-0 z-10 rounded-full bg-red-600 p-3 text-white"
-                style={{
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  marginLeft: "-2%",
-                }}
-                onClick={() => handleScroll("left")}
-              >
-                <AiOutlineLeft size={24} />
-              </button>
-
-              <div className="hide-scrollbar flex w-full overflow-x-auto" id="movie-list" style={{ padding: "0 10px" }}>
-                <div className="flex space-x-9">
-                  {movies.slice(0, 10).map((movie) => (
-                    <div
-                      key={movie.id}
-                      className="movie-card relative flex-none overflow-hidden lg:w-[calc(19%-1rem)] md:w-[calc(40%-1rem)] w-[calc(50%-1rem)]"
-                    >
-                      <img
-                        src={movie.image}
-                        alt={movie.name}
-                        className="h-[300px] w-full rounded-t-lg object-cover"
-                      />
-                      <div className="overlay">
-                        <div className="overlay-content">
-                          <h4 className="movie-name text-red-500 font-bold">
-                            {movie.name}
-                          </h4>
-                          <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
-                          <div className="button-container flex flex-col space-y-4">
-                            <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
-                            <Link
-                              to={``}
-                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                            >
-                              {t("Trailer")}
-                              <FaPhotoVideo size={18} className="mt-1 ml-2" />
-                            </Link>
-                            <Link
-                              to={`/cinema/movie/${movie._id}`}
-                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                            >
-                              {t("Mua vé")}
-                              <FaTicketAlt size={18} className="mt-1 ml-2" />
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+        {/* {Tuấn} */}
+        <div className="flex justify-center bg-black">
+        <div className="w-full">
+          <div className="flex justify-center items-center font-sans mx-auto mt-0">
+            <div className="w-10/12 mt-28 pt-2 text-center font-semibold text-2xl md:text-3xl text-gray-300 border-b border-white">
+              <div className="inline-flex items-center">
+                <strong className="text-orange-600 px-2">|</strong> {t("Phim")}
               </div>
-
-              {/* Nút phải */}
-              <button
-                className="absolute right-0 z-10 rounded-full bg-red-600 p-3 text-white"
-                style={{
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  marginRight: "-2%",
-                }}
-                onClick={() => handleScroll("right")}
-              >
-                <AiOutlineRight size={24} />
-              </button>
+              <div className="flex justify-center items-center space-x-2 md:space-x-4 my-2 text-lg md:text-xl">
+                <Link
+                  onClick={() => handleTabClick("Đang chiếu")}
+                  className={`${
+                    selectedTab === "Đang chiếu" ? "text-orange-600" : "text-white"
+                  } cursor-pointer`}
+                >
+                  {t("Đang chiếu")}
+                </Link>
+                <Link
+                  onClick={() => handleTabClick("Sắp chiếu")}
+                  className={`${
+                    selectedTab === "Sắp chiếu" ? "text-orange-600" : "text-white"
+                  } cursor-pointer`}
+                >
+                  {t("Sắp chiếu")}
+                </Link>
+              </div>
             </div>
           </div>
-        </section>
+
+          {/* Movie Grid */}
+          <div className="w-10/12 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
+            {movies.slice(0, 10).map((movie) => (
+              <div key={movie._id} className="group w-full">
+                <div className="relative flex flex-col items-center my-2">
+                  <img src={movie.img} alt={movie.name} className="w-full" />
+                  <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="button-container flex flex-col space-y-4">
+                      <button
+                        onClick={() => handleTrailerClick(movie?.url_video)}
+                        className="overlay-btn-xh bg-orange-500 w-38 py-2 text-center text-white"
+                      >
+                        Trailer <i className="fas fa-video ml-1"></i>
+                      </button>
+                      <Link
+                        to={`/cinema/movie/${movie._id}`}
+                        className="overlay-btn-xh w-38 py-2 text-center text-white"
+                      >
+                        Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">
+                    T18
+                  </div>
+                  <div className="absolute bottom-14 right-2 text-yellow-400">
+                    ★★★★☆
+                  </div>
+                </div>
+                <div className="text-white text-center mt-2 text-sm md:text-base">
+                  {movie.name}
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Modal to display video */}
+          {isModalOpen && (
+            <Modal_Video
+              urlvideo={videoUrl}
+              isModalOpen={isModalOpen}
+              handleCloseModal={handleCloseModal}
+            />
+          )}
+          <h2 className="font-roboto m-auto mt-5 w-48 rounded-sm border border-orange-600 p-2 text-center text-lg text-orange-600 hover:bg-orange-600 hover:text-white">
+              <Link to="/cinema/movie">{t("Xem thêm")}</Link>
+            </h2>
+        </div>
+        
+      </div>
+        {/* {Tuấn kết thúc} */} 
+        
 
 
         <div className="section-divider-animation"></div>
