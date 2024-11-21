@@ -96,6 +96,8 @@ export const {
   useGetAllMoviesQuery,
   useGetMovieByIdQuery,
   useGetLatestMoviesByCreationDateQuery,
+  useGetMoviesNowShowingQuery,
+  useGetMoviesComingSoonQuery,
   useGetMoviesByActorIdQuery,
   useAddMovieMutation,
   useUpdateMovieMutation,
