@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FaClock, FaMapMarkerAlt, FaQuoteLeft } from "react-icons/fa";
+import { FaClock, FaMapMarkerAlt, FaQuoteLeft, FaTicketAlt } from "react-icons/fa";
+
+// import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar,  } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import { useGetMovieByIdQuery } from "../../services/Movies/movies.services";
 import { formatDate } from "../../utils/formatDate";
@@ -9,9 +11,12 @@ import VideoPlayer from "../../components/Movie/VideoPlayer";
 import NowShowing from "../../components/Movie/NowShowing";
 import CommentsSection from "../../components/Movie/CommentsSection";
 import LoadingLocal from "../Loading/LoadingLocal";
+import { useTranslation } from 'react-i18next';
+
 
 const MovieDetailPage = () => {
   const { id } = useParams();
+  const { t } = useTranslation(); 
   const { data: movieData, isLoading: movieDataLoading  } = useGetMovieByIdQuery(id);
   // const { data: allMoviesData} = useGetAllMoviesQuery();
 
@@ -217,9 +222,10 @@ const MovieDetailPage = () => {
                 <div className="mt-4 flex justify-start pr-4 md:px-0">
                   <Link
                     to={`/cinema/buy-tickets/` + movieData?.data?._id}
-                    className="btn flex items-center justify-center p-2 md:w-32 w-full text-white bg-gradient-to-r from-red-500 to-red-700 rounded-lg border border-transparent hover:from-red-600 hover:to-red-800 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+                    className="bg-red-600 rounded w-28 p-2 flex items-center justify-center text-center text-white font-bold"
                   >
-                    <FaShoppingCart className="mr-2" /> Mua Ngay
+                    {t("Mua vé")}
+                    <FaTicketAlt size={20} className="mt-1 ml-2" />
                   </Link>
                 </div>
               </div>

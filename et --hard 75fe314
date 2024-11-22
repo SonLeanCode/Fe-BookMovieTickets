@@ -1,0 +1,177 @@
+[33mb67c5fa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msonnu[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #102 from SonLeanCode/duy
+[33m75fe314[m fix: comment socket
+[33m056c013[m Merge pull request #101 from SonLeanCode/duy
+[33m589b5ec[m update: home pages css
+[33mae5bb31[m Merge pull request #100 from SonLeanCode/Tuấn
+[33m426f4a8[m update movie
+[33m143d897[m movie
+[33mdff2fe0[m pull
+[33m4e57be9[m Merge pull request #99 from SonLeanCode/duy
+[33m1600396[m fix: conflig services
+[33mbfd7fa8[m fix: serviecs ticket
+[33m9a0b184[m feat: api movies coming-soon
+[33m66a52d1[m sua trang movie
+[33m59b6c89[m Merge pull request #98 from SonLeanCode/sonnu
+[33m868e583[m[33m ([m[1;31morigin/sonnu[m[33m)[m dasbord
+[33meb185e8[m Merge pull request #97 from SonLeanCode/sonnu
+[33m911c525[m doanh thu theo week
+[33m9f11ea8[m Merge pull request #96 from SonLeanCode/duy
+[33m30191ed[m Merge pull request #95 from SonLeanCode/duy
+[33md44199a[m fix: i18 trans
+[33ma6292cf[m fix: booked seat
+[33ma3250ca[m fix: genre pages
+[33m828e78b[m fix: commentsSections
+[33m922ecaf[m Merge pull request #94 from SonLeanCode/sonnu
+[33mdc67bf7[m xong-hisorder
+[33me0120ca[m pull
+[33m85ccbb3[m Merge pull request #93 from SonLeanCode/sonnu
+[33m2bd7755[m fixx
+[33mde93de1[m Merge pull request #92 from SonLeanCode/sonnu
+[33mf27aa72[m push
+[33maee76d7[m fix field time line
+[33m3a29a4b[m fix field
+[33m00cf245[m fix
+[33m7ebb59b[m del console log
+[33mf489cc4[m[33m ([m[1;32mmaster[m[33m)[m Lưu thay đổi từ nhánh master
+[33mf295d7d[m done functions time-line/Porfile
+[33m55f2a3c[m Merge pull request #91 from SonLeanCode/Tuấn
+[33mb4cea67[m[33m ([m[1;31morigin/Tuấn[m[33m)[m ..
+[33m4a27f96[m scroll, thêm chuyển ngôn ngữ
+[33m2dcba06[m fix conflict
+[33mfc312f1[m fix
+[33m008b62e[m fix favMovie
+[33m66f5602[m scroll
+[33mb5d1a87[m fav movie
+[33mc6590b6[m buy momo
+[33mbcd7a95[m Merge pull request #90 from SonLeanCode/showtimes
+[33maedd76a[m fix: showtimes
+[33mc255eca[m intergation api momo
+[33mdf99c63[m integration api momo
+[33meede0bc[m Merge pull request #89 from SonLeanCode/sonnu
+[33m5d805d9[m res-cheapticket and edit icon
+[33m677a8f7[m config
+[33m3e2eed5[m config json
+[33m39709de[m Merge pull request #88 from SonLeanCode/Tuấn
+[33ma43a454[m sửa 1 xíu chỗ password
+[33m33af894[m lọc
+[33m15bb297[m Merge pull request #87 from SonLeanCode/duy
+[33mc1192f4[m[33m ([m[1;31morigin/duy[m[33m)[m feat: ticket api
+[33m4af02c1[m fix: css genre film
+[33me6e5b25[m Merge pull request #86 from SonLeanCode/duy
+[33m65e8d80[m fix: select buyticket
+[33mae4e83c[m Merge pull request #85 from SonLeanCode/duy
+[33mf70bc0c[m feat: show seat Buyticket page
+[33m4cdd622[m Merge pull request #84 from SonLeanCode/sonnu
+[33m4449c2b[m sonnu update home
+[33mce80377[m Merge pull request #83 from SonLeanCode/duy
+[33mf52a16b[m feat: show buytickets page
+[33m84fd370[m Merge pull request #82 from SonLeanCode/Phu
+[33mc52e6eb[m[33m ([m[1;31morigin/Phu[m[33m)[m Page business - Page setting
+[33m8b824d2[m Merge pull request #81 from SonLeanCode/Phu
+[33m546a16c[m test
+[33m5258f0b[m feat: buyticket showtime
+[33mf42a94c[m test
+[33m69883cf[m Merge pull request #80 from SonLeanCode/duy
+[33m3da2678[m fix: showtimeForm
+[33m033add3[m fix: formatTime
+[33me300e8d[m feat: formatShowDate
+[33me151164[m feat: formatTime
+[33m2400e01[m Merge pull request #78 from SonLeanCode/Tuấn
+[33m1d6845a[m Merge pull request #79 from SonLeanCode/duy
+[33m9c25234[m feat: add showtimes
+[33md8d0652[m merge
+[33m41c82e9[m update profile
+[33me564f57[m Merge pull request #77 from SonLeanCode/duy
+[33md5403bd[m feat: update: status seat
+[33mcaa21c1[m Merge pull request #76 from SonLeanCode/Phu
+[33m3e85c98[m Page contact and page policy
+[33m43c49bb[m Merge branch 'master' of https://github.com/SonLeanCode/Fe-BookMovieTickets into Phu
+[33m6aac85a[m Merge pull request #75 from SonLeanCode/duy
+[33m7ae4ba6[m feat: update all price seat
+[33m41762e8[m feat: update price seat
+[33m3852e4d[m Merge pull request #74 from SonLeanCode/Phu
+[33meb64252[m search - popupHome - toast login and profile - productVoucherDetail
+[33m190e8a7[m Merge pull request #73 from SonLeanCode/duy
+[33m5375074[m fix: component modal
+[33me007e18[m Merge pull request #70 from SonLeanCode/sonnu
+[33m1c0c82a[m db
+[33m19cd637[m dashbpad
+[33m450b44d[m Merge pull request #72 from SonLeanCode/duy
+[33m9243555[m feat: add seat
+[33mcf0f7d7[m feat: button managerment seat
+[33m99e60b5[m fix: display seat
+[33m201c469[m Merge pull request #71 from SonLeanCode/duy
+[33ma6a0168[m sonnu-update
+[33m2dfcc45[m sonnu-update-home
+[33m03003a3[m  changes avatar profile
+[33ma2c5527[m Merge pull request #69 from SonLeanCode/duy
+[33m210f1c7[m feat: display seat
+[33m9e8eb1d[m fix: commit pull
+[33m230a01c[m fix: add seats
+[33m272e028[m feat: seats page
+[33m8ee6ca1[m Merge pull request #68 from SonLeanCode/duy
+[33m074d789[m done imfomation profile
+[33m61fbfd4[m add functions profile
+[33m35ae6e8[m add functions profile
+[33m590fa7c[m Merge pull request #67 from SonLeanCode/duy
+[33m5dc81a4[m feat: room_manager page
+[33md0bf6f5[m Merge pull request #66 from SonLeanCode/duy
+[33m4c3e45d[m update: form user admin
+[33ma786b57[m add changes language
+[33m44bf06d[m Merge pull request #64 from SonLeanCode/sonnu
+[33m0562567[m Merge pull request #65 from SonLeanCode/duy
+[33m83bd919[m feat: comment real-time
+[33mf12e68e[m edit cinema-admin
+[33m58c628d[m Merge pull request #63 from SonLeanCode/duy
+[33md2c7493[m feat: comment api
+[33m3cc5ac8[m fix bug avatar
+[33m43799fa[m fix avatar comments
+[33me900a0e[m Merge pull request #62 from SonLeanCode/sonnu
+[33m9cfb9c6[m Lưu lại thay đổi trước khi chuyển nhánh
+[33m3ed1622[m Merge pull request #61 from SonLeanCode/duy
+[33m95a3b5c[m feat: user admin
+[33mca8688d[m fix: pagination regions
+[33mb5f912c[m feat: cinemas admin
+[33m19e9714[m Merge branch 'master' of github.com:SonLeanCode/Fe-BookMovieTickets
+[33m19663f2[m Check comments
+[33mcb03020[m Merge pull request #60 from SonLeanCode/Tuấn
+[33m4fb4e00[m commit
+[33m9c7d0a1[m quản lý khu vực, chi tiết khu vực
+[33mec51a0c[m Merge pull request #59 from SonLeanCode/sonnu
+[33m19ac14c[m sonnu xong nhiệm vụ
+[33mc80d28f[m Merge pull request #58 from SonLeanCode/duy
+[33mac430a4[m Resolved merge conflict in voucher-detail.jsx
+[33maa0c0ee[m regions management
+[33mebea4fb[m  fix comments
+[33mf68bc65[m feat: getCinemasByRegionId
+[33m3791327[m Merge pull request #57 from SonLeanCode/duy
+[33me8990ad[m fix: home page
+[33m49b9e58[m Merge pull request #56 from SonLeanCode/duy
+[33m324da73[m fix: profile page
+[33mff0716b[m fix: moviesDetails page
+[33mdb6a207[m feat: commit pull
+[33mf212268[m fix: commit
+[33m79b9a50[m Merge pull request #55 from SonLeanCode/quoctuan
+[33m38578a1[m[33m ([m[1;31morigin/quoctuan[m[33m)[m Merge branch 'master' into quoctuan
+[33mad16e96[m done comments
+[33m74feec1[m done function comments
+[33mdef3cfe[m code này không lỗi nè
+[33mb2f1fc3[m Merge pull request #53 from SonLeanCode/quoctuan
+[33m1b34a54[m Merge branch 'master' into quoctuan
+[33ma93de9b[m Merge pull request #54 from SonLeanCode/sonnu
+[33m3e26f5d[m responsive-home
+[33m749855c[m update movie categories
+[33ma601713[m Merge pull request #51 from SonLeanCode/sonnu
+[33m5933047[m list movie, chuyển trang buýticket
+[33m37ae837[m Merge pull request #52 from SonLeanCode/duy
+[33m21a07a6[m fix: movie detail pages
+[33m43eb366[m xong home k fix nữa
+[33mbd3b328[m feat: pull code
+[33mfea79bd[m Merge pull request #50 from SonLeanCode/sonnu
+[33m5e30cbb[m fix-home
+[33me87d1f5[m feat: pull req
+[33m822c870[m Merge pull request #49 from SonLeanCode/Phu
+[33ma4e193b[m full rps page Phu and show popup at home, code display
+[33m3111bf5[m rps page Phu
+[33mfada72f[m Merge pull request #47 from SonLeanCode/duy
+[33m70e1d0e[m Merge pull request #46 f

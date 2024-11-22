@@ -1,0 +1,17 @@
+[33m75fe314[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msonnu[m[33m)[m HEAD@{0}: reset: moving to 75fe314
+[33m75fe314[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msonnu[m[33m)[m HEAD@{1}: reset: moving to 75fe314
+[33mb67c5fa[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{2}: pull origin master: Fast-forward
+[33m868e583[m[33m ([m[1;31morigin/sonnu[m[33m)[m HEAD@{3}: commit: dasbord
+[33meb185e8[m HEAD@{4}: pull origin master: Fast-forward
+[33m911c525[m HEAD@{5}: commit: doanh thu theo week
+[33m9f11ea8[m HEAD@{6}: pull origin master: Fast-forward
+[33mdc67bf7[m HEAD@{7}: checkout: moving from sonnu to sonnu
+[33mdc67bf7[m HEAD@{8}: commit (merge): xong-hisorder
+[33me0120ca[m HEAD@{9}: commit: pull
+[33m2bd7755[m HEAD@{10}: commit: fixx
+[33mde93de1[m HEAD@{11}: pull origin master: Fast-forward
+[33mf27aa72[m HEAD@{12}: commit (merge): push
+[33mf489cc4[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{13}: merge master: Fast-forward
+[33m5d805d9[m HEAD@{14}: checkout: moving from master to sonnu
+[33mf489cc4[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{15}: commit: Lưu thay đổi từ nhánh master
+[33mf295d7d[m HEAD@{16}: clone: from https://github.com/SonLeanCode/Fe-BookMovieTickets.git
