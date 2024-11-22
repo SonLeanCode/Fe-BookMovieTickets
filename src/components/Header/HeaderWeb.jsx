@@ -264,13 +264,6 @@ const HeaderWeb = () => {
                       <FaUserAlt />
                       <span>{t("Tài khoản")}</span>
                     </Link>
-                    <Link
-                      to="/cinema/transaction"
-                      className="flex items-center space-x-2 px-4 py-2 text-white hover:bg-gray-600"
-                    >
-                      <FaHistory />
-                      <span>{t("Lịch sử")}</span>
-                    </Link>
                     <button
                       onClick={handleLogout}
                       className="flex w-full items-center space-x-2 px-4 py-2 text-left text-white hover:bg-gray-600"
