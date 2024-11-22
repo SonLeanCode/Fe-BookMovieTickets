@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetRevenueStatsQuery } from '../../services/RevenueStatistics/revenuestatistics.service';
 import { Chart, registerables } from 'chart.js';
 
