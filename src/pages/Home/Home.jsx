@@ -617,7 +617,7 @@ const Home = () => {
             <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4">
               {movies.slice(0, 8).map((movie) => (
                 <div
-                  key={movie.id}
+                  key={movie?._id}
                   className="group relative overflow-hidden rounded-lg shadow-lg"
                 >
                   <img

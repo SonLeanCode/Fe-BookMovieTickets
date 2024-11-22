@@ -62,7 +62,10 @@ const CommentsSection = ({ movieId }) => {
     try {
       // Gửi bình luận qua API
       const response = await postComments(commentData).unwrap();
-      socketRef.current.emit("postComment", response); // Phát sự kiện tới server
+      if(response){
+        // Phát sự kiện tới server
+        socketRef.current.emit("postComment", response.data); 
+      }
       setNewComment(""); // Xóa nội dung input sau khi gửi
     } catch (error) {
       console.error("Lỗi khi gửi bình luận:", error);
@@ -108,13 +111,13 @@ const CommentsSection = ({ movieId }) => {
             >
               <img
                 className="h-12 w-14 rounded-full"
-                src={comment?.avatar || avatar_defaut}
+                src={comment?.idUser?.avatar || avatar_defaut}
                 alt="User Avatar"
               />
               <div className="flex w-full flex-col gap-1">
                 <div className="flex items-center space-x-2">
                   <span className="text-sm font-semibold text-white">
-                    {comment?.fullname}
+                    {comment?.idUser?.fullname}
                   </span>
                   <span className="text-sm font-normal text-gray-500">
                     {comment.time}
