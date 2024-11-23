@@ -1,7 +1,8 @@
   import React, { useEffect, useState } from 'react';
-  import { useGetRevenueStatsQuery,useGetTicketsStatsQuery, useGetTotalRevenueQuery  } from '../../services/RevenueStatistics/revenuestatistics.service';
+  import { useGetRevenueStatsQuery,useGetTicketsStatsQuery, useGetTotalRevenueQuery,useGetMoviesStatsQuery  } from '../../services/RevenueStatistics/revenuestatistics.service';
+  import { useGetTicketsQuery } from '../../services/Ticket/ticket.serviecs'
   import { Chart, registerables } from 'chart.js';
-  import { ArrowUpIcon } from '@heroicons/react/20/solid';
+  import { CurrencyDollarIcon ,UserIcon , CreditCardIcon,   } from '@heroicons/react/20/solid';
 
   Chart.register(...registerables);
 
@@ -14,7 +15,13 @@
     const { data, isLoading, isError } = useGetRevenueStatsQuery(timeUnit);
     const { data: ticketData, isLoading: ticketLoading, isError: ticketError } = useGetTicketsStatsQuery();
     const { data: totalRevenues, isLoading: totalRevenueLoading, isError: totalRevenueError } = useGetTotalRevenueQuery();
+    const { data: movie, isLoading: movieLoading, isError: movieError } = useGetMoviesStatsQuery();
+    const { data: ticketRecent, isLoading: ticketRecentLoading, isError: ticketRecentError } = useGetTicketsQuery();
     console.log('tổng doamh thu',totalRevenues);
+    console.log('movie nè',movie);
+    console.log('vé nè',ticketRecent);
+
+    
     
     useEffect(() => {
       if (!data || isLoading || isError) return;
@@ -99,8 +106,14 @@
         // Use ticket data for the pie chart
         if (ticketData && !ticketLoading && !ticketError) {
           console.log('biểu đồ tròn',ticketData);
-          const seatTypes = ticketData || {};
+          const seatTypes = {
+            Single: 17,
+            Sweetbox: 0,
+            VIP: 4,
+            totalBookedSeats: 2
+          };
           const labels = Object.keys(seatTypes);
+          
           const dataValues = Object.values(seatTypes);
     
           revenueChart = new Chart(revenueCanvas, {
@@ -132,8 +145,11 @@
               plugins: {
                 legend: {
                   position: 'right',
+                  
                   labels: {
-                    font: { size: 12 },
+                    font: { size: 10 },
+                    padding: 10,  // Adds space between the legend items
+                    boxWidth: 10,
                   },
                 },
                 title: {
@@ -148,17 +164,7 @@
       }
     
       // Simulate fetching ticket data (replace with actual API call)
-      const fetchTickets = () => {
-        const recentTickets = [
-          { id: 1, customer: 'John Doe', movie: 'Inception', date: '2024-11-01', amount: '$12.00' },
-          { id: 2, customer: 'Jane Smith', movie: 'Avatar', date: '2024-11-02', amount: '$15.00' },
-          { id: 3, customer: 'Alice Johnson', movie: 'Titanic', date: '2024-11-03', amount: '$10.00' },
-          // Add more tickets as needed
-        ];
-        setTickets(recentTickets);
-      };
-    
-      fetchTickets();
+     
     
       // Cleanup function for charts
       return () => {
@@ -180,55 +186,94 @@
 
             {/* Stats Section */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-white p-4 shadow-lg rounded-lg flex items-center space-x-4">
-                <div className="bg-blue-100 p-2 rounded-full">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18"></path>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v3m4-3v3m-8-3v3m8-3V9M8 21V5m8 16V13M4 4h16M4 8h16"></path>
-                  </svg>
+            <div className="bg-white shadow-lg rounded-md flex ">
+                <div className=" rounded-s-md p-3 flex items-center" style={{ background: '#F77A9E' }}>
+                  <UserIcon className="h-6 w-6 p-[0.5] text-slate-50 rounded-full ring-2 ring-slate-50" />
                 </div>
 
-                <div>
-                  <p className="text-2xl font-bold">1,478,286</p>
-                  <p className="text-gray-500">Total visits</p>
+                <div className=" w-full p-3 rounded-e-md" style={{ background: '#F14F7B' }}>  
+                  <p className="text-gray-100">Người dùng</p>
+                  <p className="text-xl text-white font-bold">1,478,286</p>
                   <div className="flex items-center space-x-1">
                     <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <p className="text-green-500 text-sm">4.07%</p>
-                    <p className="text-gray-500 text-sm">Last month</p>
+                    <p className="text-green-300 text-sm">4.07%</p>
+                    <p className="text-gray-100 text-sm">Last month</p>
                   </div>
                 </div>
               </div>
+              <div className="bg-white shadow-lg rounded-md flex ">
+                <div className=" rounded-s-md p-3 flex items-center" style={{ background: '#9592C5' }}>
+                <UserIcon className="h-6 w-6 p-[0.5] text-slate-50 rounded-full ring-2 ring-slate-50" />
+                </div>
 
-              <div className="bg-white px-4 shadow-lg rounded-lg flex flex-col items-center" style={{ height: '200px' }}>
-                <canvas id="revenueChart" aria-label="Revenue distribution" role="img" style={{ height: '200px' }}></canvas>
+                <div className=" w-full p-3 rounded-e-md" style={{ background: '#726CB0' }}>  
+                  <p className="text-gray-100">Total visits</p>
+                  <p className="text-xl text-white font-bold">1,478,286</p>
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <p className="text-green-300 text-sm">4.07%</p>
+                    <p className="text-gray-100 text-sm">Last month</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
-                <h3 className="text-xl font-semibold mb-4">Tổng doanh thu</h3>
-                {totalRevenueLoading ? (
+              {/* <div className="bg-white px-4 shadow-lg rounded-lg flex flex-col items-center" style={{ height: '200px' }}>
+                <canvas id="revenueChart" aria-label="Revenue distribution" role="img" style={{ height: '200px' }}></canvas>
+              </div> */}
+              <div className="bg-white shadow-lg rounded-md flex ">
+                <div className=" rounded-s-md p-3 flex items-center" style={{ background: '#65C4E9' }}>
+                <CreditCardIcon  className="h-6 w-6 p-[1px] text-slate-50 rounded-full ring-2 ring-slate-50" />
+                </div>
+
+                <div className=" w-full p-3 rounded-e-md" style={{ background: '#32B1E1' }}>  
+                  <p className="text-gray-100">Tổng doanh thu</p>
+                  {totalRevenueLoading ? (
                 <p>Loading...</p>
               ) : totalRevenueError ? (
                 <p>Error loading data</p>
               ) : (
-                <p className="text-2xl flex items-center  font-bold">
-                <ArrowUpIcon className="w-6 h-6 text-green-500" />
-                {totalRevenues?.totalRevenue  ? <span className="text-green-500 text-xl">{new Intl.NumberFormat().format(totalRevenues.totalRevenue)}</span>  : '0'} VNĐ</p>
+                <p className="text-xl text-white flex items-center  font-bold">
+                {totalRevenues?.totalRevenue  ?new Intl.NumberFormat().format(totalRevenues.totalRevenue)+' VNĐ'  : '0 VNĐ'} </p>
               )}
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <p className="text-green-300 text-sm">4.07%</p>
+                    <p className="text-gray-100 text-sm">Last month</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
-                <h3 className="text-xl font-semibold mb-4">Doanh thu trong tháng</h3>
-                {totalRevenueLoading ? (
-    <p>Loading...</p>
-  ) : totalRevenueError ? (
-    <p>Error loading data</p>
-  ) : (
-    <p className="text-2xl font-bold">
-      {totalRevenues?.monthlyRevenue 
-        ? new Intl.NumberFormat().format(totalRevenues.monthlyRevenue) + ' VNĐ' 
-        : '0 VNĐ'}
-    </p>
-  )}
+              
+              <div className="bg-white shadow-lg rounded-md flex ">
+                <div className=" rounded-s-md p-3 flex items-center" style={{ background: '#6CD0D2' }}>
+                <CurrencyDollarIcon   className="h-6 w-6 p-[1px] text-slate-50 rounded-full ring-2 ring-slate-50" />
+                </div>
+
+                <div className=" w-full p-3 rounded-e-md" style={{ background: '#3CC1C4' }}>  
+                  <p className="text-gray-100">Doanh thu trong tháng</p>
+                  {totalRevenueLoading ? (
+                <p>Loading...</p>
+              ) : totalRevenueError ? (
+                <p>Error loading data</p>
+              ) : (
+                <p className="text-xl text-white flex items-center  font-bold">
+                  {totalRevenues?.monthlyRevenue 
+                    ? new Intl.NumberFormat().format(totalRevenues.monthlyRevenue) + ' VNĐ' 
+                    : '0 VNĐ'}
+                </p>
+              )}
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <p className="text-green-300 text-sm">4.07%</p>
+                    <p className="text-gray-100 text-sm">Last month</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -252,35 +297,48 @@
                   <canvas id="myChart" aria-label="Site statistics" role="img"></canvas>
                 </div>
 
-                <div className='bg-white'>
-              <h4 className="text-xl font-semibold mb-4">Recent Tickets</h4>
-                  <table className="w-full text-left table-auto">
-                    <thead>
-                      <tr>
-                        <th className="py-2 px-4 border-b">Customer</th>
-                        <th className="py-2 px-4 border-b">Movie</th>
-                        <th className="py-2 px-4 border-b">Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tickets.map((ticket) => (
-                        <tr key={ticket.id}>
-                          <td className="py-2 px-4 border-b">{ticket.customer}</td>
-                          <td className="py-2 px-4 border-b">{ticket.movie}</td>
-                          <td className="py-2 px-4 border-b">{ticket.amount}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-            </div>
-              </div>
+                <div className='bg-white p-5 rounded-lg'>
+                  <h4 className="text-xl font-semibold mb-4">Vé gần đây</h4>
+                      <table className="w-full text-left table-auto">
+                        <thead>
+                          <tr>
+                            <th className="py-2 px-4 border-b">Người dùng</th>
+                            <th className="py-2 px-4 border-b">Phim</th>
+                            <th className="py-2 px-4 border-b">Tổng tiền</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {ticketRecent?.allTickets?.slice(0, 10).map((ticket, index) => (
+                            <tr key={ticket._id}>
+                              <td className="py-2 px-4 border-b">{ticket.user_id}</td>
+                              <td className="py-2 px-4 border-b">{ticket.name_movie}</td>
+                              <td className="py-2 px-4 border-b">{ticket.price}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                </div>
+                </div>
 
               {/* Right Section */}
-              <div className="w-1/4 pr-5 pl-1">
-                <div className="p-6 bg-white shadow-lg rounded-lg">
-                  
-                </div>
+              <div className="w-1/4 pr-5 pl-1 ">
+              <div className="bg-white px-4 mb-5 shadow-lg rounded-lg flex flex-col items-center" >
+                <canvas id="revenueChart" aria-label="Revenue distribution" role="img" ></canvas>
               </div>
+  <div className="p-3 bg-white shadow-lg rounded-lg">
+    <h1 className="text-xl text-center font-bold">Top phim</h1>
+    <div>
+      {/* Display top 3 movies */}
+      {movie?.moviesStats?.slice(0, 10).map((movieItem, index) => (
+        <div key={movieItem._id} className="mb-2">
+          <p className="truncate font-semibold">{index + 1}. {movieItem.name}</p>
+          {/* <img src={movieItem.img} alt={movieItem.name} className="w-full h-auto rounded-md" /> */}
+          <p className="text-sm text-gray-600">Doanh thu: {new Intl.NumberFormat().format(movieItem.totalRevenue)} VNĐ</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
               
             </div>
             

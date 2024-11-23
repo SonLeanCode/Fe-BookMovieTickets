@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useGetAllGenresQuery } from "../../services/Genre/genre.service";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
+import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -74,18 +75,21 @@ const MovieList = () => {
                 {/* Overlay */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <div className="button-container flex flex-col space-y-4">
-                    <Link
-                      to={`/cinema/movie/${movie._id}`}
-                      className="overlay-btn-xh w-38 py-2 text-center text-white"
+                  <Link
+                    onClick={() => handleTrailerClick(movie?.url_video)}
+                      to={``}
+                      className="bg-orange-500 rounded w-28 p-2 font-bold flex items-center justify-center text-center text-white"
                     >
-                      Trailer <i className="fas fa-video ml-1"></i>
+                      {t("Trailer")}
+                      <FaPhotoVideo size={18} className="mt-1 ml-2" />
                     </Link>
                     <Link
                       to={`/cinema/movie/${movie._id}`}
-                      className="overlay-btn-xh w-38 py-2 text-center text-white"
+                      className="bg-orange-500 rounded w-28 p-2 font-bold flex items-center justify-center text-center text-white"
                     >
-                     {t("Mua vé")} <i className="fas fa-ticket-alt ml-1"></i>
-                    </Link>
+                      {t("Mua vé")}
+                      <FaTicketAlt size={18} className="mt-1 ml-2" />
+                  </Link>
                   </div>
                 </div>
               </div>
