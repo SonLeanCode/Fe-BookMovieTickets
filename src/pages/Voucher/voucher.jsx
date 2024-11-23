@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import NowShowingMovies from '../Actor/NowShowingMovies';
 
 const Voucher = () => { // Changed from 'voucher' to 'Voucher'
   const { t } = useTranslation();
@@ -133,31 +134,8 @@ const Voucher = () => { // Changed from 'voucher' to 'Voucher'
             </div>
           </div>
 
-          <div className="w-full md:w-[30%] md:mt-0">
-            <h2 className="text-white text-2xl font-semibold font-roboto text-center mb-3"> {t("Phim đang chiếu")}</h2>
-            <div className="group ml-6">
-              <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
-                <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg" alt="item" className="w-full h-auto" />
-                <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Link to="/cinema/buy-tickets" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md">Mua vé <i className="ml-1 fas fa-ticket-alt"></i></Link>
-                </div>
-                <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
-                <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
-              </div>
-              <div className="text-white ">Tên phim</div>
-            </div>
-            <div className="group ml-6">
-              <div className="relative flex flex-col items-center flex-grow flex-shrink-0 my-2">
-                <img src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg" alt="item" className="w-full h-auto" />
-                <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Link to="/cinema/buy-tickets" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md"> {t("Mua vé")}<i className="ml-1 fas fa-ticket-alt"></i></Link>
-                </div>
-                <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">T18</div>
-                <div className="absolute bottom-14 right-2 text-yellow-400">★★★★☆</div>
-              </div>
-              <div className="text-white ">Tên phim</div>
-            </div>
-          </div>
+          <NowShowingMovies />
+          
         </div>
       </div>
     </section>
