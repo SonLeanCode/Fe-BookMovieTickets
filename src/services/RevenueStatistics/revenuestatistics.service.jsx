@@ -39,7 +39,7 @@ export const statsApi = createApi({
     // Get ticket statistics
     getTicketsStats: builder.query({
       query: () => ({
-        url: `/api/stats/ticket-stats`,
+        url: `/api/statistics/tickets`,
         method: 'GET',
       }),
     }),
