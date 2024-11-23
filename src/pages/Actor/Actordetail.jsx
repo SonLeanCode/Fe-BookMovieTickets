@@ -5,6 +5,8 @@ import { formatDate } from "../../utils/formatDate";
 import { useGetActorByIdQuery } from "../../services/Actor/actor.service";
 import { useGetMoviesByActorIdQuery } from "../../services/Movies/movies.services";
 import notfound_img from "../../assets/img/404/not_found_img.jpg";
+import NowShowingMovies from './NowShowingMovies';
+
 const Actordetail = () => {
   const { id } = useParams();
   const { data: actorData } = useGetActorByIdQuery(id);
@@ -223,86 +225,8 @@ const Actordetail = () => {
             </div>
           </div>
 
-          <div className="mt-4 w-full md:mt-0 md:w-[30%]">
-            <h2 className="font-roboto mb-3 text-center text-2xl font-semibold text-white">
-              Phim đang chiếu
-            </h2>
-            <div className="group ml-6">
-              <div className="relative my-2 flex flex-shrink-0 flex-grow flex-col items-center">
-                <img
-                  src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg"
-                  alt="item"
-                  className="h-auto w-full"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <Link
-                    to="/cinema/buy-tickets"
-                    className="rounded-md bg-orange-500 px-4 py-2 text-white hover:bg-orange-600"
-                  >
-                    Mua vé <i className="fas fa-ticket-alt ml-1"></i>
-                  </Link>
-                </div>
-                <div className="absolute bottom-0 right-0 bg-orange-600 px-2 py-1 text-white">
-                  T18
-                </div>
-                <div className="absolute bottom-14 right-2 text-yellow-400">
-                  ★★★★☆
-                </div>
-              </div>
-              <div className="text-white">Tên phim</div>
-            </div>
-            <div className="group ml-6">
-              <div className="relative my-2 flex flex-shrink-0 flex-grow flex-col items-center">
-                <img
-                  src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg"
-                  alt="item"
-                  className="h-auto w-full"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <Link
-                    to="/cinema/buy-tickets"
-                    className="rounded-md bg-orange-500 px-4 py-2 text-white hover:bg-orange-600"
-                  >
-                    Mua vé <i className="fas fa-ticket-alt ml-1"></i>
-                  </Link>
-                </div>
-                <div className="absolute bottom-0 right-0 bg-orange-600 px-2 py-1 text-white">
-                  T18
-                </div>
-                <div className="absolute bottom-14 right-2 text-yellow-400">
-                  ★★★★☆
-                </div>
-              </div>
-              <div className="text-white">Tên phim</div>
-            </div>
-            <div className="group ml-6">
-              <div className="relative my-2 flex flex-shrink-0 flex-grow flex-col items-center">
-                <img
-                  src="https://cdn.galaxycine.vn/media/2024/8/13/transformers-750_1723544376869.jpg"
-                  alt="item"
-                  className="h-auto w-full"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <Link
-                    to="/cinema/buy-tickets"
-                    className="rounded-md bg-orange-500 px-4 py-2 text-white hover:bg-orange-600"
-                  >
-                    Mua vé <i className="fas fa-ticket-alt ml-1"></i>
-                  </Link>
-                </div>
-                <div className="absolute bottom-0 right-0 bg-orange-600 px-2 py-1 text-white">
-                  T18
-                </div>
-                <div className="absolute bottom-14 right-2 text-yellow-400">
-                  ★★★★☆
-                </div>
-              </div>
-              <div className="text-white">Tên phim</div>
-            </div>
-            <h2 className="font-roboto right-0 ml-auto mt-5 w-48 rounded-sm border border-orange-600 p-2 text-center text-lg text-orange-600">
-              <Link to="/cinema/movie">Xem thêm</Link>
-            </h2>
-          </div>
+          <NowShowingMovies />
+         
         </div>
       </div>
     </section>
