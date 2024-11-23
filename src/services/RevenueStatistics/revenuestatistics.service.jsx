@@ -22,7 +22,7 @@ export const statsApi = createApi({
     // Get total revenue
     getTotalRevenue: builder.query({
       query: () => ({
-        url: `/api/stats/total-revenue`,
+        url: '/api/statistics/revenue/total',
         method: 'GET',
       }),
     }),
@@ -30,7 +30,7 @@ export const statsApi = createApi({
     // Get revenue stats by time (day, month, year)
     getRevenueStats: builder.query({
       query: (timeUnit) => ({
-        url: `/api/statistics/revenue/time`,
+        url: '/api/statistics/revenue/time',
         method: 'GET',
         params: { timeUnit }, // Pass the time unit as query parameter
       }),
@@ -39,7 +39,7 @@ export const statsApi = createApi({
     // Get ticket statistics
     getTicketsStats: builder.query({
       query: () => ({
-        url: `/api/statistics/tickets`,
+        url: '/api/statistics/tickets',
         method: 'GET',
       }),
     }),
@@ -47,7 +47,7 @@ export const statsApi = createApi({
     // Get movie statistics
     getMoviesStats: builder.query({
       query: () => ({
-        url: `/api/stats/movies-stats`,
+        url: '/api/statistics/movies', // Updated path to match the router
         method: 'GET',
       }),
     }),
@@ -55,7 +55,7 @@ export const statsApi = createApi({
     // Get cinema statistics
     getCinemasStats: builder.query({
       query: () => ({
-        url: `/api/stats/cinemas-stats`,
+        url: '/api/statistics/cinemas', // Updated path to match the router
         method: 'GET',
       }),
     }),

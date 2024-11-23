@@ -87,43 +87,51 @@ const Movie = () => {
           </div>
 
           {/* Movie Grid */}
-          <div className="w-10/12 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
-            {movies.slice(0, 10).map((movie) => (
-              <div key={movie._id} className="group w-full">
-                <div className="relative flex flex-col items-center my-2">
-                  <img src={movie.img} alt={movie.name} className="w-full" />
-                  <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="button-container flex flex-col space-y-4">
-                      <Link
-                        onClick={() => handleTrailerClick(movie?.url_video)}
-                          to={``}
-                          className="bg-orange-500 rounded w-28 p-2 font-bold flex items-center justify-center text-center text-white"
-                        >
-                          {t("Trailer")}
-                          <FaPhotoVideo size={18} className="mt-1 ml-2" />
-                        </Link>
-                        <Link
-                          to={`/cinema/movie/${movie._id}`}
-                          className="bg-orange-500 rounded w-28 p-2 font-bold flex items-center justify-center text-center text-white"
-                        >
-                          {t("Mua vé")}
-                          <FaTicketAlt size={18} className="mt-1 ml-2" />
-                      </Link>
+          <div className="w-10/12 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 mt-4">
+                {movies.map((movie) => (
+                  <div key={movie._id} className="group w-full ">
+                    <div className="relative flex flex-col items-center my-2 ">
+                      <img src={movie.img} alt={movie.name} className="w-full rounded-lg" />
+                      <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <div className="button-container flex flex-col space-y-4">
+                          <Link
+                            onClick={() => handleTrailerClick(movie?.url_video)}
+                            to={``}
+                            className="bg-orange-500 rounded w-28 p-2 font-bold flex items-center justify-center text-center text-white"
+                          >
+                            {t("Trailer")}
+                            <FaPhotoVideo size={18} className="mt-1 ml-2" />
+                          </Link>
+                          <Link
+                            to={`/cinema/movie/${movie._id}`}
+                            className="bg-orange-500 rounded w-28 p-2 font-bold flex items-center justify-center text-center text-white"
+                          >
+                            {t("Mua vé")}
+                            <FaTicketAlt size={18} className="mt-1 ml-2" />
+                          </Link>
+                        </div>
+                      </div>
+                      {movie?.age_limit ? (
+                          <div className="absolute w-12 text-center bottom-0 rounded-tl-md rounded-br-md right-0 bg-orange-600 text-white px-2 py-1">
+                            {movie.age_limit}+
+                          </div>
+                        ) : (
+                          <div className="absolute w-12 text-center bottom-0 rounded-tl-md rounded-br-md right-0 bg-orange-600 text-white px-2 py-1">
+                            0+
+                          </div>
+                        )}
+
+                      <div className="absolute bottom-14 right-2 text-yellow-400">
+                        ★★★★☆
+                      </div>
+                    </div>
+                    <div className="text-white text-center mt-2 text-lg  font-semibold ">
+                      {movie.name}
                     </div>
                   </div>
-                  <div className="absolute bottom-0 right-0 bg-orange-600 text-white px-2 py-1">
-                    T18
-                  </div>
-                  <div className="absolute bottom-14 right-2 text-yellow-400">
-                    ★★★★☆
-                  </div>
-                </div>
-                <div className="text-white text-center mt-2 text-sm md:text-base">
-                  {movie.name}
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+
 
           {/* Modal to display video */}
           {isModalOpen && (
@@ -135,7 +143,7 @@ const Movie = () => {
           )}
         </div>
       </div>
-      <div className="flex flex-col w-10/12 justify-center m-auto text-white ">
+      <div className="flex flex-col w-10/12 justify-center m-auto text-white mb-5 ">
         <div className="w-full py-8 text-center font-semibold text-2xl md:text-3xl text-gray-300">
           {selectedTab === "Đang chiếu" ? t("Phim đang chiếu") : t("Phim sắp chiếu")}
         </div>

@@ -1,47 +1,140 @@
-import React, { useEffect, useState } from 'react';
-import { useGetRevenueStatsQuery, useGetTicketsStatsQuery } from '../../services/RevenueStatistics/revenuestatistics.service';
-import { Chart, registerables } from 'chart.js';
+  import React, { useEffect, useState } from 'react';
+  import { useGetRevenueStatsQuery,useGetTicketsStatsQuery, useGetTotalRevenueQuery,useGetMoviesStatsQuery  } from '../../services/RevenueStatistics/revenuestatistics.service';
+  import { useGetTicketsQuery } from '../../services/Ticket/ticket.serviecs'
+  import { Chart, registerables } from 'chart.js';
+  import { CurrencyDollarIcon ,UserIcon , CreditCardIcon,   } from '@heroicons/react/20/solid';
 
-Chart.register(...registerables);
+  Chart.register(...registerables);
 
-const Dashboard = () => {
-  const [chartInstance, setChartInstance] = useState(null);
-  const [timeUnit, setTimeUnit] = useState('day'); // Default to daily stats
+  const Dashboard = () => {
+    const [tickets, setTickets] = useState([]);
+    const [chartInstance, setChartInstance] = useState(null);
+    const [revenueChartInstance, setRevenueChartInstance] = useState(null);
+    const [timeUnit, setTimeUnit] = useState('day'); // Default to daily stats
 
-  // Fetch revenue stats data using RTK Query
-  const { data: revenueData, isLoading: revenueLoading, isError: revenueError } = useGetRevenueStatsQuery(timeUnit);
-  
-  // Fetch ticket stats data using RTK Query
-  const { data: ticketData, isLoading: ticketLoading, isError: ticketError } = useGetTicketsStatsQuery();
-console.log(ticketData)
-  useEffect(() => {
-    if (!revenueData || revenueLoading || revenueError) return;
+    const { data, isLoading, isError } = useGetRevenueStatsQuery(timeUnit);
+    const { data: ticketData, isLoading: ticketLoading, isError: ticketError } = useGetTicketsStatsQuery();
+    const { data: totalRevenues, isLoading: totalRevenueLoading, isError: totalRevenueError } = useGetTotalRevenueQuery();
+    const { data: movie, isLoading: movieLoading, isError: movieError } = useGetMoviesStatsQuery();
+    const { data: ticketRecent, isLoading: ticketRecentLoading, isError: ticketRecentError } = useGetTicketsQuery();
+    // console.log('tổng doamh thu',totalRevenues);
+    console.log('movie nè',movie);
+    // console.log('vé nè',ticketRecent);
 
-    const chartData = revenueData.revenueStats.map((item) => ({
-      time: item.time,
-      revenue: item.totalRevenue,
-    }));
+    
+    
+    useEffect(() => {
+      if (!data || isLoading || isError) return;
+    
+      // Initialize the Visitor Statistics Chart (Bar Chart)
+      const ctx = document.getElementById('myChart');
+      let myChart;
+    
+      if (ctx) {
+        const myCanvas = ctx.getContext('2d');
+    
+        // Destroy any existing chart instance to avoid the "Canvas is already in use" error
+        if (chartInstance) {
+          chartInstance.destroy();
+        }
+    
+        const chartData = data.revenueStats.map((item) => ({
+          time: item.time,
+          revenue: item.totalRevenue,
+        }));
+        
+        const labels = chartData.map((item) => item.time);
+        const revenues = chartData.map((item) => item.revenue);
+    
+        // Create a new Chart instance (Line Chart)
+        myChart = new Chart(myCanvas, {
+          type: 'bar', // Bar chart
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: `Doanh thu theo ${timeUnit === 'day' ? 'ngày' : timeUnit === 'month' ? 'tháng' : 'năm'}`,
+                data: revenues,
+                backgroundColor: 'rgba(95, 46, 234, 0.7)',
+                borderColor: 'rgba(95, 46, 234, 1)',
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: `Doanh thu theo ${timeUnit === 'day' ? 'ngày' : timeUnit === 'month' ? 'tháng' : 'năm'}`,
+              },
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Thời gian',
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Doanh thu (VNĐ)',
+                },
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+    
+        setChartInstance(myChart);
+      }
 
-    const labels = chartData.map((item) => item.time);
-    const revenues = chartData.map((item) => item.revenue);
 
-    const ctx = document.getElementById('revenueChart').getContext('2d');
 
-    if (chartInstance) {
-      chartInstance.destroy(); // Destroy previous chart instance before re-rendering
-    }
+    
+      // Initialize the Revenue Distribution Chart (Pie Chart)
+      const revenueCtx = document.getElementById('revenueChart');
+let revenueChart;
 
-    const newChartInstance = new Chart(ctx, {
-      type: 'bar', // Chuyển sang biểu đồ cột (bar chart)
+if (revenueCtx) {
+  const revenueCanvas = revenueCtx.getContext('2d');
+  if (revenueChartInstance) {
+    revenueChartInstance.destroy();
+  }
+
+  // Kiểm tra dữ liệu ticketData và trạng thái
+  if (ticketData && !ticketLoading && !ticketError) {
+    console.log('biểu đồ tròn', ticketData);
+    
+    // Lấy các loại ghế và số ghế đã đặt
+    const labels = Object.keys(ticketData.data);
+    const dataValues = Object.values(ticketData.data);
+    const totalSeats = ticketData.totalBookedSeats;
+
+    // Cập nhật biểu đồ doughnut với dữ liệu ghế
+    revenueChart = new Chart(revenueCanvas, {
+      type: 'doughnut',
       data: {
-        labels,
+        labels: labels,  // Các loại ghế: Single, Sweetbox, VIP
         datasets: [
           {
-            label: 'Doanh thu',
-            data: revenues,
-            backgroundColor: 'rgba(95, 46, 234, 0.6)', // Màu nền cho cột
-            borderColor: 'rgba(95, 46, 234, 1)', // Màu viền cho cột
-            borderWidth: 2,
+            label: 'Tickets by Seat Type',
+            data: dataValues,  // Dữ liệu số ghế đã bán
+            backgroundColor: [
+              'rgba(95, 46, 234, 0.7)',
+              'rgba(75, 222, 151, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
+            ],
+            borderColor: [
+              'rgba(95, 46, 234, 1)',
+              'rgba(75, 222, 151, 1)',
+              'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1,
           },
         ],
       },
@@ -49,161 +142,216 @@ console.log(ticketData)
         responsive: true,
         plugins: {
           legend: {
-            position: 'top',
+            position: 'right',
+            labels: {
+              font: { size: 10 },
+              padding: 10,
+              boxWidth: 10,
+            },
           },
           title: {
             display: true,
-            text: `Doanh thu theo ${timeUnit === 'day' ? 'ngày' : timeUnit === 'month' ? 'tháng' : 'năm'}`,
-          },
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Thời gian',
-            },
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Doanh thu (VNĐ)',
-            },
-            beginAtZero: true,
+            text: `Số lượng ghế đã bán: ${totalSeats}`,  // Hiển thị tổng số ghế đã bán
           },
         },
       },
     });
 
-    setChartInstance(newChartInstance);
+    // Lưu instance biểu đồ nếu cần
+    setRevenueChartInstance(revenueChart);
+  }
+}
 
-    // Clean up
-    return () => {
-      if (newChartInstance) newChartInstance.destroy();
-    };
-  }, [revenueData, revenueLoading, revenueError, timeUnit]);
+    
+      // Simulate fetching ticket data (replace with actual API call)
+     
+    
+      // Cleanup function for charts
+      return () => {
+        if (myChart) {
+          myChart.destroy();
+        }
+        if (revenueChart) {
+          revenueChart.destroy();
+        }
+      };
+    }, [data, isLoading, isError, ticketData, ticketLoading, ticketError, timeUnit]);
+    
 
-  // Màu cho từng tỉ lệ ghế
-  const getSeatTypeColor = (seatType) => {
-    switch (seatType) {
-      case 'Single':
-        return 'bg-blue-500'; // Màu cho Single
-      case 'Sweetbox':
-        return 'bg-green-500'; // Màu cho Sweetbox
-      case 'VIP':
-        return 'bg-red-500'; // Màu cho VIP
-      default:
-        return 'bg-black-300';
-    }
-  };
-  
+    return (
+      <div className="ml-64 mt-8 bg-[#111111] p-6">
+        <main className="main users chart-page" id="skip-target">
+          <div className="container mx-auto">
 
-  return (
-    <div className="ml-64 mt-8 bg-blu bg-[#111111] p-6 min-h-screen">
-      <main className="main users chart-page">
-        <div className="container mx-auto flex flex-wrap gap-6">
-          {/* Phần bên trái: Biểu đồ */}
-          <div className="bg-white flex-1 p-2 shadow-lg rounded-lg">
-            <h1 className="font-bold text-red-600 p-2 text-center text-2xl w-[100%]">BIỂU ĐỒ THỐNG KÊ DOANH THU</h1>
-            {/* Time Filter */}
-            <div className="flex justify-end mb-4">
-              <select
-                value={timeUnit}
-                onChange={(e) => setTimeUnit(e.target.value)}
-                className="px-4 py-2 border rounded-md text-gray-800"
-              >
-                <option value="day">Theo ngày</option>
-                <option value="month">Theo tháng</option>
-                <option value="year">Theo năm</option>
-              </select>
-            </div>
-            {/* Biểu đồ */}
-            <canvas id="revenueChart" className="h-64"></canvas>
-          </div>
+            {/* Stats Section */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-white shadow-lg rounded-md flex ">
+                <div className=" rounded-s-md p-3 flex items-center" style={{ background: '#F77A9E' }}>
+                  <UserIcon className="h-6 w-6 p-[0.5] text-slate-50 rounded-full ring-2 ring-slate-50" />
+                </div>
 
-          {/* Phần bên phải: Thống kê vé SHOW */}
-          <div className="bg-white flex-1 p-3 shadow-md rounded-lg">
-            <h1 className="font-bold text-red-600 p-2 text-center text-2xl w-[100%]">BẢNG THỐNG KÊ VÉ ĐÃ ĐẶT</h1>
-            {/* Tổng số ghế đã đặt */}
-            <div className="text-center mb-6">
-              {ticketLoading ? (
-                <p className="text-white text-center mt-4">Đang tải dữ liệu...</p>
-              ) : ticketError ? (
-                <p className="text-red-500 text-center mt-4">Không thể tải dữ liệu. Vui lòng thử lại sau.</p>
+                <div className=" w-full p-3 rounded-e-md" style={{ background: '#F14F7B' }}>  
+                  <p className="text-gray-100">Người dùng</p>
+                  <p className="text-xl text-white font-bold">1,478,286</p>
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <p className="text-green-300 text-sm">4.07%</p>
+                    <p className="text-gray-100 text-sm">Last month</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white shadow-lg rounded-md flex ">
+                <div className=" rounded-s-md p-3 flex items-center" style={{ background: '#9592C5' }}>
+                <UserIcon className="h-6 w-6 p-[0.5] text-slate-50 rounded-full ring-2 ring-slate-50" />
+                </div>
+
+                <div className=" w-full p-3 rounded-e-md" style={{ background: '#726CB0' }}>  
+                  <p className="text-gray-100">Total visits</p>
+                  <p className="text-xl text-white font-bold">1,478,286</p>
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <p className="text-green-300 text-sm">4.07%</p>
+                    <p className="text-gray-100 text-sm">Last month</p>
+                  </div>
+                </div>
+              </div>
+              {/* <div className="bg-white px-4 shadow-lg rounded-lg flex flex-col items-center" style={{ height: '200px' }}>
+                <canvas id="revenueChart" aria-label="Revenue distribution" role="img" style={{ height: '200px' }}></canvas>
+              </div> */}
+              <div className="bg-white shadow-lg rounded-md flex ">
+                <div className=" rounded-s-md p-3 flex items-center" style={{ background: '#65C4E9' }}>
+                <CreditCardIcon  className="h-6 w-6 p-[1px] text-slate-50 rounded-full ring-2 ring-slate-50" />
+                </div>
+
+                <div className=" w-full p-3 rounded-e-md" style={{ background: '#32B1E1' }}>  
+                  <p className="text-gray-100">Tổng doanh thu</p>
+                  {totalRevenueLoading ? (
+                <p>Loading...</p>
+              ) : totalRevenueError ? (
+                <p>Error loading data</p>
               ) : (
-                <p className="text-lg font-semibold text-gray-700">
-                  Tổng số ghế đã đặt: <span className="text-red-500 text-xl">{ticketData.totalBookedSeats}</span>
+                <p className="text-xl text-white flex items-center  font-bold">
+                {totalRevenues?.totalRevenue  ?new Intl.NumberFormat().format(totalRevenues.totalRevenue)+' VNĐ'  : '0 VNĐ'} </p>
+              )}
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <p className="text-green-300 text-sm">4.07%</p>
+                    <p className="text-gray-100 text-sm">Last month</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white shadow-lg rounded-md flex ">
+                <div className=" rounded-s-md p-3 flex items-center" style={{ background: '#6CD0D2' }}>
+                <CurrencyDollarIcon   className="h-6 w-6 p-[1px] text-slate-50 rounded-full ring-2 ring-slate-50" />
+                </div>
+
+                <div className=" w-full p-3 rounded-e-md" style={{ background: '#3CC1C4' }}>  
+                  <p className="text-gray-100">Doanh thu trong tháng</p>
+                  {totalRevenueLoading ? (
+                <p>Loading...</p>
+              ) : totalRevenueError ? (
+                <p>Error loading data</p>
+              ) : (
+                <p className="text-xl text-white flex items-center  font-bold">
+                  {totalRevenues?.monthlyRevenue 
+                    ? new Intl.NumberFormat().format(totalRevenues.monthlyRevenue) + ' VNĐ' 
+                    : '0 VNĐ'}
                 </p>
               )}
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <p className="text-green-300 text-sm">4.07%</p>
+                    <p className="text-gray-100 text-sm">Last month</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            {/* Chi tiết ghế */}
-<div className="mb-6">
-  <p className="text-lg font-semibold text-gray-700 mb-2">Loại ghế:</p>
-  {ticketData ? (
-    <table className="min-w-full table-auto border-collapse">
-      <thead>
-        <tr className="bg-gray-200">
-          <th className="px-4 py-2 text-left font-semibold text-gray-700">Tên ghế</th>
-          <th className="px-4 py-2 text-left font-semibold text-gray-700">Số lượng</th>
-          <th className="px-4 py-2 text-left font-semibold text-gray-700">Tỉ lệ (%)</th>
-        </tr>
-      </thead>
-      <tbody>
-        {/* Hiển thị thông tin các loại ghế */}
-        {Object.keys(ticketData.data).map((seatType, index) => (
-          <tr key={index} className="border-t border-gray-200">
-            <td className="px-4 py-2 text-gray-600">{seatType}</td>
-            <td className="px-4 py-2 font-bold text-gray-800">
-              {ticketData.data[seatType]} ghế
-            </td>
-            <td className="px-4 py-2 font-bold text-gray-800">
-              {ticketData.totalBookedSeats
-                ? ((ticketData.data[seatType] / ticketData.totalBookedSeats) * 100).toFixed(2)
-                : 0}%
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  ) : (
-    <p>Đang tải thông tin loại ghế...</p>
-  )}
-</div>
 
-{/* Tỉ lệ ghế đặt */}
-<div className="mb-6">
-  <p className="text-lg font-semibold text-gray-700 mb-4">Tỉ lệ ghế đặt:</p>
-  <div className="flex items-center space-x-2">
-    {ticketData ? (
-      Object.keys(ticketData.data).map((seatType, index) => (
-        <div
-          key={index}
-          className={`h-10 text-white text-center text-sm flex items-center justify-center ${getSeatTypeColor(seatType)}`}
-          style={{
-            width: `${((ticketData.data[seatType] / ticketData.totalBookedSeats) * 100).toFixed(2)}%`
-          }}
-        >
-          {seatType}
-        </div>
-      ))
-    ) : (
-      <div className="h-6 bg-gray-300 w-full"></div>
-    )}
-  </div>
-</div>
+            {/* Main Content */}
+            <div className="flex flex-wrap -mx-5">
+              {/* Left Section */}
+              <div className="w-3/4 px-4">
+                <div className="text-white p-6 shadow-lg rounded-lg mb-6" style={{ background: '#ffffff' }}>
+                <div className="flex justify-end mb-4">
+                <select
+                  value={timeUnit}
+                  onChange={(e) => setTimeUnit(e.target.value)}
+                  className="px-4 py-2 border rounded-md text-gray-800"
+                >
+                  <option value="day">Theo ngày</option>
+                  <option value="month">Theo tháng</option>
+                  <option value="year">Theo năm</option>
+                </select>
+              </div>
 
-            {/* Gợi ý */}
-            <div>
-              <p className="text-lg font-semibold text-gray-700 mb-2">Gợi ý:</p>
-              <ul className="list-disc list-inside text-gray-600 space-y-1">
-                <li>Tăng số lượng ghế Single để đáp ứng nhu cầu.</li>
-                <li>Cân nhắc khuyến mãi cho ghế VIP.</li>
-              </ul>
+                  <canvas id="myChart" aria-label="Site statistics" role="img"></canvas>
+                </div>
+
+                <div className='bg-white p-5 rounded-lg'>
+                  <h4 className="text-xl font-semibold mb-4">Vé gần đây</h4>
+                      <table className="w-full text-left table-auto">
+                        <thead>
+                          <tr>
+                            <th className="py-2 px-4 border-b">Người dùng</th>
+                            <th className="py-2 px-4 border-b">Phim</th>
+                            <th className="py-2 px-4 border-b">Tổng tiền</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {ticketRecent?.allTickets?.slice(0, 5).map((ticket, index) => (
+                            <tr key={ticket._id}>
+                              <td className="py-2 px-4 border-b">{ticket.user_id}</td>
+                              <td className="py-2 px-4 border-b">{ticket.name_movie}</td>
+                              <td className="py-2 px-4 border-b">{ticket.price}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                </div>
+              </div>
+
+              {/* Right Section */}
+              <div className="w-1/4 pr-5 pl-1 ">
+              <div className="bg-white px-4 mb-5 shadow-lg rounded-lg flex flex-col items-center" >
+                <canvas id="revenueChart" aria-label="Revenue distribution" role="img" ></canvas>
+              </div>
+              <div className="bg-white shadow-lg rounded-lg">
+                <h1 className="text-xl text-center font-bold">Top phim</h1>
+                <div className=''>
+                  {/* Display top 3 movies */}
+                  {movie?.moviesStats.map((movieItem, index) => (
+                    <div key={movieItem._id} className="p-1 mb-2 flex items-center justify-between">
+                      {/* Thông tin giá nằm bên trái */}
+                      <img
+                        src={movieItem.img}
+                        alt={movieItem.name}
+                        className="w-10 rounded-md ml-4" 
+                      /> 
+                      <div className="flex-1 truncate max-w-xs">  {/* Thêm max-w-xs để giới hạn chiều rộng */}
+                        <p className=" font-semibold">{index + 1}. {movieItem.name}</p>
+                        <p className="text-sm text-gray-600">Doanh thu: {new Intl.NumberFormat().format(movieItem.totalRevenue)} VNĐ</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+              
+            </div>
+            
           </div>
-        </div>
-      </main>
-    </div>
-  );
-};
+        </main>
+      </div>
+    );
+  };
 
-export default Dashboard;
+  export default Dashboard;
