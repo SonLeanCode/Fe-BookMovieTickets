@@ -105,16 +105,12 @@
     
         // Use ticket data for the pie chart
         if (ticketData && !ticketLoading && !ticketError) {
-          console.log('biểu đồ tròn',ticketData);
-          const seatTypes = {
-            Single: 17,
-            Sweetbox: 0,
-            VIP: 4,
-            totalBookedSeats: 2
-          };
-          const labels = Object.keys(seatTypes);
+          console.log(ticketData.data);
           
-          const dataValues = Object.values(seatTypes);
+          
+          const labels = Object.keys(ticketData);
+
+          const dataValues = Object.values(ticketData.data);
     
           revenueChart = new Chart(revenueCanvas, {
             type: 'doughnut',
@@ -325,20 +321,20 @@
               <div className="bg-white px-4 mb-5 shadow-lg rounded-lg flex flex-col items-center" >
                 <canvas id="revenueChart" aria-label="Revenue distribution" role="img" ></canvas>
               </div>
-  <div className="p-3 bg-white shadow-lg rounded-lg">
-    <h1 className="text-xl text-center font-bold">Top phim</h1>
-    <div>
-      {/* Display top 3 movies */}
-      {movie?.moviesStats?.slice(0, 10).map((movieItem, index) => (
-        <div key={movieItem._id} className="mb-2">
-          <p className="truncate font-semibold">{index + 1}. {movieItem.name}</p>
-          {/* <img src={movieItem.img} alt={movieItem.name} className="w-full h-auto rounded-md" /> */}
-          <p className="text-sm text-gray-600">Doanh thu: {new Intl.NumberFormat().format(movieItem.totalRevenue)} VNĐ</p>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
+              <div className="p-3 bg-white shadow-lg rounded-lg">
+                <h1 className="text-xl text-center font-bold">Top phim</h1>
+                <div>
+                  {/* Display top 3 movies */}
+                  {movie?.moviesStats.map((movieItem, index) => (
+                    <div key={movieItem._id} className="mb-2">
+                      <p className="truncate font-semibold">{index + 1}. {movieItem.name}</p>
+                      {/* <img src={movieItem.img} alt={movieItem.name} className="w-full h-auto rounded-md" /> */}
+                      <p className="text-sm text-gray-600">Doanh thu: {new Intl.NumberFormat().format(movieItem.totalRevenue)} VNĐ</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
               
             </div>
             
