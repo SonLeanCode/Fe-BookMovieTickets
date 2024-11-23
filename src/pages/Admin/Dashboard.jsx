@@ -17,16 +17,16 @@
     const { data: totalRevenues, isLoading: totalRevenueLoading, isError: totalRevenueError } = useGetTotalRevenueQuery();
     const { data: movie, isLoading: movieLoading, isError: movieError } = useGetMoviesStatsQuery();
     const { data: ticketRecent, isLoading: ticketRecentLoading, isError: ticketRecentError } = useGetTicketsQuery();
-    console.log('tổng doamh thu',totalRevenues);
+    // console.log('tổng doamh thu',totalRevenues);
     console.log('movie nè',movie);
-    console.log('vé nè',ticketRecent);
+    // console.log('vé nè',ticketRecent);
 
     
     
     useEffect(() => {
       if (!data || isLoading || isError) return;
     
-      // Initialize the Visitor Statistics Chart (Line Chart)
+      // Initialize the Visitor Statistics Chart (Bar Chart)
       const ctx = document.getElementById('myChart');
       let myChart;
     
@@ -92,72 +92,76 @@
     
         setChartInstance(myChart);
       }
+
+
+
     
       // Initialize the Revenue Distribution Chart (Pie Chart)
       const revenueCtx = document.getElementById('revenueChart');
-      let revenueChart;
-    
-      if (revenueCtx) {
-        const revenueCanvas = revenueCtx.getContext('2d');
-        if (revenueChartInstance) {
-          revenueChartInstance.destroy();
-        }
-    
-        // Use ticket data for the pie chart
-        if (ticketData && !ticketLoading && !ticketError) {
-          console.log(ticketData.data);
-          
-          
-          const labels = Object.keys(ticketData);
+let revenueChart;
 
-          const dataValues = Object.values(ticketData.data);
+if (revenueCtx) {
+  const revenueCanvas = revenueCtx.getContext('2d');
+  if (revenueChartInstance) {
+    revenueChartInstance.destroy();
+  }
+
+  // Kiểm tra dữ liệu ticketData và trạng thái
+  if (ticketData && !ticketLoading && !ticketError) {
+    console.log('biểu đồ tròn', ticketData);
     
-          revenueChart = new Chart(revenueCanvas, {
-            type: 'doughnut',
-            data: {
-              labels: labels,
-              datasets: [
-                {
-                  label: 'Tickets by Seat Type',
-                  data: dataValues,
-                  backgroundColor: [
-                    'rgba(95, 46, 234, 0.7)',
-                    'rgba(75, 222, 151, 0.7)',
-                    'rgba(255, 206, 86, 0.7)',
-                    'rgba(255, 99, 132, 0.7)', // Add more colors if needed
-                  ],
-                  borderColor: [
-                    'rgba(95, 46, 234, 1)',
-                    'rgba(75, 222, 151, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(255, 99, 132, 1)',
-                  ],
-                  borderWidth: 1,
-                },
-              ],
+    // Lấy các loại ghế và số ghế đã đặt
+    const labels = Object.keys(ticketData.data);
+    const dataValues = Object.values(ticketData.data);
+    const totalSeats = ticketData.totalBookedSeats;
+
+    // Cập nhật biểu đồ doughnut với dữ liệu ghế
+    revenueChart = new Chart(revenueCanvas, {
+      type: 'doughnut',
+      data: {
+        labels: labels,  // Các loại ghế: Single, Sweetbox, VIP
+        datasets: [
+          {
+            label: 'Tickets by Seat Type',
+            data: dataValues,  // Dữ liệu số ghế đã bán
+            backgroundColor: [
+              'rgba(95, 46, 234, 0.7)',
+              'rgba(75, 222, 151, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
+            ],
+            borderColor: [
+              'rgba(95, 46, 234, 1)',
+              'rgba(75, 222, 151, 1)',
+              'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              font: { size: 10 },
+              padding: 10,
+              boxWidth: 10,
             },
-            options: {
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'right',
-                  
-                  labels: {
-                    font: { size: 10 },
-                    padding: 10,  // Adds space between the legend items
-                    boxWidth: 10,
-                  },
-                },
-                title: {
-                  display: true,
-                  text: 'Số lượng loại ghế đã bán',
-                },
-              },
-            },
-          });
-        }
-        setRevenueChartInstance(revenueChart);
-      }
+          },
+          title: {
+            display: true,
+            text: `Số lượng ghế đã bán: ${totalSeats}`,  // Hiển thị tổng số ghế đã bán
+          },
+        },
+      },
+    });
+
+    // Lưu instance biểu đồ nếu cần
+    setRevenueChartInstance(revenueChart);
+  }
+}
+
     
       // Simulate fetching ticket data (replace with actual API call)
      
@@ -178,7 +182,6 @@
       <div className="ml-64 mt-8 bg-[#111111] p-6">
         <main className="main users chart-page" id="skip-target">
           <div className="container mx-auto">
-            <h2 className="text-2xl font-semibold text-white mb-6">Dashboard</h2>
 
             {/* Stats Section */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -304,7 +307,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                        {ticketRecent?.allTickets?.slice(0, 10).map((ticket, index) => (
+                        {ticketRecent?.allTickets?.slice(0, 5).map((ticket, index) => (
                             <tr key={ticket._id}>
                               <td className="py-2 px-4 border-b">{ticket.user_id}</td>
                               <td className="py-2 px-4 border-b">{ticket.name_movie}</td>
@@ -314,22 +317,29 @@
                         </tbody>
                       </table>
                 </div>
-                </div>
+              </div>
 
               {/* Right Section */}
               <div className="w-1/4 pr-5 pl-1 ">
               <div className="bg-white px-4 mb-5 shadow-lg rounded-lg flex flex-col items-center" >
                 <canvas id="revenueChart" aria-label="Revenue distribution" role="img" ></canvas>
               </div>
-              <div className="p-3 bg-white shadow-lg rounded-lg">
+              <div className="bg-white shadow-lg rounded-lg">
                 <h1 className="text-xl text-center font-bold">Top phim</h1>
-                <div>
+                <div className=''>
                   {/* Display top 3 movies */}
                   {movie?.moviesStats.map((movieItem, index) => (
-                    <div key={movieItem._id} className="mb-2">
-                      <p className="truncate font-semibold">{index + 1}. {movieItem.name}</p>
-                      {/* <img src={movieItem.img} alt={movieItem.name} className="w-full h-auto rounded-md" /> */}
-                      <p className="text-sm text-gray-600">Doanh thu: {new Intl.NumberFormat().format(movieItem.totalRevenue)} VNĐ</p>
+                    <div key={movieItem._id} className="p-1 mb-2 flex items-center justify-between">
+                      {/* Thông tin giá nằm bên trái */}
+                      <img
+                        src={movieItem.img}
+                        alt={movieItem.name}
+                        className="w-10 rounded-md ml-4" 
+                      /> 
+                      <div className="flex-1 truncate max-w-xs">  {/* Thêm max-w-xs để giới hạn chiều rộng */}
+                        <p className=" font-semibold">{index + 1}. {movieItem.name}</p>
+                        <p className="text-sm text-gray-600">Doanh thu: {new Intl.NumberFormat().format(movieItem.totalRevenue)} VNĐ</p>
+                      </div>
                     </div>
                   ))}
                 </div>
