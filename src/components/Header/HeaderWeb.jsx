@@ -173,7 +173,7 @@ const HeaderWeb = () => {
                 {t("Ưu đãi")}
               </Link>
               <Link
-                to=""
+                to="/cinema/goodMovieTheMonth"
                 className="whitespace-nowrap px-4 py-2 text-white hover:bg-gray-600"
               >
                 {t("Phim hay tháng")}

@@ -25,6 +25,7 @@ import ShowTime_Management from "../pages/Admin/ShowTime_Management";
 import Revenue from "../pages/Admin/Revenue";
 
 
+
 // Lazy-loaded pages
 const Home = lazy(() => import("../pages/Home/Home"));
 const Dashboard = lazy(() => import("../pages/Admin/Dashboard"));
@@ -51,6 +52,8 @@ const Policy = lazy(() => import("../pages/Policy/chinhsach"));
 const Contact = lazy(() => import("../pages/Policy/Contact"));
 const Setting = lazy(() => import("../pages/Policy/setting"));
 const License = lazy(() => import("../pages/Policy/License"));
+const GoodMovieTheMonth = lazy(() => import("../pages/GoodMovieTheMonth/goodMovieTheMonth"));
+
 
 
 
@@ -97,6 +100,8 @@ export default function AppRoutes() {
               <Route path="contact" element={<Contact />} />
               <Route path="setting" element={<Setting />} />
               <Route path="license" element={<License />} />
+              <Route path="goodMovieTheMonth" element={<GoodMovieTheMonth />} />
+
               
 
 
