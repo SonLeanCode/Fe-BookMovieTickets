@@ -188,10 +188,10 @@ const ShowTime_Management = () => {
             <option value="20">20</option>
           </select>
           <span className="mx-2 text-gray-400">mục</span>
-          {selectedShowtimes.length > 0 && (
+          {selectedShowtimes?.length > 0 && (
             <div className="mx-2 flex items-center">
               <p className="mr-4 text-lg font-semibold">
-                {`' `}Đã chọn {selectedShowtimes.length} mục{` '`}
+                {`' `}Đã chọn {selectedShowtimes?.length} mục{` '`}
               </p>
               <Button
                 className="rounded-md bg-blue-500 p-2 hover:bg-blue-600"
@@ -232,7 +232,7 @@ const ShowTime_Management = () => {
                   }
                   checked={
                     paginatedShowtimes?.length > 0 &&
-                    selectedShowtimes.length === paginatedShowtimes.length
+                    selectedShowtimes?.length === paginatedShowtimes?.length
                   }
                   className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                 />
@@ -253,34 +253,34 @@ const ShowTime_Management = () => {
                 <td className="px-4 py-2">
                   <input
                     type="checkbox"
-                    onChange={() => handleSelectMovie(showtime._id)}
-                    checked={selectedShowtimes.includes(showtime._id)}
+                    onChange={() => handleSelectMovie(showtime?._id)}
+                    checked={selectedShowtimes.includes(showtime?._id)}
                     className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                   />
                 </td>
                 <td className="px-2 py-2">
                   <div className="flex">
                     <img
-                      src={showtime?.movie_id.img}
-                      alt={showtime?.movie_id.name}
+                      src={showtime?.movie_id?.img}
+                      alt={showtime?.movie_id?.name}
                       className="w-[70px]"
                     />
                     <div className="ml-2">
                       <h2 className="text-md font-medium text-white">
-                        {showtime?.movie_id.name}
+                        {showtime?.movie_id?.name}
                       </h2>
-                      <p className="mt-1 text-xs">{showtime?.movie_id.duration} phút</p>
+                      <p className="mt-1 text-xs">{showtime?.movie_id?.duration} phút</p>
                       <p className="mt-8 text-sm">
-                        ({showtime?.movie_id.country} - {showtime?.movie_id.subtitles})
+                        ({showtime?.movie_id?.country} - {showtime?.movie_id?.subtitles})
                       </p>
                     </div>
                   </div>
                 </td>
                 <td className="px-2 py-2 text-center">
-                    {showtime?.room_id.name}
+                    {showtime?.room_id?.name}
                 </td>
                 <td className="w-[20%] px-4 py-2">
-                {showtime?.room_id?.cinema_id.address}
+                {showtime?.room_id?.cinema_id?.address}
                 </td>
                 <td className="px-6 w-[15%] py-2">{formatShowtime(showtime?.start_time, showtime?.end_time)}</td>
                 <td className="px-4 py-2 text-center">
@@ -292,13 +292,13 @@ const ShowTime_Management = () => {
                 <td className="px-4 py-2 text-center">
                   <Button
                     className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
-                    onClick={() => handleEditMovie(showtime._id)}
+                    onClick={() => handleEditMovie(showtime?._id)}
                   >
                     <FaEdit />
                   </Button>
                   <Button
                     className="rounded-sm bg-[#ff2727] p-2 text-white"
-                    onClick={() => handleDeleteMovie(showtime._id)}
+                    onClick={() => handleDeleteMovie(showtime?._id)}
                   >
                     <FaTrash />
                   </Button>
