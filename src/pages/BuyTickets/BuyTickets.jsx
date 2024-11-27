@@ -74,7 +74,7 @@ const BuyTickets = () => {
   const navigate = useNavigate();
   const { data: showtimesData, isLoading: showtimesLoading, refetch: refetchShowtime } =
     useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
-
+  console.log(showtimesData?.data)
   const { data: showDates, isLoading: datesLoading } =
     useGetShowDatesByMovieQuery(selectedMovie?._id);
 
