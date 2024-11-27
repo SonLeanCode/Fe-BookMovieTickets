@@ -8,7 +8,7 @@ import { useGetMovieByIdQuery } from "../../services/Movies/movies.services";
 import { formatDate } from "../../utils/formatDate";
 import notfound_img from "../../assets/img/404/not_found_img.jpg";
 import VideoPlayer from "../../components/Movie/VideoPlayer";
-import NowShowing from "../../components/Movie/NowShowing";
+import NowShowingMovies from '../Actor/NowShowingMovies';
 import CommentsSection from "../../components/Movie/CommentsSection";
 import LoadingLocal from "../Loading/LoadingLocal";
 import { useTranslation } from 'react-i18next';
@@ -272,9 +272,8 @@ const MovieDetailPage = () => {
           {/* bình luận  */}
           <CommentsSection   movieId={id} />
         </div>
-
         {/*  right session */}
-        <NowShowing />
+          <NowShowingMovies />
       </div>
     </div>
   );
