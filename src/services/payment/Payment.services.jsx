@@ -14,7 +14,6 @@ export const paymentApi = createApi({
       // Nếu có token, thêm vào header Authorization
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
-        console.log('Authorization header set:', `Bearer ${token}`);
       }
       return headers;
     },
@@ -23,12 +22,20 @@ export const paymentApi = createApi({
     // Endpoint để thanh toán MoMo
     paymentMomo: builder.mutation({
       query: (credentials) => ({
-        url: '/api/payment',
+        url: '/api/payment/momo',
         method: 'POST',
         body: credentials,
+      }),
+    }),
+    // Endpoint để tạo thông tin thanh toán
+    createPayment: builder.mutation({
+      query: (paymentData) => ({
+        url: '/api/payment',
+        method: 'POST',
+        body: paymentData,
       }),
     }),
   }),
 });
 
-export const { usePaymentMomoMutation } = paymentApi;
+export const { usePaymentMomoMutation, useCreatePaymentMutation } = paymentApi;
