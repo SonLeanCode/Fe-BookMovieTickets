@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef  } from "react";
 import {
   FaChevronDown,
   FaChevronLeft,
@@ -20,7 +20,7 @@ import SeatSelection from "../../components/Seat/SeatSelection";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useCreateTicketMutation } from "../../services/Ticket/ticket.serviecs";
 import { useAddSeatStatusesMutation } from "../../services/Showtimes/showtimes.serviecs";
-import { usePaymentMomoMutation } from "../../services/payment/Payment.services"
+import { usePaymentMomoMutation, useCreatePaymentMutation } from "../../services/payment/Payment.services"
 import { v4 as uuidv4 } from "uuid";
 import Toastify from "../../helper/Toastify";
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ const BuyTickets = () => {
   const { t } = useTranslation(); 
   const { data: regionsData, isLoading: regionsLoading } =
     useGetAllRegionsQuery();
+  const hasRun = useRef(false);
   const [isAreaOpen, setAreaOpen] = useState(false);
   const [isMovieOpen, setMovieOpen] = useState(false);
   const [isShowtimeOpen, setShowtimeOpen] = useState(false);
@@ -50,7 +51,7 @@ const BuyTickets = () => {
 
 
   //api  momo 
-  const handlePayment = async () => {
+  const handleMomo = async () => {
     const amount = localStorage.getItem('totalAmount');
     if (!amount) {
       alert('Số tiền không hợp lệ!');
@@ -59,7 +60,6 @@ const BuyTickets = () => {
     try {
       const response = await paymentMomo({ amount })
       if (response.data && response.data.payUrl) {
-        console.log(response.data)
         // Chuyển hướng người dùng đến trang thanh toán MoMo
         window.location.href = response.data.payUrl;
       } else {
@@ -71,6 +71,41 @@ const BuyTickets = () => {
       alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!')
     }
   }
+
+  useEffect(() => {
+    // Chỉ chạy hàm handlePayment nếu chưa chạy
+    if (!hasRun.current && window.location.search.includes("partnerCode")) {
+      hasRun.current = true; // Đánh dấu đã chạy
+      handlePayment();
+    }
+  }, []);
+
+  const handlePayment = async () => {
+    // Lấy các tham số từ URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const partnerCode = urlParams.get('partnerCode');
+    const amount = parseInt(urlParams.get('amount'));
+    const resultCode = urlParams.get('resultCode');
+    const responseTime = urlParams.get('responseTime');
+    const message = urlParams.get('message');
+    
+    // Kiểm tra kết quả thanh toán
+    if (resultCode === '0' && message === 'Successful.') {
+
+      const paymentMethod = partnerCode; // Vì đây là MoMo, phương thức thanh toán sẽ là MoMo
+      const totalAmount = amount;
+      const paymentDate = new Date(parseInt(responseTime)).toLocaleString(); // Chuyển thời gian sang dạng chuỗi
+      // Tạo paymentData với các tham số từ URL
+      await handleAddTicket(
+        paymentMethod, 
+        totalAmount, 
+        paymentDate
+      );
+    } else {
+      console.log('Thanh toán không thành công:', message);
+      alert('Thanh toán không thành công. Vui lòng thử lại!');
+    }
+  };
   const navigate = useNavigate();
   const { data: showtimesData, isLoading: showtimesLoading, refetch: refetchShowtime } =
     useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
@@ -97,6 +132,7 @@ const BuyTickets = () => {
 
   const [addTicket] = useCreateTicketMutation();
   const [addSeatStatus] = useAddSeatStatusesMutation();
+  const [addPayment] = useCreatePaymentMutation()
 
   const generateInvoiceCode = () => {
     const uniqueId = uuidv4().split("-")[0]; // Tạo mã duy nhất từ uuid
@@ -107,7 +143,7 @@ const BuyTickets = () => {
     return seats.map((seat) => `${seat.row}${seat.seat_number}`).join(", ");
   };
 
-  const handleAddTicket = async () => {
+  const handleAddTicket = async (paymentMethod, totalAmount, paymentDate) => {
     // Lấy dữ liệu từ localStorage
     const selectedMovie = JSON.parse(localStorage.getItem("selectedMovie"));
     const selectedShowtime = JSON.parse(localStorage.getItem("selectedShowtime"));
@@ -139,8 +175,18 @@ const BuyTickets = () => {
       status: "booked"    // Trạng thái đặt
     }));
 
+
     try {
       const response = await addTicket(ticketData).unwrap();
+      if(response){
+        const paymentData = {
+          ticket_id: response.data._id,
+          payment_method: paymentMethod,
+          total_amount: totalAmount,
+          payment_date: paymentDate
+        }
+        await addPayment(paymentData).unwrap();
+      }
       await addSeatStatus({ showtimeId: selectedShowtime._id, seatStatuses }).unwrap();
       refetchShowtime()
       Toastify("Thanh toán thành công", 200)
@@ -635,7 +681,7 @@ const BuyTickets = () => {
 
           </div>
           <button
-            onClick={handlePayment}
+            onClick={handleMomo}
             className="bg-blue-500 text-white px-4 py-2 rounded mx-auto block"
             disabled={isLoading}
           >
