@@ -85,9 +85,9 @@ const Voucher = () => { // Changed from 'voucher' to 'Voucher'
   };
 
   return (
-    <section className="flex justify-center bg-gray-900">
+    <section className="flex justify-center bg-black">
       <div className="w-11/12 mx-auto">
-        <div className="bg-gray-900 w-12/12 p-2 mt-28">
+        <div className="w-12/12 p-2 mt-28">
           <h2 className="text-white text-2xl font-semibold font-roboto pb-2 uppercase">
             <span className="text-red-600 ">|</span> {t("Sự kiện")}
           </h2>
@@ -99,7 +99,7 @@ const Voucher = () => { // Changed from 'voucher' to 'Voucher'
               {currentActors.map((actor, index) => (
                 <div
                   className="relative rounded-sm bg-gray-900 group"
-                  style={{ width: '255px', height: '380px', backgroundColor: '#181818' }} // Đặt kích thước cố định
+                  style={{ width: '300px', height: '380px', backgroundColor: '#181818' }} // Đặt kích thước cố định
                   key={index}
                 >
                   <Link to="detail" className="block h-full">
@@ -134,7 +134,9 @@ const Voucher = () => { // Changed from 'voucher' to 'Voucher'
             </div>
           </div>
 
-          <NowShowingMovies />
+          <div className='mt-4 w-full md:mt-0 md:w-[30%]'>
+            <NowShowingMovies />
+          </div>
           
         </div>
       </div>

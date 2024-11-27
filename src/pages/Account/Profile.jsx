@@ -292,7 +292,7 @@ const Profile = () => {
                 <div className="col-span-2">
                     <div className="">
                         <ul className="flex flex-row justify-center space-x-6 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-6 md:mb-0">
-                            {['profile', 'history', 'whislist', 'Notification', 'gift'].map((tab) => (
+                            {['profile', 'history', 'whislist', 'gift'].map((tab) => (
                                 <li key={tab} className="relative flex flex-col items-center">
                                     <a
                                         href="#"
@@ -303,7 +303,6 @@ const Profile = () => {
                                             tab === 'history' ? t('Lịch sử giao dịch') :
                                                 tab === 'gift' ? t('Quà tặng') :
                                                     tab === 'whislist' ? t('Yêu thích') :
-                                                        tab === 'Notification' ? t('Thông báo') :
                                                             tab.charAt(0).toUpperCase() + tab.slice(1)}
                                     </a>
                                     {activeTab === tab && (

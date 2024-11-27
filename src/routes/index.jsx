@@ -23,6 +23,7 @@ import Seat_Management from "../pages/Admin/Seat_Management";
 import Business from "../pages/Business/business";
 import ShowTime_Management from "../pages/Admin/ShowTime_Management";
 import Revenue from "../pages/Admin/Revenue";
+import CommentManagement from "../pages/Admin/Comment-management";
 
 
 
@@ -147,6 +148,9 @@ export default function AppRoutes() {
                 <Route path="rooms/:roomId/seats" element={<Seat_Management />} />
                 <Route path="showtimes" element={<ShowTime_Management />} />
                 <Route path="revenue" element={<Revenue />} />
+                <Route path="commentManagement" element={<CommentManagement />} />
+
+                
               </Route>
             </Route>
           </Route>

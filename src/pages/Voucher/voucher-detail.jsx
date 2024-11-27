@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { FaHeart } from "react-icons/fa"; // Import FaHeart
 import { Link } from "react-router-dom"; // Import Link if using react-router
+import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
+import { useTranslation } from 'react-i18next';
+
 
 const MovieTicketBlog = () => {
+  const { t } = useTranslation(); 
+
   const { data: allMoviesData, error, isLoading } = useGetAllMoviesQuery();
 
   const [countdown, setCountdown] = useState(0); // Countdown
@@ -16,7 +21,7 @@ const MovieTicketBlog = () => {
         const url = encodeURIComponent("https://your-website-link.com");
         const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${title}`;
         window.open(facebookShareUrl, "_blank");
-        break;
+        break;x``
       case "twitter":
         window.open(
           "https://twitter.com/intent/tweet?url=https://your-website-link.com",
@@ -175,44 +180,37 @@ const MovieTicketBlog = () => {
                     Bộ phim được yêu thích
                   </h2>
                 </div>
-                <div className="mt-5 flex h-3/5 flex-col justify-evenly gap-5 md:flex md:flex-row md:gap-0">
+                <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
                   {movies.map((movie) => (
-                    <a
+                    <div
                       href={`/cinema/movie/${movie._id}`}
-                      key={movie._id} // Use movie._id instead of movie.id
-                      className="top-movie-card group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105"
+                      key={movie._id}
+                      className="top-movie-card group relative overflow-hidden rounded-lg transition-transform duration-300 transform hover:scale-105 w-full "
                     >
                       <img
                         src={movie.img}
                         alt={movie.name}
                         className="h-80 w-full object-cover rounded-t-lg"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="absolute inset-0 flex items-center justify-center  bg-opacity-60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="text-center text-white p-4">
-                          <h4 className="movie-name mb-2 text-xl font-semibold">{movie.name}</h4>
-                          {/* <p className="movie-rating mb-4">Đánh giá: {movie.rating ? movie.rating : "Chưa có"}</p> */}
                           <button className="overlay-favorite mb-4 text-white hover:text-red-300">
                             <FaHeart className="h-6 w-6" />
                           </button>
                           <div className="flex flex-col space-y-2">
-                            {/* <Link
-                              to="/cinema/detail"
-                              className="overlay-btn-xh rounded bg-blue-600 py-2 text-center text-white hover:bg-blue-700 transition duration-200"
-                            >
-                              Trailer <i className="fas fa-video ml-1"></i>
-                            </Link> */}
                             <Link
                               to={`/cinema/buy-tickets/${movie._id}`}
-                              className="overlay-btn-xh mt-2 rounded bg-red-600 py-2 text-center text-white hover:bg-red-700 transition duration-200"
+                              className=" bg-orange-500 rounded w-28 p-2 font-bold flex items-center justify-center text-center text-white"
                             >
-                              Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                              {t("Mua vé")}
+                              <FaTicketAlt size={18} className="mt-1 ml-2" />
                             </Link>
                           </div>
                         </div>
                       </div>
-                    </a>
+                      <h4 className="movie-name mb-2 text-xl font-semibold">{movie.name}</h4>
+                    </div>
                   ))}
-
                 </div>
               </div>
             </div>
