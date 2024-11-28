@@ -17,6 +17,7 @@ import { ticketApi } from '../services/Ticket/ticket.serviecs';
 import {paymentApi} from '../services/payment/Payment.services';
 import {moviesFavouriteApi}  from '../services/MovieFavourite/moviesFavourite_service';
 import {statsApi} from '../services/RevenueStatistics/revenuestatistics.service'
+import {voucherApi}from '../services/Voucher/voucher.service'
 
 const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ const store = configureStore({
     [paymentApi.reducerPath]: paymentApi.reducer,
     [moviesFavouriteApi.reducerPath]: moviesFavouriteApi.reducer,
     [statsApi.reducerPath]: statsApi.reducer,
+    [voucherApi.reducerPath]: voucherApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -59,6 +61,7 @@ const store = configureStore({
       .concat(paymentApi.middleware)
       .concat(moviesFavouriteApi.middleware)
       .concat(statsApi.middleware)
+      .concat(voucherApi.middleware)
 
 });
 

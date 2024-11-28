@@ -1,27 +1,34 @@
 import { useState } from "react";
 import { FaHeart } from "react-icons/fa"; // Import FaHeart
 import { Link } from "react-router-dom"; // Import Link if using react-router
-import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
+import { FaRegKissWinkHeart, FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
+import { useGetVoucherQuery } from "../../services/Voucher/voucher.service"
 import { useTranslation } from 'react-i18next';
 
 
 const MovieTicketBlog = () => {
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
 
   const { data: allMoviesData, error, isLoading } = useGetAllMoviesQuery();
+  const { data: codeData } = useGetVoucherQuery()
+  console.log('codedata', codeData);
+
 
   const [countdown, setCountdown] = useState(0); // Countdown
   const [discountCode, setDiscountCode] = useState(""); // Discount code
 
-  const handleShare = (platform) => {
+  const handleShare = (platform, event) => {
+    event.preventDefault(); // Ngăn hành vi mặc định (chẳng hạn chuyển trang)
+
+    // Thực hiện chia sẻ lên các mạng xã hội
     switch (platform) {
       case "facebook":
         const title = encodeURIComponent("Chia sẻ để nhận phần thưởng");
         const url = encodeURIComponent("https://your-website-link.com");
         const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${title}`;
         window.open(facebookShareUrl, "_blank");
-        break;x``
+        break;
       case "twitter":
         window.open(
           "https://twitter.com/intent/tweet?url=https://your-website-link.com",
@@ -38,22 +45,34 @@ const MovieTicketBlog = () => {
         break;
     }
 
-    // Start countdown
+    // Bắt đầu đếm ngược sau khi chia sẻ
     startCountdown();
   };
-
   const startCountdown = () => {
-    setCountdown(10); // Reset countdown
+    setCountdown(10); // Reset countdown về 10 giây
     const interval = setInterval(() => {
       setCountdown((prevCountdown) => {
         if (prevCountdown <= 1) {
-          clearInterval(interval);
-          const code = "GIAMGIA10"; // Discount code
-          localStorage.setItem("discountCode", code); // Save discount code to localStorage
-          setDiscountCode(code); // Update discount code in state
+          clearInterval(interval); // Dừng đếm ngược khi đạt 0
+  
+          // Kiểm tra dữ liệu codeData
+          console.log('codeData:', codeData); // In ra toàn bộ codeData để kiểm tra
+  
+          // Kiểm tra nếu codeData có dữ liệu hợp lệ
+          const code = codeData?.data[0]?.idVoucher?.code;
+  
+          // Kiểm tra nếu mã giảm giá có hợp lệ
+          if (code) {
+            console.log('Mã giảm giá:', code); // In ra mã giảm giá nếu có
+            localStorage.setItem("discountCode", code); // Lưu vào localStorage
+            setDiscountCode(code); // Cập nhật discountCode vào state
+          } else {
+            console.error("Không tìm thấy mã giảm giá trong codeData");
+          }
+  
           return 0;
         }
-        return prevCountdown - 1; // Decrease countdown
+        return prevCountdown - 1; // Giảm countdown mỗi giây
       });
     }, 1000);
   };
@@ -62,8 +81,7 @@ const MovieTicketBlog = () => {
   if (error) return <div>Error fetching movies</div>;
 
   // Check if allMoviesData is an array
-  const movies = Array.isArray(allMoviesData.data) ? allMoviesData.data : [];
-  console.log(allMoviesData);
+  const movies = allMoviesData && Array.isArray(allMoviesData.data) ? allMoviesData.data : [];
 
   return (
     <>
@@ -139,23 +157,24 @@ const MovieTicketBlog = () => {
                 <div className="right flex space-x-4">
                   <span
                     className="cursor-pointer text-white hover:text-slate-400"
-                    onClick={() => handleShare("facebook")}
+                    onClick={(e) => handleShare("facebook", e)} // Thêm tham số event vào
                   >
                     <i className="fab fa-facebook-square fa-lg"></i>
                   </span>
                   <span
                     className="cursor-pointer text-white hover:text-slate-400"
-                    onClick={() => handleShare("twitter")}
+                    onClick={(e) => handleShare("twitter", e)} // Thêm tham số event vào
                   >
                     <i className="fab fa-twitter-square fa-lg"></i>
                   </span>
                   <span
                     className="cursor-pointer text-white hover:text-slate-400"
-                    onClick={() => handleShare("instagram")}
+                    onClick={(e) => handleShare("instagram", e)} // Thêm tham số event vào
                   >
                     <i className="fab fa-instagram-square fa-lg"></i>
                   </span>
                 </div>
+
               </div>
 
               <div className="mt-8 flex flex-col items-center">

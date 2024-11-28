@@ -36,7 +36,7 @@ const CommentsSection = ({ movieId }) => {
       }
     };
 
-    socketRef.current.on("postComment", handleNewComment);
+    socketRef.current.on("postComment", handleNewComment); //handleNewComment  chính là reponse.data 
 
     // Cleanup để ngắt kết nối và gỡ sự kiện khi component unmount
     return () => {
@@ -60,10 +60,10 @@ const CommentsSection = ({ movieId }) => {
     };
 
     try {
-      // Gửi bình luận qua API
+      // Gửi bình luận qua API phải có vì khi reload trang lại nó sẽ kh bị mất
       const response = await postComments(commentData).unwrap();
       if(response){
-        // Phát sự kiện tới server
+        // Phát sự kiện tới server gửi đến tất cả các client khác
         socketRef.current.emit("postComment", response.data); 
       }
       setNewComment(""); // Xóa nội dung input sau khi gửi
