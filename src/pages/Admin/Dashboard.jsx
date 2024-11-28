@@ -423,9 +423,7 @@ const Dashboard = () => {
                           <td className="border-b px-4 py-2">
                             {ticket?.name_movie}
                           </td>
-                          <td className="border-b px-4 py-2">
-                            {ticket?.price}
-                          </td>
+                          <td className="px-4 py-2">{ticket.price.toLocaleString()} VNĐ</td>
                         </tr>
                       ))}
                   </tbody>

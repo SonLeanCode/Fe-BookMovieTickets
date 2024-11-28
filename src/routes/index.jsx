@@ -24,6 +24,7 @@ import Business from "../pages/Business/business";
 import ShowTime_Management from "../pages/Admin/ShowTime_Management";
 import Revenue from "../pages/Admin/Revenue";
 import CommentManagement from "../pages/Admin/Comment-management";
+import Tickets_Management from "../pages/Admin/tickets_Management";
 
 
 
@@ -149,6 +150,7 @@ export default function AppRoutes() {
                 <Route path="showtimes" element={<ShowTime_Management />} />
                 <Route path="revenue" element={<Revenue />} />
                 <Route path="commentManagement" element={<CommentManagement />} />
+                <Route path="ticketsManagement" element={<Tickets_Management />} />
 
                 
               </Route>
