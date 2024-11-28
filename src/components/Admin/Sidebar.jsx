@@ -23,6 +23,7 @@ const menuItems = [
   { name: "Quản lý phòng chiếu", icon: MdOutlineTheaters , link: "/admin/rooms" },
   { name: "Quản lý suất chiếu", icon: MdOutlineTheaters , link: "/admin/showtimes" },
   { name: "Quản lý bình luận", icon: MdOutlineComment , link: "/admin/commentManagement" },
+  { name: "Quản lý vé", icon: MdOutlineComment , link: "/admin/ticketsManagement" },
 
 ];
 
