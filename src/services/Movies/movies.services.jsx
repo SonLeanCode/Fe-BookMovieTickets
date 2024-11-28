@@ -48,15 +48,6 @@ export const moviesApi = createApi({
       }),
     }),
 
-    // Lấy movie với số lượng vé bán ra trong tháng
-    getMoviesWithTicketStats: builder.query({
-      query: () => ({
-        url: '/api/movies/top-movies',
-        method: 'GET',
-      }),
-    }),
-
-
     getMoviesByActorId: builder.query({
       query: (id) => ({
         url: `/api/movies/actor/${id}`,
@@ -64,6 +55,7 @@ export const moviesApi = createApi({
       }),
     }),
 
+    // Lấy movie với số lượng vé bán ra trong tháng
     getMoviesWithTicketStats: builder.query({
       query: () => ({
         url: `/api/movies/top-movies`,
