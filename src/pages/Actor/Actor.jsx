@@ -113,7 +113,9 @@ style={{ width: "255px", height: "170px" }}
               ))}
             </div>
           </div>
-          <NowShowingMovies />
+          <div className='mt-4 w-full md:mt-0 md:w-[30%]'>
+            <NowShowingMovies />
+          </div>
           
         </div>
       </div>
