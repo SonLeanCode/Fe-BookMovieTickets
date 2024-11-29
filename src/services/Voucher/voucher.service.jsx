@@ -21,13 +21,17 @@ export const voucherApi = createApi({
   endpoints: (builder) => ({
 
     getVoucher: builder.query({
-      query: () => '/api/codeVoucherUser', 
+      query: () => '/api/voucher/', 
     }),
+    getVoucherUser: builder.query({
+        query: (id) => `/api/codeVoucherUser/${id}`, 
+        method: 'GET',
+      }),
     createVoucher: builder.mutation({
         query: (dataVoucherUser) => ({
           url: `/api/codeVoucherUser`,
           method: "POST",
-          body: dataVoucherUser,
+          body: {...dataVoucherUser},  //...  đây chính  lầ lấy giá trị trực tiếp  idUser , Idvoucher
         }),
       }),
 
@@ -38,5 +42,7 @@ export const voucherApi = createApi({
 // Xuất các hook để sử dụng trong component
 export const {
     useGetVoucherQuery,
+    useGetVoucherUserQuery,
     useCreateVoucherMutation
+    
 } = voucherApi;

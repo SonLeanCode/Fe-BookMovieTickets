@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { useGetUserQuery, usePatchUserMutation, usePatchProfileMutation, useUploadAvatarMutation } from '../../services/Auth/auth.service';
 import { useGetAllFavouriteQuery } from '../../services/MovieFavourite/moviesFavourite_service'
 import { useGetTicketsByUserIdQuery } from '../../services/Ticket/ticket.serviecs'
+import { useGetVoucherUserQuery } from "../../services/Voucher/voucher.service"
 import Toastify from '../../helper/Toastify';
 
 const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
     const { data: userData } = useGetUserQuery(userId)
-    const { data: idTicketData,  } = useGetTicketsByUserIdQuery(userId)
+    const { data: idTicketData, } = useGetTicketsByUserIdQuery(userId)
     console.log('đsff', idTicketData)
 
     const fileInputRef = useRef(null);
@@ -26,7 +27,10 @@ const Profile = () => {
     const [uploadAvatar] = useUploadAvatarMutation();
 
     const { data: movieFavourite } = useGetAllFavouriteQuery(userId);
-    console.log('movieFGet', movieFavourite)
+    const { data: codeVoucherUser } = useGetVoucherUserQuery(userId)
+    console.log('voucher', codeVoucherUser);
+
+
 
 
     const formatDate = (dateString) => {
@@ -303,7 +307,7 @@ const Profile = () => {
                                             tab === 'history' ? t('Lịch sử giao dịch') :
                                                 tab === 'gift' ? t('Quà tặng') :
                                                     tab === 'whislist' ? t('Yêu thích') :
-                                                            tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                                        tab.charAt(0).toUpperCase() + tab.slice(1)}
                                     </a>
                                     {activeTab === tab && (
                                         <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1/4 h-0.5 bg-white rounded"></div>
@@ -435,7 +439,7 @@ const Profile = () => {
                                                                     className="w-full bg-white border border-gray-400 rounded-md p-2 text-gray-400 focus:outline-none"
                                                                 />
                                                                 <input
-                                                                    type="password" 
+                                                                    type="password"
                                                                     placeholder={t("Xác nhận mật khẩu")}
                                                                     value={confirmNewPassword}
                                                                     onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -461,41 +465,41 @@ const Profile = () => {
                                 )}
                                 {activeTab === 'history' &&
                                     <div>
-                                    {idTicketData?.tickets?.length > 0 ? (
-                                      <div className="shadow-sm overflow-hidden">
-                                        {idTicketData.tickets.map((ticket) => (
-                                          <div key={ticket._id} className="flex bg-slate-100 rounded-sm mb-3">
-                                            <div className="w-2/12">
-                                              <img
-                                                src={ticket.showtime_id.movie_id.img || "default_poster_url.jpg"}
-                                                alt={ticket.movieTitle || "Movie Poster"}
-                                                className="w-auto m-auto p-2"
-                                              />
+                                        {idTicketData?.tickets?.length > 0 ? (
+                                            <div className="shadow-sm overflow-hidden">
+                                                {idTicketData.tickets.map((ticket) => (
+                                                    <div key={ticket._id} className="flex bg-slate-100 rounded-sm mb-3">
+                                                        <div className="w-2/12">
+                                                            <img
+                                                                src={ticket.showtime_id.movie_id.img || "default_poster_url.jpg"}
+                                                                alt={ticket.movieTitle || "Movie Poster"}
+                                                                className="w-auto m-auto p-2"
+                                                            />
+                                                        </div>
+                                                        <div className="p-4 w-10/12">
+                                                            <h3 className="text-2xl text-red-700 font-semibold">{ticket.name_movie}</h3>
+                                                            <div className="mt-2 flex items-center">
+                                                                <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">
+                                                                    {ticket.subtitles}
+                                                                </span>
+                                                                <span className="bg-orange-600 text-white px-2 py-1 rounded">
+                                                                    {ticket.age_limit}
+                                                                </span>
+                                                            </div>
+                                                            <div className="mt-2 font-bold text-black">{ticket.cinema_name}</div>
+                                                            <div className="mt-2 text-gray-600">{ticket.address_cinema}</div>
+                                                            <div className="mt-2 text-gray-600">Suất chiếu: {ticket.showtime}</div>
+                                                            <div className="mt-1 font-bold text-red-600">
+                                                                <span>Ghế: {ticket.seat_number}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
-                                            <div className="p-4 w-10/12">
-                                              <h3 className="text-2xl text-red-700 font-semibold">{ticket.name_movie}</h3>
-                                              <div className="mt-2 flex items-center">
-                                                <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">
-                                                  {ticket.subtitles}
-                                                </span>
-                                                <span className="bg-orange-600 text-white px-2 py-1 rounded">
-                                                {ticket.age_limit}
-                                                </span>
-                                              </div>
-                                              <div className="mt-2 font-bold text-black">{ticket.cinema_name}</div>
-                                              <div className="mt-2 text-gray-600">{ticket.address_cinema}</div>
-                                              <div className="mt-2 text-gray-600">Suất chiếu: {ticket.showtime}</div>
-                                              <div className="mt-1 font-bold text-red-600">
-                                                <span>Ghế: {ticket.seat_number}</span> 
-                                              </div>
-                                            </div>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    ) : (
-                                      <p>Bạn chưa đặt vé.</p>
-                                    )}
-                                  </div>
+                                        ) : (
+                                            <p>Bạn chưa đặt vé.</p>
+                                        )}
+                                    </div>
                                 }
                                 {activeTab === 'whislist' && <div >
                                     <div className="text-red-400 font-bold text-lg uppercase">BỘ PHIM YÊU THÍCH </div>
@@ -544,6 +548,43 @@ const Profile = () => {
                                     </div>
 
                                 </div>}
+                                {/* gift */}
+                                {activeTab === 'gift' && <div>
+                                    <div className="text-red-400 font-bold text-lg uppercase">Quà tặng</div>
+                                    <div className="max-h-[500px] overflow-y-auto">
+                                        {codeVoucherUser && codeVoucherUser.length > 0 ? (
+                                            codeVoucherUser.map((voucher, index) => (
+                                                <div className="shadow-sm overflow-hidden mt-2" key={index}>
+                                                    <div className="flex bg-slate-100 rounded-sm mb-3">
+                                                        <div className="w-2/12">
+                                                            <img
+                                                                // src={}
+                                                                // alt={}
+                                                                className="w-auto m-auto p-2"
+                                                            />
+                                                        </div>
+                                                        <div className="p-4 w-10/12">
+                                                            <h3 className="text-lg text-gray-800 font-semibold">{voucher.data[0].idVoucher.code}</h3>
+                                                            <div className="mt-2 flex items-center">
+                                                                <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">{voucher.idVoucher?.name}</span>
+                                                                <span className="bg-orange-600 text-white px-2 py-1 rounded">{voucher.idVoucher?.name}</span>
+                                                            </div>
+                                                            <div className="mt-1 text-gray-500">
+                                                                <span>Đạo diễn: {voucher.idVoucher?.name}</span> - <span>Nhà sản xuất: {voucher.idVoucher?.name}</span>
+                                                            </div>
+                                                         
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="text-center text-gray-600 mt-10">
+                                                Bạn chưa nhận quà tặng .
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>}
+
                                 {activeTab === 'Notification' && <div>Thông báo</div>}
                                 {activeTab === 'out' && <div>Đăng xuất ra ngoài</div>}
                             </div>

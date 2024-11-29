@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"; // Import Link if using react-router
 import { FaRegKissWinkHeart, FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
 import { useGetVoucherQuery } from "../../services/Voucher/voucher.service"
+import { useCreateVoucherMutation } from "../../services/Voucher/voucher.service"
 import { useTranslation } from 'react-i18next';
-
+import { getUserByIdFormToken } from "../../components/Utils/auth";
 
 const MovieTicketBlog = () => {
   const { t } = useTranslation();
@@ -13,7 +14,10 @@ const MovieTicketBlog = () => {
   const { data: allMoviesData, error, isLoading } = useGetAllMoviesQuery();
   const { data: codeData } = useGetVoucherQuery()
   console.log('codedata', codeData);
-
+  const [createVoucher]  = useCreateVoucherMutation()
+  const userId = getUserByIdFormToken()
+  console.log('userId',userId);
+  
 
   const [countdown, setCountdown] = useState(0); // Countdown
   const [discountCode, setDiscountCode] = useState(""); // Discount code
@@ -48,35 +52,60 @@ const MovieTicketBlog = () => {
     // Bắt đầu đếm ngược sau khi chia sẻ
     startCountdown();
   };
-  const startCountdown = () => {
-    setCountdown(10); // Reset countdown về 10 giây
-    const interval = setInterval(() => {
-      setCountdown((prevCountdown) => {
-        if (prevCountdown <= 1) {
-          clearInterval(interval); // Dừng đếm ngược khi đạt 0
+  const startCountdown = async () => {
+    const countdownTime = 10; // Thời gian đếm ngược (giây)
+    setCountdown(countdownTime); // Đặt giá trị đếm ngược ban đầu
   
-          // Kiểm tra dữ liệu codeData
-          console.log('codeData:', codeData); // In ra toàn bộ codeData để kiểm tra
+    const countdownStep = async (timeLeft) => {
+      if (timeLeft <= 0) {
+        // Khi đếm ngược kết thúc, xử lý logic lấy mã giảm giá
+        console.log("Đếm ngược kết thúc");
   
-          // Kiểm tra nếu codeData có dữ liệu hợp lệ
-          const code = codeData?.data[0]?.idVoucher?.code;
+        if (codeData?.data?.length > 0) {
+          const code = codeData.data[0]?.code;
+          const voucherId = codeData.data[0]?._id;
   
-          // Kiểm tra nếu mã giảm giá có hợp lệ
-          if (code) {
-            console.log('Mã giảm giá:', code); // In ra mã giảm giá nếu có
-            localStorage.setItem("discountCode", code); // Lưu vào localStorage
+          if (code && voucherId && userId) {
+            console.log("Mã giảm giá:", code);
+            localStorage.setItem("discountCode", code); // Lưu mã vào localStorage
             setDiscountCode(code); // Cập nhật discountCode vào state
-          } else {
-            console.error("Không tìm thấy mã giảm giá trong codeData");
-          }
   
-          return 0;
+            try {
+              const response = await createVoucher({ idUser: userId, idVoucher: voucherId }).unwrap();
+              console.log("Yêu cầu POST thành công:", response);
+              alert("Bạn đã nhận mã giảm giá thành công!");
+            } catch (error) {
+              console.error("Lỗi khi gửi yêu cầu POST:", error);
+  
+              if (error.response) {
+                console.log("Server response:", error.response);
+  
+                if (error.response.data?.message) {
+                  alert(error.response.data.message); // Thông báo lỗi từ BE
+                } else {
+                  alert("Đã xảy ra lỗi khi nhận mã giảm giá.");
+                }
+              } else {
+                alert("Bạn đã nhận mã này rồi ! Hãy kiểm  tra trong quà tặng");
+              }
+            }
+          } else {
+            alert("LỖI");
+          }
+        } else {
+          console.error("Không tìm thấy mã giảm giá trong codeData");
+          alert("Không tìm thấy mã giảm giá khả dụng.");
         }
-        return prevCountdown - 1; // Giảm countdown mỗi giây
-      });
-    }, 1000);
+      } else {
+        // Cập nhật thời gian đếm ngược và gọi lại chính nó
+        setCountdown(timeLeft - 1);
+        setTimeout(() => countdownStep(timeLeft - 1), 1000); // Gọi lại sau 1 giây
+      }
+    };
+  
+    countdownStep(countdownTime); // Bắt đầu đếm ngược
   };
-
+  
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching movies</div>;
 
