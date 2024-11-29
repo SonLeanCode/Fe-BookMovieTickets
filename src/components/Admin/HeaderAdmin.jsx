@@ -45,7 +45,7 @@ const HeaderAdmin = ({ isSidebarOpen }) => {
 
   return (
     <div
-      className={`h-16 fixed top-0 right-0 bg-[#111111] flex items-center justify-between px-6 shadow-md transition-all duration-300`}
+      className={`h-16 fixed top-0 right-0 bg-[#111111] flex items-center justify-between px-6 shadow-md transition-all duration-300 z-50`}
       style={{
         width: isSidebarOpen ? 'calc(100% - 0rem)' : 'calc(100% - 16rem)', // 16rem cho w-64 và 4rem cho w-16
         left: isSidebarOpen ? '0rem' : '16rem',

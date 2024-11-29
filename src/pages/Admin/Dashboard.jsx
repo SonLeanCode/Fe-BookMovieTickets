@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   useGetRevenueStatsQuery,
   useGetTicketsStatsQuery,
@@ -250,12 +251,13 @@ const Dashboard = () => {
               >
                 <UserIcon className="h-6 w-6 rounded-full p-[0.5] text-slate-50 ring-2 ring-slate-50" />
               </div>
-
+                
               <div
                 className="w-full rounded-e-md p-3"
                 style={{ background: "#726CB0" }}
               >
-                <p className="text-gray-100">Total visits</p>
+              <Link to="../CinemaRevenueManagement" >
+                <p className="text-gray-100">Tổng Doanh thu Rạp</p>
                 <p className="text-xl font-bold text-white">1,478,286</p>
                 <div className="flex items-center space-x-1">
                   <svg
@@ -275,7 +277,9 @@ const Dashboard = () => {
                   <p className="text-sm text-green-300">4.07%</p>
                   <p className="text-sm text-gray-100">Last month</p>
                 </div>
+              </Link>
               </div>
+
             </div>
             {/* <div className="bg-white px-4 shadow-lg rounded-lg flex flex-col items-center" style={{ height: '200px' }}>
                 <canvas id="revenueChart" aria-label="Revenue distribution" role="img" style={{ height: '200px' }}></canvas>
