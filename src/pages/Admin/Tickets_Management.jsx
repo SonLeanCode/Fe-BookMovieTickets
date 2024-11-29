@@ -26,11 +26,7 @@ const Tickets_Management = () => {
       ticket?.name_movie?.toLowerCase().includes(searchTerm.toLowerCase())
     )
   : [];
-  console.log("Dữ liệu gốc:", tickets);
-  console.log("Tên vé của từng ticket:", tickets?.data?.map(ticket => ticket.name_movie));
-  console.log(tickets.allTickets[0]);
 
-console.log("Danh sách vé đã lọc:", filteredtickets);
 
   const totalPages = Math.ceil(filteredtickets.length / ticketssPerPage);
 
@@ -169,8 +165,8 @@ console.log("Danh sách vé đã lọc:", filteredtickets);
                     </td>
                 <td className="px-4 py-2">{ticket.name_movie}</td>
                 <td className="px-4 py-2">{ticket.price.toLocaleString()} VNĐ</td>
-                <td className="px-4 py-2 text-center">
-                  không biết
+                <td className="px-4 py-2 text-center font-bold   text-[#36f350]">
+                  Thành công
                 </td>
               </tr>
             ))}
