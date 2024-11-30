@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef  } from "react";
 import {
   FaChevronDown,
   FaChevronLeft,
@@ -20,18 +20,15 @@ import SeatSelection from "../../components/Seat/SeatSelection";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useCreateTicketMutation } from "../../services/Ticket/ticket.serviecs";
 import { useAddSeatStatusesMutation } from "../../services/Showtimes/showtimes.serviecs";
-import {
-  usePaymentMomoMutation,
-  useCreatePaymentMutation,
-} from "../../services/payment/Payment.services";
+import { usePaymentMomoMutation, useCreatePaymentMutation } from "../../services/payment/Payment.services"
 import { useEmailSendMutation } from "../../services/Email/email.service";
 import { v4 as uuidv4 } from "uuid";
 import Toastify from "../../helper/Toastify";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const BuyTickets = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(); 
   const { data: regionsData, isLoading: regionsLoading } =
     useGetAllRegionsQuery();
   const hasRun = useRef(false);
@@ -53,12 +50,9 @@ const BuyTickets = () => {
   const [paymentMomo, { isLoading, isError, error }] = usePaymentMomoMutation();
 
   const navigate = useNavigate();
-  const {
-    data: showtimesData,
-    isLoading: showtimesLoading,
-    refetch: refetchShowtime,
-  } = useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
-  console.log(showtimesData?.data);
+  const { data: showtimesData, isLoading: showtimesLoading, refetch: refetchShowtime } =
+    useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
+  console.log(showtimesData?.data)
   const { data: showDates, isLoading: datesLoading } =
     useGetShowDatesByMovieQuery(selectedMovie?._id);
 
@@ -81,30 +75,30 @@ const BuyTickets = () => {
 
   const [addTicket] = useCreateTicketMutation();
   const [addSeatStatus] = useAddSeatStatusesMutation();
-  const [addPayment] = useCreatePaymentMutation();
-  const [emailSend] = useEmailSendMutation();
+  const [addPayment] = useCreatePaymentMutation()
+  const [emailSend] = useEmailSendMutation()
 
-  //api  momo
-  const handleMomo = async () => {
-    const amount = localStorage.getItem("totalAmount");
+   //api  momo 
+   const handleMomo = async () => {
+    const amount = localStorage.getItem('totalAmount');
     if (!amount) {
-      alert("Số tiền không hợp lệ!");
+      alert('Số tiền không hợp lệ!');
       return;
     }
     try {
-      const response = await paymentMomo({ amount });
+      const response = await paymentMomo({ amount })
       if (response.data && response.data.payUrl) {
         // Chuyển hướng người dùng đến trang thanh toán MoMo
         window.location.href = response.data.payUrl;
       } else {
-        console.error("Lỗi từ MoMo:", response.data);
-        alert("Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!");
+        console.error('Lỗi từ MoMo:', response.data);
+        alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!');
       }
     } catch (error) {
-      console.error("Thanh toán MoMo thất bại:", error);
-      alert("Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!");
+      console.error('Thanh toán MoMo thất bại:', error);
+      alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!')
     }
-  };
+  }
 
   useEffect(() => {
     // Chỉ chạy hàm handlePayment nếu chưa chạy
@@ -117,22 +111,27 @@ const BuyTickets = () => {
   const handlePayment = async () => {
     // Lấy các tham số từ URL
     const urlParams = new URLSearchParams(window.location.search);
-    const partnerCode = urlParams.get("partnerCode");
-    const amount = parseInt(urlParams.get("amount"));
-    const resultCode = urlParams.get("resultCode");
-    const responseTime = urlParams.get("responseTime");
-    const message = urlParams.get("message");
-
+    const partnerCode = urlParams.get('partnerCode');
+    const amount = parseInt(urlParams.get('amount'));
+    const resultCode = urlParams.get('resultCode');
+    const responseTime = urlParams.get('responseTime');
+    const message = urlParams.get('message');
+    
     // Kiểm tra kết quả thanh toán
-    if (resultCode === "0" && message === "Successful.") {
+    if (resultCode === '0' && message === 'Successful.') {
+
       const paymentMethod = partnerCode; // Vì đây là MoMo, phương thức thanh toán sẽ là MoMo
       const totalAmount = amount;
       const paymentDate = new Date(parseInt(responseTime)).toLocaleString(); // Chuyển thời gian sang dạng chuỗi
       // Tạo paymentData với các tham số từ URL
-      await handleAddTicket(paymentMethod, totalAmount, paymentDate);
+      await handleAddTicket(
+        paymentMethod, 
+        totalAmount, 
+        paymentDate
+      );
     } else {
-      console.log("Thanh toán không thành công:", message);
-      alert("Thanh toán không thành công. Vui lòng thử lại!");
+      console.log('Thanh toán không thành công:', message);
+      alert('Thanh toán không thành công. Vui lòng thử lại!');
     }
   };
 
@@ -148,9 +147,7 @@ const BuyTickets = () => {
   const handleAddTicket = async (paymentMethod, totalAmount, paymentDate) => {
     // Lấy dữ liệu từ localStorage
     const selectedMovie = JSON.parse(localStorage.getItem("selectedMovie"));
-    const selectedShowtime = JSON.parse(
-      localStorage.getItem("selectedShowtime"),
-    );
+    const selectedShowtime = JSON.parse(localStorage.getItem("selectedShowtime"));
     const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
     const getUser = JSON.parse(localStorage.getItem("user"));
 
@@ -174,9 +171,9 @@ const BuyTickets = () => {
       user_id: getUser._id,
     };
 
-    const seatStatuses = selectedSeats.map((seat) => ({
-      seat_id: seat._id, // ID của ghế
-      status: "booked", // Trạng thái đặt
+    const seatStatuses = selectedSeats.map(seat => ({
+      seat_id: seat._id,  // ID của ghế
+      status: "booked"    // Trạng thái đặt
     }));
 
     const emailData = {
@@ -184,28 +181,26 @@ const BuyTickets = () => {
       ticketCode: ticketData.invoice_code,
       movieName: ticketData.name_movie,
       showTime: ticketData.showtime,
-      seat: ticketData.seat_number,
+      seat: ticketData.seat_number
     };
+
 
     try {
       const response = await addTicket(ticketData).unwrap();
-      if (response) {
+      if(response){
         const paymentData = {
           ticket_id: response.data._id,
           payment_method: paymentMethod,
           total_amount: totalAmount,
-          payment_date: paymentDate,
-        };
+          payment_date: paymentDate
+        }
         await addPayment(paymentData).unwrap();
       }
-      await addSeatStatus({
-        showtimeId: selectedShowtime._id,
-        seatStatuses,
-      }).unwrap();
-      refetchShowtime();
-      Toastify("Thanh toán thành công", 200);
+      await addSeatStatus({ showtimeId: selectedShowtime._id, seatStatuses }).unwrap();
+      refetchShowtime()
+      Toastify("Thanh toán thành công", 200)
       emailSend(emailData);
-      navigate("/cinema");
+      navigate('/cinema');
       console.log("Ticket added successfully:", response);
     } catch (error) {
       console.error("Failed to add ticket:", error);
@@ -339,14 +334,13 @@ const BuyTickets = () => {
       <div className="mx-auto flex w-[90%]">
         {/* Left Column - 70% */}
         <div
-          className={`mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white transition-opacity duration-500 ${
-            isContinueClicked ? "hidden" : ""
-          }`}
+          className={`mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white transition-opacity duration-500 ${isContinueClicked ? "hidden" : ""
+            }`}
         >
           {/* Choose Area */}
           <div>
             <h2 className="mb-4 text-xl font-bold text-white">
-              {t("Chọn khu vực")}:
+            {t("Chọn khu vực")}:
             </h2>
             <div className="mb-6">
               <button
@@ -360,8 +354,7 @@ const BuyTickets = () => {
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
-                {t("Chọn vị trí")}{" "}
-                {selectedArea ? " - " + selectedArea?.name : ""}
+                {t("Chọn vị trí")} {selectedArea ? " - " + selectedArea?.name : ""}
                 {isAreaOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {isAreaOpen && (
@@ -382,9 +375,7 @@ const BuyTickets = () => {
 
           {/* Choose Movie */}
           <div>
-            <h2 className="mb-4 text-xl font-bold text-white">
-              {t("Chọn phim")}:
-            </h2>
+            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn phim")}:</h2>
             <div className="mb-6">
               <button
                 onClick={() => {
@@ -397,8 +388,7 @@ const BuyTickets = () => {
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
-                {t("Chọn phim")}{" "}
-                {selectedMovie ? " - " + selectedMovie?.name : ""}
+                {t("Chọn phim")} {selectedMovie ? " - " + selectedMovie?.name : ""}
                 {isMovieOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {isMovieOpen && (
@@ -419,9 +409,7 @@ const BuyTickets = () => {
                       </div>
                     ))
                   ) : (
-                    <p className="mt-4 text-white">
-                      {t("Vui lòng chọn khu vực")}
-                    </p>
+                    <p className="mt-4 text-white">{t("Vui lòng chọn khu vực")}</p>
                   )}
                 </div>
               )}
@@ -430,9 +418,7 @@ const BuyTickets = () => {
 
           {/* Choose Showtime */}
           <div>
-            <h2 className="mb-4 text-xl font-bold text-white">
-              {t("Chọn suất")}:
-            </h2>
+            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn suất")}:</h2>
             <div className="mb-6">
               <button
                 onClick={() => {
@@ -460,11 +446,10 @@ const BuyTickets = () => {
                               <button
                                 key={index}
                                 onClick={() => handleDateSelect(date)}
-                                className={`w-[100px] rounded px-2 py-2 ${
-                                  selectedDate === date
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-white text-black"
-                                }`}
+                                className={`w-[100px] rounded px-2 py-2 ${selectedDate === date
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-white text-black"
+                                  }`}
                               >
                                 {formatShowDate2(date)}
                               </button>
@@ -543,9 +528,7 @@ const BuyTickets = () => {
           </div>
 
           <div className="mb-6">
-            <h2 className="mb-4 text-xl font-bold text-white">
-              {t("Chọn ghế")}:
-            </h2>
+            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn ghế")}:</h2>
             <button
               onClick={() => {
                 setAreaOpen(isAreaOpen ? !isAreaOpen : isAreaOpen);
@@ -578,9 +561,8 @@ const BuyTickets = () => {
 
         {/* Right Column - 30% */}
         <div
-          className={`mb-8 w-[30%] text-black transition-transform duration-[5000ms] ${
-            isContinueClicked ? "mr-8" : ""
-          }`}
+          className={`mb-8 w-[30%] text-black transition-transform duration-[5000ms] ${isContinueClicked ? "mr-8" : ""
+            }`}
         >
           <div>
             <div className="rounded border-t-8 border-red-600 bg-white">
@@ -652,22 +634,23 @@ const BuyTickets = () => {
                 <span className="text-primary inline-block font-bold text-red-600">
                   {selectedSeats && selectedSeats.length > 0
                     ? `${formatCurrency(
-                        selectedSeats.reduce((sum, seat) => {
-                          const total = sum + seat.base_price;
-                          // Lưu tổng tiền vào localStorage
-                          localStorage.setItem("totalAmount", total);
-                          return total;
-                        }, 0),
-                      )} `
+                      selectedSeats.reduce((sum, seat) => {
+                        const total = sum + seat.base_price;
+                        // Lưu tổng tiền vào localStorage
+                        localStorage.setItem('totalAmount', total);
+                        return total;
+                      }, 0)
+                    )} `
                     : `0 VNĐ`}
                 </span>
               </div>
               <div className="mt-10 flex justify-between p-2">
                 <button
                   onClick={() => setIsContinueClicked(false)}
-                  className={`mr-2 w-1/2 rounded-md bg-gray-300 p-2 text-black ${
-                    !isContinueClicked ? "cursor-not-allowed opacity-50" : ""
-                  }`}
+                  className={`mr-2 w-1/2 rounded-md bg-gray-300 p-2 text-black ${!isContinueClicked
+                    ? "cursor-not-allowed opacity-50"
+                    : ""
+                    }`}
                   disabled={!isContinueClicked}
                 >
                   {t("Quay lại")}
@@ -675,20 +658,16 @@ const BuyTickets = () => {
                 {!isContinueClicked ? (
                   <button
                     onClick={handleContinue}
-                    className={`w-1/2 rounded-md bg-red-600 p-2 text-white ${
-                      selectedSeats.length === 0
-                        ? "cursor-not-allowed opacity-50"
-                        : ""
-                    }`}
+                    className={`w-1/2 rounded-md bg-red-600 p-2 text-white ${selectedSeats.length === 0
+                      ? "cursor-not-allowed opacity-50"
+                      : ""
+                      }`}
                     disabled={selectedSeats.length === 0}
                   >
                     {t("Thanh toán")}
                   </button>
                 ) : (
-                  <button
-                    onClick={handleAddTicket}
-                    className="w-1/2 rounded-md bg-red-600 p-2 text-white"
-                  >
+                  <button onClick={handleAddTicket} className="w-1/2 rounded-md bg-red-600 p-2 text-white">
                     Xác nhận
                   </button>
                 )}
@@ -697,43 +676,39 @@ const BuyTickets = () => {
           </div>
         </div>
         <div
-          className={`mb-8 transition-opacity duration-500 ${
-            isContinueClicked ? "w-[70%] opacity-100" : "hidden"
-          } relative bg-[#111111] p-4 text-white`}
+          className={`mb-8 transition-opacity duration-500 ${isContinueClicked ? "w-[70%] opacity-100" : "hidden"
+            } bg-[#111111] p-4 text-white relative`}
         >
           <img
             src="/src/assets/momo2.jpg"
             alt="MoMo Payment"
-            className="mx-auto mb-4 h-[300px] w-[700px]"
+            className="w-[700px] h-[300px] mx-auto mb-4"
           />
           <div className="mb-4">
-            <p className="text-center">
-              Chúc mừng bạn đã chọn vé! Vui lòng làm theo hướng dẫn để hoàn tất
-              giao dịch.
-            </p>
-            <p className="text-center">
-              Mô tả: Thanh toán vé xem phim qua ví MoMo.
-            </p>
+            <p className="text-center">Chúc mừng bạn đã chọn vé! Vui lòng làm theo hướng dẫn để hoàn tất giao dịch.</p>
+            <p className="text-center">Mô tả: Thanh toán vé xem phim qua ví MoMo.</p>
+
+
           </div>
           <button
             onClick={handleMomo}
-            className="mx-auto block rounded bg-blue-500 px-4 py-2 text-white"
+            className="bg-blue-500 text-white px-4 py-2 rounded mx-auto block"
             disabled={isLoading}
           >
-            {isLoading ? "Đang xử lý..." : "Thanh toán MoMo"}
+            {isLoading ? 'Đang xử lý...' : 'Thanh toán MoMo'}
           </button>
           {isError && (
-            <div className="mt-2 text-center text-red-500">
-              {error.message || "Có lỗi xảy ra khi thực hiện thanh toán."}
+            <div className="text-red-500 mt-2 text-center">
+              {error.message || 'Có lỗi xảy ra khi thực hiện thanh toán.'}
             </div>
           )}
-          <div className="mt-2 text-center text-sm text-gray-400">
+          <div className="text-sm text-gray-400 mt-2 text-center">
             <p>Bước 1: Nhấn vào nút Thanh toán MoMo.</p>
-            <p>
-              Bước 2: Quét mã QR hoặc đăng nhập ví MoMo để hoàn tất giao dịch.
-            </p>
+            <p>Bước 2: Quét mã QR hoặc đăng nhập ví MoMo để hoàn tất giao dịch.</p>
           </div>
         </div>
+
+
       </div>
     </div>
   );
