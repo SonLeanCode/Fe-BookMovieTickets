@@ -9,9 +9,9 @@ import {
   FaUserAlt,
   FaMapMarkerAlt,
   FaVideo ,
-  FaUser
+  FaUser, 
 } from "react-icons/fa";
-import { MdOutlineTheaters } from 'react-icons/md';
+import { MdOutlineTheaters, MdOutlineComment } from 'react-icons/md';
 const menuItems = [
   { name: "Bảng điều khiển", icon: FaHome, link: "/admin/dashboard" },
   { name: "Quản lý phim", icon: FaFilm, link: "/admin/movies" },
@@ -22,6 +22,9 @@ const menuItems = [
   { name: "Quản lý tài khoản", icon: FaUser , link: "/admin/users" },
   { name: "Quản lý phòng chiếu", icon: MdOutlineTheaters , link: "/admin/rooms" },
   { name: "Quản lý suất chiếu", icon: MdOutlineTheaters , link: "/admin/showtimes" },
+  { name: "Quản lý bình luận", icon: MdOutlineComment , link: "/admin/commentManagement" },
+  { name: "Quản lý vé", icon: MdOutlineComment , link: "/admin/ticketsManagement" },
+
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {

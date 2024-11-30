@@ -85,56 +85,58 @@ const Voucher = () => { // Changed from 'voucher' to 'Voucher'
   };
 
   return (
-    <section className="flex justify-center bg-gray-900">
+    <section className="flex justify-center bg-black">
       <div className="w-11/12 mx-auto">
-        <div className="bg-gray-900 w-12/12 p-2 mt-28">
+        <div className="w-12/12 p-2 mt-28">
           <h2 className="text-white text-2xl font-semibold font-roboto pb-2 uppercase">
             <span className="text-red-600 ">|</span> {t("Sự kiện")}
           </h2>
         </div>
 
         <div className="flex flex-col md:flex-row my-4">
-          <div className="text-white mr-2 flex-1">
-            <div className="flex flex-wrap p-2 gap-5">
-              {currentActors.map((actor, index) => (
-                <div
-                  className="relative rounded-sm bg-gray-900 group"
-                  style={{ width: '255px', height: '380px', backgroundColor: '#181818' }} // Đặt kích thước cố định
-                  key={index}
-                >
-                  <Link to="detail" className="block h-full">
-                    <img
-                      src={actor.img}
-                      alt={actor.name}
-                      className="rounded-md w-full h-full object-cover" // Đảm bảo ảnh chiếm hết không gian và giữ tỉ lệ
-                    />
-                  </Link>
+        <div className="text-white mr-2 flex-1">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-2">
+    {currentActors.map((actor, index) => (
+      <div
+        className="relative rounded-sm bg-gray-900 group"
+        style={{ backgroundColor: '#181818' }}
+        key={index}
+      >
+        <Link to="detail" className="block h-[380px] w-[300px]">
+          <img
+            src={actor.img}
+            alt={actor.name}
+            className="rounded-md w-full h-full object-cover"
+          />
+        </Link>
 
-                  {/* Phần nội dung hiển thị khi hover */}
-                  <div className="absolute inset-0 w-full h-full p-2 bg-black bg-opacity-70 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                    <a href={actor.link} className="text-gray-300 text-center">
-                      {actor.hoverText}
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Phần nội dung hiển thị khi hover */}
+        <div className="absolute inset-0 w-full h-full p-2 bg-black bg-opacity-70 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+          <a href={actor.link} className="text-gray-300 text-center">
+            {actor.hoverText}
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
 
-            {/* Phân trang */}
-            <div className="flex justify-center my-4">
-              {Array.from({ length: totalPages }, (_, i) => (
-                <button
-                  key={i + 1}
-                  onClick={() => goToPage(i + 1)}
-                  className={`mx-2 px-4 py-2 rounded ${currentPage === i + 1 ? 'bg-red-600' : 'bg-gray-700'}`}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
+  {/* Phân trang */}
+  <div className="flex justify-center my-4">
+    {Array.from({ length: totalPages }, (_, i) => (
+      <button
+        key={i + 1}
+        onClick={() => goToPage(i + 1)}
+        className={`mx-2 px-4 py-2 rounded ${currentPage === i + 1 ? 'bg-red-600' : 'bg-gray-700'}`}
+      >
+        {i + 1}
+      </button>
+    ))}
+  </div>
+</div>
+
+          <div className='mt-4 w-full md:mt-0 md:w-[30%]'>
+            <NowShowingMovies />
           </div>
-
-          <NowShowingMovies />
           
         </div>
       </div>

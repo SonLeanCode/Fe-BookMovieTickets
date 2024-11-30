@@ -48,18 +48,17 @@ export const moviesApi = createApi({
       }),
     }),
 
-    // Lấy movie với số lượng vé bán ra trong tháng
-    getMoviesWithTicketStats: builder.query({
-      query: () => ({
-        url: '/api/movies/top-movies',
+    getMoviesByActorId: builder.query({
+      query: (id) => ({
+        url: `/api/movies/actor/${id}`,
         method: 'GET',
       }),
     }),
 
-
-    getMoviesByActorId: builder.query({
-      query: (id) => ({
-        url: `/api/movies/actor/${id}`,
+    // Lấy movie với số lượng vé bán ra trong tháng
+    getMoviesWithTicketStats: builder.query({
+      query: () => ({
+        url: `/api/movies/top-movies`,
         method: 'GET',
       }),
     }),

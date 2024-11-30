@@ -1,15 +1,31 @@
 import { useState } from "react";
 import { FaHeart } from "react-icons/fa"; // Import FaHeart
 import { Link } from "react-router-dom"; // Import Link if using react-router
+import { FaRegKissWinkHeart, FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
+import { useGetVoucherQuery } from "../../services/Voucher/voucher.service"
+import { useCreateVoucherMutation } from "../../services/Voucher/voucher.service"
+import { useTranslation } from 'react-i18next';
+import { getUserByIdFormToken } from "../../components/Utils/auth";
 
 const MovieTicketBlog = () => {
+  const { t } = useTranslation();
+
   const { data: allMoviesData, error, isLoading } = useGetAllMoviesQuery();
+  const { data: codeData } = useGetVoucherQuery()
+  console.log('codedata', codeData);
+  const [createVoucher]  = useCreateVoucherMutation()
+  const userId = getUserByIdFormToken()
+  console.log('userId',userId);
+  
 
   const [countdown, setCountdown] = useState(0); // Countdown
   const [discountCode, setDiscountCode] = useState(""); // Discount code
 
-  const handleShare = (platform) => {
+  const handleShare = (platform, event) => {
+    event.preventDefault(); // Ngăn hành vi mặc định (chẳng hạn chuyển trang)
+
+    // Thực hiện chia sẻ lên các mạng xã hội
     switch (platform) {
       case "facebook":
         const title = encodeURIComponent("Chia sẻ để nhận phần thưởng");
@@ -33,32 +49,68 @@ const MovieTicketBlog = () => {
         break;
     }
 
-    // Start countdown
+    // Bắt đầu đếm ngược sau khi chia sẻ
     startCountdown();
   };
-
-  const startCountdown = () => {
-    setCountdown(10); // Reset countdown
-    const interval = setInterval(() => {
-      setCountdown((prevCountdown) => {
-        if (prevCountdown <= 1) {
-          clearInterval(interval);
-          const code = "GIAMGIA10"; // Discount code
-          localStorage.setItem("discountCode", code); // Save discount code to localStorage
-          setDiscountCode(code); // Update discount code in state
-          return 0;
+  const startCountdown = async () => {
+    const countdownTime = 10; // Thời gian đếm ngược (giây)
+    setCountdown(countdownTime); // Đặt giá trị đếm ngược ban đầu
+  
+    const countdownStep = async (timeLeft) => {
+      if (timeLeft <= 0) {
+        // Khi đếm ngược kết thúc, xử lý logic lấy mã giảm giá
+        console.log("Đếm ngược kết thúc");
+  
+        if (codeData?.data?.length > 0) {
+          const code = codeData.data[0]?.code;
+          const voucherId = codeData.data[0]?._id;
+  
+          if (code && voucherId && userId) {
+            console.log("Mã giảm giá:", code);
+            localStorage.setItem("discountCode", code); // Lưu mã vào localStorage
+            setDiscountCode(code); // Cập nhật discountCode vào state
+  
+            try {
+              const response = await createVoucher({ idUser: userId, idVoucher: voucherId }).unwrap();
+              console.log("Yêu cầu POST thành công:", response);
+              alert("Bạn đã nhận mã giảm giá thành công!");
+            } catch (error) {
+              console.error("Lỗi khi gửi yêu cầu POST:", error);
+  
+              if (error.response) {
+                console.log("Server response:", error.response);
+  
+                if (error.response.data?.message) {
+                  alert(error.response.data.message); // Thông báo lỗi từ BE
+                } else {
+                  alert("Đã xảy ra lỗi khi nhận mã giảm giá.");
+                }
+              } else {
+                alert("Bạn đã nhận mã này rồi ! Hãy kiểm  tra trong quà tặng");
+              }
+            }
+          } else {
+            alert("LỖI");
+          }
+        } else {
+          console.error("Không tìm thấy mã giảm giá trong codeData");
+          alert("Không tìm thấy mã giảm giá khả dụng.");
         }
-        return prevCountdown - 1; // Decrease countdown
-      });
-    }, 1000);
+      } else {
+        // Cập nhật thời gian đếm ngược và gọi lại chính nó
+        setCountdown(timeLeft - 1);
+        setTimeout(() => countdownStep(timeLeft - 1), 1000); // Gọi lại sau 1 giây
+      }
+    };
+  
+    countdownStep(countdownTime); // Bắt đầu đếm ngược
   };
-
+  
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching movies</div>;
 
   // Check if allMoviesData is an array
-  const movies = Array.isArray(allMoviesData.data) ? allMoviesData.data : [];
-  console.log(allMoviesData);
+  const movies = allMoviesData && Array.isArray(allMoviesData.data) ? allMoviesData.data : [];
 
   return (
     <>
@@ -134,23 +186,24 @@ const MovieTicketBlog = () => {
                 <div className="right flex space-x-4">
                   <span
                     className="cursor-pointer text-white hover:text-slate-400"
-                    onClick={() => handleShare("facebook")}
+                    onClick={(e) => handleShare("facebook", e)} // Thêm tham số event vào
                   >
                     <i className="fab fa-facebook-square fa-lg"></i>
                   </span>
                   <span
                     className="cursor-pointer text-white hover:text-slate-400"
-                    onClick={() => handleShare("twitter")}
+                    onClick={(e) => handleShare("twitter", e)} // Thêm tham số event vào
                   >
                     <i className="fab fa-twitter-square fa-lg"></i>
                   </span>
                   <span
                     className="cursor-pointer text-white hover:text-slate-400"
-                    onClick={() => handleShare("instagram")}
+                    onClick={(e) => handleShare("instagram", e)} // Thêm tham số event vào
                   >
                     <i className="fab fa-instagram-square fa-lg"></i>
                   </span>
                 </div>
+
               </div>
 
               <div className="mt-8 flex flex-col items-center">
@@ -175,44 +228,37 @@ const MovieTicketBlog = () => {
                     Bộ phim được yêu thích
                   </h2>
                 </div>
-                <div className="mt-5 flex h-3/5 flex-col justify-evenly gap-5 md:flex md:flex-row md:gap-0">
+                <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
                   {movies.map((movie) => (
-                    <a
+                    <div
                       href={`/cinema/movie/${movie._id}`}
-                      key={movie._id} // Use movie._id instead of movie.id
-                      className="top-movie-card group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105"
+                      key={movie._id}
+                      className="top-movie-card group relative overflow-hidden rounded-lg transition-transform duration-300 transform hover:scale-105 w-full "
                     >
                       <img
                         src={movie.img}
                         alt={movie.name}
                         className="h-80 w-full object-cover rounded-t-lg"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="absolute inset-0 flex items-center justify-center  bg-opacity-60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="text-center text-white p-4">
-                          <h4 className="movie-name mb-2 text-xl font-semibold">{movie.name}</h4>
-                          {/* <p className="movie-rating mb-4">Đánh giá: {movie.rating ? movie.rating : "Chưa có"}</p> */}
                           <button className="overlay-favorite mb-4 text-white hover:text-red-300">
                             <FaHeart className="h-6 w-6" />
                           </button>
                           <div className="flex flex-col space-y-2">
-                            {/* <Link
-                              to="/cinema/detail"
-                              className="overlay-btn-xh rounded bg-blue-600 py-2 text-center text-white hover:bg-blue-700 transition duration-200"
-                            >
-                              Trailer <i className="fas fa-video ml-1"></i>
-                            </Link> */}
                             <Link
                               to={`/cinema/buy-tickets/${movie._id}`}
-                              className="overlay-btn-xh mt-2 rounded bg-red-600 py-2 text-center text-white hover:bg-red-700 transition duration-200"
+                              className=" bg-orange-500 rounded w-28 p-2 font-bold flex items-center justify-center text-center text-white"
                             >
-                              Mua vé <i className="fas fa-ticket-alt ml-1"></i>
+                              {t("Mua vé")}
+                              <FaTicketAlt size={18} className="mt-1 ml-2" />
                             </Link>
                           </div>
                         </div>
                       </div>
-                    </a>
+                      <h4 className="movie-name mb-2 text-xl font-semibold">{movie.name}</h4>
+                    </div>
                   ))}
-
                 </div>
               </div>
             </div>
