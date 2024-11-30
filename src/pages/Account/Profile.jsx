@@ -5,6 +5,7 @@ import { useGetUserQuery, usePatchUserMutation, usePatchProfileMutation, useUplo
 import { useGetAllFavouriteQuery } from '../../services/MovieFavourite/moviesFavourite_service'
 import { useGetTicketsByUserIdQuery } from '../../services/Ticket/ticket.serviecs'
 import { useGetVoucherUserQuery } from "../../services/Voucher/voucher.service"
+import { useDeleteVoucherMutation } from "../../services/Voucher/voucher.service"
 import Toastify from '../../helper/Toastify';
 
 const Profile = () => {
@@ -28,7 +29,8 @@ const Profile = () => {
     const [uploadAvatar] = useUploadAvatarMutation();
 
     const { data: movieFavourite } = useGetAllFavouriteQuery(userId);
-    const { data: codeVoucherUser } = useGetVoucherUserQuery(userId)
+    const { data: codeVoucherUser } = useGetVoucherUserQuery(userId);
+    const [ delVoucherUser ] = useDeleteVoucherMutation()
 
     const codeVoucherUserArray = Array.isArray(codeVoucherUser)
         ? codeVoucherUser
@@ -102,6 +104,7 @@ const Profile = () => {
         fileInputRef.current.click()
     }
 
+
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -135,6 +138,22 @@ const Profile = () => {
     const handleTabChange = (tab) => {
         setActiveTab(tab);
     };
+    const handleDeleteVoucher = async ({ voucherId }) => {
+        console.log('delVou', voucherId);
+
+        if (!voucherId) return;
+
+        try {
+            const response = await delVoucherUser(voucherId).unwrap();
+            if (response.success) {
+                alert('Voucher deleted successfully:', response.message);
+            } else {
+                console.error('Error deleting voucher:', response.message);
+            }
+        } catch (error) {
+            console.error('Error during delete:', error.message || error);
+        }
+    }
 
 
     return (
@@ -558,37 +577,39 @@ const Profile = () => {
                                         {codeVoucherUserArray && codeVoucherUserArray.length > 0 ? (
                                             codeVoucherUserArray.map((voucher, index) => (
                                                 <div className="shadow-sm overflow-hidden mt-2" key={index}>
-                                                    <div className="flex bg-slate-100 rounded-sm mb-3 relative">
-                                                        <div className="w-2/12 relative flex items-center justify-center">
-                                                            <img
-                                                                src={voucher.idVoucher?.img}
-                                                                className="w-auto m-auto p-2"
-                                                                alt="Voucher"
-                                                            />
+                                                    {voucher.idVoucher && ( // Kiểm tra nếu idVoucher không null
+                                                        <div className="flex bg-slate-100 rounded-sm mb-3 relative">
+                                                            <div className="w-2/12 relative flex items-center justify-center">
+                                                                <img
+                                                                    src={voucher.idVoucher?.img}
+                                                                    className="w-auto m-auto p-2"
+                                                                    alt="Voucher"
+                                                                />
+                                                            </div>
+
+                                                            <button
+                                                                className="absolute top-2 right-2 text-red-500 font-bold uppercase bg-white p-1 rounded-full"
+                                                                onClick={() => handleDeleteVoucher({ voucherId: voucher._id })} // Gọi hàm xóa khi nhấn nút
+                                                            >
+                                                                Xóa
+                                                            </button>
+
+                                                            <div className="p-4 w-10/12">
+                                                                <div className="mt-1 text-gray-800">
+                                                                    <h3 className="font-bold uppercase">Giảm {voucher.idVoucher?.discount_percent}%</h3>
+                                                                </div>
+
+                                                                <div className="mt-2 flex items-center">
+                                                                    <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">{voucher.idVoucher?.name}</span>
+                                                                </div>
+                                                                <div className="mt-1 text-gray-500">
+                                                                    <span>Có hiệu lực từ: {voucher.idVoucher?.valid_from}</span> - <span> {voucher.idVoucher?.valid_until}</span>
+                                                                </div>
+                                                            </div>
                                                         </div>
-
-                                                  
-                                                        <button
-                                                            className="absolute top-2 right-2 text-red-500 font-bold uppercase bg-white p-1 rounded-full"
-                                                            onClick={() => handleDeleteVoucher(voucher.idVoucher?._id)} // Gọi hàm xóa khi nhấn nút
-                                                        >
-                                                            Xóa
-                                                        </button>
-
-                                                        <div className="p-4 w-10/12">
-                                                            <div className="mt-1 text-gray-800">
-                                                                <h3 className="font-bold uppercase">Giảm {voucher.idVoucher?.discount_percent}%</h3>
-                                                            </div>
-
-                                                            <div className="mt-2 flex items-center">
-                                                                <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">{voucher.idVoucher?.name}</span>
-                                                            </div>
-                                                            <div className="mt-1 text-gray-500">
-                                                                <span>Có hiệu lực từ: {voucher.idVoucher?.valid_from}</span> - <span> {voucher.idVoucher?.valid_until}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    )}
                                                 </div>
+
                                             ))
                                         ) : (
                                             <div className="text-center text-gray-600 mt-10">
