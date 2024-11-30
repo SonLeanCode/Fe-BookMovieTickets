@@ -67,7 +67,7 @@ const Login = () => {
       const response = await googleLogin({
         token: credentialResponse.credential,
       }).unwrap();
-
+      console.log(response)
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("user", JSON.stringify(response?.data));
       navigate(response?.data.role === "user" ? "/cinema" : "/admin");
