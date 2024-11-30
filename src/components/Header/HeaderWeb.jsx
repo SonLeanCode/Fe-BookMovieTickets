@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
-import { FaUserAlt, FaHistory, FaSignOutAlt, FaBars } from "react-icons/fa"; // Import necessary icons
+import { FaUserAlt, FaSignOutAlt, FaBars } from "react-icons/fa"; // Import necessary icons
 import avt_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
 import Toastify from "../../helper/Toastify";
 import { getUserByIdFormToken } from "../Utils/auth";

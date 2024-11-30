@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   useGetRevenueStatsQuery,
@@ -17,7 +17,6 @@ import {
 Chart.register(...registerables);
 
 const Dashboard = () => {
-  const [tickets, setTickets] = useState([]);
   const [chartInstance, setChartInstance] = useState(null);
   const [revenueChartInstance, setRevenueChartInstance] = useState(null);
   const [timeUnit, setTimeUnit] = useState("day"); // Default to daily stats
@@ -34,14 +33,10 @@ const Dashboard = () => {
     isError: totalRevenueError,
   } = useGetTotalRevenueQuery();
   const {
-    data: movie,
-    isLoading: movieLoading,
-    isError: movieError,
+    data: movie
   } = useGetMoviesStatsQuery();
   const {
-    data: ticketRecent,
-    isLoading: ticketRecentLoading,
-    isError: ticketRecentError,
+    data: ticketRecent
   } = useGetTicketsQuery();
   // console.log('tổng doamh thu',totalRevenues);
   // console.log("movie nè", movie);

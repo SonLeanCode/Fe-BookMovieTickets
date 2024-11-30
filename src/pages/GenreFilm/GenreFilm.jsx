@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useGetAllGenresQuery } from "../../services/Genre/genre.service";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
-import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
+import {FaPhotoVideo, FaTicketAlt } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import Modal_Video from "../../components/Movie/Modal_Video";
 
 const MovieList = () => {
   const { t } = useTranslation(); 
@@ -12,6 +13,8 @@ const MovieList = () => {
   const { data: allMoviesData } = useGetAllMoviesQuery();
   const [selectedGenre, setSelectedGenre] = useState("");
   const [visibleCount, setVisibleCount] = useState(4);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -29,6 +32,16 @@ const MovieList = () => {
   // Xử lý khi nhấn nút "Xem thêm"
   const handleShowMore = () => {
     setVisibleCount((prevCount) => prevCount + 4);
+  };
+
+  const handleTrailerClick = (url) => {
+    setVideoUrl(url);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setVideoUrl("");
   };
 
   return (
@@ -117,7 +130,16 @@ const MovieList = () => {
          {t("Xem thêm")}
         </button>
       </div>
+      {/* Modal to display video */}
+      {isModalOpen && (
+                  <Modal_Video
+                    urlvideo={videoUrl}
+                    isModalOpen={isModalOpen}
+                    handleCloseModal={handleCloseModal}
+                  />
+                )}
     </div>
+    
   );
 };
 

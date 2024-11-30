@@ -1,4 +1,3 @@
-import React from "react";
 import ReactECharts from "echarts-for-react"; // Import thành phần ReactECharts
 import { ArrowUturnLeftIcon  } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";

@@ -21,6 +21,7 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { useCreateTicketMutation } from "../../services/Ticket/ticket.serviecs";
 import { useAddSeatStatusesMutation } from "../../services/Showtimes/showtimes.serviecs";
 import { usePaymentMomoMutation, useCreatePaymentMutation } from "../../services/payment/Payment.services"
+import { useEmailSendMutation } from "../../services/Email/email.service";
 import { v4 as uuidv4 } from "uuid";
 import Toastify from "../../helper/Toastify";
 import { useNavigate } from 'react-router-dom';
@@ -48,10 +49,37 @@ const BuyTickets = () => {
   // Lấy totalAmount từ localStorage khi component được tải
   const [paymentMomo, { isLoading, isError, error }] = usePaymentMomoMutation();
 
+  const navigate = useNavigate();
+  const { data: showtimesData, isLoading: showtimesLoading, refetch: refetchShowtime } =
+    useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
+  console.log(showtimesData?.data)
+  const { data: showDates, isLoading: datesLoading } =
+    useGetShowDatesByMovieQuery(selectedMovie?._id);
 
+  const { data: cinemas, isLoading: cinemasLoading } =
+    useGetCinemasWithShowtimesByMovieAndRegionQuery({
+      movieId: selectedMovie ? selectedMovie?._id : null,
+      regionId: selectedArea ? selectedArea._id : null,
+    });
 
-  //api  momo 
-  const handleMomo = async () => {
+  const { data: filteredShowtimes, isLoading: loadingShowtimes } =
+    useFilterShowtimesQuery({
+      movieId: selectedMovie ? selectedMovie?._id : null,
+      date: selectedDate,
+      cinemaId: selectedCinema || "",
+    });
+
+  const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
+    selectedShowtime ? selectedShowtime?.room_id._id : null,
+  );
+
+  const [addTicket] = useCreateTicketMutation();
+  const [addSeatStatus] = useAddSeatStatusesMutation();
+  const [addPayment] = useCreatePaymentMutation()
+  const [emailSend] = useEmailSendMutation()
+
+   //api  momo 
+   const handleMomo = async () => {
     const amount = localStorage.getItem('totalAmount');
     if (!amount) {
       alert('Số tiền không hợp lệ!');
@@ -106,33 +134,6 @@ const BuyTickets = () => {
       alert('Thanh toán không thành công. Vui lòng thử lại!');
     }
   };
-  const navigate = useNavigate();
-  const { data: showtimesData, isLoading: showtimesLoading, refetch: refetchShowtime } =
-    useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
-  console.log(showtimesData?.data)
-  const { data: showDates, isLoading: datesLoading } =
-    useGetShowDatesByMovieQuery(selectedMovie?._id);
-
-  const { data: cinemas, isLoading: cinemasLoading } =
-    useGetCinemasWithShowtimesByMovieAndRegionQuery({
-      movieId: selectedMovie ? selectedMovie?._id : null,
-      regionId: selectedArea ? selectedArea._id : null,
-    });
-
-  const { data: filteredShowtimes, isLoading: loadingShowtimes } =
-    useFilterShowtimesQuery({
-      movieId: selectedMovie ? selectedMovie?._id : null,
-      date: selectedDate,
-      cinemaId: selectedCinema || "",
-    });
-
-  const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
-    selectedShowtime ? selectedShowtime?.room_id._id : null,
-  );
-
-  const [addTicket] = useCreateTicketMutation();
-  const [addSeatStatus] = useAddSeatStatusesMutation();
-  const [addPayment] = useCreatePaymentMutation()
 
   const generateInvoiceCode = () => {
     const uniqueId = uuidv4().split("-")[0]; // Tạo mã duy nhất từ uuid
@@ -175,6 +176,14 @@ const BuyTickets = () => {
       status: "booked"    // Trạng thái đặt
     }));
 
+    const emailData = {
+      email: getUser.email,
+      ticketCode: ticketData.invoice_code,
+      movieName: ticketData.name_movie,
+      showTime: ticketData.showtime,
+      seat: ticketData.seat_number
+    };
+
 
     try {
       const response = await addTicket(ticketData).unwrap();
@@ -190,6 +199,7 @@ const BuyTickets = () => {
       await addSeatStatus({ showtimeId: selectedShowtime._id, seatStatuses }).unwrap();
       refetchShowtime()
       Toastify("Thanh toán thành công", 200)
+      emailSend(emailData);
       navigate('/cinema');
       console.log("Ticket added successfully:", response);
     } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from "react-router-dom";
 import {FaPhotoVideo, FaTicketAlt } from "react-icons/fa";
 import { FaClock, FaMapMarkerAlt, FaQuoteLeft } from "react-icons/fa";

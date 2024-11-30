@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Input, Modal, Textarea } from "react-daisyui";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";

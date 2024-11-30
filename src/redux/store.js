@@ -14,6 +14,7 @@ import { roomsApi } from '../services/Room/room.service';
 import { seatApi } from '../services/Seat/seat.serviecs';
 import { showtimesApi } from '../services/Showtimes/showtimes.serviecs';
 import { ticketApi } from '../services/Ticket/ticket.serviecs';
+import { emailApi } from '../services/Email/email.service';
 import {paymentApi} from '../services/payment/Payment.services';
 import {moviesFavouriteApi}  from '../services/MovieFavourite/moviesFavourite_service';
 import {statsApi} from '../services/RevenueStatistics/revenuestatistics.service'
@@ -35,6 +36,7 @@ const store = configureStore({
     [seatApi.reducerPath]: seatApi.reducer,
     [showtimesApi.reducerPath]: showtimesApi.reducer,
     [ticketApi.reducerPath]: ticketApi.reducer,
+    [emailApi.reducerPath]: emailApi.reducer,
     [apiLanguage.reducerPath]: apiLanguage.reducer,
     [paymentApi.reducerPath]: paymentApi.reducer,
     [moviesFavouriteApi.reducerPath]: moviesFavouriteApi.reducer,
@@ -57,6 +59,7 @@ const store = configureStore({
       .concat(seatApi.middleware)
       .concat(showtimesApi.middleware)
       .concat(ticketApi.middleware)
+      .concat(emailApi.middleware)
       .concat(apiLanguage.middleware)
       .concat(paymentApi.middleware)
       .concat(moviesFavouriteApi.middleware)
