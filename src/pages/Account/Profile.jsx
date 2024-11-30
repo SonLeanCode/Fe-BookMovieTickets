@@ -10,6 +10,7 @@ import Toastify from '../../helper/Toastify';
 const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
+    console.log('Uid', userId)
     const { data: userData } = useGetUserQuery(userId)
     const { data: idTicketData, } = useGetTicketsByUserIdQuery(userId)
     console.log('đsff', idTicketData)
@@ -28,9 +29,11 @@ const Profile = () => {
 
     const { data: movieFavourite } = useGetAllFavouriteQuery(userId);
     const { data: codeVoucherUser } = useGetVoucherUserQuery(userId)
-    console.log('voucher', codeVoucherUser);
 
-
+    const codeVoucherUserArray = Array.isArray(codeVoucherUser)
+        ? codeVoucherUser
+        : codeVoucherUser?.data || [];
+    console.log(codeVoucherUserArray)
 
 
     const formatDate = (dateString) => {
@@ -552,37 +555,48 @@ const Profile = () => {
                                 {activeTab === 'gift' && <div>
                                     <div className="text-red-400 font-bold text-lg uppercase">Quà tặng</div>
                                     <div className="max-h-[500px] overflow-y-auto">
-                                        {codeVoucherUser && codeVoucherUser.length > 0 ? (
-                                            codeVoucherUser.map((voucher, index) => (
+                                        {codeVoucherUserArray && codeVoucherUserArray.length > 0 ? (
+                                            codeVoucherUserArray.map((voucher, index) => (
                                                 <div className="shadow-sm overflow-hidden mt-2" key={index}>
-                                                    <div className="flex bg-slate-100 rounded-sm mb-3">
-                                                        <div className="w-2/12">
+                                                    <div className="flex bg-slate-100 rounded-sm mb-3 relative">
+                                                        <div className="w-2/12 relative flex items-center justify-center">
                                                             <img
-                                                                // src={}
-                                                                // alt={}
+                                                                src={voucher.idVoucher?.img}
                                                                 className="w-auto m-auto p-2"
+                                                                alt="Voucher"
                                                             />
                                                         </div>
+
+                                                  
+                                                        <button
+                                                            className="absolute top-2 right-2 text-red-500 font-bold uppercase bg-white p-1 rounded-full"
+                                                            onClick={() => handleDeleteVoucher(voucher.idVoucher?._id)} // Gọi hàm xóa khi nhấn nút
+                                                        >
+                                                            Xóa
+                                                        </button>
+
                                                         <div className="p-4 w-10/12">
-                                                            <h3 className="text-lg text-gray-800 font-semibold">{voucher.data[0].idVoucher.code}</h3>
+                                                            <div className="mt-1 text-gray-800">
+                                                                <h3 className="font-bold uppercase">Giảm {voucher.idVoucher?.discount_percent}%</h3>
+                                                            </div>
+
                                                             <div className="mt-2 flex items-center">
                                                                 <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">{voucher.idVoucher?.name}</span>
-                                                                <span className="bg-orange-600 text-white px-2 py-1 rounded">{voucher.idVoucher?.name}</span>
                                                             </div>
                                                             <div className="mt-1 text-gray-500">
-                                                                <span>Đạo diễn: {voucher.idVoucher?.name}</span> - <span>Nhà sản xuất: {voucher.idVoucher?.name}</span>
+                                                                <span>Có hiệu lực từ: {voucher.idVoucher?.valid_from}</span> - <span> {voucher.idVoucher?.valid_until}</span>
                                                             </div>
-                                                         
                                                         </div>
                                                     </div>
                                                 </div>
                                             ))
                                         ) : (
                                             <div className="text-center text-gray-600 mt-10">
-                                                Bạn chưa nhận quà tặng .
+                                                Bạn chưa nhận quà tặng.
                                             </div>
                                         )}
                                     </div>
+
                                 </div>}
 
                                 {activeTab === 'Notification' && <div>Thông báo</div>}
