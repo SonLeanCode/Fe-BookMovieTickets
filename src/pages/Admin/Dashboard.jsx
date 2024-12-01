@@ -37,18 +37,15 @@ const Dashboard = () => {
     isLoading: totalRevenueLoading,
     isError: totalRevenueError,
   } = useGetTotalRevenueQuery();
+
+  
   const {
     data: movie
   } = useGetMoviesStatsQuery();
-  const {
-    data: ticketRecent
-  } = useGetTicketsQuery();
+  const { data: ticketRecent } = useGetTicketsQuery();
   const { data: users, isLoading: usersLoading, isError: usersError } = useGetAllUsersQuery();
   const totalUsers = users?.data?.length ?? 0;
-    console.log('tổng người dùng',users);
-    console.log('tổng người dùng',totalUsers);
-  
-
+  const numberTicket = ticketRecent?.allTickets?.length ?? 0;
   useEffect(() => {
     if (!data || isLoading || isError) return;
 
@@ -71,6 +68,8 @@ const Dashboard = () => {
 
       const labels = chartData.map((item) => item.time);
       const revenues = chartData.map((item) => item.revenue);
+      
+      
 
       // Create a new Chart instance (Line Chart)
       myChart = new Chart(myCanvas, {
@@ -104,7 +103,7 @@ const Dashboard = () => {
                 display: true,
                 text: "Thời gian",
               },
-            },
+            },  
             y: {
               title: {
                 display: true,
@@ -246,6 +245,43 @@ const Dashboard = () => {
             <div className="flex rounded-md bg-white shadow-lg">
               <div
                 className="flex items-center rounded-s-md p-3"
+                style={{ background: "#6CD0D2" }}
+              >
+                <CurrencyDollarIcon className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
+              </div>
+
+              <div
+                className="w-full rounded-e-md p-3"
+                style={{ background: "#3CC1C4" }}
+              >
+                <p className="text-gray-100">Tổng Số vé bán được</p>
+               
+                  <p className=" text-xl font-bold text-white">
+                    {numberTicket} <span className="text-sm"> Vé</span>
+                  </p>
+                <div className="flex items-center space-x-1">
+                  <svg
+                    className="h-4 w-4 text-green-500"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                  <p className="text-sm text-green-300">4.07%</p>
+                  <p className="text-sm text-gray-100">Last month</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex rounded-md bg-white shadow-lg">
+              <div
+                className="flex items-center rounded-s-md p-3"
                 style={{ background: "#9592C5" }}
               >
                 <UserIcon className="h-6 w-6 rounded-full p-[0.5] text-slate-50 ring-2 ring-slate-50" />
@@ -280,9 +316,7 @@ const Dashboard = () => {
               </div>
 
             </div>
-            {/* <div className="bg-white px-4 shadow-lg rounded-lg flex flex-col items-center" style={{ height: '200px' }}>
-                <canvas id="revenueChart" aria-label="Revenue distribution" role="img" style={{ height: '200px' }}></canvas>
-              </div> */}
+           
             <div className="flex rounded-md bg-white shadow-lg">
               <div
                 className="flex items-center rounded-s-md p-3"
@@ -330,52 +364,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="flex rounded-md bg-white shadow-lg">
-              <div
-                className="flex items-center rounded-s-md p-3"
-                style={{ background: "#6CD0D2" }}
-              >
-                <CurrencyDollarIcon className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
-              </div>
-
-              <div
-                className="w-full rounded-e-md p-3"
-                style={{ background: "#3CC1C4" }}
-              >
-                <p className="text-gray-100">Doanh thu trong tháng</p>
-                {totalRevenueLoading ? (
-                  <p>Loading...</p>
-                ) : totalRevenueError ? (
-                  <p>Error loading data</p>
-                ) : (
-                  <p className="flex items-center text-xl font-bold text-white">
-                    {totalRevenues?.monthlyRevenue
-                      ? new Intl.NumberFormat().format(
-                          totalRevenues.monthlyRevenue,
-                        ) + " VNĐ"
-                      : "0 VNĐ"}
-                  </p>
-                )}
-                <div className="flex items-center space-x-1">
-                  <svg
-                    className="h-4 w-4 text-green-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                  <p className="text-sm text-green-300">4.07%</p>
-                  <p className="text-sm text-gray-100">Last month</p>
-                </div>
-              </div>
-            </div>
+            
           </div>
 
           {/* Main Content */}
