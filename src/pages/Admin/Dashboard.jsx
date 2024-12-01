@@ -291,7 +291,7 @@ const Dashboard = () => {
                 className="w-full rounded-e-md p-3"
                 style={{ background: "#726CB0" }}
               >
-              <Link to="../CinemaRevenueManagement" >
+              <Link to="/admin/CinemaRevenueManagement" >
                 <p className="text-gray-100">Tổng Doanh thu Rạp</p>
                 <p className="text-xl font-bold text-white">1,478,286</p>
                 <div className="flex items-center space-x-1">

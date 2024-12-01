@@ -59,6 +59,16 @@ export const statsApi = createApi({
         method: 'GET',
       }),
     }),
+
+
+    // Tổng doanh thu và số vé bán ra của từng rạp.
+    getCinemaSalesStats: builder.query({
+      query: () => ({
+        url: '/api/statistics/cinema-sales-stats', // Updated path to match the router
+        method: 'GET',
+      }),
+    }),
+
   }),
 });
 
@@ -69,4 +79,5 @@ export const {
   useGetTicketsStatsQuery,
   useGetMoviesStatsQuery,
   useGetCinemasStatsQuery,
+  useGetCinemaSalesStatsQuery
 } = statsApi;
