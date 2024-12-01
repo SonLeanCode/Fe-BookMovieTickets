@@ -26,7 +26,8 @@ const Tickets_Management = () => {
       ticket?.name_movie?.toLowerCase().includes(searchTerm.toLowerCase())
     )
   : [];
-
+    console.log(filteredtickets );
+    
 
   const totalPages = Math.ceil(filteredtickets.length / ticketssPerPage);
 
@@ -139,6 +140,9 @@ const Tickets_Management = () => {
               </th>
               <th className="px-4 py-3 text-left text-white">Người dùng</th>
               <th className="px-4 py-3 text-left text-white">Tên vé</th>
+              <th className="px-4 py-3 text-left text-white">Địa chỉ</th>
+              <th className="px-4 py-3 text-left text-white">Ghế</th>
+              <th className="px-4 py-3 text-left text-white">Giờ chiếu</th>
               <th className="px-4 py-3 text-left text-white">Tổng tiền</th>
               <th className="px-4 py-3 text-center text-white">Trạng thái</th>
             </tr>
@@ -164,9 +168,12 @@ const Tickets_Management = () => {
                     {ticket?.user_id?.email}
                     </td>
                 <td className="px-4 py-2">{ticket.name_movie}</td>
+                <td className="px-4 py-2">{ticket.address_cinema}</td>
+                <td className="px-4 py-2">{ticket.seat_number}</td>
+                <td className="px-4 py-2">{ticket.showtime}</td>
                 <td className="px-4 py-2">{ticket.price.toLocaleString()} VNĐ</td>
                 <td className="px-4 py-2 text-center font-bold   text-[#36f350]">
-                  Thành công
+                  Đã thanh toán
                 </td>
               </tr>
             ))}

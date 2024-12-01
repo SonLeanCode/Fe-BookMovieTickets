@@ -7,6 +7,11 @@ import {
   useGetMoviesStatsQuery,
 } from "../../services/RevenueStatistics/revenuestatistics.service";
 import { useGetTicketsQuery } from "../../services/Ticket/ticket.serviecs";
+import {
+  useGetAllUsersQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} from "../../services/User/user.services";
 import { Chart, registerables } from "chart.js";
 import {
   CurrencyDollarIcon,
@@ -38,9 +43,11 @@ const Dashboard = () => {
   const {
     data: ticketRecent
   } = useGetTicketsQuery();
-  // console.log('tổng doamh thu',totalRevenues);
-  // console.log("movie nè", movie);
-  console.log("vé nè", ticketRecent);
+  const { data: users, isLoading: usersLoading, isError: usersError } = useGetAllUsersQuery();
+  const totalUsers = users?.data?.length ?? 0;
+    console.log('tổng người dùng',users);
+    console.log('tổng người dùng',totalUsers);
+  
 
   useEffect(() => {
     if (!data || isLoading || isError) return;
@@ -213,12 +220,9 @@ const Dashboard = () => {
                 <UserIcon className="h-6 w-6 rounded-full p-[0.5] text-slate-50 ring-2 ring-slate-50" />
               </div>
 
-              <div
-                className="w-full rounded-e-md p-3"
-                style={{ background: "#F14F7B" }}
-              >
+              <div className="w-full rounded-e-md p-3" style={{ background: "#F14F7B" }}>
                 <p className="text-gray-100">Người dùng</p>
-                <p className="text-xl font-bold text-white">1,478,286</p>
+                <p className="text-xl font-bold text-white">{totalUsers} <span className="text-sm">Người</span></p>
                 <div className="flex items-center space-x-1">
                   <svg
                     className="h-4 w-4 text-green-500"
@@ -439,26 +443,33 @@ const Dashboard = () => {
                   role="img"
                 ></canvas>
               </div>
-              <div className="rounded-lg bg-white shadow-lg">
-                <h1 className="text-center text-xl font-bold">Top phim</h1>
-                <div className="">
+              <div className="rounded-md bg-white p-5  shadow-lg">
+                <h1 className="text-center text-xl mb-5 text-slate-800 font-bold">Top phim</h1>
+                {movie?.moviesStats.map((movieItem, index) => (
+                <div className="bg-slate-50 rounded-sm">
                   {/* Display top 3 movies */}
-                  {movie?.moviesStats.map((movieItem, index) => (
-                    <div
-                      key={movieItem._id}
-                      className="mb-2 flex items-center justify-between p-1"
-                    >
-                      {/* Thông tin giá nằm bên trái */}
+                  <div
+                    key={movieItem._id}
+                    className={`rounded-sm mb-2 flex justify-between p-1 ${
+                      index === 0
+                        ? "bg-gradient-to-r from-red-700 to-yellow-500 text-white"
+                        : index === 1
+                        ? "bg-gradient-to-r from-yellow-600 to-yellow-300 text-white"
+                        : index === 2
+                        ? "bg-gradient-to-r from-green-600 to-green-400 text-white"
+                        : "bg-slate-100"
+                    }`}
+                  >
                       <img
                         src={movieItem.img}
                         alt={movieItem.name}
-                        className="ml-4 w-10 rounded-md"
+                        className="mx-1 w-10 rounded-sm"
                       />
                       <div className="max-w-xs flex-1 truncate">
                         {" "}
                         {/* Thêm max-w-xs để giới hạn chiều rộng */}
-                        <p className="font-semibold">
-                          {index + 1}. {movieItem.name}
+                        <p className="font-semibold max-w-xs flex-1 truncate">
+                          {movieItem.name}
                         </p>
                         <p className="text-sm text-gray-600">
                           Doanh thu:{" "}
@@ -469,8 +480,8 @@ const Dashboard = () => {
                         </p>
                       </div>
                     </div>
-                  ))}
                 </div>
+              ))}
               </div>
             </div>
           </div>
