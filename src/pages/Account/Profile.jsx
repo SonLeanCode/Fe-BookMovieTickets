@@ -6,6 +6,7 @@ import { useGetAllFavouriteQuery } from '../../services/MovieFavourite/moviesFav
 import { useGetTicketsByUserIdQuery } from '../../services/Ticket/ticket.serviecs'
 import { useGetVoucherUserQuery } from "../../services/Voucher/voucher.service"
 import { useDeleteVoucherMutation } from "../../services/Voucher/voucher.service"
+import {checkVoucherStatus} from "../../utils/formatTimeVoucher"
 import Toastify from '../../helper/Toastify';
 
 const Profile = () => {
@@ -603,7 +604,7 @@ const Profile = () => {
                                                                     <span className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">{voucher.idVoucher?.name}</span>
                                                                 </div>
                                                                 <div className="mt-1 text-gray-500">
-                                                                    <span>Có hiệu lực từ: {voucher.idVoucher?.valid_from}</span> - <span> {voucher.idVoucher?.valid_until}</span>
+                                                                    <span>{checkVoucherStatus(voucher.idVoucher?.valid_from,voucher.idVoucher?.valid_until)}</span>
                                                                 </div>
                                                             </div>
                                                         </div>

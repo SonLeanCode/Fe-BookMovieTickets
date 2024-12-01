@@ -1,10 +1,10 @@
-import {
-    differenceInDays,
-    isBefore,
-    isAfter,
-    isSameDay,
-  } from 'date-fns';
-  
+  import {
+      differenceInDays,
+      isBefore,
+      isAfter,
+      isSameDay,
+    } from 'date-fns';
+    
   export const formatTime = (startTime, endTime) => {
     const now = new Date();
     const start = new Date(startTime);
