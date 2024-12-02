@@ -262,13 +262,13 @@ const Profile = () => {
                                 {/* Dấu mốc 0 đ */}
                                 <div className="absolute left-0 w-3 h-3 bg-white border-2 border-blue-500 rounded-full top-1/2 transform -translate-y-1/2"></div>
 
-                                {/* Dấu mốc 70.000 đ */}
+                                {/* Dấu mốc 100.000 đ */}
                                 <div className="absolute left-1/3 w-3 h-3 bg-white border-2 border-blue-500 rounded-full top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
 
-                                {/* Dấu mốc 100.000 đ */}
+                                {/* Dấu mốc 500.000 đ */}
                                 <div className="absolute right-6 w-3 h-3 bg-white border-2 border-blue-500 rounded-full top-1/2 transform -translate-y-1/2"></div>
 
-                                {/* Dấu mốc di động */}
+                                {/* Dấu  avatar di động */}
                                 <div
                                     className="absolute top-[-5px] w-6 h-6 rounded-full"
                                     style={{
