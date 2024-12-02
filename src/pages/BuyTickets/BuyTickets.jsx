@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef  } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   FaChevronDown,
   FaChevronLeft,
@@ -6,31 +6,30 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 import LoadingLocal from "../Loading/LoadingLocal";
-import { formatShowDate2, formatShowDate3 } from "../../utils/formatShowDate";
+import { formatShowDate3 } from "../../utils/formatShowDate";
 import { formatShowtime } from "../../utils/formatShowtime";
-import { useGetAllRegionsQuery } from "../../services/Regions/regions.service";
-import {
-  useGetMoviesByRegionQuery,
-  useGetShowDatesByMovieQuery,
-  useFilterShowtimesQuery,
-  useGetCinemasWithShowtimesByMovieAndRegionQuery,
-} from "../../services/Showtimes/showtimes.serviecs";
+import { useGetDataWithShowtimesQuery } from "../../services/Showtimes/showtimes.serviecs";
 import { useGetSeatsByRoomQuery } from "../../services/Seat/seat.serviecs";
 import SeatSelection from "../../components/Seat/SeatSelection";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useCreateTicketMutation } from "../../services/Ticket/ticket.serviecs";
 import { useAddSeatStatusesMutation } from "../../services/Showtimes/showtimes.serviecs";
-import { usePaymentMomoMutation, useCreatePaymentMutation } from "../../services/payment/Payment.services"
+import {
+  usePaymentMomoMutation,
+  useCreatePaymentMutation,
+} from "../../services/payment/Payment.services";
 import { useEmailSendMutation } from "../../services/Email/email.service";
 import { v4 as uuidv4 } from "uuid";
 import Toastify from "../../helper/Toastify";
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { skipToken } from '@reduxjs/toolkit/query';
 
 const BuyTickets = () => {
-  const { t } = useTranslation(); 
-  const { data: regionsData, isLoading: regionsLoading } =
-    useGetAllRegionsQuery();
+  const { t } = useTranslation();
+  const { data: dataByShowtimes, isLoading: dataByShowtimesLoading } =
+    useGetDataWithShowtimesQuery();
+
   const hasRun = useRef(false);
   const [isAreaOpen, setAreaOpen] = useState(false);
   const [isMovieOpen, setMovieOpen] = useState(false);
@@ -40,67 +39,54 @@ const BuyTickets = () => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedShowtime, setSelectedShowtime] = useState(null);
-
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedCinema, setSelectedCinema] = useState("");
+  const [selectedCinemaName, setSelectedCinemaName] = useState("");
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [isContinueClicked, setIsContinueClicked] = useState(false);
 
+  const [showDates, setShowDates] = useState([]); // Danh sách ngày chiếu
+  const [cinemas, setCinemas] = useState([]); // Danh sách rạp chiếu
+  const [filteredShowtimes, setFilteredShowtimes] = useState([]);
   // Lấy totalAmount từ localStorage khi component được tải
   const [paymentMomo, { isLoading, isError, error }] = usePaymentMomoMutation();
 
   const navigate = useNavigate();
-  const { data: showtimesData, isLoading: showtimesLoading, refetch: refetchShowtime } =
-    useGetMoviesByRegionQuery(selectedArea ? selectedArea._id : null);
-  console.log(showtimesData?.data)
-  const { data: showDates, isLoading: datesLoading } =
-    useGetShowDatesByMovieQuery(selectedMovie?._id);
-
-  const { data: cinemas, isLoading: cinemasLoading } =
-    useGetCinemasWithShowtimesByMovieAndRegionQuery({
-      movieId: selectedMovie ? selectedMovie?._id : null,
-      regionId: selectedArea ? selectedArea._id : null,
-    });
-
-  const { data: filteredShowtimes, isLoading: loadingShowtimes } =
-    useFilterShowtimesQuery({
-      movieId: selectedMovie ? selectedMovie?._id : null,
-      date: selectedDate,
-      cinemaId: selectedCinema || "",
-    });
 
   const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
-    selectedShowtime ? selectedShowtime?.room_id._id : null,
+    selectedRoom?.roomId || skipToken
   );
-
+  console.log(selectedCinemaName)
   const [addTicket] = useCreateTicketMutation();
   const [addSeatStatus] = useAddSeatStatusesMutation();
-  const [addPayment] = useCreatePaymentMutation()
-  const [emailSend] = useEmailSendMutation()
+  const [addPayment] = useCreatePaymentMutation();
+  const [emailSend] = useEmailSendMutation();
 
-   //api  momo 
-   const handleMomo = async () => {
-    const amount = localStorage.getItem('totalAmount');
+  //api  momo
+  const handleMomo = async () => {
+    const amount = localStorage.getItem("totalAmount");
     if (!amount) {
-      alert('Số tiền không hợp lệ!');
+      alert("Số tiền không hợp lệ!");
       return;
     }
     try {
-      const response = await paymentMomo({ amount })
+      const response = await paymentMomo({ amount });
       if (response.data && response.data.payUrl) {
         // Chuyển hướng người dùng đến trang thanh toán MoMo
         window.location.href = response.data.payUrl;
       } else {
-        console.error('Lỗi từ MoMo:', response.data);
-        alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!');
+        console.error("Lỗi từ MoMo:", response.data);
+        alert("Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!");
       }
     } catch (error) {
-      console.error('Thanh toán MoMo thất bại:', error);
-      alert('Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!')
+      console.error("Thanh toán MoMo thất bại:", error);
+      alert("Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại!");
     }
-  }
+  };
 
   useEffect(() => {
+    console.log("Current search params:", window.location.search);
     // Chỉ chạy hàm handlePayment nếu chưa chạy
     if (!hasRun.current && window.location.search.includes("partnerCode")) {
       hasRun.current = true; // Đánh dấu đã chạy
@@ -108,30 +94,48 @@ const BuyTickets = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (selectedMovie && showDates.length > 0) {
+      const nearestDate = showDates[0];
+      setSelectedDate(nearestDate);
+
+      const filteredData = filterShowtimesByMovieAndDate(
+        selectedMovie._id,
+        nearestDate,
+      );
+      setFilteredShowtimes(filteredData);
+    }
+  }, [selectedMovie, showDates]);
+
+  useEffect(() => {
+    if (selectedMovie && showDates.length > 0) {
+      const filtered = filterShowtimesByMovieAndDate(
+        selectedMovie._id,
+        selectedDate,
+      );
+      setFilteredShowtimes(filtered);
+    }
+  }, [selectedCinema]);
+
   const handlePayment = async () => {
     // Lấy các tham số từ URL
     const urlParams = new URLSearchParams(window.location.search);
-    const partnerCode = urlParams.get('partnerCode');
-    const amount = parseInt(urlParams.get('amount'));
-    const resultCode = urlParams.get('resultCode');
-    const responseTime = urlParams.get('responseTime');
-    const message = urlParams.get('message');
-    
-    // Kiểm tra kết quả thanh toán
-    if (resultCode === '0' && message === 'Successful.') {
+    const partnerCode = urlParams.get("partnerCode");
+    const amount = parseInt(urlParams.get("amount"));
+    const resultCode = urlParams.get("resultCode");
+    const responseTime = urlParams.get("responseTime");
+    const message = urlParams.get("message");
 
+    // Kiểm tra kết quả thanh toán
+    if (resultCode === "0" && message === "Successful.") {
       const paymentMethod = partnerCode; // Vì đây là MoMo, phương thức thanh toán sẽ là MoMo
       const totalAmount = amount;
       const paymentDate = new Date(parseInt(responseTime)).toLocaleString(); // Chuyển thời gian sang dạng chuỗi
       // Tạo paymentData với các tham số từ URL
-      await handleAddTicket(
-        paymentMethod, 
-        totalAmount, 
-        paymentDate
-      );
+      await handleAddTicket(paymentMethod, totalAmount, paymentDate);
     } else {
-      console.log('Thanh toán không thành công:', message);
-      alert('Thanh toán không thành công. Vui lòng thử lại!');
+      console.log("Thanh toán không thành công:", message);
+      alert("Thanh toán không thành công. Vui lòng thử lại!");
     }
   };
 
@@ -147,7 +151,12 @@ const BuyTickets = () => {
   const handleAddTicket = async (paymentMethod, totalAmount, paymentDate) => {
     // Lấy dữ liệu từ localStorage
     const selectedMovie = JSON.parse(localStorage.getItem("selectedMovie"));
-    const selectedShowtime = JSON.parse(localStorage.getItem("selectedShowtime"));
+    const selectedShowtime = JSON.parse(
+      localStorage.getItem("selectedShowtime"),
+    );
+    
+    const selectedRoom = JSON.parse(localStorage.getItem("selectedRoom"));
+    const selectedCinema = JSON.parse(localStorage.getItem("selectedCinema"));
     const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
     const getUser = JSON.parse(localStorage.getItem("user"));
 
@@ -157,9 +166,9 @@ const BuyTickets = () => {
       subtitles: selectedMovie.subtitles,
       age_limit: selectedMovie.age_limit || 0,
       seat_number: getSeatNumbers(selectedSeats), // Nếu danh sách ghế là mảng, nối thành chuỗi
-      room_name: selectedShowtime.room_id.name,
-      cinema_name: selectedShowtime.room_id.cinema_id.name,
-      address_cinema: selectedShowtime.room_id.cinema_id.address,
+      room_name: selectedRoom.roomName,
+      cinema_name: selectedCinema.cinemaName,
+      address_cinema: selectedCinema.address,
       showtime:
         formatShowtime(selectedShowtime.start_time, selectedShowtime.end_time) +
         " - " +
@@ -171,9 +180,9 @@ const BuyTickets = () => {
       user_id: getUser._id,
     };
 
-    const seatStatuses = selectedSeats.map(seat => ({
-      seat_id: seat._id,  // ID của ghế
-      status: "booked"    // Trạng thái đặt
+    const seatStatuses = selectedSeats.map((seat) => ({
+      seat_id: seat._id, // ID của ghế
+      status: "booked", // Trạng thái đặt
     }));
 
     const emailData = {
@@ -181,26 +190,27 @@ const BuyTickets = () => {
       ticketCode: ticketData.invoice_code,
       movieName: ticketData.name_movie,
       showTime: ticketData.showtime,
-      seat: ticketData.seat_number
+      seat: ticketData.seat_number,
     };
-
 
     try {
       const response = await addTicket(ticketData).unwrap();
-      if(response){
+      if (response) {
         const paymentData = {
           ticket_id: response.data._id,
           payment_method: paymentMethod,
           total_amount: totalAmount,
-          payment_date: paymentDate
-        }
+          payment_date: paymentDate,
+        };
         await addPayment(paymentData).unwrap();
       }
-      await addSeatStatus({ showtimeId: selectedShowtime._id, seatStatuses }).unwrap();
-      refetchShowtime()
-      Toastify("Thanh toán thành công", 200)
+      await addSeatStatus({
+        showtimeId: selectedShowtime._id,
+        seatStatuses,
+      }).unwrap();
+      Toastify("Thanh toán thành công", 200);
       emailSend(emailData);
-      navigate('/cinema');
+      navigate("/cinema");
       console.log("Ticket added successfully:", response);
     } catch (error) {
       console.error("Failed to add ticket:", error);
@@ -209,24 +219,57 @@ const BuyTickets = () => {
 
   const handleDateSelect = (date) => {
     setSelectedDate(date);
+    if (selectedMovie) {
+      const filteredData = filterShowtimesByMovieAndDate(
+        selectedMovie._id,
+        date,
+      );
+      setFilteredShowtimes(filteredData);
+    }
   };
 
   const handleCinemaSelect = (event) => {
     const value = event.target.value;
-    setSelectedCinema(value);
-
-    if (value === "all") {
-      setSelectedCinema("");
-    } else {
-      setSelectedCinema(value);
-    }
+    setSelectedCinema(value === "all" ? "" : value);
   };
 
-  useEffect(() => {
-    if (showDates?.data.length > 0) {
-      setSelectedDate(showDates.data[0]);
-    }
-  }, [showDates]);
+  const filterDataBySelectedMovie = (movieId) => {
+    if (!selectedArea || !selectedArea.cinemas) return;
+
+    const filteredCinemas = [];
+    const showDatesSet = new Set();
+
+    selectedArea.cinemas.forEach((cinema) => {
+      const roomsWithShowtimes = cinema.rooms.filter((room) =>
+        room.showtimes.some((showtime) => showtime.movie._id === movieId),
+      );
+
+      if (roomsWithShowtimes.length > 0) {
+        filteredCinemas.push({
+          ...cinema,
+          rooms: roomsWithShowtimes,
+        });
+
+        roomsWithShowtimes.forEach((room) =>
+          room.showtimes.forEach((showtime) => {
+            if (showtime.movie._id === movieId) {
+              const showDate = new Date(showtime.start_time)
+                .toISOString()
+                .split("T")[0];
+              showDatesSet.add(showDate);
+            }
+          }),
+        );
+      }
+    });
+
+    // Chuyển Set sang Array để sử dụng
+    const showDatesArray = Array.from(showDatesSet);
+
+    // Cập nhật trạng thái
+    setShowDates(showDatesArray);
+    setCinemas(filteredCinemas);
+  };
 
   const handleAreaSelect = (area) => {
     // Xoá dữ liệu khu vực và phim đã chọn trong localStorage
@@ -252,16 +295,31 @@ const BuyTickets = () => {
     localStorage.removeItem("selectedSeats");
 
     setSelectedMovie(movieTitle);
+    filterDataBySelectedMovie(movieTitle._id);
     setMovieOpen(false);
     setShowtimeOpen(true); // Mở chọn suất chiếu khi chọn phim
     setSelectedSeats([]); // Reset ghế đã chọn về mảng rỗng
+    const nearestDate = showDates.length > 0 ? showDates[0] : null;
+
+    if (nearestDate) {
+      setSelectedDate(nearestDate);
+      const filteredData = filterShowtimesByMovieAndDate(
+        movieTitle._id,
+        nearestDate,
+      );
+      setFilteredShowtimes(filteredData);
+    }
     localStorage.setItem("selectedMovie", JSON.stringify(movieTitle));
   };
 
-  const handleShowtimeSelect = (showtime) => {
+  const handleShowtimeSelect = (showtime, room, cinema) => {
     localStorage.removeItem("selectedSeats");
     setSeatOpen(!isSeatOpen);
+    setSelectedRoom(room)
     setSelectedShowtime(showtime);
+    setSelectedCinemaName(cinema);
+    localStorage.setItem("selectedRoom", JSON.stringify(room));
+    localStorage.setItem("selectedCinema", JSON.stringify(cinema));
     setShowtimeOpen(false);
     setSelectedSeats([]); // Reset ghế đã chọn về mảng rỗng
     localStorage.setItem("selectedShowtime", JSON.stringify(showtime));
@@ -314,18 +372,52 @@ const BuyTickets = () => {
     );
   };
 
+  const filterShowtimesByMovieAndDate = (movieId, date) => {
+    if (!selectedArea || !selectedArea.cinemas) return [];
+
+    // Nếu có rạp đã chọn, lọc theo rạp đó
+    return selectedArea.cinemas.flatMap((cinema) => {
+      // Kiểm tra nếu rạp đã được chọn và chỉ lấy các suất chiếu từ rạp đã chọn
+      if (selectedCinema && cinema._id !== selectedCinema) {
+        return [];
+      }
+
+      const roomsWithShowtimes = cinema.rooms.flatMap((room) => {
+        const filteredShowtimes = room.showtimes.filter(
+          (showtime) =>
+            showtime.movie._id === movieId &&
+            new Date(showtime.start_time).toISOString().split("T")[0] === date,
+        );
+
+        if (filteredShowtimes.length > 0) {
+          return {
+            roomId: room._id,
+            roomName: room.name,
+            showtimes: filteredShowtimes,
+          };
+        }
+
+        return [];
+      });
+
+      if (roomsWithShowtimes.length > 0) {
+        return {
+          cinemaName: cinema.name,
+          cinemaId: cinema._id,
+          address: cinema.address,
+          rooms: roomsWithShowtimes,
+        };
+      }
+
+      return [];
+    });
+  };
+
   const handleContinue = () => {
     setIsContinueClicked(true);
   };
 
-  if (
-    showtimesLoading ||
-    regionsLoading ||
-    datesLoading ||
-    loadingShowtimes ||
-    cinemasLoading ||
-    seatsLoading
-  ) {
+  if (seatsLoading || dataByShowtimesLoading) {
     return <LoadingLocal />;
   }
 
@@ -334,13 +426,14 @@ const BuyTickets = () => {
       <div className="mx-auto flex w-[90%]">
         {/* Left Column - 70% */}
         <div
-          className={`mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white transition-opacity duration-500 ${isContinueClicked ? "hidden" : ""
-            }`}
+          className={`mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white transition-opacity duration-500 ${
+            isContinueClicked ? "hidden" : ""
+          }`}
         >
           {/* Choose Area */}
           <div>
             <h2 className="mb-4 text-xl font-bold text-white">
-            {t("Chọn khu vực")}:
+              {t("Chọn khu vực")}:
             </h2>
             <div className="mb-6">
               <button
@@ -354,12 +447,13 @@ const BuyTickets = () => {
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
-                {t("Chọn vị trí")} {selectedArea ? " - " + selectedArea?.name : ""}
+                {t("Chọn vị trí")}{" "}
+                {selectedArea ? " - " + selectedArea?.name : ""}
                 {isAreaOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {isAreaOpen && (
                 <div className="mt-4 flex flex-wrap justify-center gap-4">
-                  {regionsData?.data.map((area) => (
+                  {dataByShowtimes?.data.map((area) => (
                     <button
                       key={area._id}
                       onClick={() => handleAreaSelect(area)}
@@ -375,7 +469,9 @@ const BuyTickets = () => {
 
           {/* Choose Movie */}
           <div>
-            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn phim")}:</h2>
+            <h2 className="mb-4 text-xl font-bold text-white">
+              {t("Chọn phim")}:
+            </h2>
             <div className="mb-6">
               <button
                 onClick={() => {
@@ -388,28 +484,52 @@ const BuyTickets = () => {
                 }}
                 className="flex w-full items-center justify-between rounded bg-white px-4 py-2 text-left text-black"
               >
-                {t("Chọn phim")} {selectedMovie ? " - " + selectedMovie?.name : ""}
+                {t("Chọn phim")}{" "}
+                {selectedMovie ? " - " + selectedMovie?.name : ""}
                 {isMovieOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {isMovieOpen && (
                 <div className="mt-4 flex flex-wrap justify-center gap-8">
                   {selectedArea ? (
-                    showtimesData?.data.map((movieTitle) => (
-                      <div
-                        key={movieTitle?._id}
-                        className="flex w-1/5 flex-col items-start hover:cursor-pointer"
-                        onClick={() => handleMovieSelect(movieTitle)}
-                      >
-                        <img
-                          src={movieTitle?.img}
-                          alt={movieTitle?.name}
-                          className="h-50 mb-2 w-full rounded object-cover"
-                        />
-                        <span>{movieTitle?.name}</span>
-                      </div>
-                    ))
+                    // Lấy tất cả suất chiếu từ các rạp và phòng chiếu
+                    selectedArea.cinemas
+                      .flatMap((cinema) =>
+                        cinema.rooms.flatMap((room) =>
+                          room.showtimes.map((showtime) => showtime.movie),
+                        ),
+                      )
+                      // Loại bỏ các bộ phim trùng lặp bằng cách sử dụng reduce
+                      .reduce((uniqueMovies, movie) => {
+                        // Kiểm tra bộ phim đã tồn tại trong danh sách chưa
+                        const movieExists = uniqueMovies.some(
+                          (m) => m._id === movie._id,
+                        );
+
+                        // Nếu chưa có, thêm vào danh sách
+                        if (!movieExists) {
+                          uniqueMovies.push(movie);
+                        }
+
+                        return uniqueMovies;
+                      }, [])
+                      .map((movie) => (
+                        <div
+                          key={movie._id}
+                          className="flex w-1/5 flex-col items-start hover:cursor-pointer"
+                          onClick={() => handleMovieSelect(movie)}
+                        >
+                          <img
+                            src={movie.img}
+                            alt={movie.name}
+                            className="h-50 mb-2 w-full rounded object-cover"
+                          />
+                          <span>{movie.name}</span>
+                        </div>
+                      ))
                   ) : (
-                    <p className="mt-4 text-white">{t("Vui lòng chọn khu vực")}</p>
+                    <p className="mt-4 text-white">
+                      {t("Vui lòng chọn khu vực")}
+                    </p>
                   )}
                 </div>
               )}
@@ -418,7 +538,9 @@ const BuyTickets = () => {
 
           {/* Choose Showtime */}
           <div>
-            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn suất")}:</h2>
+            <h2 className="mb-4 text-xl font-bold text-white">
+              {t("Chọn suất")}:
+            </h2>
             <div className="mb-6">
               <button
                 onClick={() => {
@@ -435,23 +557,27 @@ const BuyTickets = () => {
               {isShowtimeOpen && (
                 <div className="mt-4 flex flex-col space-y-2">
                   <div className="flex items-center justify-between">
-                    {filteredShowtimes?.data?.length > 0 && (
+                    {showDates?.length > 0 && (
                       <div className="flex w-full justify-between">
                         <div className="flex w-full space-x-3 overflow-x-auto">
                           <button className="flex-shrink-0 rounded bg-gray-300 p-2 text-black">
                             <FaChevronLeft />
                           </button>
                           <div className="flex space-x-3 scroll-smooth">
-                            {showDates?.data.map((date, index) => (
+                            {showDates.map((date, index) => (
                               <button
                                 key={index}
                                 onClick={() => handleDateSelect(date)}
-                                className={`w-[100px] rounded px-2 py-2 ${selectedDate === date
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-white text-black"
-                                  }`}
+                                className={`w-[100px] rounded px-2 py-2 ${
+                                  selectedDate === date
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-white text-black"
+                                }`}
                               >
-                                {formatShowDate2(date)}
+                                {new Date(date).toLocaleDateString("vi-VN", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                })}
                               </button>
                             ))}
                           </div>
@@ -468,7 +594,7 @@ const BuyTickets = () => {
                             className="mt-1 block w-[200px] rounded-md border-gray-300 bg-white text-black shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
                           >
                             <option value="all">Tất cả các rạp</option>
-                            {cinemas?.data.map((cinema, index) => (
+                            {cinemas?.map((cinema, index) => (
                               <option key={index} value={cinema._id}>
                                 {cinema?.name}
                               </option>
@@ -480,46 +606,51 @@ const BuyTickets = () => {
                   </div>
 
                   {/* Kiểm tra nếu không có suất chiếu */}
-                  {filteredShowtimes?.data?.length > 0 ? (
-                    filteredShowtimes.data.map((showtimes, index) =>
-                      showtimes?.rooms.map((room) => (
-                        <div
-                          key={`${index}-${room.roomId}`}
-                          className="rounded p-4"
-                        >
-                          <div className="flex items-center">
-                            <div>
-                              <h1 className="text-2xl font-semibold">
-                                {showtimes?.cinemaName}
-                              </h1>
-                              {/* Hiển thị danh sách các phòng chiếu */}
-                              <p className="text-sm">
-                                <span className="block">{room.roomName}</span>
-                              </p>
+                  {filteredShowtimes.length > 0 ? (
+                    filteredShowtimes.map((cinema) => (
+                      <div key={cinema.cinemaId} className="mb-6 rounded p-4">
+                        {/* Tên rạp */}
+                        <h1 className="mb-2 text-2xl font-semibold">
+                          {cinema.cinemaName}
+                        </h1>
+                        {/* Các phòng */}
+                        <div className="space-y-4">
+                          {cinema.rooms.map((room) => (
+                            <div
+                              key={room.roomId}
+                              className="flex flex-col items-start md:flex-row md:items-center"
+                            >
+                              {/* Tên phòng */}
+                              <div className="w-1/7 mb-2 min-w-[90px] text-left md:mb-0">
+                                <p className="text-sm font-medium">
+                                  {room.roomName}
+                                </p>
+                              </div>
+                              {/* Suất chiếu */}
+                              <div className="flex flex-1 flex-wrap items-center justify-start">
+                                {room.showtimes.map((showtime) => (
+                                  <button
+                                    key={showtime._id}
+                                    onClick={() =>
+                                      handleShowtimeSelect(showtime, room, cinema)
+                                    }
+                                    className="mr-4 mt-2 rounded bg-white px-4 py-2 text-black hover:bg-red-500 hover:text-white"
+                                  >
+                                    {formatShowtime(
+                                      showtime.start_time,
+                                      showtime.end_time,
+                                    )}
+                                  </button>
+                                ))}
+                              </div>
                             </div>
-                            <div className="ml-2 flex space-x-3">
-                              {/* Lặp qua các suất chiếu trong từng phòng chiếu */}
-                              {room?.showtimes.map((showtime) => (
-                                <button
-                                  key={showtime._id}
-                                  onClick={() => handleShowtimeSelect(showtime)}
-                                  className="ml-10 rounded bg-white px-4 py-2 text-black hover:bg-red-500 hover:text-white"
-                                >
-                                  {/* Hiển thị thời gian bắt đầu của suất chiếu */}
-                                  {formatShowtime(
-                                    showtime.start_time,
-                                    showtime.end_time,
-                                  )}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
+                          ))}
                         </div>
-                      )),
-                    )
+                      </div>
+                    ))
                   ) : (
                     <div className="mt-4 text-center text-white">
-                      {t("Vui lòng chọn phim")}
+                      {t("Không có suất chiếu nào trong ngày đã chọn")}
                     </div>
                   )}
                 </div>
@@ -528,7 +659,9 @@ const BuyTickets = () => {
           </div>
 
           <div className="mb-6">
-            <h2 className="mb-4 text-xl font-bold text-white">{t("Chọn ghế")}:</h2>
+            <h2 className="mb-4 text-xl font-bold text-white">
+              {t("Chọn ghế")}:
+            </h2>
             <button
               onClick={() => {
                 setAreaOpen(isAreaOpen ? !isAreaOpen : isAreaOpen);
@@ -561,8 +694,9 @@ const BuyTickets = () => {
 
         {/* Right Column - 30% */}
         <div
-          className={`mb-8 w-[30%] text-black transition-transform duration-[5000ms] ${isContinueClicked ? "mr-8" : ""
-            }`}
+          className={`mb-8 w-[30%] text-black transition-transform duration-[5000ms] ${
+            isContinueClicked ? "mr-8" : ""
+          }`}
         >
           <div>
             <div className="rounded border-t-8 border-red-600 bg-white">
@@ -600,11 +734,11 @@ const BuyTickets = () => {
                   <div>
                     <div className="mt-4 flex">
                       <h2 className="mr-2 font-bold">
-                        {selectedShowtime?.room_id.cinema_id.name}
+                        {selectedCinemaName?.cinemaName}
                       </h2>
                       {"-"}
                       <span className="ml-2">
-                        {selectedShowtime?.room_id.name}
+                        {selectedRoom?.roomName}
                       </span>
                     </div>
                     <div className="">
@@ -634,23 +768,22 @@ const BuyTickets = () => {
                 <span className="text-primary inline-block font-bold text-red-600">
                   {selectedSeats && selectedSeats.length > 0
                     ? `${formatCurrency(
-                      selectedSeats.reduce((sum, seat) => {
-                        const total = sum + seat.base_price;
-                        // Lưu tổng tiền vào localStorage
-                        localStorage.setItem('totalAmount', total);
-                        return total;
-                      }, 0)
-                    )} `
+                        selectedSeats.reduce((sum, seat) => {
+                          const total = sum + seat.base_price;
+                          // Lưu tổng tiền vào localStorage
+                          localStorage.setItem("totalAmount", total);
+                          return total;
+                        }, 0),
+                      )} `
                     : `0 VNĐ`}
                 </span>
               </div>
               <div className="mt-10 flex justify-between p-2">
                 <button
                   onClick={() => setIsContinueClicked(false)}
-                  className={`mr-2 w-1/2 rounded-md bg-gray-300 p-2 text-black ${!isContinueClicked
-                    ? "cursor-not-allowed opacity-50"
-                    : ""
-                    }`}
+                  className={`mr-2 w-1/2 rounded-md bg-gray-300 p-2 text-black ${
+                    !isContinueClicked ? "cursor-not-allowed opacity-50" : ""
+                  }`}
                   disabled={!isContinueClicked}
                 >
                   {t("Quay lại")}
@@ -658,16 +791,20 @@ const BuyTickets = () => {
                 {!isContinueClicked ? (
                   <button
                     onClick={handleContinue}
-                    className={`w-1/2 rounded-md bg-red-600 p-2 text-white ${selectedSeats.length === 0
-                      ? "cursor-not-allowed opacity-50"
-                      : ""
-                      }`}
+                    className={`w-1/2 rounded-md bg-red-600 p-2 text-white ${
+                      selectedSeats.length === 0
+                        ? "cursor-not-allowed opacity-50"
+                        : ""
+                    }`}
                     disabled={selectedSeats.length === 0}
                   >
                     {t("Thanh toán")}
                   </button>
                 ) : (
-                  <button onClick={handleAddTicket} className="w-1/2 rounded-md bg-red-600 p-2 text-white">
+                  <button
+                    onClick={handleAddTicket}
+                    className="w-1/2 rounded-md bg-red-600 p-2 text-white"
+                  >
                     Xác nhận
                   </button>
                 )}
@@ -676,39 +813,43 @@ const BuyTickets = () => {
           </div>
         </div>
         <div
-          className={`mb-8 transition-opacity duration-500 ${isContinueClicked ? "w-[70%] opacity-100" : "hidden"
-            } bg-[#111111] p-4 text-white relative`}
+          className={`mb-8 transition-opacity duration-500 ${
+            isContinueClicked ? "w-[70%] opacity-100" : "hidden"
+          } relative bg-[#111111] p-4 text-white`}
         >
           <img
             src="/src/assets/momo2.jpg"
             alt="MoMo Payment"
-            className="w-[700px] h-[300px] mx-auto mb-4"
+            className="mx-auto mb-4 h-[300px] w-[700px]"
           />
           <div className="mb-4">
-            <p className="text-center">Chúc mừng bạn đã chọn vé! Vui lòng làm theo hướng dẫn để hoàn tất giao dịch.</p>
-            <p className="text-center">Mô tả: Thanh toán vé xem phim qua ví MoMo.</p>
-
-
+            <p className="text-center">
+              Chúc mừng bạn đã chọn vé! Vui lòng làm theo hướng dẫn để hoàn tất
+              giao dịch.
+            </p>
+            <p className="text-center">
+              Mô tả: Thanh toán vé xem phim qua ví MoMo.
+            </p>
           </div>
           <button
             onClick={handleMomo}
-            className="bg-blue-500 text-white px-4 py-2 rounded mx-auto block"
+            className="mx-auto block rounded bg-blue-500 px-4 py-2 text-white"
             disabled={isLoading}
           >
-            {isLoading ? 'Đang xử lý...' : 'Thanh toán MoMo'}
+            {isLoading ? "Đang xử lý..." : "Thanh toán MoMo"}
           </button>
           {isError && (
-            <div className="text-red-500 mt-2 text-center">
-              {error.message || 'Có lỗi xảy ra khi thực hiện thanh toán.'}
+            <div className="mt-2 text-center text-red-500">
+              {error.message || "Có lỗi xảy ra khi thực hiện thanh toán."}
             </div>
           )}
-          <div className="text-sm text-gray-400 mt-2 text-center">
+          <div className="mt-2 text-center text-sm text-gray-400">
             <p>Bước 1: Nhấn vào nút Thanh toán MoMo.</p>
-            <p>Bước 2: Quét mã QR hoặc đăng nhập ví MoMo để hoàn tất giao dịch.</p>
+            <p>
+              Bước 2: Quét mã QR hoặc đăng nhập ví MoMo để hoàn tất giao dịch.
+            </p>
           </div>
         </div>
-
-
       </div>
     </div>
   );
