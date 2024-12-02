@@ -177,18 +177,16 @@ const SeatSelection = ({
 SeatSelection.propTypes = {
   showtime: PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    start_time: PropTypes.instanceOf(Date).isRequired,
-    end_time: PropTypes.instanceOf(Date).isRequired,
+    start_time: PropTypes.string.isRequired,
+    end_time: PropTypes.string.isRequired,
     seat_statuses: PropTypes.arrayOf(
       PropTypes.shape({
         seat_id: PropTypes.string.isRequired,
         status: PropTypes.oneOf(["booked", "locked"]),
       }),
     ),
-    movie_id: PropTypes.string.isRequired,
-    room_id: PropTypes.string.isRequired,
-    created_at: PropTypes.instanceOf(Date),
-    updated_at: PropTypes.instanceOf(Date),
+    created_at: PropTypes.string.isRequired,
+    updated_at: PropTypes.string.isRequired,
   }).isRequired,
   seatsData: PropTypes.arrayOf(
     PropTypes.shape({
