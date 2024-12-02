@@ -12,12 +12,15 @@ import {
   useUpdateUserMutation,
   useDeleteUserMutation,
 } from "../../services/User/user.services";
+import { useGetMoviesNowShowingQuery } from "../../services/Movies/movies.services";
 import { Chart, registerables } from "chart.js";
 import {
   CurrencyDollarIcon,
   UserIcon,
   CreditCardIcon,
+  
 } from "@heroicons/react/20/solid";
+import { FaTicketAlt,FaPhotoVideo } from "react-icons/fa";
 
 Chart.register(...registerables);
 
@@ -37,15 +40,19 @@ const Dashboard = () => {
     isLoading: totalRevenueLoading,
     isError: totalRevenueError,
   } = useGetTotalRevenueQuery();
-
-  
   const {
     data: movie
   } = useGetMoviesStatsQuery();
+  const {
+    data: MoviesNowShowing
+  } = useGetMoviesNowShowingQuery();
+  
   const { data: ticketRecent } = useGetTicketsQuery();
   const { data: users, isLoading: usersLoading, isError: usersError } = useGetAllUsersQuery();
   const totalUsers = users?.data?.length ?? 0;
   const numberTicket = ticketRecent?.allTickets?.length ?? 0;
+  const MoviesNowShowinglength = MoviesNowShowing?.nowShowingMovies?.length ?? 0;
+
   useEffect(() => {
     if (!data || isLoading || isError) return;
 
@@ -80,8 +87,8 @@ const Dashboard = () => {
             {
               label: `Doanh thu theo ${timeUnit === "day" ? "ngày" : timeUnit === "month" ? "tháng" : "năm"}`,
               data: revenues,
-              backgroundColor: "rgba(95, 46, 234, 0.7)",
-              borderColor: "rgba(95, 46, 234, 1)",
+              backgroundColor: "#FFC0CB",
+              borderColor: "#FFC0CB",
               borderWidth: 2,
             },
           ],
@@ -147,12 +154,12 @@ const Dashboard = () => {
                 label: "Tickets by Seat Type",
                 data: dataValues, // Dữ liệu số ghế đã bán
                 backgroundColor: [
-                  "rgba(95, 46, 234, 0.7)",
+                  "#87CEFA",
                   "rgba(75, 222, 151, 0.7)",
                   "rgba(255, 206, 86, 0.7)",
                 ],
                 borderColor: [
-                  "rgba(95, 46, 234, 1)",
+                  "#87CEFA",
                   "rgba(75, 222, 151, 1)",
                   "rgba(255, 206, 86, 1)",
                 ],
@@ -220,10 +227,11 @@ const Dashboard = () => {
               </div>
 
               <div className="w-full rounded-e-md p-3" style={{ background: "#F14F7B" }}>
+              <Link to ="/admin/users">
                 <p className="text-gray-100">Người dùng</p>
-                <p className="text-xl font-bold text-white">{totalUsers} <span className="text-sm">Người</span></p>
+                <p className="text-xl font-bold text-white">{totalUsers} Người</p>
                 <div className="flex items-center space-x-1">
-                  <svg
+                  {/* <svg
                     className="h-4 w-4 text-green-500"
                     fill="none"
                     stroke="currentColor"
@@ -238,8 +246,50 @@ const Dashboard = () => {
                     ></path>
                   </svg>
                   <p className="text-sm text-green-300">4.07%</p>
-                  <p className="text-sm text-gray-100">Last month</p>
+                  <p className="text-sm text-gray-100">Last month</p> */}
+                  {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
                 </div>
+              </Link>
+              </div>
+            </div>
+            <div className="flex rounded-md bg-white shadow-lg">
+              <div
+                className="flex items-center rounded-s-md p-3"
+                style={{ background: "#65C4E9" }}
+              >
+                <FaPhotoVideo className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
+              </div>
+
+              <div
+                className="w-full rounded-e-md p-3"
+                style={{ background: "#32B1E1" }}
+              >
+              <Link to="/admin/showtimes">
+                  <p className="text-gray-100">Phim đang chiếu</p>
+                  <p className=" text-xl font-bold text-white">
+                      {MoviesNowShowinglength}  phim
+                    </p>
+                  
+                  <div className="flex items-center space-x-1">
+                    {/* <svg
+                      className="h-4 w-4 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      ></path>
+                    </svg>
+                    <p className="text-sm text-green-300">4.07%</p>
+                    <p className="text-sm text-gray-100">Last month</p> */}
+                    {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
+                  </div>
+                </Link>
               </div>
             </div>
             <div className="flex rounded-md bg-white shadow-lg">
@@ -247,20 +297,21 @@ const Dashboard = () => {
                 className="flex items-center rounded-s-md p-3"
                 style={{ background: "#6CD0D2" }}
               >
-                <CurrencyDollarIcon className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
+                <FaTicketAlt className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
               </div>
 
               <div
                 className="w-full rounded-e-md p-3"
                 style={{ background: "#3CC1C4" }}
               >
-                <p className="text-gray-100">Tổng Số vé bán được</p>
-               
+              <Link to="/admin/CinemaRevenueManagement" >
+                  <p className="text-gray-100">Số vé bán ra</p>
+                  
                   <p className=" text-xl font-bold text-white">
-                    {numberTicket} <span className="text-sm"> Vé</span>
+                    {numberTicket}  Vé
                   </p>
                 <div className="flex items-center space-x-1">
-                  <svg
+                  {/* <svg
                     className="h-4 w-4 text-green-500"
                     fill="none"
                     stroke="currentColor"
@@ -275,8 +326,10 @@ const Dashboard = () => {
                     ></path>
                   </svg>
                   <p className="text-sm text-green-300">4.07%</p>
-                  <p className="text-sm text-gray-100">Last month</p>
+                  <p className="text-sm text-gray-100">Last month</p> */}
+                  {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
                 </div>
+              </Link>
               </div>
             </div>
             <div className="flex rounded-md bg-white shadow-lg">
@@ -284,7 +337,7 @@ const Dashboard = () => {
                 className="flex items-center rounded-s-md p-3"
                 style={{ background: "#9592C5" }}
               >
-                <UserIcon className="h-6 w-6 rounded-full p-[0.5] text-slate-50 ring-2 ring-slate-50" />
+               <CreditCardIcon className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
               </div>
                 
               <div
@@ -293,43 +346,6 @@ const Dashboard = () => {
               >
               <Link to="/admin/CinemaRevenueManagement" >
                 <p className="text-gray-100">Tổng Doanh thu Rạp</p>
-                <p className="text-xl font-bold text-white">1,478,286</p>
-                <div className="flex items-center space-x-1">
-                  <svg
-                    className="h-4 w-4 text-green-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                  <p className="text-sm text-green-300">4.07%</p>
-                  <p className="text-sm text-gray-100">Last month</p>
-                </div>
-              </Link>
-              </div>
-
-            </div>
-           
-            <div className="flex rounded-md bg-white shadow-lg">
-              <div
-                className="flex items-center rounded-s-md p-3"
-                style={{ background: "#65C4E9" }}
-              >
-                <CreditCardIcon className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
-              </div>
-
-              <div
-                className="w-full rounded-e-md p-3"
-                style={{ background: "#32B1E1" }}
-              >
-                <p className="text-gray-100">Tổng doanh thu</p>
                 {totalRevenueLoading ? (
                   <p>Loading...</p>
                 ) : totalRevenueError ? (
@@ -344,7 +360,7 @@ const Dashboard = () => {
                   </p>
                 )}
                 <div className="flex items-center space-x-1">
-                  <svg
+                  {/* <svg
                     className="h-4 w-4 text-green-500"
                     fill="none"
                     stroke="currentColor"
@@ -359,12 +375,13 @@ const Dashboard = () => {
                     ></path>
                   </svg>
                   <p className="text-sm text-green-300">4.07%</p>
-                  <p className="text-sm text-gray-100">Last month</p>
+                  <p className="text-sm text-gray-100">Last month</p> */}
+                  {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
                 </div>
+              </Link>
               </div>
-            </div>
 
-            
+            </div>
           </div>
 
           {/* Main Content */}
@@ -460,7 +477,7 @@ const Dashboard = () => {
                         <p className="font-semibold max-w-xs flex-1 truncate">
                           {movieItem.name}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm ">
                           Doanh thu:{" "}
                           {new Intl.NumberFormat().format(
                             movieItem.totalRevenue,
