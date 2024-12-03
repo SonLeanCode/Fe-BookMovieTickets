@@ -1,27 +1,61 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FaClock, FaMapMarkerAlt, FaQuoteLeft, FaTicketAlt } from "react-icons/fa";
+import {
+  FaClock,
+  FaMapMarkerAlt,
+  FaQuoteLeft,
+  FaTicketAlt,
+} from "react-icons/fa";
 
-// import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar,  } from "react-icons/fa";
-import { FaShoppingCart } from "react-icons/fa";
+import {
+  useAddOrUpdateRatingMutation,
+  useGetRatingsByMovieQuery,
+} from "../../services/Rating/rating.serviecs";
 import { useGetMovieByIdQuery } from "../../services/Movies/movies.services";
 import { formatDate } from "../../utils/formatDate";
 import notfound_img from "../../assets/img/404/not_found_img.jpg";
 import VideoPlayer from "../../components/Movie/VideoPlayer";
-import NowShowingMovies from '../Actor/NowShowingMovies';
+import NowShowingMovies from "../Actor/NowShowingMovies";
 import CommentsSection from "../../components/Movie/CommentsSection";
 import LoadingLocal from "../Loading/LoadingLocal";
-import { useTranslation } from 'react-i18next';
-
+import { useTranslation } from "react-i18next";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
-  const { t } = useTranslation(); 
-  const { data: movieData, isLoading: movieDataLoading  } = useGetMovieByIdQuery(id);
-  // const { data: allMoviesData} = useGetAllMoviesQuery();
+  const { t } = useTranslation();
+  const [isRatingMode, setIsRatingMode] = useState(false); // Quản lý chế độ hiển thị
+  const [hoveredStar, setHoveredStar] = useState(0);
+  const [selectedRating, setSelectedRating] = useState(0);
+
+  const [addRating] = useAddOrUpdateRatingMutation();
+
+  const {
+    data: movieData,
+    isLoading: movieDataLoading,
+    refetch: movieRefetch,
+  } = useGetMovieByIdQuery(id);
+
+  const {
+    data: ratingData,
+    isLoading: ratingLoaing,
+    refetch: ratingRefetch,
+  } = useGetRatingsByMovieQuery(movieData?.data._id || skipToken);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const handleStarClick = async (rating) => {
+    setSelectedRating(rating);
+    setIsRatingMode(false);
+    await addRating({
+      movieId: movieData?.data._id,
+      userId: user?._id,
+      rating,
+    });
+    movieRefetch();
+    ratingRefetch();
+  };
 
   const [activeTab, setActiveTab] = useState("content");
-  // console.log(allMoviesData)
+
   const tabs = [
     { id: "content", label: "Nội dung", content: movieData?.data.description },
     {
@@ -79,8 +113,8 @@ const MovieDetailPage = () => {
     },
   ];
 
-  if(movieDataLoading){
-    return <LoadingLocal/>
+  if (movieDataLoading || ratingLoaing) {
+    return <LoadingLocal />;
   }
 
   return (
@@ -91,7 +125,7 @@ const MovieDetailPage = () => {
         urlvideo_img={movieData?.data.img_video}
       />
 
-      <div className="mx-0 md:mx-20 grid max-w-[85rem] grid-cols-1 gap-10 py-6 pt-0 md:pt-2 md:grid-cols-4">
+      <div className="mx-0 grid max-w-[85rem] grid-cols-1 gap-10 py-6 pt-0 md:mx-20 md:grid-cols-4 md:pt-2">
         {/* left session */}
         <div className="flex flex-col space-y-6 md:col-span-3">
           {/* Movie Detail */}
@@ -99,31 +133,61 @@ const MovieDetailPage = () => {
             <img
               src={movieData?.data.img}
               alt={movieData?.data.name}
-              className="z-40 -mt-32 w-[350px] md:block hidden rounded-lg object-cover shadow-lg md:h-[493px]"
+              className="z-40 -mt-32 hidden w-[350px] rounded-lg object-cover shadow-lg md:block md:h-[493px]"
             />
             <div className="w-full">
               <div className="flex items-end justify-between">
-                <h1 className="text-3xl mb-2 md:mb-0 uppercase font-bold text-white">
+                <h1 className="mb-2 text-3xl font-bold uppercase text-white md:mb-0">
                   {movieData?.data.name}
                 </h1>
-                
               </div>
               <div className="mb-4 flex items-center">
-                <svg
-                  className="me-1 h-4 w-4 text-yellow-300"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 22 20"
-                >
-                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                </svg>
-                <p className="text-xl font-bold mb-3 md:mb-0 text-white">
-                  {movieData?.data.rating}
-                </p>
-                <span className="text-sm ml-2 font-medium text-gray-300">
-                  ({movieData?.data.votes} lượt đánh giá)
-                </span>
+                {isRatingMode ? (
+                  <div className="flex items-center">
+                    {[...Array(10)].map((_, index) => {
+                      const starIndex = index + 1;
+                      return (
+                        <svg
+                          key={starIndex}
+                          className={`h-6 w-6 cursor-pointer ${
+                            starIndex <= (hoveredStar || selectedRating)
+                              ? "text-yellow-300"
+                              : "text-gray-400"
+                          }`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 22 20"
+                          onMouseEnter={() => setHoveredStar(starIndex)}
+                          onMouseLeave={() => setHoveredStar(0)}
+                          onClick={() => handleStarClick(starIndex)}
+                        >
+                          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div
+                    className="flex cursor-pointer items-center"
+                    onClick={() => setIsRatingMode(true)} // Chuyển sang chế độ chọn sao
+                  >
+                    <svg
+                      className="me-1 h-4 w-4 text-yellow-300"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 22 20"
+                    >
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <p className="mb-3 text-xl font-bold text-white md:mb-0">
+                      {movieData?.data.averageRating || 0}
+                    </p>
+                    <span className="ml-2 text-sm font-medium text-gray-300">
+                      ({ratingData?.length || 0} lượt đánh giá)
+                    </span>
+                  </div>
+                )}
               </div>
               {movieData?.data.age_limit ? (
                 <div className="age mb-2 mt-2 flex items-center text-sm text-gray-300">
@@ -148,8 +212,8 @@ const MovieDetailPage = () => {
                   </p>
                 </div>
               )}
-            
-              <div className="mt-5 flex flex-wrap items-center gap-5 text-base md:text-sm text-gray-300">
+
+              <div className="mt-5 flex flex-wrap items-center gap-5 text-base text-gray-300 md:text-sm">
                 <div className="flex items-center">
                   <FaClock className="mr-2 text-white" />
                   <span>{movieData?.data.duration} phút</span>
@@ -182,7 +246,7 @@ const MovieDetailPage = () => {
                   {movieData?.data?.genres.map((genre) => {
                     return (
                       <Link
-                        to={'/cinema/genrefilm/'+genre._id}
+                        to={"/cinema/genrefilm/" + genre._id}
                         key={genre._id}
                         className="ml-3 rounded border border-gray-700 px-2 py-1 text-white hover:bg-gray-700"
                       >
@@ -197,13 +261,15 @@ const MovieDetailPage = () => {
                     {movieData?.data.director}
                   </button>
                 </div>
-                <div className="md:mt-4 mt-2 flex items-center">
-                  <span className="mr-2 text-white w-[5.5rem] md:w-auto">Diễn viên:</span>
-                  <div className="flex flex-wrap gap-2 mt-2 md:mt-0">
+                <div className="mt-2 flex items-center md:mt-4">
+                  <span className="mr-2 w-[5.5rem] text-white md:w-auto">
+                    Diễn viên:
+                  </span>
+                  <div className="mt-2 flex flex-wrap gap-2 md:mt-0">
                     {movieData?.data?.actors.map((actor) => {
                       return (
                         <Link
-                          to={'/cinema/actor/' + actor._id}
+                          to={"/cinema/actor/" + actor._id}
                           key={actor._id}
                           className="rounded border border-gray-700 px-2 py-1 text-white hover:bg-gray-700"
                         >
@@ -222,10 +288,10 @@ const MovieDetailPage = () => {
                 <div className="mt-4 flex justify-start pr-4 md:px-0">
                   <Link
                     to={`/cinema/buy-tickets/` + movieData?.data?._id}
-                    className="bg-red-600 rounded w-28 p-2 flex items-center justify-center text-center text-white font-bold"
+                    className="flex w-28 items-center justify-center rounded bg-red-600 p-2 text-center font-bold text-white"
                   >
                     {t("Mua vé")}
-                    <FaTicketAlt size={20} className="mt-1 ml-2" />
+                    <FaTicketAlt size={20} className="ml-2 mt-1" />
                   </Link>
                 </div>
               </div>
@@ -233,7 +299,7 @@ const MovieDetailPage = () => {
           </div>
 
           {/* nội dung  */}
-          <div className="sm:hidden px-5">
+          <div className="px-5 sm:hidden">
             <select
               id="tabs"
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
@@ -270,10 +336,10 @@ const MovieDetailPage = () => {
           </div>
 
           {/* bình luận  */}
-          <CommentsSection   movieId={id} />
+          <CommentsSection movieId={id} />
         </div>
         {/*  right session */}
-          <NowShowingMovies />
+        <NowShowingMovies />
       </div>
     </div>
   );
