@@ -37,7 +37,7 @@ const Cinema_Management = () => {
     address: "",
     region_id: "",
   });
-
+  console.log(formData);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -53,40 +53,49 @@ const Cinema_Management = () => {
     })) || [];
 
   const filteredcinemas = cinemas?.data.filter((cinema) =>
-    cinema.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    cinema?.name?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const totalPages = Math.ceil((filteredcinemas?.length || 0) / cinemasPerPage);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Use the event object to prevent form submission
+    e.preventDefault();
     try {
       setLoading(true);
 
-      if (!formData.region_id) {
-        Toastify("Vui lòng chọn khu vực cho rạp!", 400);
+      if (!formData.name || !formData.address || !formData.region_id) {
+        Toastify("Vui lòng điền đầy đủ thông tin rạp!", 400);
         setLoading(false);
         return;
+      }
+
+      // Tạo FormData để gửi dữ liệu bao gồm file ảnh
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("address", formData.address);
+      data.append("region_id", formData.region_id);
+      if (formData.image) {
+        data.append("image", formData.image); // Chỉ thêm nếu ảnh được chọn
       }
 
       if (selectedCinema) {
         // Update cinema
         await updateCinema({
-          id: selectedCinema._id,
-          updatedData: formData,
+          id: selectedCinema?._id,
+          updatedData: data,
         }).unwrap();
-        Toastify("Rạp đã được cập nhật:", 200);
+        Toastify("Rạp đã được cập nhật!", 200);
       } else {
         // Add new cinema
-        await addCinema(formData).unwrap();
-        Toastify("Rạp mới đã được thêm:", 200);
+        await addCinema(data).unwrap();
+        Toastify("Rạp mới đã được thêm!", 200);
       }
 
       refetch();
       handleCloseModal();
     } catch (error) {
       console.error("Có lỗi khi thực hiện thao tác:", error);
-      Toastify("Có lỗi xảy ra! Vui lòng thử lại.", 400);
+      Toastify(error?.data?.message || "Có lỗi xảy ra! Vui lòng thử lại.", 400);
     } finally {
       setLoading(false);
     }
@@ -120,6 +129,11 @@ const Cinema_Management = () => {
   };
 
   const handleDeleteSelectedcinemas = async () => {
+    if (selectedCinemas.length === 0) {
+      Toastify("Vui lòng chọn ít nhất một rạp để xóa!", 400);
+      return;
+    }
+
     if (window.confirm("Bạn có chắc chắn muốn xóa những rạp đã chọn?")) {
       try {
         setLoading(true);
@@ -202,7 +216,7 @@ const Cinema_Management = () => {
             <option value="20">20</option>
           </select>
           <span className="mx-2 text-gray-400">mục</span>
-          {selectedCinemas.length > 0 && (
+          {selectedCinemas?.length > 0 && (
             <div className="mx-2 flex items-center">
               <p className="mr-4 text-lg font-semibold">
                 {`' `}Đã chọn {selectedCinemas.length} mục{` '`}
@@ -251,40 +265,50 @@ const Cinema_Management = () => {
                   className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                 />
               </th>
-              <th className="px-4 py-3 text-left text-white">Các rạp</th>
+              <th className="px-4 py-3 text-left text-white">Ảnh rạp</th>
+              <th className="px-4 py-3 text-left text-white">Tên rạp</th>
               <th className="px-4 py-3 text-left text-white">Địa chỉ</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
             </tr>
           </thead>
           <tbody className="bg-black text-gray-400">
-            {paginatedcinemas?.map((cinema) => (
-              <tr key={cinema._id}>
-                <td className="px-4 py-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedCinemas.includes(cinema._id)}
-                    onChange={() => handleCinemaSelect(cinema._id)}
-                    className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
-                  />
-                </td>
-                <td className="px-4 py-2">{cinema.name}</td>
-                <td className="px-4 py-2">{cinema.address}</td>
-                <td className="px-4 py-2 text-center">
-                  <Button
-                    className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
-                    onClick={() => handleEditcinema(cinema._id)}
-                  >
-                    <FaEdit />
-                  </Button>
-                  <Button
-                    className="mr-1 rounded-sm bg-[#ff2727] p-2 text-white"
-                    onClick={() => handleDeletecinema(cinema._id)}
-                  >
-                    <FaTrash />
-                  </Button>
+            {paginatedcinemas?.length > 0 ? (
+              paginatedcinemas?.map((cinema) => (
+                <tr key={cinema._id}>
+                  <td className="px-4 py-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedCinemas.includes(cinema?._id)}
+                      onChange={() => handleCinemaSelect(cinema?._id)}
+                      className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
+                    />
+                  </td>
+                  <td className="px-4 py-2"><img className="w-32" src={cinema?.image} alt="" /></td>
+                  <td className="px-4 py-2">{cinema?.name}</td>
+                  <td className="px-4 py-2">{cinema?.address}</td>
+                  <td className="px-4 py-2 text-center">
+                    <Button
+                      className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
+                      onClick={() => handleEditcinema(cinema?._id)}
+                    >
+                      <FaEdit />
+                    </Button>
+                    <Button
+                      className="mr-1 rounded-sm bg-[#ff2727] p-2 text-white"
+                      onClick={() => handleDeletecinema(cinema?._id)}
+                    >
+                      <FaTrash />
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="px-4 py-2 text-center text-gray-500">
+                  Hiện tại chưa có rạp nào!
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
@@ -297,142 +321,105 @@ const Cinema_Management = () => {
 
       {/* Add/Edit cinema Modal */}
       {isModalVisible && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 transition-opacity duration-300 ease-in-out">
-    <div className="max-w-5xl w-full bg-white p-10 rounded-xl shadow-2xl transform transition-transform duration-300 ease-in-out text-black">
-      
-      <div className="flex justify-between items-center mb-8">
-        <h3 className="text-3xl font-semibold text-gray-800">
-          {selectedCinema ? "Chỉnh sửa rạp" : "Thêm rạp"}
-        </h3>
-        <button 
-          onClick={() => setIsModalVisible(false)} 
-          className="text-gray-500 hover:text-gray-700 text-2xl"
-        >
-          ✕
-        </button>
-      </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 transition-opacity duration-300 ease-in-out">
+          <div className="w-full max-w-5xl transform rounded-xl bg-white p-10 text-black shadow-2xl transition-transform duration-300 ease-in-out">
+            <div className="mb-8 flex items-center justify-between">
+              <h3 className="text-3xl font-semibold text-gray-800">
+                {selectedCinema ? "Chỉnh sửa rạp" : "Thêm rạp"}
+              </h3>
+              <button
+                onClick={() => handleCloseModal()}
+                className="text-2xl text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        <div className="relative">
-          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-blue-800">
-            Tên rạp:
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          />
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 gap-6 md:grid-cols-2"
+            >
+              <div className="relative">
+                <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-blue-800">
+                  Tên rạp:
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                />
+              </div>
+
+              <div className="relative">
+                <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-yellow-800">
+                  Ảnh rạp:
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  onChange={(e) =>
+                    setFormData({ ...formData, image: e.target.files[0] })
+                  }
+                  className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                />
+              </div>
+
+              <div className="relative">
+                <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-green-800">
+                  Địa chỉ:
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                />
+              </div>
+
+              <div className="relative">
+                <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-purple-800">
+                  Khu vực:
+                </label>
+                <select
+                  name="region_id"
+                  value={formData.region_id}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                >
+                  <option value="">Chọn khu vực</option>
+                  {regionOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mt-8 flex justify-end space-x-4 md:col-span-2">
+                <button
+                  type="button"
+                  onClick={() => handleCloseModal()}
+                  className="rounded-md bg-gray-300 px-6 py-2 text-gray-700 transition duration-300 ease-in-out hover:bg-gray-400"
+                >
+                  Huỷ
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-md bg-blue-500 px-6 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600"
+                >
+                  Lưu
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        <div className="relative">
-          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-yellow-800">
-            Ảnh rạp:
-          </label>
-          <input
-            type="file"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          />
-        </div>
-
-        <div className="relative">
-          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-indigo-800">
-            Số phòng VIP:
-          </label>
-          <input
-            type="number"
-            min="0"
-            required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          />
-        </div>
-
-        <div className="relative">
-          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-indigo-800">
-            Số phòng thường:
-          </label>
-          <input
-            type="number"
-            min="0"
-            required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          />
-        </div>
-
-        <div className="relative">
-          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-pink-800">
-            Số ghế:
-          </label>
-          <input
-            type="number"
-            min="1"
-            required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          />
-        </div>
-
-        <div className="relative">
-          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-green-800">
-            Địa chỉ:
-          </label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
-            required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          />
-        </div>
-
-        <div className="relative">
-          <label className="absolute -top-3 left-3 bg-white px-2 text-sm font-medium text-purple-800">
-            Khu vực:
-          </label>
-          <select
-            name="region_id"
-            value={formData.region_id}
-            onChange={handleInputChange}
-            required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          >
-            <option value="">Chọn khu vực</option>
-            {regionOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex justify-end space-x-4 mt-8 md:col-span-2">
-          <button
-            type="button"
-            onClick={() => setIsModalVisible(false)}
-            className="px-6 py-2 rounded-md bg-gray-300 text-gray-700 hover:bg-gray-400 transition duration-300 ease-in-out"
-          >
-            Huỷ
-          </button>
-          <button
-            type="submit"
-            className="px-6 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300 ease-in-out"
-          >
-            Lưu
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
-
-
-
-
-
-
+      )}
     </div>
   );
 };
