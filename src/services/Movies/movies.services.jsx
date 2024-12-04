@@ -89,6 +89,14 @@ export const moviesApi = createApi({
       }),
     }),
 
+    increaseMovieViews: builder.mutation({
+      query: (movieId) => ({
+        url: `/api/movies/${movieId}/views`,
+        method: 'PATCH',
+      }),
+    }),
+
+
     // Xóa phim theo ID
     deleteMovie: builder.mutation({
       query: (id) => ({
@@ -111,4 +119,5 @@ export const {
   useAddMovieMutation,
   useUpdateMovieMutation,
   useDeleteMovieMutation,
+  useIncreaseMovieViewsMutation,
 } = moviesApi;
