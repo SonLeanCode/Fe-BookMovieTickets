@@ -63,6 +63,40 @@ export const moviesApi = createApi({
       }),
     }),
 
+    // Lấy theo đánh giá phim
+    getTopRatedMoviesWithShowtimes: builder.query({
+      query: () => ({
+        url: `/api/movies/top-rated`,
+        method: 'GET',
+      }),
+    }),
+
+    // Lượt truy cập phim
+    getMostViewedMoviesWithShowtimes: builder.query({
+      query: () => ({
+        url: `/api/movies/most-viewed`,
+        method: 'GET',
+      }),
+    }),
+
+    // Top Trending (tổng lượt đặt vé cao nhất)
+    getMoviesWithHighestBookings: builder.query({
+      query: () => ({
+        url: `/api/movies/top-booked-movies`,
+        method: 'GET',
+      }),
+    }),
+
+    // Phim mới cập nhật (ngyaf phát hành gần nhất)
+    getMoviesByReleaseAndShowtimes: builder.query({
+      query: () => ({
+        url: `/api/movies/showtimes-and-release`,
+        method: 'GET',
+      }),
+    }),
+
+
+
     // Lấy phim theo ID
     getMovieById: builder.query({
       query: (id) => ({
