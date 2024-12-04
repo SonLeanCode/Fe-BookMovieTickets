@@ -16,7 +16,7 @@ import {
   useGetMoviesByReleaseAndShowtimesQuery,
   useGetTopRatedMoviesWithShowtimesQuery,
   useGetMoviesWithHighestBookingsQuery,
-  useGetMostViewedMoviesWithShowtimesQuery
+  useGetMostViewedMoviesWithShowtimesQuery,
 } from "../../services/Movies/movies.services";
 import Banner from "../../components/Home/Banner";
 import Modal_Video from "../../components/Movie/Modal_Video";
@@ -31,14 +31,16 @@ const Home = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
-  const { data: latestMovies, isLoading: latestMoviesLoading } =useGetLatestMoviesByCreationDateQuery();
-  const { data: currentTrendMovies, isLoading: currentMoviesLoading } =useGetMoviesByReleaseAndShowtimesQuery();
-  const { data: topRateMovies, isLoading: topRateMoviesLoading } =useGetTopRatedMoviesWithShowtimesQuery();
-  const { data: toptrendingMovies, isLoading: toptrendingMoviesLoading } =useGetMoviesWithHighestBookingsQuery();
-  const { data: areConcernedMovies, isLoading: areConcernedMoviesLoading } =useGetMostViewedMoviesWithShowtimesQuery();
-
-
-
+  const { data: latestMovies, isLoading: latestMoviesLoading } =
+    useGetLatestMoviesByCreationDateQuery();
+  const { data: currentTrendMovies, isLoading: currentMoviesLoading } =
+    useGetMoviesByReleaseAndShowtimesQuery();
+  const { data: topRateMovies, isLoading: topRateMoviesLoading } =
+    useGetTopRatedMoviesWithShowtimesQuery();
+  const { data: toptrendingMovies, isLoading: toptrendingMoviesLoading } =
+    useGetMoviesWithHighestBookingsQuery();
+  const { data: areConcernedMovies, isLoading: areConcernedMoviesLoading } =
+    useGetMostViewedMoviesWithShowtimesQuery();
 
   const [createMoviesFavourite] = useCreateMoviesFavouriteMutation();
   const handleTrailerClick = (url) => {
@@ -124,89 +126,6 @@ const Home = () => {
     },
   ];
 
-  const movies = [
-    {
-      id: 1,
-      views: 10,
-      name: "Inception",
-      image:
-        "https://m.media-amazon.com/images/M/MV5BMjExMjkwNTQ0Nl5BMl5BanBnXkFtZTcwNTY0OTk1Mw@@._V1_.jpg",
-      rating: "8.8",
-    },
-    {
-      id: 2,
-      views: 9,
-      name: "The Dark Knight",
-      image:
-        "https://cms-assets.webediamovies.pro/cdn-cgi/image/dpr=1,fit=scale-down,gravity=auto,metadata=none,quality=85,width=2500/production/4756/da6d320019b0cffcb187e7a20bf9cdcb.jpg",
-      rating: "9.0",
-    },
-    {
-      id: 3,
-      views: 10,
-      name: "Interstellar",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS9maE7-yWPpULS8xay8yVKGnVZctnXkOXMg&s",
-      rating: "8.6",
-    },
-    {
-      id: 4,
-      views: 10,
-      name: "Pulp Fiction",
-      image:
-        "https://i.pinimg.com/564x/31/80/4a/31804a1fc117ebca00ba2344238a0d1b.jpg",
-      rating: "8.9",
-    },
-    {
-      id: 5,
-      views: 10,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 6,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 7,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 8,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 9,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-    {
-      id: 10,
-      views: 9,
-      name: "The Matrix",
-      image:
-        "https://m.media-amazon.com/images/I/613ypTLZHsL._AC_UF894,1000_QL80_.jpg",
-      rating: "8.7",
-    },
-  ];
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentBannerIndex(
@@ -249,7 +168,13 @@ const Home = () => {
     }
   };
 
-  if (latestMoviesLoading || currentMoviesLoading) {
+  if (
+    latestMoviesLoading ||
+    currentMoviesLoading ||
+    topRateMoviesLoading ||
+    toptrendingMoviesLoading ||
+    areConcernedMoviesLoading
+  ) {
     return <LoadingLocal />;
   }
 
@@ -407,9 +332,7 @@ const Home = () => {
               <div className="hide-scrollbar flex w-full overflow-x-auto p-2">
                 <div
                   className={`flex gap-6 ${
-                    currentTrendMovies?.data?.length < 3
-                      ? "w-full"
-                      : ""
+                    currentTrendMovies?.data?.length < 3 ? "w-full" : ""
                   }`}
                 >
                   {currentTrendMovies?.data?.map(({ movie }) => (
@@ -422,7 +345,7 @@ const Home = () => {
                         alt={movie?.name}
                         className="h-72 rounded-t-lg object-cover"
                       />
-                      <div className="absolute  inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100">
                         <div className="space-y-3 text-center text-white">
                           <h4 className="text-lg font-bold">{movie?.name}</h4>
                           <p className="text-sm">Đánh giá: {movie?.rating}</p>
@@ -436,14 +359,14 @@ const Home = () => {
                               onClick={() =>
                                 handleTrailerClick(movie?.url_video)
                               }
-                              className="overlay-btn-xh gap-2 w-38 flex items-center justify-center text-center text-white"
+                              className="overlay-btn-xh w-38 flex items-center justify-center gap-2 text-center text-white"
                             >
                               {t("Trailer")}
                               <FaPhotoVideo size={18} />
                             </button>
                             <Link
                               to={`/cinema/movie/${movie?._id}`}
-                              className="overlay-btn-xh gap-2 w-38 flex items-center justify-center text-center text-white"
+                              className="overlay-btn-xh w-38 flex items-center justify-center gap-2 text-center text-white"
                             >
                               {t("Mua vé")}
                               <FaTicketAlt size={18} />
@@ -489,7 +412,7 @@ const Home = () => {
             <h3 className="text-4xl font-bold">|{t("Phim mới cập nhật")} </h3>
             <div className="flex flex-col justify-center lg:flex-row">
               {/* Cột trái: 1 phim */}
-              <div className=" flex w-full flex-col items-center justify-center hover:cursor-pointer lg:mb-0 lg:w-2/5">
+              <div className="flex w-full flex-col items-center justify-center hover:cursor-pointer lg:mb-0 lg:w-2/5">
                 {latestMovies?.data?.slice(0, 1).map((movie) => (
                   <div
                     key={movie._id}
@@ -648,7 +571,7 @@ const Home = () => {
             <div className="tt flex flex-grow flex-col gap-4 hover:cursor-pointer">
               {toptrendingMovies?.data?.slice(0, 6).map((movie, index) => (
                 <Link
-                to={`/cinema/movie/${movie?._id}`}
+                  to={`/cinema/movie/${movie?._id}`}
                   key={movie._id}
                   className="justify-right flex items-center rounded-lg p-2 shadow-lg"
                 >
