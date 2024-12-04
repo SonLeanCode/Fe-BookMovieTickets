@@ -55,6 +55,8 @@ export const moviesApi = createApi({
       }),
     }),
 
+
+
     // Lấy movie với số lượng vé bán ra trong tháng
     getMoviesWithTicketStats: builder.query({
       query: () => ({
@@ -63,6 +65,10 @@ export const moviesApi = createApi({
       }),
     }),
 
+
+
+
+    
     // Lấy theo đánh giá phim
     getTopRatedMoviesWithShowtimes: builder.query({
       query: () => ({
@@ -70,6 +76,18 @@ export const moviesApi = createApi({
         method: 'GET',
       }),
     }),
+
+
+
+    // Lượt truy cập phim
+    getMostViewedMoviesWithShowtimes: builder.query({
+      query: () => ({
+        url: `/api/movies/most-viewed`,
+        method: 'GET',
+      }),
+    }),
+
+
 
     // Phim mới cập nhật
     getNewMoviesWithShowtimes: builder.query({
@@ -79,13 +97,6 @@ export const moviesApi = createApi({
       }),
     }),
 
-    // Lượt truy cập phim
-    getMostViewedMoviesWithShowtimes: builder.query({
-      query: () => ({
-        url: `/api/movies/most-viewed`,
-        method: 'GET',
-      }),
-    }),
 
     // Top Trending (tổng lượt đặt vé cao nhất)
     getMoviesWithHighestBookings: builder.query({
