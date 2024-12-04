@@ -71,6 +71,14 @@ export const moviesApi = createApi({
       }),
     }),
 
+    // Phim mới cập nhật
+    getNewMoviesWithShowtimes: builder.query({
+      query: () => ({
+        url: `/api/movies/new-updates`,
+        method: 'GET',
+      }),
+    }),
+
     // Lượt truy cập phim
     getMostViewedMoviesWithShowtimes: builder.query({
       query: () => ({
@@ -87,7 +95,7 @@ export const moviesApi = createApi({
       }),
     }),
 
-    // Phim mới cập nhật (ngyaf phát hành gần nhất)
+    // Xu hướng hiện nay (sắp theo số suất chiếu và ngày phát hành gần nhất)
     getMoviesByReleaseAndShowtimes: builder.query({
       query: () => ({
         url: `/api/movies/showtimes-and-release`,
@@ -150,6 +158,11 @@ export const {
   useGetMoviesComingSoonQuery,
   useGetMoviesByActorIdQuery,
   useGetMoviesWithTicketStatsQuery,
+  useGetMostViewedMoviesWithShowtimesQuery,
+  useGetMoviesByReleaseAndShowtimesQuery,
+  useGetMoviesWithHighestBookingsQuery,
+  useGetNewMoviesWithShowtimesQuery,
+  useGetTopRatedMoviesWithShowtimesQuery,
   useAddMovieMutation,
   useUpdateMovieMutation,
   useDeleteMovieMutation,
