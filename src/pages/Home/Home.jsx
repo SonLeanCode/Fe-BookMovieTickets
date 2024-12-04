@@ -3,26 +3,37 @@ import { Link } from "react-router-dom";
 import { Button } from "react-daisyui";
 import "./Home.css";
 import PopupNotification from "./Popup";
-import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
+import {
+  FaRegKissWinkHeart,
+  FaPhotoVideo,
+  FaRegHandPointRight,
+  FaStar,
+  FaTicketAlt,
+} from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { useGetLatestMoviesByCreationDateQuery, useGetMoviesByReleaseAndShowtimesQuery } from "../../services/Movies/movies.services";
+import {
+  useGetLatestMoviesByCreationDateQuery,
+  useGetMoviesByReleaseAndShowtimesQuery,
+} from "../../services/Movies/movies.services";
 import Banner from "../../components/Home/Banner";
 import Modal_Video from "../../components/Movie/Modal_Video";
 import LoadingLocal from "../Loading/LoadingLocal";
-import { useTranslation } from 'react-i18next';
-import  {useCreateMoviesFavouriteMutation} from '../../services/MovieFavourite/moviesFavourite_service'
+import { useTranslation } from "react-i18next";
+import { useCreateMoviesFavouriteMutation } from "../../services/MovieFavourite/moviesFavourite_service";
 import { getUserByIdFormToken } from "../../components/Utils/auth";
 const Home = () => {
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userId = getUserByIdFormToken()
+  const userId = getUserByIdFormToken();
   const [videoUrl, setVideoUrl] = useState("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
-  const { data: latestMovies, isLoading: latestMoviesLoading } = useGetLatestMoviesByCreationDateQuery();
-  const { data: currentTrendMovies, isLoading: currentMoviesLoading } = useGetMoviesByReleaseAndShowtimesQuery();
+  const { data: latestMovies, isLoading: latestMoviesLoading } =
+    useGetLatestMoviesByCreationDateQuery();
+  const { data: currentTrendMovies, isLoading: currentMoviesLoading } =
+    useGetMoviesByReleaseAndShowtimesQuery();
 
-  const [createMoviesFavourite]  = useCreateMoviesFavouriteMutation()
+  const [createMoviesFavourite] = useCreateMoviesFavouriteMutation();
   const handleTrailerClick = (url) => {
     setVideoUrl(url);
     setIsModalOpen(true);
@@ -231,35 +242,28 @@ const Home = () => {
     }
   };
 
-  if(latestMoviesLoading){
-    return <LoadingLocal />
+  if (latestMoviesLoading || currentMoviesLoading) {
+    return <LoadingLocal />;
   }
 
-  const handleMovieFavourite = async (movId)=>{
-  const dataFaMoive = {
-    userId:userId,
-    movieFavourite:movId
-  }
-  console.log('dataFsss',dataFaMoive)
+  const handleMovieFavourite = async (movId) => {
+    const dataFaMoive = {
+      userId: userId,
+      movieFavourite: movId,
+    };
+    console.log("dataFsss", dataFaMoive);
     try {
-      const dataMovieFa =  await createMoviesFavourite(dataFaMoive);
-      console.log('dataFa',dataMovieFa);
-      
-
+      const dataMovieFa = await createMoviesFavourite(dataFaMoive);
+      console.log("dataFa", dataMovieFa);
     } catch (err) {
       console.error("Lỗi khi thêm vào yêu thích:", err);
     }
-
- 
-  
-  }
-  // hiển thị cửa sô popup 
-  
+  };
+  // hiển thị cửa sô popup
 
   return (
-    <div className="bg-black text-gray-100 overflow-x-hidden">
+    <div className="overflow-x-hidden bg-black text-gray-100">
       <main className="bg-black">
-      
         <section className="relative mb-12 bg-black">
           {/* show popup */}
           <PopupNotification />
@@ -271,7 +275,7 @@ const Home = () => {
 
           <div className="absolute top-0 h-screen w-full md:w-1/2">
             {/* Giới thiệu phim */}
-            <div className="absolute top-[100px] mt-8 ml-4 md:ml-20 h-48 w-full flex flex-col items-center md:items-start md:text-left text-center">
+            <div className="absolute top-[100px] ml-4 mt-8 flex h-48 w-full flex-col items-center text-center md:ml-20 md:items-start md:text-left">
               {carouselBanners.map((banner, index) => (
                 <div
                   key={banner.id}
@@ -281,39 +285,42 @@ const Home = () => {
                       : "translate-x-full opacity-0"
                   }`}
                 >
-                  <h2 className="text-sm sm:text-lg font-semibold">
+                  <h2 className="text-sm font-semibold sm:text-lg">
                     {banner.genres.join(" | ")}
                   </h2>
-                  <h5 className="mt-1 text-2xl sm:mt-2 sm:text-3xl md:text-5xl font-bold">
+                  <h5 className="mt-1 text-2xl font-bold sm:mt-2 sm:text-3xl md:text-5xl">
                     {banner.title}
                   </h5>
-                  <div className="mt-1 sm:mt-2 flex flex-col items-center sm:flex-row sm:flex-wrap sm:justify-center">
-                    <h2 className="text-sm sm:text-base mr-0 sm:mr-4">
+                  <div className="mt-1 flex flex-col items-center sm:mt-2 sm:flex-row sm:flex-wrap sm:justify-center">
+                    <h2 className="mr-0 text-sm sm:mr-4 sm:text-base">
                       {banner.releaseYear}
                     </h2>
                     <span className="hidden sm:inline">{" | "}</span>
-                    <h2 className="text-sm sm:text-base mt-1 sm:mt-0 ml-0 sm:ml-4 mr-0 sm:mr-4 flex">
+                    <h2 className="ml-0 mr-0 mt-1 flex text-sm sm:ml-4 sm:mr-4 sm:mt-0 sm:text-base">
                       DIRECTOR:{" "}
-                      <p className="ml-1 sm:ml-2 text-gray-300">{banner.author}</p>
+                      <p className="ml-1 text-gray-300 sm:ml-2">
+                        {banner.author}
+                      </p>
                     </h2>
                     <span className="hidden sm:inline">{" | "}</span>
-                    <h2 className="text-sm sm:text-base mt-1 sm:mt-0 ml-0 sm:ml-4 flex">
+                    <h2 className="ml-0 mt-1 flex text-sm sm:ml-4 sm:mt-0 sm:text-base">
                       SEASONS:{" "}
-                      <p className="ml-1 sm:ml-2 text-gray-300">
+                      <p className="ml-1 text-gray-300 sm:ml-2">
                         {banner.seasons} (26 Episodes)
                       </p>
                     </h2>
                   </div>
-                  <p className="mt-2 font-bold  text-gray-300">
+                  <p className="mt-2 font-bold text-gray-300">
                     {banner.description}
                   </p>
                   <div className="mt-4 flex flex-col items-center sm:flex-row">
-                    <Button className="flex items-center justify-center rounded bg-red-600 px-3 py-2 sm:px-4 font-semibold text-white transition-colors duration-300 hover:bg-red-500 md:px-6">
+                    <Button className="flex items-center justify-center rounded bg-red-600 px-3 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500 sm:px-4 md:px-6">
                       BOOK NOW <FaTicketAlt size={18} className="ml-2" />
                     </Button>
-                    <Button className="ml-0 mt-2 sm:mt-0 sm:ml-4 rounded border border-solid border-gray-300 px-3 py-2 sm:px-4 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 md:px-6">
-                      VIEW MORE  <FaRegHandPointRight size={18} className="ml-2" />
-                    </Button> 
+                    <Button className="ml-0 mt-2 rounded border border-solid border-gray-300 px-3 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 sm:ml-4 sm:mt-0 sm:px-4 md:px-6">
+                      VIEW MORE{" "}
+                      <FaRegHandPointRight size={18} className="ml-2" />
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -324,7 +331,7 @@ const Home = () => {
               <div className="flex items-center justify-between py-2">
                 <h2 className="text-md flex items-center font-bold">
                   <FaStar className="mr-1" />
-                 {t("PHỔ BIẾN TRONG TUẦN")}
+                  {t("PHỔ BIẾN TRONG TUẦN")}
                 </h2>
                 <div>
                   <button
@@ -373,10 +380,10 @@ const Home = () => {
 
         <section className="movie-section relative">
           <div className="containe mx-auto px-4">
-            <h3 className="section-title mb-6 text-4xl font-bold text-center">
+            <h3 className="section-title mb-6 text-center text-4xl font-bold">
               | {t("Xu hướng hiện nay")}
             </h3>
-            <div className="relative flex items-center justify-center px-8 w-full">
+            <div className="relative flex w-full items-center justify-center px-8">
               {/* Nút trái */}
               <button
                 className="absolute left-0 z-10 rounded-full bg-red-600 p-3 text-white"
@@ -390,45 +397,65 @@ const Home = () => {
                 <AiOutlineLeft size={24} />
               </button>
 
-              <div className="hide-scrollbar flex w-full overflow-x-auto" id="movie-list" style={{ padding: "0 10px" }}>
-                <div className="flex space-x-9">
-                  {currentTrendMovies?.data?.slice(0, 10).map(({ movie }) => (
+              <div className="hide-scrollbar flex w-full overflow-x-auto p-2">
+                <div
+                  className={`flex gap-6 ${
+                    currentTrendMovies?.data?.length < 3
+                      ? "w-full"
+                      : ""
+                  }`}
+                >
+                  {currentTrendMovies?.data?.map(({ movie }) => (
                     <div
-                      key={movie._id}
-                      className="movie-card relative flex-none overflow-hidden lg:w-[calc(19%-1rem)] md:w-[calc(40%-1rem)] w-[calc(50%-1rem)]"
+                      key={movie?._id}
+                      className="relative flex-none overflow-hidden rounded-lg bg-white shadow-lg"
                     >
                       <img
-                        src={movie.img}
-                        alt={movie.name}
-                        className="h-[300px] w-full rounded-t-lg object-cover"
+                        src={movie?.img}
+                        alt={movie?.name}
+                        className="h-72 rounded-t-lg object-cover"
                       />
-                      <div className="overlay">
-                        <div className="overlay-content">
-                          <h4 className="movie-name text-red-500 font-bold">
-                            {movie.name}
-                          </h4>
-                          <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
-                          <div className="button-container flex flex-col space-y-4">
-                            <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
+                      <div className="absolute  inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100">
+                        <div className="space-y-3 text-center text-white">
+                          <h4 className="text-lg font-bold">{movie?.name}</h4>
+                          <p className="text-sm">Đánh giá: {movie?.rating}</p>
+                          <div className="flex flex-col items-center space-y-3">
+                            <FaRegKissWinkHeart
+                              onClick={() => handleMovieFavourite(movie?._id)}
+                              size={24}
+                              className="cursor-pointer"
+                            />
                             <button
-                              onClick={() => handleTrailerClick(movie?.url_video)}
-                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                              onClick={() =>
+                                handleTrailerClick(movie?.url_video)
+                              }
+                              className="flex items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
                             >
                               {t("Trailer")}
-                              <FaPhotoVideo size={18} className="mt-1 ml-2" />
+                              <FaPhotoVideo size={18} />
                             </button>
                             <Link
-                              to={`/cinema/movie/${movie._id}`}
-                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                              to={`/cinema/movie/${movie?._id}`}
+                              className="flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-white transition hover:bg-red-700"
                             >
                               {t("Mua vé")}
-                              <FaTicketAlt size={18} className="mt-1 ml-2" />
+                              <FaTicketAlt size={18} />
                             </Link>
                           </div>
                         </div>
                       </div>
                     </div>
                   ))}
+                  {/* Placeholder for better alignment if movies < 3 */}
+                  {currentTrendMovies?.data?.length < 3 &&
+                    Array.from({
+                      length: 3 - currentTrendMovies?.data?.length,
+                    }).map((_, index) => (
+                      <div
+                        key={`placeholder-${index}`}
+                        className="w-[calc(20%-1rem)] flex-none sm:w-[calc(50%-1rem)] md:w-[calc(40%-1rem)]"
+                      ></div>
+                    ))}
                 </div>
               </div>
 
@@ -448,11 +475,10 @@ const Home = () => {
           </div>
         </section>
 
-
         <div className="section-divider-animation"></div>
 
         <section className="containe flex justify-center">
-          <div className="update-section w-[96%] ml-5">
+          <div className="update-section ml-5 w-[96%]">
             <h3 className="text-4xl font-bold">|{t("Phim mới cập nhật")} </h3>
             <div className="flex flex-col justify-center lg:flex-row">
               {/* Cột trái: 1 phim */}
@@ -466,30 +492,34 @@ const Home = () => {
                     <img
                       src={movie.img}
                       alt={movie.name}
-                      className="h-[560px] w-[450px]  object-cover"
+                      className="h-[560px] w-[450px] object-cover"
                     />
                     <div className="flex flex-1 items-center justify-center p-2">
-                      <strong className="block  text-center text-xl transition-colors duration-300 group-hover:text-red-500">
+                      <strong className="block text-center text-xl transition-colors duration-300 group-hover:text-red-500">
                         {movie.name}
                       </strong>
                     </div>
                     {/* Overlay buttons */}
                     <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                       <div className="button-container flex flex-col space-y-4">
-                        <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
+                        <FaRegKissWinkHeart
+                          onClick={() => handleMovieFavourite(movie._id)}
+                          size={18}
+                          className="ml-11 flex items-center justify-center font-bold"
+                        />
                         <button
                           onClick={() => handleTrailerClick(movie?.url_video)}
                           className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                         >
                           Trailer
-                          <FaPhotoVideo  size={18} className="ml-2" />
+                          <FaPhotoVideo size={18} className="ml-2" />
                         </button>
                         <Link
                           to={`/cinema/movie/${movie._id}`}
                           className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                         >
                           {t("Mua vé")}
-                          <FaTicketAlt size={18} className="mt-1 ml-2" />
+                          <FaTicketAlt size={18} className="ml-2 mt-1" />
                         </Link>
                       </div>
                     </div>
@@ -525,21 +555,25 @@ const Home = () => {
                       {/* Overlay buttons */}
                       <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="flex flex-col">
-                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
+                          <FaRegKissWinkHeart
+                            onClick={() => handleMovieFavourite(movie._id)}
+                            size={18}
+                            className="ml-11 flex items-center justify-center font-bold"
+                          />
                           <button
-                          onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                            onClick={() => handleTrailerClick(movie?.url_video)}
+                            className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                           >
                             Trailer
                             <FaPhotoVideo size={18} className="ml-2" />
                           </button>
                           <Link
-                              to={`/cinema/movie/${movie._id}`}
-                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                            >
-                              {t("Mua vé")}
-                              <FaTicketAlt size={18} className="mt-1 ml-2" />
-                            </Link>
+                            to={`/cinema/movie/${movie._id}`}
+                            className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                          >
+                            {t("Mua vé")}
+                            <FaTicketAlt size={18} className="ml-2 mt-1" />
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -550,17 +584,18 @@ const Home = () => {
           </div>
         </section>
 
-
         <div className="section-divider-animation"></div>
 
         <section className="containe mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
           <div className="flex w-full flex-col p-10 lg:w-8/12">
-            <h3 className="gy-h3 mb-6 text-4xl font-bold">| {t("Được đánh giá cao")}</h3>
+            <h3 className="gy-h3 mb-6 text-4xl font-bold">
+              | {t("Được đánh giá cao")}
+            </h3>
             <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4">
               {movies.slice(0, 8).map((movie) => (
                 <div
                   key={movie.id}
-                  className="relative overflow-hidden rounded-lg shadow-lg group"
+                  className="group relative overflow-hidden rounded-lg shadow-lg"
                 >
                   <img
                     src={movie.image}
@@ -573,30 +608,36 @@ const Home = () => {
                   </div>
                   {/* Overlay buttons */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="flex flex-col">
-                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
-                          <button
-                          onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                          >
-                            Trailer
-                            <FaPhotoVideo size={18} className="ml-2" />
-                          </button>
-                          <Link
-                            to={`/cinema/movie/${movie._id}`}
-                            className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                          >
-                            {t("Mua vé")}
-                            <FaTicketAlt size={18} className="mt-1 ml-2" />
-                          </Link>
-                        </div>
+                    <div className="flex flex-col">
+                      <FaRegKissWinkHeart
+                        onClick={() => handleMovieFavourite(movie._id)}
+                        size={18}
+                        className="ml-11 flex items-center justify-center font-bold"
+                      />
+                      <button
+                        onClick={() => handleTrailerClick(movie?.url_video)}
+                        className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                      >
+                        Trailer
+                        <FaPhotoVideo size={18} className="ml-2" />
+                      </button>
+                      <Link
+                        to={`/cinema/movie/${movie._id}`}
+                        className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                      >
+                        {t("Mua vé")}
+                        <FaTicketAlt size={18} className="ml-2 mt-1" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
           <div className="flex w-full flex-col p-10 lg:w-4/12">
-            <h3 className="tt-h3 mb-6 text-4xl font-bold">|{t("Top Trending")}</h3>
+            <h3 className="tt-h3 mb-6 text-4xl font-bold">
+              |{t("Top Trending")}
+            </h3>
             <div className="tt flex flex-grow flex-col gap-4 hover:cursor-pointer">
               {movies.slice(0, 6).map((movie, index) => (
                 <div
@@ -607,7 +648,7 @@ const Home = () => {
                     className={`mr-4 text-2xl font-bold number-color-${index + 1}`}
                   >
                     {index + 1}
-                  </span> 
+                  </span>
                   <img
                     src={movie.image}
                     alt={movie.name}
@@ -620,14 +661,21 @@ const Home = () => {
           </div>
         </section>
 
-
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="ml-20 text-4xl font-bold">| {t("Phim được truy cập nhiều")}</h3>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5" style={{ width: "90%", marginLeft: "5%" }}>
+          <h3 className="ml-20 text-4xl font-bold">
+            | {t("Phim được truy cập nhiều")}
+          </h3>
+          <div
+            className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+            style={{ width: "90%", marginLeft: "5%" }}
+          >
             {movies.map((movie) => (
-              <div key={movie.id} className="top-movie-card rounded-lg relative overflow-hidden">
+              <div
+                key={movie.id}
+                className="top-movie-card relative overflow-hidden rounded-lg"
+              >
                 <img
                   src={movie.image}
                   alt={movie.name}
@@ -635,82 +683,101 @@ const Home = () => {
                   style={{ height: "350px" }} // Đặt chiều cao cố định cho hình ảnh
                 />
                 <div className="overlay">
-                        <div className="overlay-content">
-                          <h4 className="movie-name text-red-500 font-bold">
-                            {movie.name}
-                          </h4>
-                          <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
-                          <div className="button-container flex flex-col space-y-4">
-                          <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
-                          <button
-                          onClick={() => handleTrailerClick(movie?.url_video)}
-                          className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                          >
-                            Trailer
-                            <FaPhotoVideo size={18} className="ml-2" />
-                          </button>
-                            <Link
-                              to={`/cinema/movie/${movie._id}`}
-                              className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
-                            >
-                              {t("Mua vé")}
-                              <FaTicketAlt size={18} className="mt-1 ml-2" />
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
+                  <div className="overlay-content">
+                    <h4 className="movie-name font-bold text-red-500">
+                      {movie.name}
+                    </h4>
+                    <p className="movie-rating">Đánh giá: {movie.rating}</p>
+                    <br></br>
+                    <div className="button-container flex flex-col space-y-4">
+                      <FaRegKissWinkHeart
+                        onClick={() => handleMovieFavourite(movie._id)}
+                        size={18}
+                        className="ml-11 flex items-center justify-center font-bold"
+                      />
+                      <button
+                        onClick={() => handleTrailerClick(movie?.url_video)}
+                        className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                      >
+                        Trailer
+                        <FaPhotoVideo size={18} className="ml-2" />
+                      </button>
+                      <Link
+                        to={`/cinema/movie/${movie._id}`}
+                        className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
+                      >
+                        {t("Mua vé")}
+                        <FaTicketAlt size={18} className="ml-2 mt-1" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-
         <section className="member-section">
           <div
-            className="flex flex-col items-center p-5 bg-cover bg-center"
-            style={{ backgroundImage: "url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75')" }}
+            className="flex flex-col items-center bg-cover bg-center p-5"
+            style={{
+              backgroundImage:
+                "url('https://cinestar.com.vn/_next/image/?url=%2Fassets%2Fimages%2Fbg-cfriends.webp&w=1920&q=75')",
+            }}
           >
-            <h1 className="text-5xl font-bold text-red-600 mb-2 uppercase shadow-lg">
+            <h1 className="mb-2 text-5xl font-bold uppercase text-red-600 shadow-lg">
               {t("Chương trình thành viên")}
             </h1>
-            <h2 className="text-lg font-bold text-white mb-10 shadow-lg">
+            <h2 className="mb-10 text-lg font-bold text-white shadow-lg">
               {t("Đăng ký thành viên để nhận nhiều ưu đãi hấp dẫn")}
             </h2>
             <div className="w-[90%]">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                <div className="flex flex-col items-center rounded-lg bg-white p-5 shadow-lg transition-transform duration-300 hover:scale-105">
                   <img
                     src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/Desktop519x282_CMember.webp"
                     alt="Thành viên mới"
-                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                    className="mb-3 h-48 w-full rounded-lg object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên mới")}</h2>
-                  <p className="text-gray-600 mb-4">{t("Thẻ có nhiều ưu đãi cho thành viên mới")}</p>
-                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                  <h2 className="mb-2 text-xl text-gray-800">
+                    {t("Thành viên mới")}
+                  </h2>
+                  <p className="mb-4 text-gray-600">
+                    {t("Thẻ có nhiều ưu đãi cho thành viên mới")}
+                  </p>
+                  <button className="rounded bg-gradient-to-r from-red-600 to-purple-600 px-4 py-2 text-white transition-transform duration-300 hover:scale-105">
                     {t("Tìm hiểu ngay")}
                   </button>
                 </div>
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
+                <div className="flex flex-col items-center rounded-lg bg-white p-5 shadow-lg transition-transform duration-300 hover:scale-105">
                   <img
                     src="https://api-website.cinestar.com.vn/media/wysiwyg/CMSPage/Member/c-vip.webp"
                     alt="Thành viên Vip"
-                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                    className="mb-3 h-48 w-full rounded-lg object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên Vip")}</h2>
-                  <p className="text-gray-600 mb-4">{t("Thẻ Vip sở hữu nhiều ưu đãi độc quyền")}</p>
-                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                  <h2 className="mb-2 text-xl text-gray-800">
+                    {t("Thành viên Vip")}
+                  </h2>
+                  <p className="mb-4 text-gray-600">
+                    {t("Thẻ Vip sở hữu nhiều ưu đãi độc quyền")}
+                  </p>
+                  <button className="rounded bg-gradient-to-r from-red-600 to-purple-600 px-4 py-2 text-white transition-transform duration-300 hover:scale-105">
                     {t("Tìm hiểu ngay")}
                   </button>
                 </div>
-                <div className="bg-white rounded-lg p-5 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-300">
+                <div className="flex flex-col items-center rounded-lg bg-white p-5 shadow-lg transition-transform duration-300 hover:scale-105">
                   <img
                     src="https://bizweb.dktcdn.net/thumb/1024x1024/100/411/892/products/the-thanh-vien-vip-danh-cho-khach-hang-tai-salon-cao-cap.jpg?v=1611827787823"
                     alt="Thành viên kì cựu"
-                    className="w-full h-48 rounded-lg mb-3 object-cover"
+                    className="mb-3 h-48 w-full rounded-lg object-cover"
                   />
-                  <h2 className="text-xl text-gray-800 mb-2">{t("Thành viên kì cựu")}</h2>
-                  <p className="text-gray-600 mb-4">{t("Độc quyền cho các thành viên lâu năm!")}</p>
-                  <button className="bg-gradient-to-r from-red-600 to-purple-600 text-white py-2 px-4 rounded transition-transform duration-300 hover:scale-105">
+                  <h2 className="mb-2 text-xl text-gray-800">
+                    {t("Thành viên kì cựu")}
+                  </h2>
+                  <p className="mb-4 text-gray-600">
+                    {t("Độc quyền cho các thành viên lâu năm!")}
+                  </p>
+                  <button className="rounded bg-gradient-to-r from-red-600 to-purple-600 px-4 py-2 text-white transition-transform duration-300 hover:scale-105">
                     {t("Tìm hiểu ngay")}
                   </button>
                 </div>
@@ -718,7 +785,6 @@ const Home = () => {
             </div>
           </div>
         </section>
-
       </main>
     </div>
   );
