@@ -13,7 +13,8 @@ import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
 import ActorModal from "../../components/Admin/Actor/ActorModal";
-
+import { formatDate } from "../../utils/formatDate";
+import actor_defaut from "../../assets/img/404/actor-default.png"
 const Actor_Management = () => {
   const {
     data: actors,
@@ -207,22 +208,30 @@ const Actor_Management = () => {
                   className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                 />
               </th>
+              <th className="px-4 py-3 text-left text-white">Ảnh</th>
               <th className="px-4 py-3 text-left text-white">Diễn viên</th>
+              <th className="px-4 py-3 text-left text-white">Chiều cao</th>
+              <th className="px-4 py-3 text-left text-white">Ngày sinh</th>
+              <th className="px-4 py-3 text-left text-white">Quốc tịch</th>
               <th className="px-4 py-3 text-center text-white">Hành động</th>
             </tr>
           </thead>
           <tbody className="bg-black text-gray-400">
             {paginatedActors?.map((actor) => (
-              <tr key={actor._id}>
+              <tr key={actor?._id}>
                 <td className="px-4 py-2">
                   <input
                     type="checkbox"
-                    checked={selectedActors.includes(actor._id)}
-                    onChange={() => handleActorSelect(actor._id)}
+                    checked={selectedActors.includes(actor?._id)}
+                    onChange={() => handleActorSelect(actor?._id)}
                     className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                   />
                 </td>
-                <td className="px-4 py-2">{actor.name}</td>
+                <td className="px-4 py-2"><img className="w-28 h-36" src={actor?.feature_img || actor_defaut} alt="" /></td>
+                <td className="px-4 py-2">{actor?.name}</td>
+                <td className="px-4 py-2">{actor?.height != null ? actor?.height + " cm" : "Đang cập nhật"}</td>
+                <td className="px-4 py-2">{actor?.date_of_birth != null ? formatDate(actor?.date_of_birth) : "Đang cập nhật"}</td>
+                <td className="px-4 py-2">{actor?.nationality}</td>
                 <td className="px-4 py-2 text-center">
                   <Button
                     className="mr-1 rounded-sm bg-[#1fff01] p-2 text-white"
