@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   FaClock,
@@ -11,7 +11,7 @@ import {
   useAddOrUpdateRatingMutation,
   useGetRatingsByMovieQuery,
 } from "../../services/Rating/rating.serviecs";
-import { useGetMovieByIdQuery } from "../../services/Movies/movies.services";
+import { useGetMovieByIdQuery, useIncreaseMovieViewsMutation } from "../../services/Movies/movies.services";
 import { formatDate } from "../../utils/formatDate";
 import notfound_img from "../../assets/img/404/not_found_img.jpg";
 import VideoPlayer from "../../components/Movie/VideoPlayer";
@@ -35,6 +35,16 @@ const MovieDetailPage = () => {
     isLoading: movieDataLoading,
     refetch: movieRefetch,
   } = useGetMovieByIdQuery(id);
+  
+  const [increaseViews] = useIncreaseMovieViewsMutation();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      increaseViews(id);
+    }, 30000); // Gọi API sau 30 giây
+
+    return () => clearTimeout(timer); // Xóa timer nếu người dùng rời khỏi trang
+  }, [id, increaseViews]);
 
   const {
     data: ratingData,
@@ -42,16 +52,23 @@ const MovieDetailPage = () => {
     refetch: ratingRefetch,
   } = useGetRatingsByMovieQuery(movieData?.data._id || skipToken);
   const user = JSON.parse(localStorage.getItem("user"));
+
   const handleStarClick = async (rating) => {
-    setSelectedRating(rating);
-    setIsRatingMode(false);
-    await addRating({
-      movieId: movieData?.data._id,
-      userId: user?._id,
-      rating,
-    });
-    movieRefetch();
-    ratingRefetch();
+    if(user){
+      setSelectedRating(rating);
+      setIsRatingMode(false);
+      await addRating({
+        movieId: movieData?.data._id,
+        userId: user?._id,
+        rating,
+      });
+      movieRefetch();
+      ratingRefetch();
+    }else{
+      alert("Vui lòng đăng nhập để đánh giá")
+      setIsRatingMode(false);
+    }
+   
   };
 
   const [activeTab, setActiveTab] = useState("content");
