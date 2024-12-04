@@ -14,6 +14,9 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import {
   useGetLatestMoviesByCreationDateQuery,
   useGetMoviesByReleaseAndShowtimesQuery,
+  useGetTopRatedMoviesWithShowtimesQuery,
+  useGetMoviesWithHighestBookingsQuery,
+  useGetMostViewedMoviesWithShowtimesQuery
 } from "../../services/Movies/movies.services";
 import Banner from "../../components/Home/Banner";
 import Modal_Video from "../../components/Movie/Modal_Video";
@@ -28,10 +31,14 @@ const Home = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
-  const { data: latestMovies, isLoading: latestMoviesLoading } =
-    useGetLatestMoviesByCreationDateQuery();
-  const { data: currentTrendMovies, isLoading: currentMoviesLoading } =
-    useGetMoviesByReleaseAndShowtimesQuery();
+  const { data: latestMovies, isLoading: latestMoviesLoading } =useGetLatestMoviesByCreationDateQuery();
+  const { data: currentTrendMovies, isLoading: currentMoviesLoading } =useGetMoviesByReleaseAndShowtimesQuery();
+  const { data: topRateMovies, isLoading: topRateMoviesLoading } =useGetTopRatedMoviesWithShowtimesQuery();
+  const { data: toptrendingMovies, isLoading: toptrendingMoviesLoading } =useGetMoviesWithHighestBookingsQuery();
+  const { data: areConcernedMovies, isLoading: areConcernedMoviesLoading } =useGetMostViewedMoviesWithShowtimesQuery();
+
+
+
 
   const [createMoviesFavourite] = useCreateMoviesFavouriteMutation();
   const handleTrailerClick = (url) => {
@@ -429,14 +436,14 @@ const Home = () => {
                               onClick={() =>
                                 handleTrailerClick(movie?.url_video)
                               }
-                              className="flex items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
+                              className="overlay-btn-xh gap-2 w-38 flex items-center justify-center text-center text-white"
                             >
                               {t("Trailer")}
                               <FaPhotoVideo size={18} />
                             </button>
                             <Link
                               to={`/cinema/movie/${movie?._id}`}
-                              className="flex items-center justify-center gap-2 rounded-md bg-red-600 px-4 py-2 text-white transition hover:bg-red-700"
+                              className="overlay-btn-xh gap-2 w-38 flex items-center justify-center text-center text-white"
                             >
                               {t("Mua vé")}
                               <FaTicketAlt size={18} />
@@ -478,11 +485,11 @@ const Home = () => {
         <div className="section-divider-animation"></div>
 
         <section className="containe flex justify-center">
-          <div className="update-section ml-5 w-[96%]">
+          <div className="update-section ml-3 w-[96%]">
             <h3 className="text-4xl font-bold">|{t("Phim mới cập nhật")} </h3>
             <div className="flex flex-col justify-center lg:flex-row">
               {/* Cột trái: 1 phim */}
-              <div className="mb-6 flex w-full flex-col items-center justify-center p-4 hover:cursor-pointer lg:mb-0 lg:w-2/5">
+              <div className=" flex w-full flex-col items-center justify-center hover:cursor-pointer lg:mb-0 lg:w-2/5">
                 {latestMovies?.data?.slice(0, 1).map((movie) => (
                   <div
                     key={movie._id}
@@ -592,13 +599,13 @@ const Home = () => {
               | {t("Được đánh giá cao")}
             </h3>
             <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4">
-              {movies.slice(0, 8).map((movie) => (
+              {topRateMovies?.data?.slice(0, 8).map((movie) => (
                 <div
-                  key={movie.id}
+                  key={movie._id}
                   className="group relative overflow-hidden rounded-lg shadow-lg"
                 >
                   <img
-                    src={movie.image}
+                    src={movie.img}
                     alt={movie.name}
                     className="w-full object-cover"
                     style={{ height: "250px" }}
@@ -639,9 +646,10 @@ const Home = () => {
               |{t("Top Trending")}
             </h3>
             <div className="tt flex flex-grow flex-col gap-4 hover:cursor-pointer">
-              {movies.slice(0, 6).map((movie, index) => (
-                <div
-                  key={movie.id}
+              {toptrendingMovies?.data?.slice(0, 6).map((movie, index) => (
+                <Link
+                to={`/cinema/movie/${movie?._id}`}
+                  key={movie._id}
                   className="justify-right flex items-center rounded-lg p-2 shadow-lg"
                 >
                   <span
@@ -650,12 +658,12 @@ const Home = () => {
                     {index + 1}
                   </span>
                   <img
-                    src={movie.image}
+                    src={movie.img}
                     alt={movie.name}
                     className="mr-4 h-16 w-16 rounded object-cover"
                   />
                   <strong>{movie.name}</strong>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -671,13 +679,13 @@ const Home = () => {
             className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
             style={{ width: "90%", marginLeft: "5%" }}
           >
-            {movies.map((movie) => (
+            {areConcernedMovies?.data?.map((movie) => (
               <div
-                key={movie.id}
+                key={movie._id}
                 className="top-movie-card relative overflow-hidden rounded-lg"
               >
                 <img
-                  src={movie.image}
+                  src={movie.img}
                   alt={movie.name}
                   className="rounded-t-lg object-cover"
                   style={{ height: "350px" }} // Đặt chiều cao cố định cho hình ảnh
