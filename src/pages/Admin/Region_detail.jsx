@@ -26,7 +26,7 @@ const RegionDetails = () => {
           <tbody className="bg-black text-gray-400">
           {cinemas?.data?.map((cinema) => (
               <tr key={cinema?._id}>
-                <td className="px-4 py-2"><img src={cinema?.image} alt="" /></td>
+                <td className="px-4 py-2"><img className='w-[550px]' src={cinema?.image} alt="" /></td>
                 <td className="px-4 py-2">{cinema?.name}</td>
                 <td className="px-4 py-2 text-center">
                     {cinema?.address}
