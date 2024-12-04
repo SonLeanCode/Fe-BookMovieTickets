@@ -5,7 +5,7 @@ import "./Home.css";
 import PopupNotification from "./Popup";
 import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { useGetLatestMoviesByCreationDateQuery } from "../../services/Movies/movies.services";
+import { useGetLatestMoviesByCreationDateQuery, useGetMoviesByReleaseAndShowtimesQuery } from "../../services/Movies/movies.services";
 import Banner from "../../components/Home/Banner";
 import Modal_Video from "../../components/Movie/Modal_Video";
 import LoadingLocal from "../Loading/LoadingLocal";
@@ -20,6 +20,8 @@ const Home = () => {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
   const { data: latestMovies, isLoading: latestMoviesLoading } = useGetLatestMoviesByCreationDateQuery();
+  const { data: currentTrendMovies, isLoading: currentMoviesLoading } = useGetMoviesByReleaseAndShowtimesQuery();
+
   const [createMoviesFavourite]  = useCreateMoviesFavouriteMutation()
   const handleTrailerClick = (url) => {
     setVideoUrl(url);
@@ -390,13 +392,13 @@ const Home = () => {
 
               <div className="hide-scrollbar flex w-full overflow-x-auto" id="movie-list" style={{ padding: "0 10px" }}>
                 <div className="flex space-x-9">
-                  {movies.slice(0, 10).map((movie) => (
+                  {currentTrendMovies?.data?.slice(0, 10).map(({ movie }) => (
                     <div
-                      key={movie.id}
+                      key={movie._id}
                       className="movie-card relative flex-none overflow-hidden lg:w-[calc(19%-1rem)] md:w-[calc(40%-1rem)] w-[calc(50%-1rem)]"
                     >
                       <img
-                        src={movie.image}
+                        src={movie.img}
                         alt={movie.name}
                         className="h-[300px] w-full rounded-t-lg object-cover"
                       />
@@ -408,13 +410,13 @@ const Home = () => {
                           <p className="movie-rating">Đánh giá: {movie.rating}</p><br></br>
                           <div className="button-container flex flex-col space-y-4">
                             <FaRegKissWinkHeart onClick={()=>handleMovieFavourite(movie._id)} size={18} className="ml-11 font-bold flex items-center justify-center" />
-                            <Link
-                              to={``}
+                            <button
+                              onClick={() => handleTrailerClick(movie?.url_video)}
                               className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
                             >
                               {t("Trailer")}
                               <FaPhotoVideo size={18} className="mt-1 ml-2" />
-                            </Link>
+                            </button>
                             <Link
                               to={`/cinema/movie/${movie._id}`}
                               className="overlay-btn-xh w-38 flex items-center justify-center text-center text-white"
@@ -553,7 +555,7 @@ const Home = () => {
 
         <section className="containe mx-auto my-10 flex w-full flex-col justify-between lg:flex-row">
           <div className="flex w-full flex-col p-10 lg:w-8/12">
-            <h3 className="gy-h3 mb-6 text-4xl font-bold">| {t("Phim Gợi Ý")}</h3>
+            <h3 className="gy-h3 mb-6 text-4xl font-bold">| {t("Được đánh giá cao")}</h3>
             <div className="grid grid-cols-2 gap-5 hover:cursor-pointer md:grid-cols-4">
               {movies.slice(0, 8).map((movie) => (
                 <div
@@ -622,7 +624,7 @@ const Home = () => {
         <div className="section-divider-animation"></div>
 
         <section className="top-movie-section my-6">
-          <h3 className="ml-20 text-4xl font-bold">| {t("Phim mới cập nhật")}</h3>
+          <h3 className="ml-20 text-4xl font-bold">| {t("Phim được truy cập nhiều")}</h3>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5" style={{ width: "90%", marginLeft: "5%" }}>
             {movies.map((movie) => (
               <div key={movie.id} className="top-movie-card rounded-lg relative overflow-hidden">
