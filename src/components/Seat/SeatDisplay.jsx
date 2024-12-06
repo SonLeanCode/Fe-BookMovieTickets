@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaEdit, FaTrash, FaDollarSign } from "react-icons/fa";
 import { useUpdateSeatStatusMutation } from "../../services/Seat/seat.serviecs";
 import Toastify from "../../helper/Toastify";
+import SEATTYPE from "../../constants/seatTypeConstants";
 
 const SeatDisplay = ({ seatsData, refetchSeats, handleDeleteSeat }) => {
   const [showSubMenu, setShowSubMenu] = useState(false);
@@ -37,11 +38,10 @@ const SeatDisplay = ({ seatsData, refetchSeats, handleDeleteSeat }) => {
     } else if (seat.status === "unavailable") {
       return `${baseClass} border-4 border-white relative  ${selectedClass}`;
     }
-
     switch (seat.seat_type) {
-      case "VIP":
+      case SEATTYPE.VIP:
         return `${baseClass} bg-yellow-300  ${selectedClass}`;
-      case "Sweetbox":
+      case SEATTYPE.SWEETBOX:
         return `${baseClass} bg-red-500 w-20  ${selectedClass}`;
       default:
         return `${baseClass} bg-indigo-600  ${selectedClass}`;
@@ -54,19 +54,30 @@ const SeatDisplay = ({ seatsData, refetchSeats, handleDeleteSeat }) => {
   ).sort((a, b) => a - b);
 
   const sweetboxSeats = seatsData?.filter(
-    (seat) => seat.seat_type === "Sweetbox",
+    (seat) => seat.seat_type === SEATTYPE.SWEETBOX,
   );
-  const otherSeats = seatsData?.filter((seat) => seat.seat_type !== "Sweetbox");
+
+  const otherSeats = seatsData?.filter(
+    (seat) => seat.seat_type !== SEATTYPE.SWEETBOX,
+  );
 
   const handleSeatClick = (seat) => {
     setSelectedSeat(selectedSeat?._id === seat?._id ? null : seat);
   };
 
+  const groupedRows = sweetboxSeats.reduce((acc, seat) => {
+    acc[seat.row] = acc[seat.row] || [];
+    acc[seat.row].push(seat);
+    return acc;
+  }, {});
+
+  const topOffset = Object.keys(groupedRows).length * -3;
+
   return (
     <div className="mt-4 flex flex-col items-center rounded-lg bg-black p-4">
       <div className="mx-auto h-2 w-[50%] bg-orange-500"></div>
       <div className="font-bold">Màn hình</div>
-      <div className="mt-10 flex flex-col items-center">
+      <div className="mt-20 flex flex-col items-center">
         <div className="flex flex-row">
           {seatNumbers?.map((seatNum) => (
             <div key={seatNum} className="flex flex-col">
@@ -154,72 +165,98 @@ const SeatDisplay = ({ seatsData, refetchSeats, handleDeleteSeat }) => {
             </div>
           ))}
         </div>
+     
         {sweetboxSeats?.length > 0 && (
-          <div className="relative -top-12 mb-2 flex justify-center">
-            {sweetboxSeats.map((seat) => (
-              <div key={`${seat.row}${seat.seat_number}`} className="relative">
-                <button
-                  className={`mx-1 my-1 rounded-lg font-bold text-white ${getSeatClass(seat)} ${seat.status === "booked" ? "cursor-not-allowed bg-gray-600" : seat.status === "unavailable" ? "button-unavailable-sweetbox" : ""} h-10`}
-                  
-                  onClick={() => handleSeatClick(seat)}
-                >
-                  {`${seat.row}${seat.seat_number}`}
-                </button>
-                {selectedSeat?._id === seat?._id && (
-                  <div className="absolute -top-32 left-10 z-50 mt-2 w-48 rounded border border-gray-500 bg-black shadow-lg">
-                    <div className="text-white">
-                      <button
-                        className="flex w-full items-center border-b-[1px] border-gray-700 px-2 py-2 text-left hover:bg-gray-800"
-                        onClick={toggleSubMenu}
-                      >
-                        <span>Cập nhật trạng thái</span>
-                        <FaEdit className="ml-auto text-white" />
-                      </button>
-                      {showSubMenu && (
-                        <div className="absolute -top-[92px] left-full mt-2 rounded border border-gray-500 bg-black shadow-lg">
+          <div className={`relative top-[${topOffset}rem] mb-2 flex flex-col justify-center`}>
+            {Object.entries(
+              sweetboxSeats.reduce((acc, seat) => {
+                // Nhóm ghế theo row
+                acc[seat.row] = acc[seat.row] || [];
+                acc[seat.row].push(seat);
+                return acc;
+              }, {}),
+            ).map(([row, seats]) => (
+              <div key={row} className="flex justify-center">
+                {seats.map((seat) => (
+                  <div
+                    key={`${seat.row}${seat.seat_number}`}
+                    className="relative"
+                  >
+                    <button
+                      className={`mx-1 my-1 rounded-lg font-bold text-white ${getSeatClass(seat)} ${
+                        seat.status === "booked"
+                          ? "cursor-not-allowed bg-gray-600"
+                          : seat.status === "unavailable"
+                            ? "button-unavailable-sweetbox"
+                            : ""
+                      } h-10`}
+                      onClick={() => handleSeatClick(seat)}
+                    >
+                      {`${seat.row}${seat.seat_number}`}
+                    </button>
+                    {selectedSeat?._id === seat?._id && (
+                      <div className="absolute left-10 z-50 mt-2 w-48 rounded border border-gray-500 bg-black shadow-lg">
+                        <div className="text-white">
                           <button
-                            onClick={() =>
-                              handleUpdateSeatStatus(selectedSeat._id, "booked")
-                            }
-                            className="flex w-full items-center border-b-[1px] border-gray-700 px-2 py-2 text-left hover:bg-gray-700"
+                            className="flex w-full items-center border-b-[1px] border-gray-700 px-2 py-2 text-left hover:bg-gray-800"
+                            onClick={toggleSubMenu}
                           >
-                            Booked
+                            <span>Cập nhật trạng thái</span>
+                            <FaEdit className="ml-auto text-white" />
+                          </button>
+                          {showSubMenu && (
+                            <div className="absolute -top-[92px] left-full mt-2 rounded border border-gray-500 bg-black shadow-lg">
+                              <button
+                                onClick={() =>
+                                  handleUpdateSeatStatus(
+                                    selectedSeat._id,
+                                    "booked",
+                                  )
+                                }
+                                className="flex w-full items-center border-b-[1px] border-gray-700 px-2 py-2 text-left hover:bg-gray-700"
+                              >
+                                Booked
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleUpdateSeatStatus(
+                                    selectedSeat._id,
+                                    "available",
+                                  )
+                                }
+                                className="flex w-full items-center border-b-[1px] border-gray-700 px-2 py-2 text-left hover:bg-gray-700"
+                              >
+                                Available
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleUpdateSeatStatus(
+                                    selectedSeat._id,
+                                    "unavailable",
+                                  )
+                                }
+                                className="flex w-full items-center px-2 py-2 text-left hover:bg-gray-700"
+                              >
+                                Unavailable
+                              </button>
+                            </div>
+                          )}
+                          <button className="flex w-full items-center border-b-[1px] border-gray-700 px-2 py-2 text-left hover:bg-gray-800">
+                            <span>Cập nhật giá ghế</span>
+                            <FaDollarSign className="ml-auto text-white" />
                           </button>
                           <button
-                            onClick={() =>
-                              handleUpdateSeatStatus(
-                                selectedSeat._id,
-                                "available",
-                              )
-                            }
-                            className="flex w-full items-center border-b-[1px] border-gray-700 px-2 py-2 text-left hover:bg-gray-700"
+                            onClick={() => handleDeleteSeat(selectedSeat._id)}
+                            className="flex w-full items-center border-gray-700 px-2 py-2 text-left hover:bg-gray-800"
                           >
-                            Available
-                          </button>
-                          <button
-                            onClick={() =>
-                              handleUpdateSeatStatus(
-                                selectedSeat._id,
-                                "unavailable",
-                              )
-                            }
-                            className="flex w-full items-center px-2 py-2 text-left hover:bg-gray-700"
-                          >
-                            Unavailable
+                            <span>Xoá</span>
+                            <FaTrash className="ml-auto text-white" />
                           </button>
                         </div>
-                      )}
-                      <button className="flex w-full items-center border-b-[1px] border-gray-700 px-2 py-2 text-left hover:bg-gray-800">
-                        <span>Cập nhật giá ghế</span>
-                        <FaDollarSign className="ml-auto text-white" />
-                      </button>
-                      <button className="flex w-full items-center border-gray-700 px-2 py-2 text-left hover:bg-gray-800">
-                        <span>Xoá</span>
-                        <FaTrash className="ml-auto text-white" />
-                      </button>
-                    </div>
+                      </div>
+                    )}
                   </div>
-                )}
+                ))}
               </div>
             ))}
           </div>
@@ -259,9 +296,8 @@ SeatDisplay.propTypes = {
   seatsData: PropTypes.arrayOf(
     PropTypes.shape({
       row: PropTypes.string.isRequired,
-      seat_number: PropTypes.string.isRequired,
-      seat_type: PropTypes.oneOf(["Single", "Sweetbox", "VIP", "Double"])
-        .isRequired,
+      seat_number: PropTypes.number.isRequired,
+      seat_type: PropTypes.number.isRequired,
       status: PropTypes.oneOf(["available", "booked", "unavailable"])
         .isRequired,
     }),

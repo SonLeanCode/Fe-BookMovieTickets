@@ -36,6 +36,8 @@ const RoomLayout = () => {
     { row: "", seat_number: "", seat_type: SEATTYPE.STANDARD },
   ]);
 
+  console.log(newSeat)
+
   const handleAddSingleSeat = async (e) => {
     e.preventDefault();
     try {
@@ -48,6 +50,11 @@ const RoomLayout = () => {
         seat_type, // Đổi key từ seatType thành seat_type
       });
       Toastify("Thêm ghế thành công", 200);
+      setNewSeat({
+        row: "",
+        seat_number: "",
+        seat_type: SEATTYPE.STANDARD, // Mặc định là ghế tiêu chuẩn
+      })
       refetchSeats();
       setIsOpenSeatAdd(false); // Đóng modal thêm ghế
     } catch (error) {
@@ -86,7 +93,7 @@ const RoomLayout = () => {
         roomId,
         seats: seatsToAdd,
       });
-  
+      setNewSeats([ { row: "", seat_number: "", seat_type: SEATTYPE.STANDARD }])
       Toastify("Thêm nhiều ghế thành công", 200);
       refetchSeats();
       setIsModalVisible(false); // Đóng modal thêm ghế
@@ -107,12 +114,13 @@ const RoomLayout = () => {
   };
 
   const handleDeleteSeat = async (seatId) => {
+    console.log(seatId, roomId)
     const isConfirmed = window.confirm(
       "Bạn có chắc chắn muốn xóa ghế này không?",
     );
     if (!isConfirmed) return;
     try {
-      await deleteSeat(roomId, seatId);
+      await deleteSeat({roomId, seatId});
       Toastify("Xóa ghế thành công", 200);
       refetchSeats();
     } catch (error) {
@@ -225,9 +233,9 @@ const RoomLayout = () => {
                 required
               />
 
-              <label htmlFor="seatType">Loại Ghế:</label>
+              <label htmlFor="seat_type">Loại Ghế:</label>
               <select
-                name="seatType"
+                name="seat_type"
                 value={newSeat.seat_type}
                 onChange={handleChange}
                 className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
@@ -275,10 +283,10 @@ const RoomLayout = () => {
               />
 
               <label htmlFor="seat_number">
-                Số Ghế (Cách nhau bằng dấu phẩy):
+                Số Ghế:
               </label>
               <input
-                type="text"
+                type="number"
                 name="seat_number"
                 value={newSeats[0]?.seat_number || ""}
                 onChange={(e) => handleMultipleSeatsChange(e, "seat_number")}
@@ -287,11 +295,11 @@ const RoomLayout = () => {
                 required
               />
 
-              <label htmlFor="seatType">Loại Ghế:</label>
+              <label htmlFor="seat_type">Loại Ghế:</label>
               <select
-                name="seatType"
-                value={newSeats[0]?.seatType || ""}
-                onChange={(e) => handleMultipleSeatsChange(e, "seatType")}
+                name="seat_type"
+                value={newSeats[0]?.seat_type || ""}
+                onChange={(e) => handleMultipleSeatsChange(e, "seat_type")}
                 className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
                 required
               >
