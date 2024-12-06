@@ -31,8 +31,6 @@ const Seat_Management = () => {
   } = useGetSeatsByRoomQuery(roomId);
   const [addSeat] = useAddSeatMutation();
   const [addSeatsInRow] = useAddSeatsInRowMutation();
-  // const [updateSeatPrices] = useUpdateSeatPricesMutation();
-  console.log(seats)
   const [isLoading, setIsLoading] = useState(false);
   const [seatsPerPage, setSeatsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);

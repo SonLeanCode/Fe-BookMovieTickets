@@ -11,6 +11,7 @@ import {
   useAddRoomLayoutMutation,
   useGetAllRoomLayoutsQuery,
 } from "../../services/Room/roomlayout.service";
+import { useCreateSeatsForRoomMutation } from "../../services/Seat/seat.serviecs";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import Pagination from "../../components/Admin/Pagination";
@@ -48,6 +49,8 @@ const Room_Managerment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [roomType, setRoomType] = useState("");
   const [nameLayout, setNameLauout] = useState("");
+  const [addSeatForRoom] = useCreateSeatsForRoomMutation()
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -72,10 +75,10 @@ const Room_Managerment = () => {
 
     // Gửi dữ liệu đến API
     const res = await addRoomLayout(newRoomLayout);
-    console.log(res)
-    const mess = res?.error?.data.message || res?.data?.message
-    const sta = res?.error?.status || res?.data?.status
-    Toastify(mess ,sta)
+    console.log(res);
+    const mess = res?.error?.data.message || res?.data?.message;
+    const sta = res?.error?.status || res?.data?.status;
+    Toastify(mess, sta);
     roomlayoutRefetch();
     setIsModalOpen(false);
   };
@@ -88,21 +91,20 @@ const Room_Managerment = () => {
 
   const handleSubmit = async (formData) => {
     try {
-      setLoading(true);
       if (formData.id) {
         await updateRoom({ id: formData.id, updatedData: formData }).unwrap();
-        Toastify("Thể loại đã được cập nhật:", 200);
+        Toastify("Phòng đã được cập nhật:", 200);
       } else {
-        await addRoom(formData).unwrap();
-        Toastify("Thể loại mới đã được thêm:", 200);
+        const res = await addRoom(formData).unwrap();
+        addSeatForRoom(res?.data?._id).unwrap();
+        console.log("true")
+        Toastify("Phòng mới đã được thêm:", 200);
       }
       refetch();
       handleCloseModal();
     } catch (error) {
       console.error("Có lỗi khi thực hiện thao tác:", error);
       Toastify("Có lỗi xảy ra! Vui lòng thử lại.", 400);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -237,7 +239,7 @@ const Room_Managerment = () => {
                 <ul>
                   <li
                     onClick={openModal}
-                    className="cursor-pointer hidden px-4 py-2 hover:bg-gray-300 hover:font-semibold hover:text-blue-600"
+                    className="hidden cursor-pointer px-4 py-2 hover:bg-gray-300 hover:font-semibold hover:text-blue-600"
                   >
                     Tạo mới
                   </li>
@@ -307,7 +309,13 @@ const Room_Managerment = () => {
                   />
                 </td>
                 <td className="px-4 py-2">{room?.name}</td>
-                <td className="px-4 py-2">{room?.room_type}</td>
+                <td className="px-4 py-2">
+                  {room?.room_type == ROOMTYPE.IMAX
+                    ? "IMAX"
+                    : room?.room_type == ROOMTYPE.VIP
+                      ? "VIP"
+                      : "STANDARD"}
+                </td>
                 <td className="px-4 py-2">{room?.cinema_id?.name}</td>
                 <td className="px-4 py-2 text-center">
                   <button
@@ -369,7 +377,7 @@ const Room_Managerment = () => {
                   id="name"
                   value={nameLayout}
                   onChange={(e) => setNameLauout(e.target.value)}
-                  className="mt-2 w-full text-black rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-600"
                   required
                 />
               </div>
@@ -384,7 +392,7 @@ const Room_Managerment = () => {
                   id="roomType"
                   value={roomType}
                   onChange={(e) => setRoomType(e.target.value)}
-                  className="mt-2 w-full rounded-md border text-black border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-600"
                   required
                 >
                   <option value="">Chọn loại phòng</option>
@@ -460,13 +468,9 @@ const Room_Managerment = () => {
                 className="mb-4 mt-2 w-full rounded-md bg-[#2d2d2d] text-white"
                 required
               >
-                <option value="Standard">Standard</option>
-                <option value="3D">3D</option>
-                <option value="4DX">4DX</option>
-                <option value="IMAX">IMAX</option>
-                <option value="VIP">VIP</option>
-                <option value="Dolby Cinema">Dolby Cinema</option>
-                <option value="LED">LED</option>
+                <option value={ROOMTYPE.STANDARD}>Standard</option>
+                <option value={ROOMTYPE.VIP}>VIP</option>
+                <option value={ROOMTYPE.IMAX}>IMAX</option>
               </select>
 
               <div className="flex justify-between">

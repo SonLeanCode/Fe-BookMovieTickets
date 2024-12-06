@@ -56,6 +56,13 @@ export const seatApi = createApi({
       }),
     }),
 
+    createSeatsForRoom: builder.mutation({
+      query: (roomId) => ({
+        url: `/api/create-seats/${roomId}`,
+        method: 'POST',
+      }),
+    }),
+
     // Cập nhật giá ghế theo loại ghế hoặc loại ngày
     updateSeatPrices: builder.mutation({
       query: ({ roomId, seat_type, day_type, new_price }) => ({
@@ -113,4 +120,5 @@ export const {
   useUpdateSeatStatusMutation,
   useDeleteSeatMutation,
   useDeleteSeatsByRowMutation,
+  useCreateSeatsForRoomMutation
 } = seatApi;
