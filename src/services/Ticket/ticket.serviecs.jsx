@@ -31,29 +31,16 @@ export const ticketApi = createApi({
     getTickets: builder.query({
       query: () => `/api/tickets`,
     }),
-    // Endpoint để lấy một ticket cụ thể theo ID
-    getTicketById: builder.query({
-      query: (id) => `/api/tickets/${id}`,
-    }),
     // Endpoint để lấy tất cả tickets với `user_id`
     getTicketsByUserId: builder.query({
       query: (id) => `/api/tickets/user/${id}`,
-    }),
-    // Endpoint để xóa một ticket theo ID
-    deleteTicket: builder.mutation({
-      query: (id) => ({
-        url: `/api/tickets/${id}`,
-        method: "DELETE",
-      }),
     }),
   }),
 });
 
 // Xuất các hooks auto-generated để sử dụng trong các component
 export const {
-  useCreateTicketMutation,
-  useGetTicketsQuery,
-  useGetTicketByIdQuery,
-  useGetTicketsByUserIdQuery,
-  useDeleteTicketMutation,
+  useCreateTicketMutation, //
+  useGetTicketsQuery, // 
+  useGetTicketsByUserIdQuery,//
 } = ticketApi;

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import SEATTYPE from "../../constants/seatTypeConstants";
 
 const SeatSelection = ({
   showtime,
@@ -25,7 +26,6 @@ const SeatSelection = ({
     onSeatSelect(updatedSeats);
   };
 
-
   const getSeatClass = (seat, showtime) => {
     const baseClass = `w-10 h-10 rounded-lg font-bold text-white`;
 
@@ -39,8 +39,7 @@ const SeatSelection = ({
     // Kiểm tra nếu `showtime` và `seat_statuses` tồn tại
     const isBooked = showtime?.seat_statuses?.some(
       (statusSeat) =>
-        statusSeat.seat_id === seat._id &&
-        statusSeat.status === "booked",
+        statusSeat.seat_id === seat._id && statusSeat.status === "booked",
     );
     if (isBooked) {
       return `${baseClass} bg-gray-600 ${selectedClass}`;
@@ -53,9 +52,9 @@ const SeatSelection = ({
 
     // Kiểm tra loại ghế và áp dụng lớp thích hợp
     switch (seat.seat_type) {
-      case "VIP":
+      case SEATTYPE.VIP:
         return `${baseClass} bg-yellow-300 ${selectedClass}`;
-      case "Sweetbox":
+      case SEATTYPE.SWEETBOX:
         return `${baseClass} bg-red-500 w-20 ${selectedClass}`;
       default:
         return `${baseClass} bg-indigo-600 ${selectedClass}`;
@@ -64,12 +63,12 @@ const SeatSelection = ({
 
   // Lọc các ghế Sweetbox
   const sweetboxSeats = seatsData?.filter(
-    (seat) => seat.seat_type === "Sweetbox",
+    (seat) => seat.seat_type === SEATTYPE.SWEETBOX,
   );
 
   // Lọc các ghế bình thường
   const normalSeats = seatsData?.filter(
-    (seat) => seat.seat_type !== "Sweetbox",
+    (seat) => seat.seat_type !== SEATTYPE.SWEETBOX,
   );
 
   const rows = Array.from(new Set(normalSeats?.map((seat) => seat.row))).sort();
@@ -78,12 +77,12 @@ const SeatSelection = ({
   ).sort((a, b) => a - b);
 
   return (
-    <div className="mt-4 flex flex-col items-center rounded-lg bg-black p-4">
+    <div className="mt-4 flex w-full flex-col items-center rounded-lg bg-black p-4">
       <div className="mx-auto h-2 w-[50%] bg-orange-500"></div>
       <div className="font-bold">Màn hình</div>
       {/* Hiển thị các ghế bình thường */}
       <div className="mt-10 flex flex-col items-center">
-        <div className="flex flex-row">
+        <div className="flex flex-row justify-center">
           {seatNumbers?.map((seatNum) => (
             <div key={seatNum} className="flex flex-col">
               {rows.map((row) => {
@@ -103,13 +102,18 @@ const SeatSelection = ({
                 return (
                   <div key={`${row}${seatNum}`} className="flex justify-center">
                     <button
-                      className={`mx-1 my-1 ${getSeatClass(seat, showtime)} ${seat?.status === "unavailable" ? "button-unavailable" : ""} h-10`}
+                      className={`mx-1 my-1 ${getSeatClass(seat, showtime)} ${
+                        seat?.status === "unavailable"
+                          ? "button-unavailable"
+                          : ""
+                      } h-10`}
                       onClick={() => handleSeatClick(seat)}
                       disabled={
-                        seat.status === "unavailable"||
+                        seat.status === "unavailable" ||
                         showtime?.seat_statuses?.some(
                           (statusSeat) =>
-                            statusSeat.seat_id === seat._id && statusSeat.status === "booked"
+                            statusSeat.seat_id === seat._id &&
+                            statusSeat.status === "booked",
                         )
                       }
                     >
@@ -123,24 +127,43 @@ const SeatSelection = ({
         </div>
       </div>
 
-      <div className="flex flex-col items-center">
-        <div className="flex flex-row">
-          {sweetboxSeats?.map((seat) => (
-            <button
-              key={seat._id}
-              className={`mx-1 my-1 rounded-lg font-bold text-white ${getSeatClass(seat, showtime)} ${seat?.status === "unavailable" ? "button-unavailable" : ""} h-10`}
-              onClick={() => handleSeatClick(seat)}
-              disabled={
-                seat.status === "unavailable" ||
-                showtime?.seat_statuses?.some(
-                  (statusSeat) =>
-                    statusSeat.seat_id === seat._id && statusSeat.status === "booked"
-                )
-              }
-            >
-              {`${seat.row}${seat.seat_number}`}
-            </button>
-          ))}
+      <div className="flex flex-col flex-wrap items-center">
+        <div className="flex flex-row flex-wrap justify-center">
+          {sweetboxSeats?.length > 0 && (
+            <div className={`relative mb-2 flex flex-col justify-center`}>
+              {Object.entries(
+                sweetboxSeats
+                  .sort((a, b) => a.row.localeCompare(b.row)) // Sắp xếp ghế theo row trước
+                  .reduce((acc, seat) => {
+                    // Nhóm ghế theo row
+                    acc[seat.row] = acc[seat.row] || [];
+                    acc[seat.row].push(seat);
+                    return acc;
+                  }, {}),
+              ).map(([row, seats]) => (
+                <div key={row} className="flex justify-center">
+                  {seats.map((seat) => (
+                    <div
+                      key={`${seat.row}${seat.seat_number}`}
+                      className="relative"
+                    >
+                      <button
+                        className={`mx-1 my-1 rounded-lg font-bold text-white ${getSeatClass(seat)} ${
+                          seat.status === "booked"
+                            ? "cursor-not-allowed bg-gray-600"
+                            : ""
+                        } h-10`}
+                        onClick={() => handleSeatClick(seat)}
+                        disabled={seat.status === "booked"}
+                      >
+                        {`${seat.row}${seat.seat_number}`}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -192,9 +215,8 @@ SeatSelection.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       row: PropTypes.string.isRequired,
-      seat_number: PropTypes.string.isRequired,
-      seat_type: PropTypes.oneOf(["Single", "Sweetbox", "VIP", "Double"])
-        .isRequired,
+      seat_number: PropTypes.number.isRequired,
+      seat_type: PropTypes.number.isRequired,
       status: PropTypes.oneOf(["available", "booked", "unavailable"])
         .isRequired,
     }),

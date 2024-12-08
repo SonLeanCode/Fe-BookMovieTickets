@@ -22,7 +22,6 @@ const ShowTime_Management = () => {
     isLoading: showtimeDataLoading,
     refetch,
   } = useGetAllShowtimesQuery();
-  console.log(showtimeData?.data)
   // Khai báo các state
   const [loading, setLoading] = useState(false);
   const [selectedShowtimes, setSelectedShowtimes] = useState([]);
@@ -84,7 +83,7 @@ const ShowTime_Management = () => {
         // Làm mới dữ liệu và thông báo thành công
         Toastify("Suất chiếu mới đã được thêm thành công.", 200);
       }
-  
+      refetch()
       // Đóng modal sau khi thao tác thành công
       handleCloseModal();
     } catch (error) {

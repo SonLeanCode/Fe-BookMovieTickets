@@ -72,10 +72,10 @@ export const roomLayoutApi = createApi({
 
 // Export hooks to be used in components
 export const {
-  useGetAllRoomLayoutsQuery,
-  useGetSeatsByRoomIdQuery,
-  useAddRoomLayoutMutation,
-  useAddSeatToRoomLayoutMutation,
-  useRemoveSeatFromRoomLayoutMutation,
-  useAddMultipleSeatsToRoomLayoutMutation
+  useGetAllRoomLayoutsQuery, //
+  useGetSeatsByRoomIdQuery, //
+  useAddRoomLayoutMutation, //
+  useAddSeatToRoomLayoutMutation, //
+  useRemoveSeatFromRoomLayoutMutation, //
+  useAddMultipleSeatsToRoomLayoutMutation //
 } = roomLayoutApi;

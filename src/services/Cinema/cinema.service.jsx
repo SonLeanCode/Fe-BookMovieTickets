@@ -22,9 +22,6 @@ export const cinemaApi = createApi({
     getAllCinemas: builder.query({
       query: () => "/api/cinema",
     }),
-    getCinemaById: builder.query({
-      query: (id) => `/api/cinema/${id}`,
-    }),
     getCinemasByRegionId: builder.query({ 
       query: (id) => `/api/cinema/region/${id}`,
     }),
@@ -53,11 +50,10 @@ export const cinemaApi = createApi({
 
 // Export the hooks to use in components
 export const {
-  useGetAllCinemasQuery,
-  useGetCinemaByIdQuery,
-  useGetCinemasByRegionIdQuery,
-  useAddCinemaMutation,
-  useUpdateCinemaMutation,
-  useDeleteCinemaMutation,
+  useGetAllCinemasQuery, //
+  useGetCinemasByRegionIdQuery, //
+  useAddCinemaMutation, //
+  useUpdateCinemaMutation, //
+  useDeleteCinemaMutation, //
 } = cinemaApi;
 

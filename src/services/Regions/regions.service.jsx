@@ -27,13 +27,6 @@ export const regionsApi = createApi({
       }),
     }),
 
-    // Get region by ID
-    getRegionById: builder.query({
-      query: (id) => ({
-        url: `/api/regions/${id}`,
-        method: 'GET',
-      }),
-    }),
 
     // Add new region
     addRegion: builder.mutation({
@@ -65,9 +58,8 @@ export const regionsApi = createApi({
 
 // Export the hooks to use in components
 export const {
-  useGetAllRegionsQuery,
-  useGetRegionByIdQuery,
-  useAddRegionMutation,
-  useUpdateRegionMutation,
-  useDeleteRegionMutation,
+  useGetAllRegionsQuery, //
+  useAddRegionMutation, // 
+  useUpdateRegionMutation,//
+  useDeleteRegionMutation,//
 } = regionsApi;

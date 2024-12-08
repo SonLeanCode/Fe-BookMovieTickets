@@ -1,34 +1,33 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const getAccessToken = () => localStorage.getItem('accessToken');
+const getAccessToken = () => localStorage.getItem("accessToken");
 
 export const commentsApi = createApi({
-  reducerPath: 'commentsApi',
+  reducerPath: "commentsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:4003/',
+    baseUrl: "http://localhost:4003/",
     prepareHeaders: (headers) => {
       const token = getAccessToken();
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
-      headers.set('Content-Type', 'application/json');
+      headers.set("Content-Type", "application/json");
       return headers;
     },
   }),
   endpoints: (builder) => ({
     postComments: builder.mutation({
       query: (credentials) => ({
-        url: '/api/comment',
-        method: 'POST',
+        url: "/api/comment",
+        method: "POST",
         body: credentials,
       }),
     }),
 
-
     findAllComments: builder.query({
       query: (credentials) => ({
         url: `/api/comment`,
-        method: 'GET',
+        method: "GET",
         body: credentials,
       }),
     }),
@@ -37,12 +36,10 @@ export const commentsApi = createApi({
     updateComment: builder.mutation({
       query: ({ commentId, updatedData }) => ({
         url: `/api/comment/${commentId}`, // Corrected the URL to match the route
-        method: 'PATCH', // Assuming PATCH is used for partial update
+        method: "PATCH", // Assuming PATCH is used for partial update
         body: updatedData,
       }),
     }),
-
-
 
     getComments: builder.query({
       query: (movieId) => `/api/comment/${movieId}`,
@@ -50,12 +47,16 @@ export const commentsApi = createApi({
     deleteComment: builder.mutation({
       query: (id) => ({
         url: `/api/comment/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
     }),
-    
   }),
 });
 
-export const { useGetCommentsQuery,useFindAllCommentsQuery, usePostCommentsMutation , useDeleteCommentMutation, useUpdateCommentMutation} = commentsApi;
-
+export const {
+  useGetCommentsQuery, //
+  useFindAllCommentsQuery, //
+  usePostCommentsMutation, //
+  useDeleteCommentMutation, //
+  useUpdateCommentMutation, //
+} = commentsApi;

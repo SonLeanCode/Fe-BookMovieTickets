@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Button, Input } from "react-daisyui";
 import { useGetTicketsQuery } from "../../services/Ticket/ticket.serviecs";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import Pagination from "../../components/Admin/Pagination";
-import Toastify from "../../helper/Toastify";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
 
@@ -12,9 +11,7 @@ const Tickets_Management = () => {
   const {
     data: tickets,
     isLoading: ticketsDataLoading,
-    refetch,
   } = useGetTicketsQuery();
-  const [loading, setLoading] = useState(false);
   const [selectedtickets, setSelectedtickets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ticketssPerPage, setticketssPerPage] = useState(5);
@@ -57,8 +54,8 @@ const Tickets_Management = () => {
   if (ticketsDataLoading) {
     return <LoadingLocal />;
   }
-  if (loading) {
-    return <LoadingPage loading={loading} />;
+  if (ticketsDataLoading) {
+    return <LoadingPage loading={ticketsDataLoading} />;
   }
 
   return (
@@ -96,7 +93,6 @@ const Tickets_Management = () => {
               </p>
               <Button
                 className="rounded-md bg-blue-500 p-2 hover:bg-blue-600"
-                onClick={handleDeleteSelectedtickets}
               >
                 <FaTrash />
               </Button>

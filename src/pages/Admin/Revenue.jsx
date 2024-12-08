@@ -1,4 +1,3 @@
-import React from "react";
 import { useGetTicketsQuery } from "../../services/Ticket/ticket.serviecs"; // Import hook để lấy vé
 
 const RevenueDashboard = () => {

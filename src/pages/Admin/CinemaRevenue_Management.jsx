@@ -2,7 +2,6 @@ import ReactECharts from "echarts-for-react"; // Import thành phần ReactEChar
 import { ArrowUturnLeftIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import {
-  useGetCinemasStatsQuery,
   useGetMoviesStatsQuery,
   useGetCinemaSalesStatsQuery,
 } from "../../services/RevenueStatistics/revenuestatistics.service";
