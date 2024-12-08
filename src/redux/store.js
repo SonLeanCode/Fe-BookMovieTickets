@@ -4,12 +4,9 @@ import { moviesApi } from '../services/Movies/movies.services';
 import { regionsApi } from '../services/Regions/regions.service';
 import { cinemaApi } from '../services/Cinema/cinema.service';
 import { genreApi } from '../services/Genre/genre.service';
-import { genreMovieApi } from '../services/Genre/genre_movies.service';
 import { actorApi } from '../services/Actor/actor.service';
-import { actorMovieApi } from '../services/Actor/actor_movies.service';
 import { commentsApi } from '../services/Comments/comments_user.service';
 import { userApi } from '../services/User/user.services';
-import { apiLanguage } from '../services/Language/language_service';
 import { roomsApi } from '../services/Room/room.service';
 import { seatApi } from '../services/Seat/seat.serviecs';
 import { showtimesApi } from '../services/Showtimes/showtimes.serviecs';
@@ -30,9 +27,7 @@ const store = configureStore({
     [regionsApi.reducerPath]: regionsApi.reducer,
     [cinemaApi.reducerPath]: cinemaApi.reducer,
     [genreApi.reducerPath]: genreApi.reducer,
-    [genreMovieApi.reducerPath]: genreMovieApi.reducer,
     [actorApi.reducerPath]: actorApi.reducer,
-    [actorMovieApi.reducerPath]: actorMovieApi.reducer,
     [commentsApi.reducerPath]: commentsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [roomsApi.reducerPath]: roomsApi.reducer,
@@ -41,7 +36,6 @@ const store = configureStore({
     [showtimesApi.reducerPath]: showtimesApi.reducer,
     [ticketApi.reducerPath]: ticketApi.reducer,
     [emailApi.reducerPath]: emailApi.reducer,
-    [apiLanguage.reducerPath]: apiLanguage.reducer,
     [paymentApi.reducerPath]: paymentApi.reducer,
     [moviesFavouriteApi.reducerPath]: moviesFavouriteApi.reducer,
     [statsApi.reducerPath]: statsApi.reducer,
@@ -55,9 +49,7 @@ const store = configureStore({
       .concat(regionsApi.middleware)
       .concat(cinemaApi.middleware)
       .concat(genreApi.middleware)
-      .concat(genreMovieApi.middleware)
       .concat(actorApi.middleware)
-      .concat(actorMovieApi.middleware)
       .concat(commentsApi.middleware)
       .concat(userApi.middleware)
       .concat(roomsApi.middleware)
@@ -66,13 +58,11 @@ const store = configureStore({
       .concat(showtimesApi.middleware)
       .concat(ticketApi.middleware)
       .concat(emailApi.middleware)
-      .concat(apiLanguage.middleware)
       .concat(paymentApi.middleware)
       .concat(moviesFavouriteApi.middleware)
       .concat(statsApi.middleware)
       .concat(voucherApi.middleware)
       .concat(ratingApi.middleware)
-
 });
 
 export default store;

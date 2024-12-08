@@ -23,37 +23,13 @@ export const showtimesApi = createApi({
     // Lấy tất cả các suất chiếu
     getAllShowtimes: builder.query({
       query: () => '/api/showtime',
-      providesTags: ['Showtime'],
     }),
 
     getDataWithShowtimes: builder.query({
       query: () => '/api/showtimes/data',
     }),
     
-    // Lấy một suất chiếu cụ thể theo ID
-    getShowtimeById: builder.query({
-      query: (id) => `/api/showtime/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Showtime', id }],
-    }),
 
-    getMoviesByRegion: builder.query({
-      query: (id) => `/api/showtime/regions/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Showtime', id }],
-    }),
-
-    getShowDatesByMovie: builder.query({
-      query: (movieId) => `/api/showtimes/dates/${movieId}`,
-    }),
-
-    getCinemasWithShowtimesByMovieAndRegion: builder.query({
-      query: ({movieId, regionId}) => `/api/cinemas/showtimes/${movieId}/${regionId}`,
-    }),
-
-    // Lọc suất chiếu theo phim, ngày và rạp
-    filterShowtimes: builder.query({
-      query: ({ movieId, date, cinemaId }) =>
-        `/api/showtimes/filter?movieId=${movieId}&date=${date}&cinemaId=${cinemaId}`,
-    }),
     
     // Thêm một suất chiếu mới
     createShowtime: builder.mutation({
@@ -72,7 +48,6 @@ export const showtimesApi = createApi({
         method: 'PUT',
         body: updatedShowtime,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Showtime', id }],
     }),
 
     addSeatStatuses: builder.mutation({
@@ -89,22 +64,16 @@ export const showtimesApi = createApi({
         url: `/api/showtime/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, id) => [{ type: 'Showtime', id }],
     }),
   }),
 });
 
 // Xuất các hooks auto-generated
 export const {
-  useGetAllShowtimesQuery,
-  useGetShowtimeByIdQuery,
-  useGetMoviesByRegionQuery,
-  useGetShowDatesByMovieQuery,
-  useFilterShowtimesQuery,
-  useGetCinemasWithShowtimesByMovieAndRegionQuery,
-  useCreateShowtimeMutation,
-  useUpdateShowtimeMutation,
-  useAddSeatStatusesMutation,
-  useDeleteShowtimeMutation,
-  useGetDataWithShowtimesQuery
+  useGetAllShowtimesQuery, //
+  useCreateShowtimeMutation, //
+  useUpdateShowtimeMutation, //
+  useAddSeatStatusesMutation, //
+  useDeleteShowtimeMutation, //
+  useGetDataWithShowtimesQuery //
 } = showtimesApi;

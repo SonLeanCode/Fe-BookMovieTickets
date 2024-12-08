@@ -162,20 +162,20 @@ export const moviesApi = createApi({
 
 // Export các hook để sử dụng trong các component
 export const {
-  useGetAllMoviesQuery,
-  useGetMovieByIdQuery,
-  useGetLatestMoviesByCreationDateQuery,
-  useGetMoviesNowShowingQuery,
-  useGetMoviesComingSoonQuery,
-  useGetMoviesByActorIdQuery,
-  useGetMoviesWithTicketStatsQuery,
-  useGetMostViewedMoviesWithShowtimesQuery,
-  useGetMoviesByReleaseAndShowtimesQuery,
-  useGetMoviesWithHighestBookingsQuery,
+  useGetAllMoviesQuery, //
+  useGetMovieByIdQuery, //
+  useGetLatestMoviesByCreationDateQuery, //
+  useGetMoviesNowShowingQuery, //
+  useGetMoviesComingSoonQuery, //
+  useGetMoviesByActorIdQuery, //
+  useGetMoviesWithTicketStatsQuery, //
+  useGetMostViewedMoviesWithShowtimesQuery, //
+  useGetMoviesByReleaseAndShowtimesQuery, //
+  useGetMoviesWithHighestBookingsQuery, //
   useGetNewMoviesWithShowtimesQuery,
-  useGetTopRatedMoviesWithShowtimesQuery,
-  useAddMovieMutation,
-  useUpdateMovieMutation,
-  useDeleteMovieMutation,
-  useIncreaseMovieViewsMutation,
+  useGetTopRatedMoviesWithShowtimesQuery, //
+  useAddMovieMutation, //
+  useUpdateMovieMutation, //
+  useDeleteMovieMutation, //
+  useIncreaseMovieViewsMutation, //
 } = moviesApi;

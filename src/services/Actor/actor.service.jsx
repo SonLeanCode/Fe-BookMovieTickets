@@ -45,9 +45,9 @@ export const actorApi = createApi({
 });
 
 export const {
-  useGetAllActorsQuery,
-  useGetActorByIdQuery,
-  useAddActorMutation,
-  useUpdateActorMutation,
-  useDeleteActorMutation,
+  useGetAllActorsQuery, //
+  useGetActorByIdQuery, //
+  useAddActorMutation, // 
+  useUpdateActorMutation,//
+  useDeleteActorMutation,//
 } = actorApi;

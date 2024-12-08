@@ -7,7 +7,6 @@ import {
   useGetSeatsByRoomQuery,
   useAddSeatMutation,
   useAddSeatsInRowMutation,
-  // useUpdateSeatPricesMutation,
   useDeleteSeatMutation,
 } from "../../services/Seat/seat.serviecs";
 import Pagination from "../../components/Admin/Pagination";

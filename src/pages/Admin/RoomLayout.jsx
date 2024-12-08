@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-// import AddMultipleSeatsModal from "../../components/Seat/AddMultipleSeatsModal";
 import SeatDisplay from "../../components/Seat/SeatDisplay";
 import {
   useGetSeatsByRoomIdQuery,

@@ -25,10 +25,6 @@ export const seatApi = createApi({
       query: (roomId) => `/api/rooms/${roomId}/seats`, // Đường dẫn đến API lấy ghế trong phòng
     }),
 
-    // Lấy ghế của một hàng cụ thể trong phòng
-    getSeatsByRoomAndRow: builder.query({
-      query: ({ roomId, row }) => `/api/rooms/${roomId}/seats/row/${row}`, // Đường dẫn đến API lấy ghế theo hàng
-    }),
 
     getSeatTypesByRoomID: builder.query({
       query: (roomId) => `api/rooms/${roomId}/seats/types`,
@@ -96,29 +92,19 @@ export const seatApi = createApi({
         method: 'DELETE',
       }),
     }),
-
-    // Xóa tất cả ghế trong một hàng cụ thể
-    deleteSeatsByRow: builder.mutation({
-      query: ({ roomId, row }) => ({
-        url: `/api/rooms/${roomId}/seats/row/${row}`, // Đường dẫn đến API xóa tất cả ghế trong hàng
-        method: 'DELETE',
-      }),
-    }),
   }),
 });
 
 // Xuất các hook để sử dụng trong component
 export const {
-  useGetSeatsByRoomQuery,
-  useGetSeatsByRoomAndRowQuery,
-  useGetSeatTypesQuery,
-  useGetSeatTypesByRoomIDQuery,
-  useAddSeatMutation,
-  useAddSeatsInRowMutation,
-  useUpdateSeatPricesMutation,
-  useUpdateAllSeatPricesMutation,
-  useUpdateSeatStatusMutation,
-  useDeleteSeatMutation,
-  useDeleteSeatsByRowMutation,
-  useCreateSeatsForRoomMutation
+  useGetSeatsByRoomQuery, //
+  useGetSeatTypesQuery,//
+  useGetSeatTypesByRoomIDQuery,//
+  useAddSeatMutation, //
+  useAddSeatsInRowMutation,//
+  useUpdateSeatPricesMutation,//
+  useUpdateAllSeatPricesMutation,//
+  useUpdateSeatStatusMutation,//
+  useDeleteSeatMutation, //
+  useCreateSeatsForRoomMutation //
 } = seatApi;

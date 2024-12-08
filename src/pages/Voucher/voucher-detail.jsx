@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaHeart } from "react-icons/fa"; // Import FaHeart
 import { Link } from "react-router-dom"; // Import Link if using react-router
-import { FaRegKissWinkHeart, FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
+import { FaTicketAlt } from "react-icons/fa";
 import { useGetAllMoviesQuery } from "../../services/Movies/movies.services";
 import { useGetVoucherQuery } from "../../services/Voucher/voucher.service"
 import { useCreateVoucherMutation } from "../../services/Voucher/voucher.service"

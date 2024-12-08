@@ -7,7 +7,7 @@ import {
 } from "../../services/Movies/movies.services";
 import { formatDate } from "../../utils/formatDate";
 import Modal_Video from "../../components/Movie/Modal_Video";
-import {FaRegKissWinkHeart,FaPhotoVideo, FaRegHandPointRight, FaStar, FaTicketAlt } from "react-icons/fa";
+import {FaPhotoVideo, FaTicketAlt } from "react-icons/fa";
 import LoadingLocal from "../Loading/LoadingLocal";
 
 const Movie = () => {

@@ -7,20 +7,11 @@ import {
   useGetMoviesStatsQuery,
 } from "../../services/RevenueStatistics/revenuestatistics.service";
 import { useGetTicketsQuery } from "../../services/Ticket/ticket.serviecs";
-import {
-  useGetAllUsersQuery,
-  useUpdateUserMutation,
-  useDeleteUserMutation,
-} from "../../services/User/user.services";
+import { useGetAllUsersQuery } from "../../services/User/user.services";
 import { useGetMoviesNowShowingQuery } from "../../services/Movies/movies.services";
 import { Chart, registerables } from "chart.js";
-import {
-  CurrencyDollarIcon,
-  UserIcon,
-  CreditCardIcon,
-  
-} from "@heroicons/react/20/solid";
-import { FaTicketAlt,FaPhotoVideo } from "react-icons/fa";
+import { UserIcon, CreditCardIcon } from "@heroicons/react/20/solid";
+import { FaTicketAlt, FaPhotoVideo } from "react-icons/fa";
 
 Chart.register(...registerables);
 
@@ -40,18 +31,15 @@ const Dashboard = () => {
     isLoading: totalRevenueLoading,
     isError: totalRevenueError,
   } = useGetTotalRevenueQuery();
-  const {
-    data: movie
-  } = useGetMoviesStatsQuery();
-  const {
-    data: MoviesNowShowing
-  } = useGetMoviesNowShowingQuery();
-  
+  const { data: movie } = useGetMoviesStatsQuery();
+  const { data: MoviesNowShowing } = useGetMoviesNowShowingQuery();
+
   const { data: ticketRecent } = useGetTicketsQuery();
-  const { data: users, isLoading: usersLoading, isError: usersError } = useGetAllUsersQuery();
+  const { data: users } = useGetAllUsersQuery();
   const totalUsers = users?.data?.length ?? 0;
   const numberTicket = ticketRecent?.allTickets?.length ?? 0;
-  const MoviesNowShowinglength = MoviesNowShowing?.nowShowingMovies?.length ?? 0;
+  const MoviesNowShowinglength =
+    MoviesNowShowing?.nowShowingMovies?.length ?? 0;
 
   useEffect(() => {
     if (!data || isLoading || isError) return;
@@ -75,8 +63,6 @@ const Dashboard = () => {
 
       const labels = chartData.map((item) => item.time);
       const revenues = chartData.map((item) => item.revenue);
-      
-      
 
       // Create a new Chart instance (Line Chart)
       myChart = new Chart(myCanvas, {
@@ -110,7 +96,7 @@ const Dashboard = () => {
                 display: true,
                 text: "Thời gian",
               },
-            },  
+            },
             y: {
               title: {
                 display: true,
@@ -226,12 +212,17 @@ const Dashboard = () => {
                 <UserIcon className="h-6 w-6 rounded-full p-[0.5] text-slate-50 ring-2 ring-slate-50" />
               </div>
 
-              <div className="w-full rounded-e-md p-3" style={{ background: "#F14F7B" }}>
-              <Link to ="/admin/users">
-                <p className="text-gray-100">Người dùng</p>
-                <p className="text-xl font-bold text-white">{totalUsers} Người</p>
-                <div className="flex items-center space-x-1">
-                  {/* <svg
+              <div
+                className="w-full rounded-e-md p-3"
+                style={{ background: "#F14F7B" }}
+              >
+                <Link to="/admin/users">
+                  <p className="text-gray-100">Người dùng</p>
+                  <p className="text-xl font-bold text-white">
+                    {totalUsers} Người
+                  </p>
+                  <div className="flex items-center space-x-1">
+                    {/* <svg
                     className="h-4 w-4 text-green-500"
                     fill="none"
                     stroke="currentColor"
@@ -247,9 +238,9 @@ const Dashboard = () => {
                   </svg>
                   <p className="text-sm text-green-300">4.07%</p>
                   <p className="text-sm text-gray-100">Last month</p> */}
-                  {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
-                </div>
-              </Link>
+                    {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
+                  </div>
+                </Link>
               </div>
             </div>
             <div className="flex rounded-md bg-white shadow-lg">
@@ -264,12 +255,12 @@ const Dashboard = () => {
                 className="w-full rounded-e-md p-3"
                 style={{ background: "#32B1E1" }}
               >
-              <Link to="/admin/showtimes">
+                <Link to="/admin/showtimes">
                   <p className="text-gray-100">Phim đang chiếu</p>
-                  <p className=" text-xl font-bold text-white">
-                      {MoviesNowShowinglength}  phim
-                    </p>
-                  
+                  <p className="text-xl font-bold text-white">
+                    {MoviesNowShowinglength} phim
+                  </p>
+
                   <div className="flex items-center space-x-1">
                     {/* <svg
                       className="h-4 w-4 text-green-500"
@@ -304,14 +295,14 @@ const Dashboard = () => {
                 className="w-full rounded-e-md p-3"
                 style={{ background: "#3CC1C4" }}
               >
-              <Link to="/admin/CinemaRevenueManagement" >
+                <Link to="/admin/CinemaRevenueManagement">
                   <p className="text-gray-100">Số vé bán ra</p>
-                  
-                  <p className=" text-xl font-bold text-white">
-                    {numberTicket}  Vé
+
+                  <p className="text-xl font-bold text-white">
+                    {numberTicket} Vé
                   </p>
-                <div className="flex items-center space-x-1">
-                  {/* <svg
+                  <div className="flex items-center space-x-1">
+                    {/* <svg
                     className="h-4 w-4 text-green-500"
                     fill="none"
                     stroke="currentColor"
@@ -327,9 +318,9 @@ const Dashboard = () => {
                   </svg>
                   <p className="text-sm text-green-300">4.07%</p>
                   <p className="text-sm text-gray-100">Last month</p> */}
-                  {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
-                </div>
-              </Link>
+                    {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
+                  </div>
+                </Link>
               </div>
             </div>
             <div className="flex rounded-md bg-white shadow-lg">
@@ -337,30 +328,30 @@ const Dashboard = () => {
                 className="flex items-center rounded-s-md p-3"
                 style={{ background: "#9592C5" }}
               >
-               <CreditCardIcon className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
+                <CreditCardIcon className="h-6 w-6 rounded-full p-[1px] text-slate-50 ring-2 ring-slate-50" />
               </div>
-                
+
               <div
                 className="w-full rounded-e-md p-3"
                 style={{ background: "#726CB0" }}
               >
-              <Link to="/admin/CinemaRevenueManagement" >
-                <p className="text-gray-100">Tổng Doanh thu Rạp</p>
-                {totalRevenueLoading ? (
-                  <p>Loading...</p>
-                ) : totalRevenueError ? (
-                  <p>Error loading data</p>
-                ) : (
-                  <p className="flex items-center text-xl font-bold text-white">
-                    {totalRevenues?.totalRevenue
-                      ? new Intl.NumberFormat().format(
-                          totalRevenues.totalRevenue,
-                        ) + " VNĐ"
-                      : "0 VNĐ"}{" "}
-                  </p>
-                )}
-                <div className="flex items-center space-x-1">
-                  {/* <svg
+                <Link to="/admin/CinemaRevenueManagement">
+                  <p className="text-gray-100">Tổng Doanh thu Rạp</p>
+                  {totalRevenueLoading ? (
+                    <p>Loading...</p>
+                  ) : totalRevenueError ? (
+                    <p>Error loading data</p>
+                  ) : (
+                    <p className="flex items-center text-xl font-bold text-white">
+                      {totalRevenues?.totalRevenue
+                        ? new Intl.NumberFormat().format(
+                            totalRevenues.totalRevenue,
+                          ) + " VNĐ"
+                        : "0 VNĐ"}{" "}
+                    </p>
+                  )}
+                  <div className="flex items-center space-x-1">
+                    {/* <svg
                     className="h-4 w-4 text-green-500"
                     fill="none"
                     stroke="currentColor"
@@ -376,11 +367,10 @@ const Dashboard = () => {
                   </svg>
                   <p className="text-sm text-green-300">4.07%</p>
                   <p className="text-sm text-gray-100">Last month</p> */}
-                  {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
-                </div>
-              </Link>
+                    {/* <Link to="" className="text- font-semibold ">Xem thêm</Link> */}
+                  </div>
+                </Link>
               </div>
-
             </div>
           </div>
 
@@ -422,19 +412,19 @@ const Dashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {ticketRecent?.allTickets
-                      ?.slice(0, 5)
-                      .map((ticket) => (
-                        <tr key={ticket?.user_id?._id}>
-                          <td className="border-b px-4 py-2">
-                            {ticket?.user_id?.email}
-                          </td>
-                          <td className="border-b px-4 py-2">
-                            {ticket?.name_movie}
-                          </td>
-                          <td className="px-4 py-2">{ticket.price.toLocaleString()} VNĐ</td>
-                        </tr>
-                      ))}
+                    {ticketRecent?.allTickets?.slice(0, 5).map((ticket) => (
+                      <tr key={ticket?.user_id?._id}>
+                        <td className="border-b px-4 py-2">
+                          {ticket?.user_id?.email}
+                        </td>
+                        <td className="border-b px-4 py-2">
+                          {ticket?.name_movie}
+                        </td>
+                        <td className="px-4 py-2">
+                          {ticket.price.toLocaleString()} VNĐ
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -449,23 +439,24 @@ const Dashboard = () => {
                   role="img"
                 ></canvas>
               </div>
-              <div className="rounded-md bg-white p-5  shadow-lg">
-                <h1 className="text-center text-xl mb-5 text-slate-800 font-bold">Top phim</h1>
+              <div className="rounded-md bg-white p-5 shadow-lg">
+                <h1 className="mb-5 text-center text-xl font-bold text-slate-800">
+                  Top phim
+                </h1>
                 {movie?.moviesStats.map((movieItem, index) => (
-                <div className="bg-slate-50 rounded-sm">
-                  {/* Display top 3 movies */}
-                  <div
-                    key={movieItem._id}
-                    className={`rounded-sm mb-2 flex justify-between p-1 ${
-                      index === 0
-                        ? "bg-gradient-to-r from-red-700 to-yellow-500 text-white"
-                        : index === 1
-                        ? "bg-gradient-to-r from-yellow-600 to-yellow-300 text-white"
-                        : index === 2
-                        ? "bg-gradient-to-r from-green-600 to-green-400 text-white"
-                        : "bg-slate-100"
-                    }`}
-                  >
+                  <div key={movieItem?._id} className="rounded-sm bg-slate-50">
+                    {/* Display top 3 movies */}
+                    <div
+                      className={`mb-2 flex justify-between rounded-sm p-1 ${
+                        index === 0
+                          ? "bg-gradient-to-r from-red-700 to-yellow-500 text-white"
+                          : index === 1
+                            ? "bg-gradient-to-r from-yellow-600 to-yellow-300 text-white"
+                            : index === 2
+                              ? "bg-gradient-to-r from-green-600 to-green-400 text-white"
+                              : "bg-slate-100"
+                      }`}
+                    >
                       <img
                         src={movieItem.img}
                         alt={movieItem.name}
@@ -474,10 +465,10 @@ const Dashboard = () => {
                       <div className="max-w-xs flex-1 truncate">
                         {" "}
                         {/* Thêm max-w-xs để giới hạn chiều rộng */}
-                        <p className="font-semibold max-w-xs flex-1 truncate">
+                        <p className="max-w-xs flex-1 truncate font-semibold">
                           {movieItem.name}
                         </p>
-                        <p className="text-sm ">
+                        <p className="text-sm">
                           Doanh thu:{" "}
                           {new Intl.NumberFormat().format(
                             movieItem.totalRevenue,
@@ -486,8 +477,8 @@ const Dashboard = () => {
                         </p>
                       </div>
                     </div>
-                </div>
-              ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

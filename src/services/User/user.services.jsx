@@ -50,8 +50,8 @@ export const userApi = createApi({
 
 // Xuất các hook để sử dụng trong component
 export const {
-  useGetAllUsersQuery,
+  useGetAllUsersQuery, //
   useGetUserByIdQuery,
-  useUpdateUserMutation,
-  useDeleteUserMutation,
+  useUpdateUserMutation, //
+  useDeleteUserMutation, //
 } = userApi;

@@ -47,9 +47,9 @@ export const voucherApi = createApi({
 
 // Xuất các hook để sử dụng trong component
 export const {
-  useGetVoucherQuery,
-  useGetVoucherUserQuery,
-  useCreateVoucherMutation,
-  useDeleteVoucherMutation
+  useGetVoucherQuery, //
+  useGetVoucherUserQuery, //
+  useCreateVoucherMutation, //
+  useDeleteVoucherMutation //
 
 } = voucherApi;

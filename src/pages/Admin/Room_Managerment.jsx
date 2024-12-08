@@ -49,7 +49,7 @@ const Room_Managerment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [roomType, setRoomType] = useState("");
   const [nameLayout, setNameLauout] = useState("");
-  const [addSeatForRoom] = useCreateSeatsForRoomMutation()
+  const [addSeatForRoom] = useCreateSeatsForRoomMutation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -97,7 +97,7 @@ const Room_Managerment = () => {
       } else {
         const res = await addRoom(formData).unwrap();
         addSeatForRoom(res?.data?._id).unwrap();
-        console.log("true")
+        console.log("true");
         Toastify("Phòng mới đã được thêm:", 200);
       }
       refetch();
@@ -244,14 +244,14 @@ const Room_Managerment = () => {
                     Tạo mới
                   </li>
                   {roomlayout?.data?.map((roomtype) => (
-                    <li
-                      key={roomtype._id}
-                      className="cursor-pointer px-4 py-2 hover:bg-gray-300 hover:font-semibold hover:text-blue-600"
-                    >
-                      <Link to={"/admin/roomlayout/" + roomtype._id}>
+                    <div key={roomtype._id}>
+                      <Link
+                        to={"/admin/roomlayout/" + roomtype._id}
+                        className="block cursor-pointer px-4 py-2 hover:bg-gray-300 hover:font-semibold hover:text-blue-600"
+                      >
                         {roomtype.name}
                       </Link>
-                    </li>
+                    </div>
                   ))}
                 </ul>
               </div>

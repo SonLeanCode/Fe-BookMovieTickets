@@ -23,7 +23,7 @@ import { v4 as uuidv4 } from "uuid";
 import Toastify from "../../helper/Toastify";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { skipToken } from '@reduxjs/toolkit/query';
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const BuyTickets = () => {
   const { t } = useTranslation();
@@ -55,9 +55,9 @@ const BuyTickets = () => {
   const navigate = useNavigate();
 
   const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
-    selectedRoom?.roomId || skipToken
+    selectedRoom?.roomId || skipToken,
   );
-  console.log(selectedCinemaName)
+
   const [addTicket] = useCreateTicketMutation();
   const [addSeatStatus] = useAddSeatStatusesMutation();
   const [addPayment] = useCreatePaymentMutation();
@@ -154,7 +154,7 @@ const BuyTickets = () => {
     const selectedShowtime = JSON.parse(
       localStorage.getItem("selectedShowtime"),
     );
-    
+
     const selectedRoom = JSON.parse(localStorage.getItem("selectedRoom"));
     const selectedCinema = JSON.parse(localStorage.getItem("selectedCinema"));
     const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
@@ -315,7 +315,7 @@ const BuyTickets = () => {
   const handleShowtimeSelect = (showtime, room, cinema) => {
     localStorage.removeItem("selectedSeats");
     setSeatOpen(!isSeatOpen);
-    setSelectedRoom(room)
+    setSelectedRoom(room);
     setSelectedShowtime(showtime);
     setSelectedCinemaName(cinema);
     localStorage.setItem("selectedRoom", JSON.stringify(room));
@@ -422,11 +422,11 @@ const BuyTickets = () => {
   }
 
   return (
-    <div className="bg-black pt-28">
-      <div className="mx-auto flex w-[90%]">
+    <div className="mx-12 bg-black pt-28">
+      <div className="mx-auto flex w-[100%]">
         {/* Left Column - 70% */}
         <div
-          className={`mb-10 mr-8 w-[70%] bg-[#111111] p-4 text-white transition-opacity duration-500 ${
+          className={`mb-10 mr-4 w-[70%] bg-[#111111] p-4 text-white transition-opacity duration-500 ${
             isContinueClicked ? "hidden" : ""
           }`}
         >
@@ -632,7 +632,11 @@ const BuyTickets = () => {
                                   <button
                                     key={showtime._id}
                                     onClick={() =>
-                                      handleShowtimeSelect(showtime, room, cinema)
+                                      handleShowtimeSelect(
+                                        showtime,
+                                        room,
+                                        cinema,
+                                      )
                                     }
                                     className="mr-4 mt-2 rounded bg-white px-4 py-2 text-black hover:bg-red-500 hover:text-white"
                                   >
@@ -658,7 +662,7 @@ const BuyTickets = () => {
             </div>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 w-full">
             <h2 className="mb-4 text-xl font-bold text-white">
               {t("Chọn ghế")}:
             </h2>
@@ -737,9 +741,7 @@ const BuyTickets = () => {
                         {selectedCinemaName?.cinemaName}
                       </h2>
                       {"-"}
-                      <span className="ml-2">
-                        {selectedRoom?.roomName}
-                      </span>
+                      <span className="ml-2">{selectedRoom?.roomName}</span>
                     </div>
                     <div className="">
                       Suất:{" "}

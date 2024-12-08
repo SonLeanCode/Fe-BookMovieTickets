@@ -22,9 +22,6 @@ export const genreApi = createApi({
     getAllGenres: builder.query({
       query: () => '/api/genre',
     }),
-    getGenreById: builder.query({
-      query: (id) => `/api/genre/${id}`,
-    }),
     addGenre: builder.mutation({
       query: (newGenre) => ({
         url: '/api/genre',
@@ -50,9 +47,8 @@ export const genreApi = createApi({
 
 // Export the hooks to use in components
 export const {
-    useGetAllGenresQuery,
-    useGetGenreByIdQuery,
-    useAddGenreMutation,
-    useUpdateGenreMutation,
-    useDeleteGenreMutation,
+    useGetAllGenresQuery, //
+    useAddGenreMutation, //
+    useUpdateGenreMutation, //
+    useDeleteGenreMutation, //
 } = genreApi;

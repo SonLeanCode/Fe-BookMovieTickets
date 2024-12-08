@@ -33,6 +33,6 @@ export const moviesFavouriteApi = createApi({
 });
 
 export const {
-  useCreateMoviesFavouriteMutation,
-  useGetAllFavouriteQuery,
+  useCreateMoviesFavouriteMutation, //
+  useGetAllFavouriteQuery, //
 } = moviesFavouriteApi;

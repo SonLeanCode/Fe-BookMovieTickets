@@ -33,4 +33,7 @@ export const ratingApi = createApi({
   }),
 });
 
-export const { useAddOrUpdateRatingMutation, useGetRatingsByMovieQuery } = ratingApi;
+export const {
+   useAddOrUpdateRatingMutation,//
+    useGetRatingsByMovieQuery  //
+  } = ratingApi;

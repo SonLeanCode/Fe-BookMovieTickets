@@ -27,13 +27,6 @@ export const roomsApi = createApi({
       }),
     }),
 
-    // Get room by ID
-    getRoomById: builder.query({
-      query: (id) => ({
-        url: `/api/room/${id}`,
-        method: 'GET',
-      }),
-    }),
 
     // Add new room
     addRoom: builder.mutation({
@@ -65,9 +58,8 @@ export const roomsApi = createApi({
 
 // Export the hooks to use in components
 export const {
-  useGetAllRoomsQuery,
-  useGetRoomByIdQuery,
-  useAddRoomMutation,
-  useUpdateRoomMutation,
-  useDeleteRoomMutation,
+  useGetAllRoomsQuery, //
+  useAddRoomMutation,//
+  useUpdateRoomMutation,//
+  useDeleteRoomMutation,//
 } = roomsApi;
