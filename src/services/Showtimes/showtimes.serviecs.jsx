@@ -28,7 +28,11 @@ export const showtimesApi = createApi({
     getDataWithShowtimes: builder.query({
       query: () => '/api/showtimes/data',
     }),
-    
+
+
+    getShowtimesByMovie: builder.query({
+      query: (id) => `/api/showtimes/movie/${id}`,
+    }),
 
     
     // Thêm một suất chiếu mới
@@ -75,5 +79,6 @@ export const {
   useUpdateShowtimeMutation, //
   useAddSeatStatusesMutation, //
   useDeleteShowtimeMutation, //
-  useGetDataWithShowtimesQuery //
+  useGetDataWithShowtimesQuery, //
+  useGetShowtimesByMovieQuery
 } = showtimesApi;
