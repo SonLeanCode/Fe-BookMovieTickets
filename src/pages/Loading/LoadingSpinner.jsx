@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import BarLoader from 'react-spinners/BarLoader';
 
 function LoadingPage({ loading }) {
-  console.log("LoadingPage is rendering");
   return (
     loading && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">

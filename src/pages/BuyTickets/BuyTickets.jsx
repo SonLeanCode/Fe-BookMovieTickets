@@ -53,7 +53,6 @@ const BuyTickets = () => {
   const [paymentMomo, { isLoading, isError, error }] = usePaymentMomoMutation();
 
   const navigate = useNavigate();
-
   const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
     selectedRoom?.roomId || skipToken,
   );
@@ -86,7 +85,6 @@ const BuyTickets = () => {
   };
 
   useEffect(() => {
-    console.log("Current search params:", window.location.search);
     // Chỉ chạy hàm handlePayment nếu chưa chạy
     if (!hasRun.current && window.location.search.includes("partnerCode")) {
       hasRun.current = true; // Đánh dấu đã chạy
@@ -134,7 +132,6 @@ const BuyTickets = () => {
       // Tạo paymentData với các tham số từ URL
       await handleAddTicket(paymentMethod, totalAmount, paymentDate);
     } else {
-      console.log("Thanh toán không thành công:", message);
       alert("Thanh toán không thành công. Vui lòng thử lại!");
     }
   };
@@ -253,21 +250,27 @@ const BuyTickets = () => {
         roomsWithShowtimes.forEach((room) =>
           room.showtimes.forEach((showtime) => {
             if (showtime.movie._id === movieId) {
-              const showDate = new Date(showtime.start_time)
-                .toISOString()
-                .split("T")[0];
-              showDatesSet.add(showDate);
+              const date = new Date(showtime.start_time);
+
+              // Lấy ngày theo múi giờ địa phương
+              const localDate = `${date.getFullYear()}-${String(
+                date.getMonth() + 1,
+              ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+
+              showDatesSet.add(localDate);
             }
           }),
         );
       }
     });
 
-    // Chuyển Set sang Array để sử dụng
-    const showDatesArray = Array.from(showDatesSet);
+    // Chuyển Set sang Array và sắp xếp tăng dần theo ngày
+    const showDatesArray = Array.from(showDatesSet).sort(
+      (a, b) => new Date(a) - new Date(b),
+    );
 
     // Cập nhật trạng thái
-    setShowDates(showDatesArray);
+    setShowDates(showDatesArray); // Trả về định dạng `YYYY-MM-DD`
     setCinemas(filteredCinemas);
   };
 
@@ -377,17 +380,24 @@ const BuyTickets = () => {
 
     // Nếu có rạp đã chọn, lọc theo rạp đó
     return selectedArea.cinemas.flatMap((cinema) => {
-      // Kiểm tra nếu rạp đã được chọn và chỉ lấy các suất chiếu từ rạp đã chọn
       if (selectedCinema && cinema._id !== selectedCinema) {
         return [];
       }
 
       const roomsWithShowtimes = cinema.rooms.flatMap((room) => {
-        const filteredShowtimes = room.showtimes.filter(
-          (showtime) =>
-            showtime.movie._id === movieId &&
-            new Date(showtime.start_time).toISOString().split("T")[0] === date,
-        );
+        const filteredShowtimes = room.showtimes.filter((showtime) => {
+          const showtimeDate = new Date(showtime.start_time);
+
+          // Lấy ngày theo múi giờ địa phương
+          const localDate = `${showtimeDate.getFullYear()}-${String(
+            showtimeDate.getMonth() + 1,
+          ).padStart(
+            2,
+            "0",
+          )}-${String(showtimeDate.getDate()).padStart(2, "0")}`;
+
+          return showtime.movie._id === movieId && localDate === date;
+        });
 
         if (filteredShowtimes.length > 0) {
           return {
@@ -564,22 +574,37 @@ const BuyTickets = () => {
                             <FaChevronLeft />
                           </button>
                           <div className="flex space-x-3 scroll-smooth">
-                            {showDates.map((date, index) => (
-                              <button
-                                key={index}
-                                onClick={() => handleDateSelect(date)}
-                                className={`w-[100px] rounded px-2 py-2 ${
-                                  selectedDate === date
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-white text-black"
-                                }`}
-                              >
-                                {new Date(date).toLocaleDateString("vi-VN", {
+                            {showDates.map((date, index) => {
+                              // Chuyển đổi định dạng ngày
+                              const dateObj = new Date(date); // Tạo đối tượng Date từ chuỗi `YYYY-MM-DD`
+                              const dayOfWeek = dateObj.toLocaleDateString(
+                                "vi-VN",
+                                { weekday: "long" },
+                              );
+                              const formattedDate = dateObj.toLocaleDateString(
+                                "vi-VN",
+                                {
                                   day: "2-digit",
                                   month: "2-digit",
-                                })}
-                              </button>
-                            ))}
+                                },
+                              );
+                              const displayDate = `${formattedDate}`;
+                              const displayText = `${dayOfWeek}`;
+                              return (
+                                <button
+                                  key={index}
+                                  onClick={() => handleDateSelect(date)}
+                                  className={`w-[100px] rounded px-2 py-2 ${
+                                    selectedDate === date
+                                      ? "bg-blue-500 text-white"
+                                      : "bg-white text-black"
+                                  }`}
+                                >
+                                  <p>{displayText}</p>
+                                  <p>{displayDate}</p>
+                                </button>
+                              );
+                            })}
                           </div>
                           <button className="flex-shrink-0 rounded bg-gray-300 p-2 text-black">
                             <FaChevronRight />
@@ -621,7 +646,7 @@ const BuyTickets = () => {
                               className="flex flex-col items-start md:flex-row md:items-center"
                             >
                               {/* Tên phòng */}
-                              <div className="w-1/7 mb-2 min-w-[90px] text-left md:mb-0">
+                              <div className="w-1/7 mb-2 mr-4 min-w-[90px] text-left md:mb-0">
                                 <p className="text-sm font-medium">
                                   {room.roomName}
                                 </p>

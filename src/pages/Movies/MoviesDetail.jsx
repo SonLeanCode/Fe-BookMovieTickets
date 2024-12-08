@@ -4,26 +4,29 @@ import {
   FaClock,
   FaMapMarkerAlt,
   FaQuoteLeft,
-  FaTicketAlt,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
-
+import { useGetShowtimesByMovieQuery } from "../../services/Showtimes/showtimes.serviecs";
 import {
   useAddOrUpdateRatingMutation,
   useGetRatingsByMovieQuery,
 } from "../../services/Rating/rating.serviecs";
-import { useGetMovieByIdQuery, useIncreaseMovieViewsMutation } from "../../services/Movies/movies.services";
+import {
+  useGetMovieByIdQuery,
+  useIncreaseMovieViewsMutation,
+} from "../../services/Movies/movies.services";
 import { formatDate } from "../../utils/formatDate";
 import notfound_img from "../../assets/img/404/not_found_img.jpg";
 import VideoPlayer from "../../components/Movie/VideoPlayer";
 import NowShowingMovies from "../Actor/NowShowingMovies";
 import CommentsSection from "../../components/Movie/CommentsSection";
 import LoadingLocal from "../Loading/LoadingLocal";
-import { useTranslation } from "react-i18next";
+import { formatShowtime } from "../../utils/formatShowtime";
 import { skipToken } from "@reduxjs/toolkit/query";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
-  const { t } = useTranslation();
   const [isRatingMode, setIsRatingMode] = useState(false); // Quản lý chế độ hiển thị
   const [hoveredStar, setHoveredStar] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
@@ -35,7 +38,142 @@ const MovieDetailPage = () => {
     isLoading: movieDataLoading,
     refetch: movieRefetch,
   } = useGetMovieByIdQuery(id);
+
+  const {
+    data: showtimeMovieData,
+    isLoading: showtimeMovieLoading,
+    refetch: showtimeMovieRefetch,
+  } = useGetShowtimesByMovieQuery(id);
+
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("all");
+  const [selectedCinema, setSelectedCinema] = useState("all");
+  const [regions, setRegions] = useState([]);
+  const [cinemas, setCinemas] = useState([]);
+  const [filteredShowtimes, setFilteredShowtimes] = useState([]);
+  const [showDates, setShowDates] = useState([]);
+  console.log(showtimeMovieData);
+  useEffect(() => {
+    if (!showtimeMovieData) return;
+
+    // Set regions and cinemas based on the data
+    const regionsData = showtimeMovieData?.data;
+    setRegions(regionsData);
+    const cinemasData = regionsData?.flatMap((region) =>
+      region.cinemas.map((cinema) => ({
+        ...cinema, // Các thông tin của rạp
+      })),
+    );
+    setCinemas(cinemasData);
+    const showDatesSet = new Set();
+    regionsData?.forEach((region) => {
+      region.cinemas.forEach((cinema) => {
+        cinema.rooms.forEach((room) => {
+          room.showtimes.forEach((showtime) => {
+            const date = new Date(showtime.start_time);
+            // Lấy ngày theo múi giờ địa phương
+            const localDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+            showDatesSet.add(localDate);
+          });
+        });
+      });
+    });
+    // Chuyển Set sang Array và sắp xếp tăng dần theo ngày
+    const showDatesArray = Array.from(showDatesSet).sort(
+      (a, b) => new Date(a) - new Date(b),
+    );
+    const allShowDates = [...showDatesArray];
+    setShowDates(allShowDates);
+
+    // Lọc ngày gần nhất
+    if (allShowDates.length > 0) {
+      setSelectedDate(allShowDates[0]); // Chọn ngày gần nhất mặc định
+    }
+  }, [showtimeMovieData]);
+
+  useEffect(() => {
+    // Khi selectedDate, selectedRegion, hoặc selectedCinema thay đổi, gọi filterShowtimes
+    filterShowtimes(selectedDate, selectedRegion, selectedCinema);
+  }, [selectedDate, selectedRegion, selectedCinema]);
+
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleRegionSelect = (event) => {
+    const selectedRegionId = event.target.value;
+    setSelectedRegion(selectedRegionId);
   
+    // Cập nhật lại danh sách các rạp dựa trên khu vực đã chọn
+    if (selectedRegionId === "all") {
+      // Khi chọn "all", lấy tất cả các rạp từ tất cả các khu vực
+      const allCinemas = regions.flatMap((region) => region.cinemas);
+      setCinemas(allCinemas);
+    } else {
+      // Khi chọn khu vực cụ thể, chỉ lấy các rạp trong khu vực đó
+      const selectedRegionData = regions.find(region => region._id === selectedRegionId);
+      setCinemas(selectedRegionData ? selectedRegionData.cinemas : []);
+    }
+  
+    // Đặt lại rạp đã chọn về "all" khi thay đổi khu vực
+    setSelectedCinema("all");
+  
+    // Lọc lại suất chiếu theo ngày, khu vực và rạp (nếu có)
+    filterShowtimes(selectedDate, selectedRegionId, "all");
+  };
+
+  const handleCinemaSelect = (event) => {
+    const selectedCinemaId = event.target.value;
+    setSelectedCinema(selectedCinemaId);
+
+    // Nếu chọn "all", không lọc theo rạp mà chỉ lọc theo khu vực và ngày
+    if (selectedCinemaId === "all") {
+      filterShowtimes(selectedDate, selectedRegion, selectedCinemaId); // Lọc theo khu vực và ngày
+    } else {
+      // Nếu có chọn rạp, lọc theo khu vực, rạp và ngày
+      filterShowtimes(selectedDate, selectedRegion, selectedCinemaId);
+    }
+  };
+  const filterShowtimes = (date, region, cinema) => {
+    const filtered = regions.flatMap((regionData) => {
+      // Lọc theo khu vực (region)
+      if (region !== "all" && region !== regionData._id) return []; // Nếu không khớp khu vực, bỏ qua
+
+      return regionData.cinemas
+        .filter((cinemaData) => {
+          // Lọc theo rạp (cinema)
+          if (cinema !== "all" && cinema !== cinemaData._id) return false;
+          return true;
+        })
+        .map((cinemaData) => {
+          return {
+            cinemaId: cinemaData._id,
+            cinemaName: cinemaData.name,
+            rooms: cinemaData.rooms.map((room) => {
+              return {
+                roomId: room._id,
+                roomName: room.name,
+                showtimes: room.showtimes.filter((showtime) => {
+                  // Chuyển đổi showtime.start_time về định dạng ngày trong múi giờ địa phương
+                  const showtimeDate = new Date(showtime.start_time);
+                  const showtimeFormatted =
+                    showtimeDate.toLocaleDateString("vi-VN"); // Múi giờ Việt Nam
+
+                  // Chuyển đổi date chọn vào về định dạng ngày trong múi giờ địa phương
+                  const selectedDate = new Date(date);
+                  const selectedDateFormatted =
+                    selectedDate.toLocaleDateString("vi-VN"); // Múi giờ Việt Nam
+
+                  return showtimeFormatted === selectedDateFormatted;
+                }),
+              };
+            }),
+          };
+        });
+    });
+    setFilteredShowtimes(filtered);
+  };
+
   const [increaseViews] = useIncreaseMovieViewsMutation();
 
   useEffect(() => {
@@ -54,7 +192,7 @@ const MovieDetailPage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleStarClick = async (rating) => {
-    if(user){
+    if (user) {
       setSelectedRating(rating);
       setIsRatingMode(false);
       await addRating({
@@ -64,11 +202,10 @@ const MovieDetailPage = () => {
       });
       movieRefetch();
       ratingRefetch();
-    }else{
-      alert("Vui lòng đăng nhập để đánh giá")
+    } else {
+      alert("Vui lòng đăng nhập để đánh giá");
       setIsRatingMode(false);
     }
-   
   };
 
   const [activeTab, setActiveTab] = useState("content");
@@ -130,7 +267,7 @@ const MovieDetailPage = () => {
     },
   ];
 
-  if (movieDataLoading || ratingLoaing) {
+  if (movieDataLoading || ratingLoaing || showtimeMovieLoading) {
     return <LoadingLocal />;
   }
 
@@ -301,20 +438,9 @@ const MovieDetailPage = () => {
                     )}
                   </div>
                 </div>
-
-                <div className="mt-4 flex justify-start pr-4 md:px-0">
-                  <Link
-                    to={`/cinema/buy-tickets/` + movieData?.data?._id}
-                    className="flex w-28 items-center justify-center rounded bg-red-600 p-2 text-center font-bold text-white"
-                  >
-                    {t("Mua vé")}
-                    <FaTicketAlt size={20} className="ml-2 mt-1" />
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
-
           {/* nội dung  */}
           <div className="px-5 sm:hidden">
             <select
@@ -351,7 +477,144 @@ const MovieDetailPage = () => {
               </div>
             ))}
           </div>
+          <div className="mt-4 flex flex-col space-y-2">
+            <div className="flex items-center justify-between">
+              {showDates.length > 0 && (
+                <div className="flex w-full justify-between">
+                  <div className="flex w-full space-x-3 overflow-x-auto">
+                    <button className="flex-shrink-0 rounded bg-gray-300 p-2 text-black">
+                      <FaChevronLeft />
+                    </button>
+                    <div className="flex space-x-3 scroll-smooth">
+                      {showDates.map((date, index) => {
+                        const dateObj = new Date(date); // Tạo đối tượng Date từ chuỗi `YYYY-MM-DD`
+                        const dayOfWeek = dateObj.toLocaleDateString("vi-VN", {
+                          weekday: "long",
+                        });
+                        const formattedDate = dateObj.toLocaleDateString(
+                          "vi-VN",
+                          { day: "2-digit", month: "2-digit" },
+                        );
+                        const displayText = `${dayOfWeek}`;
+                        const displayDate = `${formattedDate}`;
 
+                        return (
+                          <button
+                            key={index}
+                            onClick={() => handleDateSelect(date)}
+                            className={`w-[100px] rounded px-2 py-2 ${selectedDate === date ? "bg-blue-500 text-white" : "bg-white text-black"}`}
+                          >
+                            <p>{displayText}</p>
+                            <p>{displayDate}</p>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <button className="flex-shrink-0 rounded bg-gray-300 p-2 text-black">
+                      <FaChevronRight />
+                    </button>
+                  </div>
+
+                  {/* Dropdown cho khu vực */}
+                  <div className="ml-4">
+                    <select
+                      id="region-select"
+                      value={selectedRegion}
+                      onChange={handleRegionSelect}
+                      className="mt-1 block w-[200px] rounded-md border-gray-300 bg-white text-black shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                    >
+                      <option value="all">Tất cả khu vực</option>
+                      {regions.map((region, index) => (
+                        <option key={index} value={region._id}>
+                          {region.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Dropdown cho rạp */}
+                  <div className="ml-4">
+                    <select
+                      id="cinema-select"
+                      value={selectedCinema}
+                      onChange={handleCinemaSelect}
+                      className="mt-1 block w-[200px] rounded-md border-gray-300 bg-white text-black shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                    >
+                      <option value="all">Tất cả các rạp</option>
+                      {cinemas?.map((cinema, index) => (
+                        <option key={index} value={cinema._id}>
+                          {cinema.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Kiểm tra nếu không có suất chiếu */}
+            {filteredShowtimes?.length > 0 ? (
+              filteredShowtimes?.map(
+                (cinema) =>
+                  // Kiểm tra nếu rạp có phòng có suất chiếu
+                  cinema?.rooms?.some((room) => room?.showtimes?.length > 0) ? (
+                    <div key={cinema.cinemaId} className="mb-6 rounded p-4">
+                      {/* Tên rạp */}
+                      <h1 className="mb-2 text-2xl font-semibold">
+                        {cinema.cinemaName}
+                      </h1>
+
+                      {/* Các phòng */}
+                      <div className="space-y-4">
+                        {cinema?.rooms?.map(
+                          (room) =>
+                            // Kiểm tra nếu phòng có suất chiếu
+                            room?.showtimes?.length > 0 && (
+                              <div
+                                key={room?.roomId}
+                                className="flex flex-col items-start md:flex-row md:items-center"
+                              >
+                                {/* Tên phòng */}
+                                <div className="w-1/7 mb-2 mr-4 min-w-[90px] text-left md:mb-0">
+                                  <p className="text-sm font-medium">
+                                    {room?.roomName}
+                                  </p>
+                                </div>
+
+                                {/* Suất chiếu */}
+                                <div className="flex flex-1 flex-wrap items-center justify-start">
+                                  {room?.showtimes?.map((showtime) => (
+                                    <button
+                                      key={showtime._id}
+                                      onClick={() =>
+                                        handleShowtimeSelect(
+                                          showtime,
+                                          room,
+                                          cinema,
+                                        )
+                                      }
+                                      className="mr-4 mt-2 rounded bg-white px-4 py-2 text-black hover:bg-red-500 hover:text-white"
+                                    >
+                                      {formatShowtime(
+                                        showtime.start_time,
+                                        showtime.end_time,
+                                      )}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            ),
+                        )}
+                      </div>
+                    </div>
+                  ) : null, // Không hiển thị rạp nếu không có phòng có suất chiếu
+              )
+            ) : (
+              <div className="mt-4 text-center text-white">
+                Không có suất chiếu nào trong ngày đã chọn
+              </div>
+            )}
+          </div>
           {/* bình luận  */}
           <CommentsSection movieId={id} />
         </div>
