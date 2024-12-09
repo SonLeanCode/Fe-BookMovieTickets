@@ -628,7 +628,7 @@ const MovieDetailPage = () => {
               )
             ) : (
               <div className="mt-4 text-center text-white">
-                Không có suất chiếu nào trong ngày đã chọn
+                Phim hiện chưa có suất chiếu nào
               </div>
             )}
           </div>

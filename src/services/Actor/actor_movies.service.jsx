@@ -1,21 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-// Function to get the access token from localStorage
-const getAccessToken = () => localStorage.getItem('accessToken');
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { fetchBaseUrl } from '../Auth/auth.service';
 
 // Create the API with Redux Toolkit Query
 export const actorMovieApi = createApi({
   reducerPath: 'actorMovieApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:4003/', // Your API base URL
-    prepareHeaders: (headers) => {
-      const token = getAccessToken();
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: fetchBaseUrl,
   endpoints: (builder) => ({
     // Get all actor movies
     getAllActorMovies: builder.query({

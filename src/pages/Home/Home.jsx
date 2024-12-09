@@ -234,9 +234,12 @@ const Home = () => {
                   <h5 className="mt-1 text-2xl font-bold sm:mt-2 sm:text-3xl md:text-5xl">
                     {banner.title}
                   </h5>
-                  <div className="mt-1 flex flex-col items-center sm:mt-2 sm:flex-row sm:flex-wrap sm:justify-center">
-                    <h2 className="mr-0 text-sm sm:mr-4 sm:text-base">
+                  <div className="mt-1 flex flex-col items-center sm:mt-2 sm:flex-row sm:flex-wrap">
+                    <h2 className="ml-0 mr-0 mt-1 flex text-sm sm:mr-4 sm:mt-0 sm:text-base">
+                    SINCE:{" "}
+                      <p className="ml-1 text-gray-300 sm:ml-2">
                       {banner.releaseYear}
+                      </p>
                     </h2>
                     <span className="hidden sm:inline">{" | "}</span>
                     <h2 className="ml-0 mr-0 mt-1 flex text-sm sm:ml-4 sm:mr-4 sm:mt-0 sm:text-base">

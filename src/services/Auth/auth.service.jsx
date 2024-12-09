@@ -1,7 +1,50 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import { jwtDecode } from "jwt-decode";
 // Lấy token từ localStorage
 const getAccessToken = () => localStorage.getItem("accessToken");
+
+const isTokenExpired = (token) => {
+  if (!token) return true;
+
+  try {
+    const decoded = jwtDecode(token); // Giải mã token
+    const currentTime = Date.now() / 1000; // Thời gian hiện tại (tính bằng giây)
+
+    // Kiểm tra thời gian hết hạn
+    return decoded.exp < currentTime;
+  } catch (error) {
+    return true; // Nếu có lỗi khi giải mã, coi token đã hết hạn
+  }
+};
+
+// Đăng xuất và xóa token
+const logout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("user");
+  // Bạn có thể thêm điều hướng về trang đăng nhập nếu cần
+  window.location.href = "/auth/login"; // Hoặc sử dụng React Router: navigate('/login');
+};
+
+
+export const fetchBaseUrl = fetchBaseQuery({
+  baseUrl: "http://localhost:4003/", // Địa chỉ API của bạn
+  prepareHeaders: (headers) => {
+    const token = getAccessToken();
+
+    // Nếu token hết hạn, thực hiện đăng xuất
+    if (isTokenExpired(token)) {
+      logout();
+      return headers; // Không cần thêm Authorization header nữa
+    }
+
+    // Nếu có token hợp lệ, thêm vào header Authorization
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+
+    return headers;
+  },
+});
 
 // Tạo API với Redux Toolkit Query
 export const authApi = createApi({
