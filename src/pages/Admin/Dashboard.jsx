@@ -35,7 +35,6 @@ const Dashboard = () => {
   const { data: MoviesNowShowing } = useGetMoviesNowShowingQuery();
 
   const { data: ticketRecent } = useGetTicketsQuery();
-  console.log(ticketRecent)
   const { data: users } = useGetAllUsersQuery();
   const totalUsers = users?.data?.length ?? 0;
   const numberTicket = ticketRecent?.allTickets?.length ?? 0;

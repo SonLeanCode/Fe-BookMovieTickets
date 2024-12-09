@@ -22,17 +22,17 @@ const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("user");
   // Bạn có thể thêm điều hướng về trang đăng nhập nếu cần
-  window.location.href = "/auth/login"; // Hoặc sử dụng React Router: navigate('/login');
+  window.location.href = "/"; // Hoặc sử dụng React Router: navigate('/login');
 };
 
 
 export const fetchBaseUrl = fetchBaseQuery({
-  baseUrl: "https://be-cyberscreen.shop/", // Địa chỉ API của bạn
+  baseUrl: "http://localhost:4003/", // Địa chỉ API của bạn
   prepareHeaders: (headers) => {
     const token = getAccessToken();
 
     // Nếu token hết hạn, thực hiện đăng xuất
-    if (isTokenExpired(token)) {
+    if (token && isTokenExpired(token)) {
       logout();
       return headers; // Không cần thêm Authorization header nữa
     }
