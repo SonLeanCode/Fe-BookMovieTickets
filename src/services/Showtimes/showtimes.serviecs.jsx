@@ -1,23 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-// Function to get the access token from localStorage
-const getAccessToken = () => localStorage.getItem('accessToken');
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { fetchBaseUrl } from "../Auth/auth.service";
 
 // Tạo API service bằng redux-toolkit
 export const showtimesApi = createApi({
   reducerPath: 'showtimesApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:4003/', // Your API base URL
-    prepareHeaders: (headers) => {
-      // Get token from localStorage
-      const token = getAccessToken();
-      // If token exists, add it to the Authorization header
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: fetchBaseUrl,
   tagTypes: ['Showtime'],
   endpoints: (builder) => ({
     // Lấy tất cả các suất chiếu

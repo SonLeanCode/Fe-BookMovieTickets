@@ -24,9 +24,12 @@ import CommentsSection from "../../components/Movie/CommentsSection";
 import LoadingLocal from "../Loading/LoadingLocal";
 import { formatShowtime } from "../../utils/formatShowtime";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { useNavigate } from "react-router-dom";
+
 
 const MovieDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [isRatingMode, setIsRatingMode] = useState(false); // Quản lý chế độ hiển thị
   const [hoveredStar, setHoveredStar] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
@@ -42,9 +45,8 @@ const MovieDetailPage = () => {
   const {
     data: showtimeMovieData,
     isLoading: showtimeMovieLoading,
-    refetch: showtimeMovieRefetch,
   } = useGetShowtimesByMovieQuery(id);
-
+  
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [selectedCinema, setSelectedCinema] = useState("all");
@@ -52,7 +54,7 @@ const MovieDetailPage = () => {
   const [cinemas, setCinemas] = useState([]);
   const [filteredShowtimes, setFilteredShowtimes] = useState([]);
   const [showDates, setShowDates] = useState([]);
-  console.log(showtimeMovieData);
+
   useEffect(() => {
     if (!showtimeMovieData) return;
 
@@ -149,6 +151,7 @@ const MovieDetailPage = () => {
           return {
             cinemaId: cinemaData._id,
             cinemaName: cinemaData.name,
+            address: cinemaData.address,
             rooms: cinemaData.rooms.map((room) => {
               return {
                 roomId: room._id,
@@ -175,6 +178,20 @@ const MovieDetailPage = () => {
   };
 
   const [increaseViews] = useIncreaseMovieViewsMutation();
+
+  const handleShowtimeSelect = (showtime, room, cinema) => {
+    // Xóa các ghế đã chọn trước đó
+    localStorage.removeItem("selectedSeats");
+
+    // Lưu thông tin vào localStorage
+    localStorage.setItem("selectedMovie", JSON.stringify(movieData?.data));
+    localStorage.setItem("selectedRoom", JSON.stringify(room));
+    localStorage.setItem("selectedCinema", JSON.stringify(cinema));
+    localStorage.setItem("selectedShowtime", JSON.stringify(showtime));
+
+    // Chuyển hướng tới trang đặt vé
+    navigate("/cinema/buy-tickets");
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -611,7 +628,7 @@ const MovieDetailPage = () => {
               )
             ) : (
               <div className="mt-4 text-center text-white">
-                Không có suất chiếu nào trong ngày đã chọn
+                Phim hiện chưa có suất chiếu nào
               </div>
             )}
           </div>

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import SEATTYPE from "../../constants/seatTypeConstants";
-
 const SeatSelection = ({
   showtime,
   seatsData,

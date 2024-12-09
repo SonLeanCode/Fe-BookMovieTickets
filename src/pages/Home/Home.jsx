@@ -157,14 +157,25 @@ const Home = () => {
   };
 
   const handleScroll = (direction) => {
-    const container = document.getElementById("movie-list");
-    const boxWidth = container.querySelector(".movie-card").offsetWidth; // Lấy kích thước của 1 box phim
-    const scrollAmount = boxWidth * 5; // Cuộn qua 5 box phim
-
+    // Lấy phần tử container chứa các mục phim
+    const container = document.querySelector(".hide-scrollbar");
+    if (!container) return;
+  
+    // Xác định khoảng cuộn
+    const scrollAmount = container.offsetWidth / 2; // Cuộn bằng 50% chiều rộng
+    const currentScroll = container.scrollLeft;
+  
+    // Cập nhật vị trí cuộn dựa trên hướng
     if (direction === "left") {
-      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-    } else {
-      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      container.scrollTo({
+        left: currentScroll - scrollAmount,
+        behavior: "smooth", // Hiệu ứng cuộn mượt
+      });
+    } else if (direction === "right") {
+      container.scrollTo({
+        left: currentScroll + scrollAmount,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -223,9 +234,12 @@ const Home = () => {
                   <h5 className="mt-1 text-2xl font-bold sm:mt-2 sm:text-3xl md:text-5xl">
                     {banner.title}
                   </h5>
-                  <div className="mt-1 flex flex-col items-center sm:mt-2 sm:flex-row sm:flex-wrap sm:justify-center">
-                    <h2 className="mr-0 text-sm sm:mr-4 sm:text-base">
+                  <div className="mt-1 flex flex-col items-center sm:mt-2 sm:flex-row sm:flex-wrap">
+                    <h2 className="ml-0 mr-0 mt-1 flex text-sm sm:mr-4 sm:mt-0 sm:text-base">
+                    SINCE:{" "}
+                      <p className="ml-1 text-gray-300 sm:ml-2">
                       {banner.releaseYear}
+                      </p>
                     </h2>
                     <span className="hidden sm:inline">{" | "}</span>
                     <h2 className="ml-0 mr-0 mt-1 flex text-sm sm:ml-4 sm:mr-4 sm:mt-0 sm:text-base">

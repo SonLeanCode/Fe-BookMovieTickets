@@ -1,20 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-const getAccessToken = () => localStorage.getItem("accessToken");
+import { createApi} from "@reduxjs/toolkit/query/react";
+import { fetchBaseUrl } from "../Auth/auth.service";
 
 export const commentsApi = createApi({
   reducerPath: "commentsApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4003/",
-    prepareHeaders: (headers) => {
-      const token = getAccessToken();
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      headers.set("Content-Type", "application/json");
-      return headers;
-    },
-  }),
+  baseQuery: fetchBaseUrl,
   endpoints: (builder) => ({
     postComments: builder.mutation({
       query: (credentials) => ({

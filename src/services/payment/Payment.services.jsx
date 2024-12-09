@@ -1,23 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// Lấy token từ localStorage
-const getAccessToken = () => localStorage.getItem("accessToken");
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { fetchBaseUrl } from "../Auth/auth.service";
 
 // Tạo API với Redux Toolkit Query
 export const paymentApi = createApi({
   reducerPath: "paymentApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4003/", // Địa chỉ API của bạn
-    prepareHeaders: (headers) => {
-      // Lấy token từ localStorage
-      const token = getAccessToken();
-      // Nếu có token, thêm vào header Authorization
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: fetchBaseUrl,
   endpoints: (builder) => ({
     // Endpoint để thanh toán MoMo
     paymentMomo: builder.mutation({
