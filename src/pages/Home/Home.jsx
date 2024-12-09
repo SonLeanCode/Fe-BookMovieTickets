@@ -157,14 +157,25 @@ const Home = () => {
   };
 
   const handleScroll = (direction) => {
-    const container = document.getElementById("movie-list");
-    const boxWidth = container.querySelector(".movie-card").offsetWidth; // Lấy kích thước của 1 box phim
-    const scrollAmount = boxWidth * 5; // Cuộn qua 5 box phim
-
+    // Lấy phần tử container chứa các mục phim
+    const container = document.querySelector(".hide-scrollbar");
+    if (!container) return;
+  
+    // Xác định khoảng cuộn
+    const scrollAmount = container.offsetWidth / 2; // Cuộn bằng 50% chiều rộng
+    const currentScroll = container.scrollLeft;
+  
+    // Cập nhật vị trí cuộn dựa trên hướng
     if (direction === "left") {
-      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-    } else {
-      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      container.scrollTo({
+        left: currentScroll - scrollAmount,
+        behavior: "smooth", // Hiệu ứng cuộn mượt
+      });
+    } else if (direction === "right") {
+      container.scrollTo({
+        left: currentScroll + scrollAmount,
+        behavior: "smooth",
+      });
     }
   };
 

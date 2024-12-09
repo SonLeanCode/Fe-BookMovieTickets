@@ -6,25 +6,22 @@ import { AiOutlineSearch } from "react-icons/ai";
 import Pagination from "../../components/Admin/Pagination";
 import LoadingLocal from "../Loading/LoadingLocal";
 import LoadingPage from "../Loading/LoadingSpinner";
+import avatar_defaut from "../../assets/img/avatar_defaut/avatar_default.png";
 
 const Tickets_Management = () => {
-  const {
-    data: tickets,
-    isLoading: ticketsDataLoading,
-  } = useGetTicketsQuery();
+  const { data: tickets, isLoading: ticketsDataLoading } = useGetTicketsQuery();
   const [selectedtickets, setSelectedtickets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ticketssPerPage, setticketssPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   // Handle case where tickets.data is undefined
   const filteredtickets = tickets?.allTickets
-  ? tickets.allTickets.filter((ticket) =>
-      ticket?.name_movie?.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  : [];
-    console.log(filteredtickets );
-    
+    ? tickets.allTickets.filter((ticket) =>
+        ticket?.name_movie?.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+    : [];
+  console.log(filteredtickets);
 
   const totalPages = Math.ceil(filteredtickets.length / ticketssPerPage);
 
@@ -42,14 +39,13 @@ const Tickets_Management = () => {
     setSelectedtickets((prev) =>
       prev.includes(id)
         ? prev.filter((ticketId) => ticketId !== id)
-        : [...prev, id]
+        : [...prev, id],
     );
   };
 
-  const paginatedtickets = filteredtickets.slice(
-    (currentPage - 1) * ticketssPerPage,
-    currentPage * ticketssPerPage
-  );
+  const paginatedtickets = filteredtickets
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice((currentPage - 1) * ticketssPerPage, currentPage * ticketssPerPage);
 
   if (ticketsDataLoading) {
     return <LoadingLocal />;
@@ -91,9 +87,7 @@ const Tickets_Management = () => {
               <p className="mr-4 text-lg font-semibold">
                 {`' `}Đã chọn {selectedtickets.length} mục{` '`}
               </p>
-              <Button
-                className="rounded-md bg-blue-500 p-2 hover:bg-blue-600"
-              >
+              <Button className="rounded-md bg-blue-500 p-2 hover:bg-blue-600">
                 <FaTrash />
               </Button>
             </div>
@@ -117,14 +111,14 @@ const Tickets_Management = () => {
         <table className="w-full border-separate border-spacing-y-2 border-[#111111]">
           <thead className="bg-[#2d2d2d]">
             <tr>
-              <th className="px-4 py-3 text-white text-left">
+              <th className="px-4 py-3 text-left text-white">
                 <input
                   type="checkbox"
                   onChange={(e) =>
                     setSelectedtickets(
                       e.target.checked
                         ? paginatedtickets.map((ticket) => ticket._id)
-                        : []
+                        : [],
                     )
                   }
                   checked={
@@ -135,7 +129,7 @@ const Tickets_Management = () => {
                 />
               </th>
               <th className="px-4 py-3 text-left text-white">Người dùng</th>
-              <th className="px-4 py-3 text-left text-white">Tên vé</th>
+              <th className="px-4 py-3 text-left text-white">Tên phim</th>
               <th className="px-4 py-3 text-left text-white">Địa chỉ</th>
               <th className="px-4 py-3 text-left text-white">Ghế</th>
               <th className="px-4 py-3 text-left text-white">Giờ chiếu</th>
@@ -151,24 +145,25 @@ const Tickets_Management = () => {
                     type="checkbox"
                     checked={selectedtickets.includes(ticket._id)}
                     onChange={() => handleticketsSelect(ticket._id)}
-
                     className="ml-4 cursor-pointer appearance-none rounded bg-[#111111] checked:bg-blue-500"
                   />
                 </td>
-                <td className="px-4 py-2 flex items-center">
-                    <img
-                        src={ticket?.user_id?.avatar}
-                        alt="Avatar"
-                        className="w-8 h-8 rounded-full mr-2"
-                    />
-                    {ticket?.user_id?.email}
-                    </td>
+                <td className="px-4 py-2">
+                  <img
+                    src={ticket?.user_id?.avatar || avatar_defaut}
+                    alt="Avatar"
+                    className="mr-2 h-8 w-8 rounded-full"
+                  />
+                  <p>{ticket?.user_id?.email}</p>
+                </td>
                 <td className="px-4 py-2">{ticket.name_movie}</td>
                 <td className="px-4 py-2">{ticket.address_cinema}</td>
                 <td className="px-4 py-2">{ticket.seat_number}</td>
                 <td className="px-4 py-2">{ticket.showtime}</td>
-                <td className="px-4 py-2">{ticket.price.toLocaleString()} VNĐ</td>
-                <td className="px-4 py-2 text-center font-bold   text-[#36f350]">
+                <td className="px-4 py-2">
+                  {ticket.price.toLocaleString()} VNĐ
+                </td>
+                <td className="px-4 py-2 text-center font-bold text-[#36f350]">
                   Đã thanh toán
                 </td>
               </tr>

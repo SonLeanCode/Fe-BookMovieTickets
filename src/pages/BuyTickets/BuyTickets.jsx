@@ -27,7 +27,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 
 const BuyTickets = () => {
   const { t } = useTranslation();
-  const { data: dataByShowtimes, isLoading: dataByShowtimesLoading } =
+  const { data: dataByShowtimes, isLoading: dataByShowtimesLoading, refetch: dataRefetch } =
     useGetDataWithShowtimesQuery();
 
   const hasRun = useRef(false);
@@ -53,14 +53,36 @@ const BuyTickets = () => {
   const [paymentMomo, { isLoading, isError, error }] = usePaymentMomoMutation();
 
   const navigate = useNavigate();
+
+
+  
   const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
     selectedRoom?.roomId || skipToken,
   );
+
+  useEffect(() => {
+    // Kiểm tra xem selectedShowtime có tồn tại trong localStorage không
+    const storedShowtime = localStorage.getItem("selectedShowtime");
+    const storeRoom = localStorage.getItem("selectedRoom");
+    const storeMovie = localStorage.getItem("selectedMovie");
+    const storeCinema = localStorage.getItem("selectedCinema")
+    if (storedShowtime) {
+      // Nếu có, parse dữ liệu và set vào state
+      setSelectedShowtime(JSON.parse(storedShowtime));
+      setSelectedRoom(JSON.parse(storeRoom));
+      setSelectedMovie(JSON.parse(storeMovie))
+      setSelectedCinemaName(JSON.parse(storeCinema))
+      setSeatOpen(!isSeatOpen);
+    } 
+  }, []);
 
   const [addTicket] = useCreateTicketMutation();
   const [addSeatStatus] = useAddSeatStatusesMutation();
   const [addPayment] = useCreatePaymentMutation();
   const [emailSend] = useEmailSendMutation();
+
+
+ 
 
   //api  momo
   const handleMomo = async () => {
@@ -207,6 +229,11 @@ const BuyTickets = () => {
       }).unwrap();
       Toastify("Thanh toán thành công", 200);
       emailSend(emailData);
+      localStorage.removeItem("selectedArea");
+      localStorage.removeItem("selectedMovie");
+      localStorage.removeItem("selectedShowtime");
+      localStorage.removeItem("selectedSeats");
+      dataRefetch()
       navigate("/cinema");
       console.log("Ticket added successfully:", response);
     } catch (error) {
