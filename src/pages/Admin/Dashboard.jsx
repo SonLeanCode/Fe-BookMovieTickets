@@ -35,6 +35,7 @@ const Dashboard = () => {
   const { data: MoviesNowShowing } = useGetMoviesNowShowingQuery();
 
   const { data: ticketRecent } = useGetTicketsQuery();
+  console.log(ticketRecent)
   const { data: users } = useGetAllUsersQuery();
   const totalUsers = users?.data?.length ?? 0;
   const numberTicket = ticketRecent?.allTickets?.length ?? 0;
@@ -123,7 +124,6 @@ const Dashboard = () => {
 
       // Kiểm tra dữ liệu ticketData và trạng thái
       if (ticketData && !ticketLoading && !ticketError) {
-        console.log("biểu đồ tròn", ticketData);
 
         // Lấy các loại ghế và số ghế đã đặt
         const labels = Object.keys(ticketData.data);
@@ -401,7 +401,7 @@ const Dashboard = () => {
                 ></canvas>
               </div>
 
-              <div className="rounded-lg bg-white p-5">
+              <div className="rounded-lg text-black bg-white p-5">
                 <h4 className="mb-4 text-xl font-semibold">Vé gần đây</h4>
                 <table className="w-full table-auto text-left">
                   <thead>
@@ -412,7 +412,7 @@ const Dashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {ticketRecent?.allTickets?.slice(0, 5).map((ticket) => (
+                    {ticketRecent?.allTickets?.slice().reverse().slice(0, 5).map((ticket) => (
                       <tr key={ticket?.user_id?._id}>
                         <td className="border-b px-4 py-2">
                           {ticket?.user_id?.email}

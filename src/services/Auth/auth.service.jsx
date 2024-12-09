@@ -27,7 +27,7 @@ const logout = () => {
 
 
 export const fetchBaseUrl = fetchBaseQuery({
-  baseUrl: "http://localhost:4003/", // Địa chỉ API của bạn
+  baseUrl: "https://be-cyberscreen.shop/", // Địa chỉ API của bạn
   prepareHeaders: (headers) => {
     const token = getAccessToken();
 
