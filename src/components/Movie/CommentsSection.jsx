@@ -27,7 +27,7 @@ const CommentsSection = ({ movieId }) => {
 
   // Kết nối socket và lắng nghe sự kiện
   useEffect(() => {
-    socketRef.current = io("http://localhost:4003", { autoConnect: false });
+    socketRef.current = io("https://be-cyberscreen.shop", { autoConnect: false });
     socketRef.current.connect();
 
     const handleNewComment = (comment) => {
