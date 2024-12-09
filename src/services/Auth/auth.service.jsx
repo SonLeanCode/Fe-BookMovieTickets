@@ -49,19 +49,7 @@ export const fetchBaseUrl = fetchBaseQuery({
 // Tạo API với Redux Toolkit Query
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4003/", // Địa chỉ API của bạn
-    prepareHeaders: (headers) => {
-      // Lấy token từ localStorage
-      const token = getAccessToken();
-      // Nếu có token, thêm vào header Authorization
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-        console.log("Authorization header set:", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: fetchBaseUrl,
   endpoints: (builder) => ({
     // Endpoint để login  //
     login: builder.mutation({

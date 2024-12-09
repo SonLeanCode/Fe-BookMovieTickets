@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useMemo } from "react";
-import { useGetAllActorsQuery } from "../../services/Actor/acto r.service";
+import { useGetAllActorsQuery } from "../../services/Actor/actor.service";
 import notfound_img from "../../assets/img/404/actor-default.png";
 import { useTranslation } from 'react-i18next';
 import NowShowingMovies from './NowShowingMovies';
