@@ -42,7 +42,6 @@ const Register = lazy(() => import("../pages/Auth/Register"));
 const Profile = lazy(() => import("../pages/Account/Profile"));
 const Actordetail = lazy(() => import("../pages/Actor/Actordetail"));
 const Voucher = lazy(() => import("../pages/Voucher/voucher"));
-const Transaction = lazy(() => import("../pages/Account/Transaction"));
 const Login = lazy(() => import("../pages/Auth/Login"));
 const Auth = lazy(() => import("../pages/Auth/Auth"));
 const VoucherDetail = lazy(() => import("../pages/Voucher/voucher-detail"));
@@ -127,7 +126,6 @@ export default function AppRoutes() {
             >
               <Route element={<UserLayout />}>
                 <Route path="profile/:userId" element={<Profile />} />
-                <Route path="transaction" element={<Transaction />} />
               </Route>
             </Route>
           </Route>
