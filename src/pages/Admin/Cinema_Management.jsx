@@ -37,7 +37,7 @@ const Cinema_Management = () => {
     address: "",
     region_id: "",
   });
-  console.log(formData);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
