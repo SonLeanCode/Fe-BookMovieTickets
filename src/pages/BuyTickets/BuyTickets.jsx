@@ -146,10 +146,9 @@ const BuyTickets = () => {
     const amount = parseInt(urlParams.get("amount"));
     const resultCode = urlParams.get("resultCode");
     const responseTime = urlParams.get("responseTime");
-    const message = urlParams.get("message");
 
     // Kiểm tra kết quả thanh toán
-    if (resultCode === "0" && message === "Successful.") {
+    if (resultCode === "0") {
       const paymentMethod = partnerCode; // Vì đây là MoMo, phương thức thanh toán sẽ là MoMo
       const totalAmount = amount;
       const paymentDate = new Date(parseInt(responseTime)).toLocaleString(); // Chuyển thời gian sang dạng chuỗi

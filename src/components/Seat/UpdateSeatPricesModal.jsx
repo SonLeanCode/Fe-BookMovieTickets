@@ -54,11 +54,11 @@ const UpdateSeatPricesModal = ({ isOpen, onClose, roomId ,refetchSeats}) => {
   };
   const getSeatTypeColor = (seatType) => {
     switch (seatType) {
-      case 'Single':
+      case '0':
         return 'text-blue-500';
-      case 'VIP':
+      case '1':
         return 'text-yellow-500';
-      case 'Sweetbox':
+      case '2':
         return 'text-red-500';
       default:
         return ''; // Trả về lớp mặc định nếu không khớp
@@ -83,7 +83,7 @@ const UpdateSeatPricesModal = ({ isOpen, onClose, roomId ,refetchSeats}) => {
               <div className="grid grid-cols-2 gap-4">
                 {Object.keys(prices).map((seatType) => (
                   <div key={seatType} className="p-2 border rounded-md">
-                    <h3 className="text-lg font-semibold">Loại Ghế: <span className={getSeatTypeColor(seatType)}>{seatType}</span></h3>
+                    <h3 className="text-lg font-semibold">Loại Ghế: <span className={getSeatTypeColor(seatType)}>{seatType == 0 ? "STANDARD" : seatType == 1 ? "VIP": "SWEETBOX"}</span></h3>
 
                     {/* Giá ngày thường (base_price) */}
                     <div className="mt-2 flex items-center gap-2">
