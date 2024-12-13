@@ -18,7 +18,7 @@ import {statsApi} from '../services/RevenueStatistics/revenuestatistics.service'
 import {voucherApi}from '../services/Voucher/voucher.service'
 import { ratingApi } from '../services/Rating/rating.serviecs';
 import { roomLayoutApi } from '../services/Room/roomlayout.service';
-
+import { bannerApi } from '../services/Banner/banner.service';
 
 const store = configureStore({
   reducer: {
@@ -41,6 +41,7 @@ const store = configureStore({
     [statsApi.reducerPath]: statsApi.reducer,
     [voucherApi.reducerPath]: voucherApi.reducer,
     [ratingApi.reducerPath]: ratingApi.reducer,
+    [bannerApi.reducerPath]: bannerApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -63,6 +64,7 @@ const store = configureStore({
       .concat(statsApi.middleware)
       .concat(voucherApi.middleware)
       .concat(ratingApi.middleware)
+      .concat(bannerApi.middleware)
 });
 
 export default store;

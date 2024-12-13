@@ -27,6 +27,7 @@ import CommentManagement from "../pages/Admin/Comment-management";
 import Tickets_Management from "../pages/Admin/tickets_Management";
 import CinemaRevenue from "../pages/Admin/CinemaRevenue_Management";
 import RoomLayout from "../pages/Admin/RoomLayout";
+import Banner_Management from "../pages/Admin/Banner_Management";
 
 
 
@@ -155,7 +156,7 @@ export default function AppRoutes() {
                 <Route path="ticketsManagement" element={<Tickets_Management />} />
                 <Route path="CinemaRevenueManagement" element={<CinemaRevenue />} />
                 <Route path="roomlayout/:roomId" element={<RoomLayout />} />
-                
+                <Route path="banner" element={<Banner_Management />} />
               </Route>
             </Route>
           </Route>
@@ -166,7 +167,6 @@ export default function AppRoutes() {
             <Route path="/404" element={<NotFound />} />
           </Route>
         </Routes>
-    
     </Router>
   );
 }
