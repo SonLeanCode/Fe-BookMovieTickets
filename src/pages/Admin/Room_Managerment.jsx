@@ -115,14 +115,14 @@ const Room_Managerment = () => {
   };
 
   const handleDeleteRoom = async (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa thể loại này?")) {
+    if (window.confirm("Bạn có chắc chắn muốn xóa phòng này?")) {
       try {
         setLoading(true);
         await deleteRoom(id).unwrap();
         refetch();
-        Toastify("Thể loại đã được xóa:", 200);
+        Toastify("Phòng đã được xóa:", 200);
       } catch (error) {
-        console.error("Có lỗi khi xóa thể loại:", error);
+        console.error("Có lỗi khi xóa phòng:", error);
         Toastify("Có lỗi xảy ra! Vui lòng thử lại.", 400);
       } finally {
         setLoading(false);
@@ -131,15 +131,15 @@ const Room_Managerment = () => {
   };
 
   const handleDeleteSelectedRooms = async () => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa những thể loại đã chọn?")) {
+    if (window.confirm("Bạn có chắc chắn muốn xóa những phòng đã chọn?")) {
       try {
         setLoading(true);
         await Promise.all(selectedRooms.map((id) => deleteRoom(id).unwrap()));
         refetch();
-        Toastify("Các thể loại đã được xóa:", 200);
+        Toastify("Các phòng đã được xóa:", 200);
         setSelectedRooms([]);
       } catch (error) {
-        console.error("Có lỗi khi xóa thể loại:", error);
+        console.error("Có lỗi khi xóa phòng:", error);
         Toastify("Có lỗi xảy ra! Vui lòng thử lại.", 400);
       } finally {
         setLoading(false);

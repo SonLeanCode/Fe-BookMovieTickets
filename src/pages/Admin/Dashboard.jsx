@@ -26,6 +26,7 @@ const Dashboard = () => {
     isLoading: ticketLoading,
     isError: ticketError,
   } = useGetTicketsStatsQuery();
+
   const {
     data: totalRevenues,
     isLoading: totalRevenueLoading,
@@ -453,7 +454,7 @@ const Dashboard = () => {
                             ? "bg-gradient-to-r from-yellow-600 to-yellow-300 text-white"
                             : index === 2
                               ? "bg-gradient-to-r from-green-600 to-green-400 text-white"
-                              : "bg-slate-100"
+                              : "bg-gray-500 text-white"
                       }`}
                     >
                       <img
