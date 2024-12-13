@@ -131,7 +131,7 @@ const Movie_Management = () => {
     setCurrentPage(1);
   };
 
-  const paginatedMovies = filteredMovies?.slice(
+  const paginatedMovies = filteredMovies?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(
     (currentPage - 1) * moviesPerPage,
     currentPage * moviesPerPage,
   );

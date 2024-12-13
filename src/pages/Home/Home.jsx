@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "react-daisyui";
 import "./Home.css";
 import PopupNotification from "./Popup";
 import {
@@ -19,6 +18,7 @@ import {
   useGetMostViewedMoviesWithShowtimesQuery,
 } from "../../services/Movies/movies.services";
 import Banner from "../../components/Home/Banner";
+import { useGetBannersQuery } from "../../services/Banner/banner.service";
 import Modal_Video from "../../components/Movie/Modal_Video";
 import LoadingLocal from "../Loading/LoadingLocal";
 import { useTranslation } from "react-i18next";
@@ -31,6 +31,7 @@ const Home = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const visibleMoviesCount = 4;
+  const { data: banners, isLoading: bannerLoading } = useGetBannersQuery();
   const { data: latestMovies, isLoading: latestMoviesLoading } =
     useGetLatestMoviesByCreationDateQuery();
   const { data: currentTrendMovies, isLoading: currentMoviesLoading } =
@@ -160,11 +161,11 @@ const Home = () => {
     // Lấy phần tử container chứa các mục phim
     const container = document.querySelector(".hide-scrollbar");
     if (!container) return;
-  
+
     // Xác định khoảng cuộn
     const scrollAmount = container.offsetWidth / 2; // Cuộn bằng 50% chiều rộng
     const currentScroll = container.scrollLeft;
-  
+
     // Cập nhật vị trí cuộn dựa trên hướng
     if (direction === "left") {
       container.scrollTo({
@@ -180,6 +181,7 @@ const Home = () => {
   };
 
   if (
+    bannerLoading ||
     latestMoviesLoading ||
     currentMoviesLoading ||
     topRateMoviesLoading ||
@@ -211,17 +213,14 @@ const Home = () => {
           {/* show popup */}
           <PopupNotification />
           {/* Banner */}
-          <Banner
-            banners={carouselBanners}
-            currentBannerIndex={currentBannerIndex}
-          />
+          <Banner banners={banners} currentBannerIndex={currentBannerIndex} />
 
           <div className="absolute top-0 h-screen w-full md:w-1/2">
             {/* Giới thiệu phim */}
             <div className="absolute top-[100px] ml-4 mt-8 flex h-48 w-full flex-col items-center text-center md:ml-20 md:items-start md:text-left">
-              {carouselBanners.map((banner, index) => (
+              {banners?.data?.map((banner, index) => (
                 <div
-                  key={banner.id}
+                  key={banner?._id}
                   className={`absolute transition-transform duration-1000 ease-in-out ${
                     currentBannerIndex === index
                       ? "translate-x-0 opacity-100"
@@ -229,51 +228,56 @@ const Home = () => {
                   }`}
                 >
                   <h2 className="text-sm font-semibold sm:text-lg">
-                    {banner.genres.join(" | ")}
+                    {banner?.movie_id?.genres
+                      .map((genre) => genre.name)
+                      .join(" | ")}
                   </h2>
                   <h5 className="mt-1 text-2xl font-bold sm:mt-2 sm:text-3xl md:text-5xl">
-                    {banner.title}
+                    {banner?.movie_id?.name}
                   </h5>
                   <div className="mt-1 flex flex-col items-center sm:mt-2 sm:flex-row sm:flex-wrap">
                     <h2 className="ml-0 mr-0 mt-1 flex text-sm sm:mr-4 sm:mt-0 sm:text-base">
-                    SINCE:{" "}
+                      Năm:{" "}
                       <p className="ml-1 text-gray-300 sm:ml-2">
-                      {banner.releaseYear}
+                        {banner?.movie_id?.release_date
+                          ? new Date(banner.movie_id.release_date).getFullYear()
+                          : "N/A"}
                       </p>
                     </h2>
                     <span className="hidden sm:inline">{" | "}</span>
                     <h2 className="ml-0 mr-0 mt-1 flex text-sm sm:ml-4 sm:mr-4 sm:mt-0 sm:text-base">
-                      DIRECTOR:{" "}
+                      Đạo Diễn:{" "}
                       <p className="ml-1 text-gray-300 sm:ml-2">
-                        {banner.author}
-                      </p>
-                    </h2>
-                    <span className="hidden sm:inline">{" | "}</span>
-                    <h2 className="ml-0 mt-1 flex text-sm sm:ml-4 sm:mt-0 sm:text-base">
-                      SEASONS:{" "}
-                      <p className="ml-1 text-gray-300 sm:ml-2">
-                        {banner.seasons} (26 Episodes)
+                        {banner?.movie_id?.director}
                       </p>
                     </h2>
                   </div>
                   <p className="mt-2 font-bold text-gray-300">
-                    {banner.description}
+                    {banner?.movie_id?.description?.length > 100
+                      ? `${banner.movie_id.description.slice(0, 150)}...`
+                      : banner?.movie_id?.description}
                   </p>
                   <div className="mt-4 flex flex-col items-center sm:flex-row">
-                    <Button className="flex items-center justify-center rounded bg-red-600 px-3 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500 sm:px-4 md:px-6">
-                      BOOK NOW <FaTicketAlt size={18} className="ml-2" />
-                    </Button>
-                    <Button className="ml-0 mt-2 rounded border border-solid border-gray-300 px-3 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 sm:ml-4 sm:mt-0 sm:px-4 md:px-6">
-                      VIEW MORE{" "}
+                    <Link
+                      to="/cinema/buy-tickets"
+                      className="flex items-center justify-center rounded bg-red-600 px-3 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-500 sm:px-4 md:px-6"
+                    >
+                      Đặt Ngay <FaTicketAlt size={18} className="ml-2" />
+                    </Link>
+                    <Link
+                      to={`/cinema/movie/${banner?.movie_id?._id}`}
+                      className="flex items-center ml-0 mt-2 rounded border border-solid border-gray-300 px-3 py-2 font-semibold transition-colors duration-300 hover:bg-gray-100 hover:text-gray-800 sm:ml-4 sm:mt-0 sm:px-4 md:px-6"
+                    >
+                      Xem Thêm{" "}
                       <FaRegHandPointRight size={18} className="ml-2" />
-                    </Button>
+                    </Link>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Popular This Week */}
-            <div className="absolute top-[430px] ml-4 mr-4 overflow-hidden md:ml-20">
+            <div className="absolute top-[415px] ml-4 mr-4 overflow-hidden md:ml-20">
               <div className="flex items-center justify-between py-2">
                 <h2 className="text-md flex items-center font-bold">
                   <FaStar className="mr-1" />
@@ -300,7 +304,7 @@ const Home = () => {
                   transform: `translateX(-${currentIndex * (100 / visibleMoviesCount)}%)`,
                 }}
               >
-                {carouselBanners.map((movie, index) => (
+                {banners?.data?.map((banner, index) => (
                   <div
                     key={index}
                     className="flex-none px-1"
@@ -308,13 +312,13 @@ const Home = () => {
                   >
                     <div className="flex flex-col items-center rounded-lg text-center">
                       <img
-                        src={movie.image}
-                        alt={movie.title}
+                        src={banner?.movie_id?.img}
+                        alt={banner?.movie_id?.name}
                         className="h-[205px] w-40 cursor-pointer rounded-md object-fill"
                         onClick={() => handleBannerIndex(index)}
                       />
                       <h2 className="mt-2 text-center text-sm font-semibold text-gray-300">
-                        {movie.title}
+                        {banner?.movie_id?.name}
                       </h2>
                     </div>
                   </div>
@@ -481,7 +485,7 @@ const Home = () => {
               </div>
 
               {/* Cột phải: 6 phim, 2 hàng, mỗi hàng 2 box trên màn hình nhỏ */}
-              <div className="flex flex-wrap lg:w-3/4 ml-3">
+              <div className="ml-3 flex flex-wrap lg:w-3/4">
                 {latestMovies?.data?.slice(1, 9).map((movie) => (
                   <div
                     key={movie._id}

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Button, Menu } from "react-daisyui";
+import { Button } from "react-daisyui";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { MdCategory } from "react-icons/md";
+import { MdCategory, MdDashboard } from "react-icons/md";
 import {
   FaHome,
   FaFilm,
@@ -10,21 +10,23 @@ import {
   FaMapMarkerAlt,
   FaVideo ,
   FaUser, 
+  FaTicketAlt
 } from "react-icons/fa";
+import { RiAdvertisementLine } from 'react-icons/ri';
 import { MdOutlineTheaters, MdOutlineComment } from 'react-icons/md';
 const menuItems = [
-  { name: "Bảng điều khiển", icon: FaHome, link: "/admin/dashboard" },
+  { name: "Bảng điều khiển", icon: MdDashboard, link: "/admin/dashboard" },
   { name: "Quản lý phim", icon: FaFilm, link: "/admin/movies" },
   { name: "Quản lý thể loại", icon: MdCategory, link: "/admin/genres" },
   { name: "Quản lý diễn viên", icon: FaUserAlt, link: "/admin/actors" },
   { name: "Quản lý khu vực", icon: FaMapMarkerAlt, link: "/admin/regions" },
   { name: "Quản lý rạp", icon: FaVideo , link: "/admin/cinemas" },
   { name: "Quản lý tài khoản", icon: FaUser , link: "/admin/users" },
-  { name: "Quản lý phòng chiếu", icon: MdOutlineTheaters , link: "/admin/rooms" },
+  { name: "Quản lý phòng chiếu", icon: FaHome , link: "/admin/rooms" },
   { name: "Quản lý suất chiếu", icon: MdOutlineTheaters , link: "/admin/showtimes" },
   { name: "Quản lý bình luận", icon: MdOutlineComment , link: "/admin/commentManagement" },
-  { name: "Quản lý vé", icon: MdOutlineComment , link: "/admin/ticketsManagement" },
-
+  { name: "Quản lý vé", icon: FaTicketAlt , link: "/admin/ticketsManagement" },
+  { name: "Quản lý banner", icon: RiAdvertisementLine , link: "/admin/banner" },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -63,12 +65,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               </Link>
             </div>
           </div>
-          <div className="scrollbar-hide mt-5 h-[300px] overflow-y-auto lg:h-auto">
-            <Menu className="flex-grow">
+          <div className="scrollbar-hide mt-5 h-[375px] overflow-y-auto">
+            <div className="flex-grow">
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <Menu.Item key={item.name} className="relative">
+                  <div key={item.name} className="relative">
                     <NavLink
                       to={item.link}
                       className={`flex w-full items-center justify-start rounded-lg px-4 py-2 transition-colors duration-200 ease-in-out ${
@@ -96,10 +98,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                         </div>
                       </div>
                     </NavLink>
-                  </Menu.Item>
+                  </div>
                 );
               })}
-            </Menu>
+            </div>
           </div>
         </div>
         <div className="mx-4 mb-2 flex flex-col items-center">

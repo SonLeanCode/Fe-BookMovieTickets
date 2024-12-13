@@ -18,6 +18,7 @@ import {
   usePaymentMomoMutation,
   useCreatePaymentMutation,
 } from "../../services/payment/Payment.services";
+import { useGetVoucherUserQuery } from "../../services/Voucher/voucher.service";
 import { useEmailSendMutation } from "../../services/Email/email.service";
 import { v4 as uuidv4 } from "uuid";
 import Toastify from "../../helper/Toastify";
@@ -27,15 +28,21 @@ import { skipToken } from "@reduxjs/toolkit/query";
 
 const BuyTickets = () => {
   const { t } = useTranslation();
-  const { data: dataByShowtimes, isLoading: dataByShowtimesLoading, refetch: dataRefetch } =
-    useGetDataWithShowtimesQuery();
-
+  const {
+    data: dataByShowtimes,
+    isLoading: dataByShowtimesLoading,
+    refetch: dataRefetch,
+  } = useGetDataWithShowtimesQuery();
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const { data: codeVoucherUser } = useGetVoucherUserQuery(userData?._id);
   const hasRun = useRef(false);
   const [isAreaOpen, setAreaOpen] = useState(false);
   const [isMovieOpen, setMovieOpen] = useState(false);
   const [isShowtimeOpen, setShowtimeOpen] = useState(false);
   const [isSeatOpen, setSeatOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [selectedVoucher, setSelectedVoucher] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedShowtime, setSelectedShowtime] = useState(null);
@@ -54,8 +61,6 @@ const BuyTickets = () => {
 
   const navigate = useNavigate();
 
-
-  
   const { data: seatsData, isLoading: seatsLoading } = useGetSeatsByRoomQuery(
     selectedRoom?.roomId || skipToken,
   );
@@ -65,24 +70,21 @@ const BuyTickets = () => {
     const storedShowtime = localStorage.getItem("selectedShowtime");
     const storeRoom = localStorage.getItem("selectedRoom");
     const storeMovie = localStorage.getItem("selectedMovie");
-    const storeCinema = localStorage.getItem("selectedCinema")
+    const storeCinema = localStorage.getItem("selectedCinema");
     if (storedShowtime) {
       // Nếu có, parse dữ liệu và set vào state
       setSelectedShowtime(JSON.parse(storedShowtime));
       setSelectedRoom(JSON.parse(storeRoom));
-      setSelectedMovie(JSON.parse(storeMovie))
-      setSelectedCinemaName(JSON.parse(storeCinema))
+      setSelectedMovie(JSON.parse(storeMovie));
+      setSelectedCinemaName(JSON.parse(storeCinema));
       setSeatOpen(!isSeatOpen);
-    } 
+    }
   }, []);
 
   const [addTicket] = useCreateTicketMutation();
   const [addSeatStatus] = useAddSeatStatusesMutation();
   const [addPayment] = useCreatePaymentMutation();
   const [emailSend] = useEmailSendMutation();
-
-
- 
 
   //api  momo
   const handleMomo = async () => {
@@ -178,7 +180,7 @@ const BuyTickets = () => {
     const selectedCinema = JSON.parse(localStorage.getItem("selectedCinema"));
     const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
     const getUser = JSON.parse(localStorage.getItem("user"));
-
+    const totalPrice = JSON.parse(localStorage.getItem("totalAmount"));
     const ticketData = {
       invoice_code: generateInvoiceCode(),
       name_movie: selectedMovie.name,
@@ -192,7 +194,7 @@ const BuyTickets = () => {
         formatShowtime(selectedShowtime.start_time, selectedShowtime.end_time) +
         " - " +
         formatShowDate3(selectedShowtime.start_time),
-      price: selectedSeats.reduce((sum, seat) => sum + seat.base_price, 0),
+      price: totalPrice,
       voucher_name: selectedShowtime.voucher_name || null, // Nếu có voucher
       voucher_percent: selectedShowtime.voucher_percent || 0,
       showtime_id: selectedShowtime._id,
@@ -233,7 +235,7 @@ const BuyTickets = () => {
       localStorage.removeItem("selectedMovie");
       localStorage.removeItem("selectedShowtime");
       localStorage.removeItem("selectedSeats");
-      dataRefetch()
+      dataRefetch();
       navigate("/cinema");
       console.log("Ticket added successfully:", response);
     } catch (error) {
@@ -817,20 +819,48 @@ const BuyTickets = () => {
                 </div>
               )}
 
-              <div className="mx-2 flex justify-between p-2">
-                <h2 className="text-base font-semibold">{t("Tổng cộng")}</h2>
-                <span className="text-primary inline-block font-bold text-red-600">
-                  {selectedSeats && selectedSeats.length > 0
-                    ? `${formatCurrency(
-                        selectedSeats.reduce((sum, seat) => {
-                          const total = sum + seat.base_price;
+              <div className="mx-2 p-2">
+                <div className="flex justify-between">
+                  <h2 className="text-base font-semibold">{t("Tổng cộng")}</h2>
+                  <span className="text-primary inline-block font-bold">
+                    {selectedSeats && selectedSeats.length > 0
+                      ? (() => {
+                          const total = selectedSeats.reduce(
+                            (sum, seat) => sum + seat.base_price,
+                            0,
+                          );
+
+                          // Nếu có voucher, áp dụng giảm giá
+                          const discountedTotal = selectedVoucher
+                            ? total -
+                              (total * selectedVoucher.discount_percent) / 100
+                            : total;
+
                           // Lưu tổng tiền vào localStorage
-                          localStorage.setItem("totalAmount", total);
-                          return total;
-                        }, 0),
-                      )} `
-                    : `0 VNĐ`}
-                </span>
+                          localStorage.setItem("totalAmount", discountedTotal);
+
+                          return (
+                            <span>
+                              {selectedVoucher && total !== discountedTotal && (
+                                <span className="mr-2 text-gray-500 line-through">
+                                  {formatCurrency(total)}
+                                </span>
+                              )}
+                              <span className="text-red-600">
+                                {formatCurrency(discountedTotal)}
+                              </span>
+                            </span>
+                          );
+                        })()
+                      : `0 VNĐ`}
+                  </span>
+                </div>
+                {selectedVoucher && (
+                  <span className="flex justify-between">
+                    <h2>Đã áp dụng mã</h2>
+                    <p>{selectedVoucher?.name}</p>
+                  </span>
+                )}
               </div>
               <div className="mt-10 flex justify-between p-2">
                 <button
@@ -871,39 +901,126 @@ const BuyTickets = () => {
             isContinueClicked ? "w-[70%] opacity-100" : "hidden"
           } relative bg-[#111111] p-4 text-white`}
         >
-          <img
-            src="/src/assets/momo2.jpg"
-            alt="MoMo Payment"
-            className="mx-auto mb-4 h-[300px] w-[700px]"
-          />
-          <div className="mb-4">
-            <p className="text-center">
-              Chúc mừng bạn đã chọn vé! Vui lòng làm theo hướng dẫn để hoàn tất
-              giao dịch.
+          <div className="flex w-full flex-col items-center gap-4 rounded-lg bg-gray-100 p-4 shadow-md sm:flex-row sm:justify-between">
+            <p className="text-sm text-gray-700 sm:text-base">
+              {selectedVoucher
+                ? selectedVoucher.name
+                : "Hiện chưa có mã giảm giá nào"}
             </p>
-            <p className="text-center">
-              Mô tả: Thanh toán vé xem phim qua ví MoMo.
-            </p>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="rounded-lg bg-blue-500 px-4 py-2 font-medium text-white transition-colors duration-300 hover:bg-blue-600"
+            >
+              Chọn mã giảm giá
+            </button>
           </div>
-          <button
-            onClick={handleMomo}
-            className="mx-auto block rounded bg-blue-500 px-4 py-2 text-white"
-            disabled={isLoading}
-          >
-            {isLoading ? "Đang xử lý..." : "Thanh toán MoMo"}
-          </button>
-          {isError && (
-            <div className="mt-2 text-center text-red-500">
-              {error.message || "Có lỗi xảy ra khi thực hiện thanh toán."}
+          <div className="mt-2">
+            <img
+              src="/src/assets/momo2.jpg"
+              alt="MoMo Payment"
+              className="mx-auto mb-4 h-[300px] w-[700px]"
+            />
+            <div className="mb-4">
+              <p className="text-center">
+                Chúc mừng bạn đã chọn vé! Vui lòng làm theo hướng dẫn để hoàn
+                tất giao dịch.
+              </p>
+              <p className="text-center">
+                Mô tả: Thanh toán vé xem phim qua ví MoMo.
+              </p>
             </div>
-          )}
-          <div className="mt-2 text-center text-sm text-gray-400">
-            <p>Bước 1: Nhấn vào nút Thanh toán MoMo.</p>
-            <p>
-              Bước 2: Quét mã QR hoặc đăng nhập ví MoMo để hoàn tất giao dịch.
-            </p>
+            <button
+              onClick={handleMomo}
+              className="mx-auto block rounded bg-blue-500 px-4 py-2 text-white"
+              disabled={isLoading}
+            >
+              {isLoading ? "Đang xử lý..." : "Thanh toán MoMo"}
+            </button>
+            {isError && (
+              <div className="mt-2 text-center text-red-500">
+                {error.message || "Có lỗi xảy ra khi thực hiện thanh toán."}
+              </div>
+            )}
+            <div className="mt-2 text-center text-sm text-gray-400">
+              <p>Bước 1: Nhấn vào nút Thanh toán MoMo.</p>
+              <p>
+                Bước 2: Quét mã QR hoặc đăng nhập ví MoMo để hoàn tất giao dịch.
+              </p>
+            </div>
           </div>
         </div>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="w-11/12 max-w-md rounded-lg bg-white p-6 shadow-lg">
+              {/* Header */}
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-gray-800">
+                  Nhập mã giảm giá
+                </h2>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="text-gray-400 transition-colors duration-200 hover:text-gray-600"
+                >
+                  ✖
+                </button>
+              </div>
+
+              {/* Input Section */}
+              <div className="mt-4 flex">
+                <input
+                  type="text"
+                  placeholder="Nhập mã giảm giá..."
+                  className="flex-1 rounded-l-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                />
+                <button className="rounded-r-lg bg-blue-500 px-4 py-2 font-medium text-white transition-colors duration-300 hover:bg-blue-600">
+                  Áp dụng
+                </button>
+              </div>
+              <div className="">
+                {codeVoucherUser?.data?.length > 0 ? (
+                  codeVoucherUser?.data?.map((voucher) => (
+                    <div
+                      key={voucher._id}
+                      className="mt-6 flex justify-between"
+                    >
+                      <div className="flex">
+                        <img
+                          src={voucher?.idVoucher?.img}
+                          alt={voucher?.idVoucher?.name || "Voucher"}
+                          className="mr-2 h-20 w-20 rounded"
+                        />
+                        <div>
+                          <p className="font-semibold">
+                            {voucher?.idVoucher?.name}
+                          </p>
+                          <p className="text-gray-600">
+                            {" "}
+                            Mã: {voucher?.idVoucher?.code}
+                          </p>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          setSelectedVoucher(voucher?.idVoucher);
+                          setIsModalOpen(false);
+                        }}
+                        className="p-2 font-bold text-blue-600"
+                      >
+                        Chọn
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <p className="mt-6 text-center text-gray-500">
+                    Hiện chưa có mã giảm giá nào
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

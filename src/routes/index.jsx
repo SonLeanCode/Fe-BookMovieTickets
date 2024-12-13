@@ -27,6 +27,7 @@ import CommentManagement from "../pages/Admin/Comment-management";
 import Tickets_Management from "../pages/Admin/tickets_Management";
 import CinemaRevenue from "../pages/Admin/CinemaRevenue_Management";
 import RoomLayout from "../pages/Admin/RoomLayout";
+import Banner_Management from "../pages/Admin/Banner_Management";
 
 
 
@@ -41,7 +42,6 @@ const Register = lazy(() => import("../pages/Auth/Register"));
 const Profile = lazy(() => import("../pages/Account/Profile"));
 const Actordetail = lazy(() => import("../pages/Actor/Actordetail"));
 const Voucher = lazy(() => import("../pages/Voucher/voucher"));
-const Transaction = lazy(() => import("../pages/Account/Transaction"));
 const Login = lazy(() => import("../pages/Auth/Login"));
 const Auth = lazy(() => import("../pages/Auth/Auth"));
 const VoucherDetail = lazy(() => import("../pages/Voucher/voucher-detail"));
@@ -126,7 +126,6 @@ export default function AppRoutes() {
             >
               <Route element={<UserLayout />}>
                 <Route path="profile/:userId" element={<Profile />} />
-                <Route path="transaction" element={<Transaction />} />
               </Route>
             </Route>
           </Route>
@@ -155,7 +154,7 @@ export default function AppRoutes() {
                 <Route path="ticketsManagement" element={<Tickets_Management />} />
                 <Route path="CinemaRevenueManagement" element={<CinemaRevenue />} />
                 <Route path="roomlayout/:roomId" element={<RoomLayout />} />
-                
+                <Route path="banner" element={<Banner_Management />} />
               </Route>
             </Route>
           </Route>
@@ -166,7 +165,6 @@ export default function AppRoutes() {
             <Route path="/404" element={<NotFound />} />
           </Route>
         </Routes>
-    
     </Router>
   );
 }

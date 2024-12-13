@@ -6,16 +6,15 @@ import { useGetAllFavouriteQuery } from '../../services/MovieFavourite/moviesFav
 import { useGetTicketsByUserIdQuery } from '../../services/Ticket/ticket.serviecs'
 import { useGetVoucherUserQuery } from "../../services/Voucher/voucher.service"
 import { useDeleteVoucherMutation } from "../../services/Voucher/voucher.service"
-import {checkVoucherStatus} from "../../utils/formatTimeVoucher"
+import { checkVoucherStatus } from "../../utils/formatTimeVoucher"
 import Toastify from '../../helper/Toastify';
 
 const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
-    console.log('Uid', userId)
     const { data: userData } = useGetUserQuery(userId)
     const { data: idTicketData, } = useGetTicketsByUserIdQuery(userId)
-    console.log('đsff', idTicketData)
+
 
     const fileInputRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);

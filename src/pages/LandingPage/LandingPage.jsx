@@ -41,7 +41,7 @@ const LandingPage = () => {
           {/* Thay đổi kích thước nếu cần */}
           <p className="text-sansang">
             {" "}
-            Nhập email để nhận thông tin về lịch chiếu và ưu đãi đặc biệt.
+            Nhập email để nhận ưu đãi đặc biệt.
           </p>
           <form className="email-signup">
             <input type="email" placeholder="Địa chỉ email" required />
