@@ -99,7 +99,6 @@ const HeaderWeb = () => {
       setIsDropdownOpen(true); // Mở dropdown khi có kết quả
     };
 
-    console.log(searchResults);
 
   return (
     <header
