@@ -17,7 +17,7 @@ const HeaderWeb = () => {
   const [userAvatar, setUserAvatar] = useState("");
   const [fullName, setFullName] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+
   const navigate = useNavigate();
   const userIdToken = getUserByIdFormToken();
 
@@ -51,10 +51,28 @@ const HeaderWeb = () => {
     navigate("/auth/login");
   };
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  
+  // changes languages
+  const changeLanguage = async (language) => {  
+    try {
+      i18n.changeLanguage(language);
+    }
+    catch (error) {
+      console.error("Error updating language:", error);
+    }
+  };
+
+
+
 
 
     // const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(""); // State for search input
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
   
@@ -64,21 +82,6 @@ const HeaderWeb = () => {
       }
     };
   
-    useEffect(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-    // changes languages
-    const changeLanguage = async (language) => {  
-      try {
-        i18n.changeLanguage(language);
-      }
-      catch (error) {
-        console.error("Error updating language:", error);
-      }
-    };
-
-
     // Gọi hook để lấy dữ liệu từ API Movies
     const { data: showSearchMovies, isLoading: searchLoading } = useGetAllMoviesQuery();
     
@@ -88,7 +91,7 @@ const HeaderWeb = () => {
 
     // Hàm tìm kiếm (sử dụng dữ liệu showSearchMovies)
     const handleSearch = (term) => {
-      if (!showSearchMovies?.data) return;
+      // if (!showSearchMovies?.data) return;
 
       // Tìm kiếm trong showSearchMovies
       const results = showSearchMovies.data.filter((movie) =>
@@ -99,7 +102,6 @@ const HeaderWeb = () => {
       setIsDropdownOpen(true); // Mở dropdown khi có kết quả
     };
 
-    console.log(searchResults);
 
   return (
     <header
@@ -218,7 +220,7 @@ const HeaderWeb = () => {
                         {/* Hiển thị tên và giá sản phẩm */}
                         <div>
                           <div className="text-white font-semibold">{movie.name}</div>
-                          <div className="text-gray-300">{movie.image}</div>
+                          <div className="text-gray-300">{movie.subtitles}</div>
                         </div>
                       </Link>
                     ))
