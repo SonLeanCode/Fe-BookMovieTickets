@@ -197,13 +197,11 @@ const Home = () => {
       userId: userId,
       movieFavourite: movId,
     };
-    // Kiểm tra xem bộ phim có trong danh sách yêu thích chưa (có thể gọi API hoặc lấy dữ liệu từ state/localStorage).
-   
 
     console.log("dataFsss", dataFaMoive);
     try {
       const dataMovieFa = await createMoviesFavourite(dataFaMoive);
-      Toastify("Thêm vào yêu thích thành công1", 200);
+      Toastify("Thêm vào yêu thích thành công", 200);
       console.log("dataFa", dataMovieFa);
     } catch (err) {
       Toastify("Thêm vào yêu thích lỗi",400);
