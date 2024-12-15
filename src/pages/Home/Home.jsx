@@ -203,7 +203,7 @@ const Home = () => {
     console.log("dataFsss", dataFaMoive);
     try {
       const dataMovieFa = await createMoviesFavourite(dataFaMoive);
-      Toastify("Thêm vào yêu thích thành công", 200);
+      Toastify("Thêm vào yêu thích thành công1", 200);
       console.log("dataFa", dataMovieFa);
     } catch (err) {
       Toastify("Thêm vào yêu thích lỗi",400);
