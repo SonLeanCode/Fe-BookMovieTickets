@@ -27,7 +27,7 @@ const logout = () => {
 
 
 export const fetchBaseUrl = fetchBaseQuery({
-  baseUrl: "/efx", // Địa chỉ API của bạn
+  baseUrl: "https://be-cyberscreen.shop", // Địa chỉ API của bạn
   prepareHeaders: (headers) => {
     const token = getAccessToken();
 
