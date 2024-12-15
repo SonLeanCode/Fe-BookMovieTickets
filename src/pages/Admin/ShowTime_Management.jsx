@@ -62,8 +62,8 @@ const ShowTime_Management = () => {
         await updateShowtime({
           id: formData.id, // Đảm bảo lấy đúng ID
           updatedData: {
-            movie_id: formData.movie,
-            room_id: formData.room,
+            movie_id: formData.movie_id,
+            room_id: formData.room_id,
             start_time: formData.start_time,
             end_time: formData.end_time,
           },
@@ -73,22 +73,23 @@ const ShowTime_Management = () => {
         Toastify("Suất chiếu đã được cập nhật thành công.", 200);
       } else {
         // Thêm suất chiếu mới
-        await addShowtime({
-          movie_id: formData.movie,
-          room_id: formData.room,
+        const res = await addShowtime({
+          movie_id: formData.movie_id,
+          room_id: formData.room_id,
           start_time: formData.start_time,
           end_time: formData.end_time,
         }).unwrap();
   
         // Làm mới dữ liệu và thông báo thành công
-        Toastify("Suất chiếu mới đã được thêm thành công.", 200);
+        Toastify(res?.message, res?.status);
       }
       refetch()
       // Đóng modal sau khi thao tác thành công
       handleCloseModal();
     } catch (error) {
       console.error("Có lỗi xảy ra trong quá trình thao tác:", error);
-      Toastify("Có lỗi xảy ra! Vui lòng thử lại.", 400);
+      console.log(error)
+      Toastify(error?.data.message, error?.status);
     } finally {
       setLoading(false); // Kết thúc trạng thái loading
     }

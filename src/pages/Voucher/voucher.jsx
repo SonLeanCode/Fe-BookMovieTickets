@@ -2,82 +2,25 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import NowShowingMovies from '../Actor/NowShowingMovies';
+import { useGetVoucherQuery } from "../../services/Voucher/voucher.service";
 
 const Voucher = () => { // Changed from 'voucher' to 'Voucher'
   const { t } = useTranslation();
-  const actors = [
-    { 
-      name: "Johnny Depp", 
-      img: "https://i.pinimg.com/564x/03/a6/a6/03a6a6eab429e0feff108c32d19fc2ac.jpg", 
-      hoverText: "Khuyến mãi đặc biệt cho phim Johnny Depp", 
-      link: "/cinema/voucher/detail" 
-    },
-    { 
-      name: "Emma Watson", 
-      img: "https://i.pinimg.com/564x/65/45/9d/65459d98d1185663df3401e64ec60a0e.jpg", 
-      hoverText: "Ưu đãi 30% cho combo bắp nước với Emma Watson", 
-      link: "/cinema/voucher/detail"     
-    },
-    { 
-      name: "Robert Downey Jr.", 
-      img: "https://i.pinimg.com/564x/9e/27/00/9e2700be9b04805c7017d9695a9dd111.jpg", 
-      hoverText: "Tặng vé miễn phí cho phim Robert Downey Jr.", 
-      link: "/cinema/voucher/detail"     
-    },
-    { 
-      name: "Robert Downey Jr.", 
-      img: "https://i.pinimg.com/736x/93/09/0f/93090f65a27924397b98cc1f44bc8b3d.jpg", 
-      hoverText: "Mua 1 tặng 1 vé cho Robert Downey Jr.", 
-      link: "/cinema/voucher/detail"     
-    },
-    { 
-      name: "Robert Downey Jr.", 
-      img: "https://cdn.galaxycine.vn/media/2024/8/29/500_1724920115124.jpg", 
-      hoverText: "Giảm 50% vé cho phim mới của Robert Downey Jr.", 
-      link: "/cinema/voucher/detail"     
-    },
-    { 
-      name: "Margot Robbie", 
-      img: "https://i.pinimg.com/736x/5f/7d/62/5f7d62ac169398dd60f7dcea64509eff.jpg",
-      hoverText: "Khai Trương Rạp “Cung Đình” – Tặng 22000 Vé Miễn Phí", 
-      link: "/cinema/detail/margot-robbie" 
-    },
-    { 
-      name: "Brad Pitt", 
-      img: "https://i.pinimg.com/564x/2e/fe/d5/2efed50584cdf7379b9614e42a9882f2.jpg",
-      hoverText: "Khuyến mãi cho phim Brad Pitt", 
-      link: "/cinema/voucher/detail"     
-    },
-    { 
-      name: "Leonardo DiCaprio", 
-      img: "https://i.pinimg.com/564x/e0/5c/01/e05c015e48fff20ff1aab63541f91c57.jpg",
-      hoverText: "Ưu đãi đặc biệt cho phim Leonardo DiCaprio", 
-      link: "/cinema/voucher/detail"     
-    },
-    { 
-      name: "Angelina Jolie", 
-      img: "https://i.pinimg.com/564x/77/5e/38/775e38ded6abd4bebd0311b72416983f.jpg",
-      hoverText: "Giảm giá 30% cho combo bắp nước với Angelina Jolie", 
-      link: "/cinema/voucher/detail"     
-    },
-    { 
-      name: "Tom Cruise", 
-      img: "https://i.pinimg.com/564x/63/03/ea/6303ead9fcba8cd3fdb5ea74f098799b.jpg",
-      hoverText: "Vé 9K cho phim Tom Cruise", 
-      link: "/cinema/voucher/detail"     
-    }
-  ];
+  const { data: allvoucherData, error, isLoading } = useGetVoucherQuery();
+
+  
 
   const [currentPage, setCurrentPage] = useState(1);
   const actorsPerPage = 9; // Hiển thị 9 diễn viên mỗi trang, 3 diễn viên mỗi hàng
-
+  const vouchers = Array.isArray(allvoucherData?.data) ? allvoucherData.data : [];
   // Tính toán chỉ số bắt đầu và kết thúc cho diễn viên của trang hiện tại
   const indexOfLastActor = currentPage * actorsPerPage;
   const indexOfFirstActor = indexOfLastActor - actorsPerPage;
-  const currentActors = actors.slice(indexOfFirstActor, indexOfLastActor);
+  const currentActors = vouchers.slice(indexOfFirstActor, indexOfLastActor);
+console.log(currentActors);
 
   // Tính toán tổng số trang
-  const totalPages = Math.ceil(actors.length / actorsPerPage);
+  const totalPages = Math.ceil(vouchers.length / actorsPerPage);
 
   // Hàm điều hướng trang
   const goToPage = (pageNumber) => {
@@ -113,7 +56,7 @@ const Voucher = () => { // Changed from 'voucher' to 'Voucher'
         {/* Phần nội dung hiển thị khi hover */}
         <div className="absolute inset-0 w-full h-full p-2 bg-black bg-opacity-70 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
           <a href={actor.link} className="text-gray-300 text-center">
-            {actor.hoverText}
+            {actor.name}
           </a>
         </div>
       </div>
