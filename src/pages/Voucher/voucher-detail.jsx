@@ -13,10 +13,10 @@ const MovieTicketBlog = () => {
 
   const { data: allMoviesData, error, isLoading } = useGetAllMoviesQuery();
   const { data: codeData } = useGetVoucherQuery()
-  console.log('codedata', codeData);
+  // console.log('codedata', codeData.data[0]);
   const [createVoucher]  = useCreateVoucherMutation()
   const userId = getUserByIdFormToken()
-  console.log('userId',userId);
+  // console.log('userId',userId);
   
 
   const [countdown, setCountdown] = useState(0); // Countdown
@@ -29,19 +29,19 @@ const MovieTicketBlog = () => {
     switch (platform) {
       case "facebook":
         const title = encodeURIComponent("Chia sẻ để nhận phần thưởng");
-        const url = encodeURIComponent("https://your-website-link.com");
+        const url = encodeURIComponent("https://cyperscreend.shop/");
         const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${title}`;
         window.open(facebookShareUrl, "_blank");
         break;
       case "twitter":
         window.open(
-          "https://twitter.com/intent/tweet?url=https://your-website-link.com",
+          "https://twitter.com/intent/tweet?url=https://cyperscreend.shop/",
           "_blank"
         );
         break;
       case "instagram":
         window.open(
-          "https://www.instagram.com/?url=https://your-website-link.com",
+          "https://www.instagram.com/?url=https://cyperscreend.shop/",
           "_blank"
         );
         break;
@@ -59,12 +59,13 @@ const MovieTicketBlog = () => {
     const countdownStep = async (timeLeft) => {
       if (timeLeft <= 0) {
         // Khi đếm ngược kết thúc, xử lý logic lấy mã giảm giá
-        console.log("Đếm ngược kết thúc");
+        // console.log("Đếm ngược kết thúc");
   
         if (codeData?.data?.length > 0) {
           const code = codeData.data[0]?.code;
+          // console.log("tttt" , code);
+          
           const voucherId = codeData.data[0]?._id;
-  
           if (code && voucherId && userId) {
             console.log("Mã giảm giá:", code);
             localStorage.setItem("discountCode", code); // Lưu mã vào localStorage
@@ -90,7 +91,7 @@ const MovieTicketBlog = () => {
               }
             }
           } else {
-            alert("LỖI");
+            alert("Vui lòng đăng nhập !!!");
           }
         } else {
           console.error("Không tìm thấy mã giảm giá trong codeData");
@@ -229,7 +230,7 @@ const MovieTicketBlog = () => {
                   </h2>
                 </div>
                 <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-                  {movies.map((movie) => (
+                  {movies.slice(0,4).map((movie) => (
                     <div
                       href={`/cinema/movie/${movie._id}`}
                       key={movie._id}
@@ -256,7 +257,7 @@ const MovieTicketBlog = () => {
                           </div>
                         </div>
                       </div>
-                      <h4 className="movie-name mb-2 text-xl font-semibold">{movie.name}</h4>
+                      <h4 className="movie-name mb-2 text-lg font-semibold">{movie.name}</h4>
                     </div>
                   ))}
                 </div>

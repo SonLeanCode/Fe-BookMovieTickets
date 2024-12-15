@@ -27,7 +27,7 @@ const PopupNotification = () => {
 
   return (
     isVisible && (
-      <div className={`fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-700 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`fixed sm-hidden z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-700 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
         <div className="relative w-[33%] bg-white p-6 rounded-lg shadow-lg text-center transition-all duration-700 transform scale-100">
           {/* Nút đóng ở góc trên bên phải */}
           <button

@@ -40,22 +40,22 @@ const Contact = () => {
         } else {
             setIsLoading(true); // Set loading to true before sending the email
     
-            // Parameters for EmailJS
-            const serviceId = 'service_y8u0rtj';
-            const templateId = 'template_bqxln0i'; // Email to you
-            const publicKey = 'JEYVA7BLKzPbx1No_';
-    
-            const templateParams = {
-                form_name: formData.name,
-                form_email: formData.email,
-                to_name: "Thiên Phú",
-                message: formData.message,
-            };
+        // Parameters for EmailJS
+        const serviceId = 'service_y8u0rtj';
+        const templateId = 'template_bqxln0i'; // Email to you
+        const publicKey = 'xzRkHX75Rj7w0atNb';
+
+        const templateParams = {
+            form_name: formData.name,
+            form_email: formData.email,
+            to_name: "CyperScreend",
+            message: formData.message,
+        };
     
             // Send email to you
             emailjs.send(serviceId, templateId, templateParams, publicKey)
                 .then((response) => {
-                    console.log('Email sent successfully!', response.status, response.text);
+                    // console.log('Email sent successfully!', response.status, response.text);
                     Toastify("Email Đã Gửi Đi Thành Công!", 200);
     
                     // Now send email to user
@@ -70,11 +70,11 @@ const Contact = () => {
                     return emailjs.send(serviceId, userTemplateId, userTemplateParams, publicKey);
                 })
                 .then((response) => {
-                    console.log('User notification email sent successfully!', response.status, response.text);
+                    // console.log('User notification email sent successfully!', response.status, response.text);
                     Toastify("Email đã gửi tới bạn!", 200);
                 })
                 .catch((error) => {
-                    console.error('Failed to send email:', error);
+                    // console.error('Failed to send email:', error);
                     Toastify("Lỗi Không Gửi Mail Thành Công!", 400);
                 })
                 .finally(() => {
@@ -92,7 +92,7 @@ const Contact = () => {
     
 
     return (
-        <div className="bg-gray-900 px-14">
+        <div className="bg-gray-900 md:px-14 mt-40 px-0">
             {/* Banner Contact */}
             <div className="bg-contact mt-20 pt-6 text-uppercase flex justify-center items-center">
                 <h1 className="text-white text-4xl">Contacts</h1>
@@ -111,7 +111,7 @@ const Contact = () => {
                         referrerPolicy="no-referrer-when-downgrade"
                     ></iframe>
                 </div>
-                <div className="md:w-1/2 px-5">
+                <div className="md:w-1/2 md:px-5 mt-4 md:mt-0  px-0">
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="flex space-x-4">
                             <div className="flex-1">
@@ -197,7 +197,7 @@ const Contact = () => {
                         buttonText: 'Call Us',
                     },
                 ].map((item, index) => (
-                    <div key={index} className="w-1/2 md:w-1/4 p-4">
+                    <div key={index} className="w-2/2 mb-4 md:w-1/4 p-0 md:p-4">
                         <div className="border rounded text-center p-4">
                             <div className="mb-2 flex justify-center">
                                 {/* Updated SVG with white stroke color */}
@@ -221,7 +221,7 @@ const Contact = () => {
             </div>
 
             {/* Office Information */}
-            <div className="bg-black text-white text-center p-4 mx-4">
+            <div className="bg-black rounded text-white text-center p-4 mx-4">
                 <h2 className="text-3xl">OFFICE</h2>
                 <div className="flex flex-wrap justify-center p-4">
                     {[
@@ -248,7 +248,7 @@ const Contact = () => {
                     ].map((office, index) => (
                         <div
                             key={index}
-                            className="border-r border-white text-white p-2 flex flex-col items-center w-1/4"
+                            className="border-r rounded border-white text-white p-2 flex flex-col items-center md:w-1/4 w-2/4"
                         >
                             <h5 className="font-bold">{office.location}</h5>
                             <span className="text-sm">{office.phone}</span>
