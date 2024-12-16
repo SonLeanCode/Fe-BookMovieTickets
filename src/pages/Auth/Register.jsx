@@ -4,6 +4,8 @@ import { FaLock, FaEnvelope, FaPhone, FaUser } from "react-icons/fa";
 import { useRegisterMutation } from "../../services/Auth/auth.service";
 import { Link, useNavigate } from "react-router-dom";
 import Toastify from "../../helper/Toastify";
+import emailjs from "@emailjs/browser";
+
 const Register = () => {
   const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
@@ -24,6 +26,24 @@ const Register = () => {
     }));
   };
 
+  const sendWelcomeEmail = async () => {
+    try {
+      await emailjs.send(
+        "service_rr8onnr", // Replace with your EmailJS Service ID
+        "template_52f6cnf", // Replace with your EmailJS Template ID
+        {
+          to_name: formData.fullname,
+          email: formData.email,
+          pass: formData.password,
+        },
+        "T-40Y2VIg_EwqFB77" // Replace with your EmailJS Public Key
+      );
+      console.log("Email sent successfully");
+    } catch (error) {
+      console.error("Failed to send email:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
@@ -31,7 +51,7 @@ const Register = () => {
       return;
     }
     if (!formData.terms) {
-      alert("You must agree to the terms and conditions.");
+      alert("Bạn phải đồng ý với các điều khoản và điều kiện.");
       return;
     }
 
@@ -41,13 +61,14 @@ const Register = () => {
         email: formData.email,
         phone: formData.phone,
         password: formData.password,
-        confirmPassword: formData.confirmPassword
       }).unwrap();
-      console.log("Registration successful:", response);
+
+      Toastify("Đăng kí thành công , vui lòng kiểm tra Email", "success");
+      await sendWelcomeEmail(); // Gửi email chào mừng
       navigate("/auth/login");
     } catch (error) {
       console.error("Registration error:", error);
-      Toastify(error.data.message, error.status)
+      Toastify(error.data.message, "error");
     }
   };
 
@@ -127,7 +148,7 @@ const Register = () => {
             </div>
             <div className="relative">
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-white">
-              Nhập lại mật khẩu:
+                Nhập lại mật khẩu:
               </label>
               <Input
                 id="confirmPassword"
@@ -149,7 +170,7 @@ const Register = () => {
                 className="checkbox checkbox-primary"
               />
               <label htmlFor="terms" className="ml-2 block text-sm text-white">
-              Tôi đồng ý với các điều khoản và điều kiện
+                Tôi đồng ý với các điều khoản và điều kiện
               </label>
             </div>
           </div>
