@@ -443,7 +443,7 @@ const Dashboard = () => {
                 <h1 className="mb-5 text-center text-xl font-bold text-slate-800">
                   Top phim
                 </h1>
-                {movie?.moviesStats.map((movieItem, index) => (
+                {movie?.moviesStats.slice(0, 7).map((movieItem, index) => (
                   <div key={movieItem?._id} className="rounded-sm bg-slate-50">
                     {/* Display top 3 movies */}
                     <div
