@@ -28,6 +28,7 @@ import Tickets_Management from "../pages/Admin/tickets_Management";
 import CinemaRevenue from "../pages/Admin/CinemaRevenue_Management";
 import RoomLayout from "../pages/Admin/RoomLayout";
 import Banner_Management from "../pages/Admin/Banner_Management";
+import Voucher_Management from "../pages/Admin/Voucher_Management";
 
 
 
@@ -155,6 +156,8 @@ export default function AppRoutes() {
                 <Route path="CinemaRevenueManagement" element={<CinemaRevenue />} />
                 <Route path="roomlayout/:roomId" element={<RoomLayout />} />
                 <Route path="banner" element={<Banner_Management />} />
+                <Route path="voucher" element={<Voucher_Management />} />
+
               </Route>
             </Route>
           </Route>

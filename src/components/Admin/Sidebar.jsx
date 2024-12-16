@@ -12,7 +12,7 @@ import {
   FaUser, 
   FaTicketAlt
 } from "react-icons/fa";
-import { RiAdvertisementLine } from 'react-icons/ri';
+import { RiAdvertisementLine, RiCoupon3Fill  } from 'react-icons/ri';
 import { MdOutlineTheaters, MdOutlineComment } from 'react-icons/md';
 const menuItems = [
   { name: "Bảng điều khiển", icon: MdDashboard, link: "/admin/dashboard" },
@@ -27,6 +27,7 @@ const menuItems = [
   { name: "Quản lý bình luận", icon: MdOutlineComment , link: "/admin/commentManagement" },
   { name: "Quản lý vé", icon: FaTicketAlt , link: "/admin/ticketsManagement" },
   { name: "Quản lý banner", icon: RiAdvertisementLine , link: "/admin/banner" },
+  { name: "Quản lý voucher", icon: RiCoupon3Fill , link: "/admin/voucher" },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
