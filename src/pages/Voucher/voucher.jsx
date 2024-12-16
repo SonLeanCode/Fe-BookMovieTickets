@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import NowShowingMovies from '../Actor/NowShowingMovies';
-import { useGetVoucherQuery } from "../../services/Voucher/voucher.service";
+import { useFindCodeVoucherQuery } from "../../services/Voucher/vouchers";
 
 const Voucher = () => { // Changed from 'voucher' to 'Voucher'
   const { t } = useTranslation();
-  const { data: allvoucherData, error, isLoading } = useGetVoucherQuery();
+  const { data: allvoucherData, error, isLoading } = useFindCodeVoucherQuery();
 
   
 

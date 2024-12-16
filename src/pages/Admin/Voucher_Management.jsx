@@ -279,7 +279,7 @@ const VoucherManagement = () => {
 
                   <td className="px-4 py-2">{voucher?.name}</td>
                   <td className="px-4 py-2">{voucher?.discount_percent}%</td>
-                  <td className="px-4 py-2 text-center">{formatDate(voucher?.valid_until)} - {formatDate(voucher?.valid_until)}</td>
+                  <td className="px-4 py-2 text-center">{formatDate(voucher?.valid_from)} - {formatDate(voucher?.valid_until)}</td>
                   <td className="px-4 py-2 text-center">
                     
                     <Button

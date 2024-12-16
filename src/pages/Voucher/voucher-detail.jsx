@@ -13,6 +13,7 @@ const MovieTicketBlog = () => {
 
   const { data: allMoviesData, error, isLoading } = useGetAllMoviesQuery();
   const { data: codeData } = useGetVoucherQuery()
+  console.log("bghgh", codeData);
   // console.log('codedata', codeData.data[0]);
   const [createVoucher]  = useCreateVoucherMutation()
   const userId = getUserByIdFormToken()
@@ -70,7 +71,8 @@ const MovieTicketBlog = () => {
             console.log("Mã giảm giá:", code);
             localStorage.setItem("discountCode", code); // Lưu mã vào localStorage
             setDiscountCode(code); // Cập nhật discountCode vào state
-  
+            console.log("voiucher", discountCode);
+            
             try {
               const response = await createVoucher({ idUser: userId, idVoucher: voucherId }).unwrap();
               console.log("Yêu cầu POST thành công:", response);
