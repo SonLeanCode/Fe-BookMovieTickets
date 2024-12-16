@@ -16,6 +16,7 @@ import {paymentApi} from '../services/payment/Payment.services';
 import {moviesFavouriteApi}  from '../services/MovieFavourite/moviesFavourite_service';
 import {statsApi} from '../services/RevenueStatistics/revenuestatistics.service'
 import {voucherApi}from '../services/Voucher/voucher.service'
+import {vouchersApi}from '../services/Voucher/vouchers'
 import { ratingApi } from '../services/Rating/rating.serviecs';
 import { roomLayoutApi } from '../services/Room/roomlayout.service';
 import { bannerApi } from '../services/Banner/banner.service';
@@ -40,6 +41,7 @@ const store = configureStore({
     [moviesFavouriteApi.reducerPath]: moviesFavouriteApi.reducer,
     [statsApi.reducerPath]: statsApi.reducer,
     [voucherApi.reducerPath]: voucherApi.reducer,
+    [vouchersApi.reducerPath]: vouchersApi.reducer,
     [ratingApi.reducerPath]: ratingApi.reducer,
     [bannerApi.reducerPath]: bannerApi.reducer,
   },
@@ -63,6 +65,7 @@ const store = configureStore({
       .concat(moviesFavouriteApi.middleware)
       .concat(statsApi.middleware)
       .concat(voucherApi.middleware)
+      .concat(vouchersApi.middleware)
       .concat(ratingApi.middleware)
       .concat(bannerApi.middleware)
 });
