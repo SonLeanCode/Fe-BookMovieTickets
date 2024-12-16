@@ -54,12 +54,15 @@ console.log(currentActors);
         </Link>
 
         {/* Phần nội dung hiển thị khi hover */}
+        <Link to="detail">
         <div className="absolute inset-0 w-full h-full p-2 bg-black bg-opacity-70 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
           <a href={actor.link} className="text-gray-300 text-center">
             {actor.name}
           </a>
         </div>
+        </Link>
       </div>
+      
     ))}
   </div>
 
