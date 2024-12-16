@@ -238,64 +238,20 @@ const CheapTicket = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 transition-opacity duration-300 ease-in-out">
-          <div className="w-11/12 max-w-3xl scale-100 transform rounded-lg bg-gradient-to-br from-slate-950 to-red-950 p-8 shadow-lg transition-transform duration-300 ease-in-out">
+          <div className="w-11/12  max-w-4xl scale-100 transform rounded-lg bg-gradient-to-br from-slate-950 to-red-950 p-8 shadow-lg transition-transform duration-300 ease-in-out">
             <h3 className="mb-4 text-center text-4xl font-bold">
               {selectedCinema?.name}
             </h3>
             <img
               src={selectedCinema?.image || "https://via.placeholder.com/150"}
               alt={selectedCinema?.name}
-              className="h-64 w-full rounded-md object-cover"
+              className="h-72 w-full rounded-md object-cover"
             />
-
             <div className="mt-2 flex w-full items-center text-gray-300">
               <i className="fas fa-map-marker-alt mr-2"></i>
-              <strong>{t("Địa chỉ")}: </strong>{" "}
+              <strong>{t("Địa chỉ")} </strong>{" "}
               {selectedCinema?.address || "Không có địa chỉ."}
             </div>
-
-            <div className="mt-2 flex items-center text-gray-300">
-              <i className="fas fa-info-circle mr-2"></i>
-              <strong>{t("Thông tin rạp")}: </strong>{" "}
-              {selectedCinema?.info || "Không có thông tin."}
-            </div>
-
-            <div className="mt-4 flex justify-between rounded-md bg-black p-4">
-              <div className="flex-1 text-center">
-                <h4 className="text-xl font-semibold text-white">
-                  {" "}
-                  {t("Phòng VIP")}
-                </h4>
-                <p className="mt-2 text-gray-300">
-                  <strong>{t("Số phòng")}:</strong>{" "}
-                  {selectedCinema?.vipRoomCount || 0} phòng
-                </p>
-                <p className="text-gray-300">
-                  <strong>{t("Số ghế")}:</strong>{" "}
-                  {selectedCinema?.vipSeatCount || 0} ghế
-                </p>
-              </div>
-              <div className="flex-1 border-l border-gray-500 pl-4 text-center">
-                <h4 className="text-xl font-semibold text-white">
-                  {t("Phòng Thường")}
-                </h4>
-                <p className="mt-2 text-gray-300">
-                  <strong>{t("Số phòng")}:</strong>{" "}
-                  {selectedCinema?.regularRoomCount || 0} phòng
-                </p>
-                <p className="text-gray-300">
-                  <strong>{"Số ghế"}:</strong>{" "}
-                  {selectedCinema?.regularSeatCount || 0} ghế
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-2 flex items-center text-gray-300">
-              <i className="fas fa-tv mr-2"></i>
-              <strong>{t("Loại màn hình")} :</strong>{" "}
-              {selectedCinema?.screenType || "Không có thông tin."}
-            </div>
-
             <button
               className="mt-6 w-full transform rounded bg-red-500 px-6 py-3 font-bold text-white transition duration-300 hover:scale-105 hover:bg-red-600"
               onClick={closeModal} // Đóng modal
