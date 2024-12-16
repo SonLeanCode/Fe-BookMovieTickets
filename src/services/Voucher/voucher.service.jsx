@@ -9,6 +9,7 @@ export const voucherApi = createApi({
 
     getVoucher: builder.query({
       query: () => '/api/voucher/',
+      method: 'GET',    
     }),
     getVoucherUser: builder.query({
       query: (id) => `/api/codeVoucherUser/${id}`,
