@@ -47,20 +47,19 @@ const MovieList = () => {
 
 
   // Trích xuất danh sách quốc gia từ dữ liệu phim
-  const countryList = allMoviesData?.data.flatMap((movie) => {
-    console.log(movie.country);  // Log quốc gia của mỗi movie
-    return Array.isArray(movie.country) ? movie.country : [movie.country]; // Trả về mảng quốc gia
-  })
-  .filter((country) => country && country._id) // Lọc bỏ giá trị null hoặc undefined
-  .reduce((acc, country) => {
-    if (!acc.some((c) => c._id === country._id)) {
-      acc.push(country); // Chỉ thêm quốc gia nếu chưa tồn tại trong danh sách
-    }
-    return acc;
-  }, []) || [];
+  // const countryList = allMoviesData?.data.flatMap((movie) => {
+  //   // console.log(movie.country);  
+  //   return Array.isArray(movie.country) ? movie.country : [movie.country]; // Trả về mảng quốc gia
+  // })
+  // .filter((country) => country && country._id) // Lọc bỏ giá trị null hoặc undefined
+  // .reduce((acc, country) => {
+  //   if (!acc.some((c) => c._id === country._id)) {
+  //     acc.push(country); // Chỉ thêm quốc gia nếu chưa tồn tại trong danh sách
+  //   }
+  //   return acc;
+  // }, []) || [];
   
-  // console.log(countryList);
-  const [selectedCountry, setSelectedCountry] = useState("");
+  // const [selectedCountry, setSelectedCountry] = useState("");
 
 
 
