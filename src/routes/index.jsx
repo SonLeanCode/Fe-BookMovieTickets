@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy } from "react";
 
 // Constants
-import ROLE from "../constants";
+// import ROLE from "../constants";
 
 // Layouts
 import UserLayout from "../layouts/UserLayout";
@@ -10,7 +10,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import DefaultLayout from "../layouts/DefaultLayout";
 
 // Private
-import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
+// import PrivateRoute from "./private/PrivateRoute/PrivateRoute";
 import { NotLoggedMiddleware } from "./private/middleware/MiddlewareRoute";
 
 
@@ -122,7 +122,6 @@ export default function AppRoutes() {
           <Route element={<DefaultLayout />}>
             <Route
               path="/cinema"
-              element={<PrivateRoute allowedRoles={[ROLE.USER, ROLE.ADMIN]} />}
             >
               <Route element={<UserLayout />}>
                 <Route path="profile/:userId" element={<Profile />} />
@@ -134,7 +133,6 @@ export default function AppRoutes() {
           <Route element={<DefaultLayout />}>
             <Route
               path="/admin"
-              element={<PrivateRoute allowedRoles={[ROLE.ADMIN]} />}
             >
               <Route element={<AdminLayout />}>
                 <Route path="" element={<Dashboard />} />
