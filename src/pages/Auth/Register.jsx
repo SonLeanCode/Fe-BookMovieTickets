@@ -9,6 +9,7 @@ import emailjs from "@emailjs/browser";
 const Register = () => {
   const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
+
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -47,11 +48,15 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      Toastify("Mật khẩu nhập chưa khớp với mật khẩu xác nhận","400");
+      return;
+    }
+    if (formData.password.length < 6) {
+      Toastify("Mật khẩu cần ít nhất 6 kí tự","400");
       return;
     }
     if (!formData.terms) {
-      alert("Bạn phải đồng ý với các điều khoản và điều kiện.");
+      Toastify("Bạn phải đồng ý với các điều khoản và điều kiện.","400");
       return;
     }
 
