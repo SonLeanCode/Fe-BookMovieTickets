@@ -3,7 +3,7 @@ import { fetchBaseUrl } from '../Auth/auth.service';
 
 // Tạo API với Redux Toolkit Query
 export const vouchersApi = createApi({
-    reducerPath: 'voucherApi',
+    reducerPath: 'vouchersApi',
     baseQuery: fetchBaseUrl,
     endpoints: (builder) => ({
       // Lấy danh sách voucher
