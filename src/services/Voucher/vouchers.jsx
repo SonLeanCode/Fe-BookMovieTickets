@@ -12,13 +12,13 @@ export const vouchersApi = createApi({
       }),
   
       // Tạo mới voucher
-      createVoucher: builder.mutation({
-        query: (dataVoucher) => ({
-          url: '/api/voucher',
-          method: 'POST',
-          body: { ...dataVoucher },
-        }),
+     addVoucher: builder.mutation({
+      query: (newVoucherData) => ({
+        url: "/api/voucher",
+        method: "POST",
+        body: newVoucherData,
       }),
+    }),
   
       // Xóa voucher theo ID
       deleteVoucher: builder.mutation({
@@ -32,6 +32,6 @@ export const vouchersApi = createApi({
   
   export const {
     useFindCodeVoucherQuery,
-    useCreateVoucherMutation,
+    useAddVoucherMutation,
     useDeleteVoucherMutation,
   } = vouchersApi;
