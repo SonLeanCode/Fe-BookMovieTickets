@@ -61,7 +61,7 @@ const Register = () => {
     }
 
     try {
-      const response = await register({
+      await register({
         fullname: formData.fullname,
         email: formData.email,
         phone: formData.phone,

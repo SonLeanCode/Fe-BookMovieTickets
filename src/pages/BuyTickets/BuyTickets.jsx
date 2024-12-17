@@ -13,7 +13,7 @@ import { useGetSeatsByRoomQuery } from "../../services/Seat/seat.serviecs";
 import SeatSelection from "../../components/Seat/SeatSelection";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useCreateTicketMutation } from "../../services/Ticket/ticket.serviecs";
-import { useAddSeatStatusesMutation } from "../../services/Showtimes/showtimes.serviecs";
+import { useAddSeatStatusesMutation, useGetShowtimesByIdQuery } from "../../services/Showtimes/showtimes.serviecs";
 import {
   usePaymentMomoMutation,
   useCreatePaymentMutation,
@@ -65,6 +65,7 @@ const BuyTickets = () => {
     selectedRoom?.roomId || skipToken,
   );
 
+  const {data: showtimeData, isLoading: showtimeLoading, refetch: refetchShowTime } = useGetShowtimesByIdQuery(selectedShowtime?._id || skipToken)
   useEffect(() => {
     // Kiểm tra xem selectedShowtime có tồn tại trong localStorage không
     const storedShowtime = localStorage.getItem("selectedShowtime");
@@ -108,6 +109,28 @@ const BuyTickets = () => {
     }
   };
 
+   const handlePayment = async () => {
+    // Lấy các tham số từ URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const partnerCode = urlParams.get("partnerCode");
+    const amount = parseInt(urlParams.get("amount"));
+    const resultCode = urlParams.get("resultCode");
+    const responseTime = urlParams.get("responseTime");
+    // const message = urlParams.get("message");
+    // Kiểm tra kết quả thanh toán
+    if (resultCode === "0") {
+      const paymentMethod = partnerCode; // Vì đây là MoMo, phương thức thanh toán sẽ là MoMo
+      const totalAmount = amount;
+      const paymentDate = new Date(parseInt(responseTime)).toLocaleString(); // Chuyển thời gian sang dạng chuỗi
+      // Tạo paymentData với các tham số từ URL
+     const dataMomo =  await handleAddTicket(paymentMethod, totalAmount, paymentDate);
+     console.log('datamMOMO',dataMomo)
+      
+    } else {
+      alert("Thanh toán không thành công. Vui lòng thử lại!");
+    }
+  };
+
   useEffect(() => {
     // Chỉ chạy hàm handlePayment nếu chưa chạy
     if (!hasRun.current && window.location.search.includes("partnerCode")) {
@@ -139,27 +162,53 @@ const BuyTickets = () => {
     }
   }, [selectedCinema]);
 
-  const handlePayment = async () => {
-    // Lấy các tham số từ URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const partnerCode = urlParams.get("partnerCode");
-    const amount = parseInt(urlParams.get("amount"));
-    const resultCode = urlParams.get("resultCode");
-    const responseTime = urlParams.get("responseTime");
-    // const message = urlParams.get("message");
-    // Kiểm tra kết quả thanh toán
-    if (resultCode === "0") {
-      const paymentMethod = partnerCode; // Vì đây là MoMo, phương thức thanh toán sẽ là MoMo
-      const totalAmount = amount;
-      const paymentDate = new Date(parseInt(responseTime)).toLocaleString(); // Chuyển thời gian sang dạng chuỗi
-      // Tạo paymentData với các tham số từ URL
-     const dataMomo =  await handleAddTicket(paymentMethod, totalAmount, paymentDate);
-     console.log('datamMOMO',dataMomo)
-      
-    } else {
-      alert("Thanh toán không thành công. Vui lòng thử lại!");
+  const handleSeat = () => {
+    refetchShowTime(); // Lấy lại dữ liệu mới nhất
+    const seatStatus = showtimeData?.data?.seat_statuses; // Danh sách trạng thái ghế
+    const seats = selectedSeats; // Các ghế được chọn
+    const userId = userData._id; // ID của người dùng hiện tại
+  
+    if (!seatStatus || seatStatus.length === 0) {
+      console.error("Không có thông tin trạng thái ghế.");
+      alert("Giao dịch thất bại: Không có thông tin trạng thái ghế.");
+      window.location.reload(); // Reload lại trang
+      return;
     }
+  
+    for (const seat of seats) {
+      const statusInfo = seatStatus.find((status) => status.seat_id === seat._id);
+  
+      if (!statusInfo) {
+        console.log(`Ghế ${seat.row}${seat.seat_number} không có trạng thái cụ thể, cho phép tiếp tục.`);
+        continue; // Nếu ghế không có trạng thái cụ thể, cho phép tiếp tục
+      }
+  
+      if (statusInfo.status === "booked") {
+        console.log(`Ghế ${seat.row}${seat.seat_number} đã được đặt, không thể chọn.`);
+        alert(`Giao dịch thất bại: Ghế ${seat.row}${seat.seat_number} đã được đặt.`);
+        window.location.reload(); // Reload lại trang
+        return;
+      }
+  
+      if (statusInfo.status === "locked" && statusInfo.user_id !== userId) {
+        console.log(`Ghế ${seat.row}${seat.seat_number} đã bị khóa bởi người dùng khác, không thể chọn.`);
+        alert(`Giao dịch thất bại: Ghế ${seat.row}${seat.seat_number} đã bị khóa bởi người dùng khác.`);
+        window.location.reload(); // Reload lại trang
+        return;
+      }
+  
+      if (statusInfo.status === "locked" && statusInfo.user_id === userId) {
+        console.log(`Ghế ${seat.row}${seat.seat_number} đã bị khóa bởi bạn, cho phép tiếp tục.`);
+        continue; // Nếu ghế bị khóa bởi người dùng hiện tại, cho phép tiếp tục
+      }
+    }
+  
+    console.log("Tất cả các ghế được chọn đều hợp lệ, tiếp tục thực hiện.");
+    handleMomo(); // Gọi tới hàm xử lý thanh toán nếu tất cả các ghế hợp lệ
   };
+  
+
+ 
 
   const generateInvoiceCode = () => {
     const uniqueId = uuidv4().split("-")[0]; // Tạo mã duy nhất từ uuid
@@ -229,6 +278,7 @@ const BuyTickets = () => {
       await addSeatStatus({
         showtimeId: selectedShowtime._id,
         seatStatuses,
+        user_id: getUser?._id,
       }).unwrap();
       Toastify("Thanh toán thành công", 200);
       emailSend(emailData);
@@ -457,7 +507,7 @@ const BuyTickets = () => {
     setIsContinueClicked(true);
   };
 
-  if (seatsLoading || dataByShowtimesLoading) {
+  if (seatsLoading || dataByShowtimesLoading || showtimeLoading) {
     return <LoadingLocal />;
   }
 
@@ -889,6 +939,7 @@ const BuyTickets = () => {
                   <button
                     onClick={handleAddTicket}
                     className="w-1/2 rounded-md bg-red-600 p-2 text-white"
+                    disabled
                   >
                     Xác nhận
                   </button>
@@ -931,7 +982,7 @@ const BuyTickets = () => {
               </p>
             </div>
             <button
-              onClick={handleMomo}
+              onClick={handleSeat}
               className="mx-auto block rounded bg-blue-500 px-4 py-2 text-white"
               disabled={isLoading}
             >

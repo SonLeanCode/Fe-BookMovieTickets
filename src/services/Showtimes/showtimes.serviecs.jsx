@@ -12,6 +12,10 @@ export const showtimesApi = createApi({
       query: () => '/api/showtime',
     }),
 
+    getShowtimesById: builder.query({
+      query: (id) => `/api/showtime/${id}`,
+    }),
+
     getDataWithShowtimes: builder.query({
       query: () => '/api/showtimes/data',
     }),
@@ -42,17 +46,35 @@ export const showtimesApi = createApi({
     }),
 
     addSeatStatuses: builder.mutation({
-      query: ({ showtimeId, seatStatuses }) => ({
+      query: ({ showtimeId, seatStatuses, user_id}) => ({
         url: `/api/showtimes/${showtimeId}/seat-statuses`,
-        method: 'POST', 
-        body: { seatStatuses },
+        method: 'POST',
+        body: { seatStatuses, user_id }, // Gửi kèm userId
       }),
     }),
+
+    deleteSeatStatus: builder.mutation({
+      query: ({ showtimeId, seatId, user_id }) => ({
+        url: `/api/showtimes/${showtimeId}/seat-statuses/${seatId}`,
+        method: 'DELETE',
+        body: { user_id }, // Gửi kèm userId
+      }),
+    }),
+    
+
     
     // Xóa một suất chiếu
     deleteShowtime: builder.mutation({
       query: (id) => ({
         url: `/api/showtime/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    // Endpoint để xóa trạng thái ghế
+    removeSeatStatus: builder.mutation({
+      query: (seatStatusId) => ({
+        url: `/api/seatStatus/${seatStatusId}`,
         method: 'DELETE',
       }),
     }),
@@ -67,5 +89,8 @@ export const {
   useAddSeatStatusesMutation, //
   useDeleteShowtimeMutation, //
   useGetDataWithShowtimesQuery, //
-  useGetShowtimesByMovieQuery
+  useGetShowtimesByMovieQuery,
+  useDeleteSeatStatusMutation,//
+  useGetShowtimesByIdQuery,
+  useRemoveSeatStatusMutation
 } = showtimesApi;
