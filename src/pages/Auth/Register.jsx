@@ -39,7 +39,7 @@ const Register = () => {
         },
         "T-40Y2VIg_EwqFB77" // Replace with your EmailJS Public Key
       );
-      console.log("Email sent successfully");
+      // console.log("Email sent successfully");
     } catch (error) {
       console.error("Failed to send email:", error);
     }
@@ -68,7 +68,7 @@ const Register = () => {
         password: formData.password,
       }).unwrap();
 
-      Toastify("Đăng kí thành công , vui lòng kiểm tra Email", "success");
+      Toastify("Đăng kí thành công , vui lòng kiểm tra Email", "200");
       await sendWelcomeEmail(); // Gửi email chào mừng
       navigate("/auth/login");
     } catch (error) {

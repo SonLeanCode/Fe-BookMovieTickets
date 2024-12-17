@@ -17,6 +17,8 @@ const HeaderWeb = () => {
   const [userAvatar, setUserAvatar] = useState("");
   const [fullName, setFullName] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const navigate = useNavigate();
   const userIdToken = getUserByIdFormToken();
@@ -73,8 +75,8 @@ const HeaderWeb = () => {
     // const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [searchTerm, setSearchTerm] = useState(""); // State for search input
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
+    // Gọi hook để lấy dữ liệu từ API Movies
+    const { data: showSearchMovies, isLoading: searchLoading } = useGetAllMoviesQuery();
   
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -82,8 +84,7 @@ const HeaderWeb = () => {
       }
     };
   
-    // Gọi hook để lấy dữ liệu từ API Movies
-    const { data: showSearchMovies, isLoading: searchLoading } = useGetAllMoviesQuery();
+
     
     if (searchLoading) {
       return <div>Đang tải ...</div>;
