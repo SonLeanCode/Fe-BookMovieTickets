@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import PopupNotification from "./Popup";
 import {
-  FaRegKissWinkHeart,
+  FaHeart,
   FaPhotoVideo,
   FaRegHandPointRight,
   FaStar,
@@ -372,7 +372,7 @@ const Home = () => {
                           <h4 className="text-lg font-bold">{movie?.name}</h4>
                           <p className="text-sm">Đánh giá: {movie?.rating}</p>
                           <div className="flex flex-col items-center space-y-3">
-                            <FaRegKissWinkHeart
+                            <FaHeart
                               onClick={() => handleMovieFavourite(movie?._id)}
                               size={24}
                               className="cursor-pointer"
@@ -454,7 +454,7 @@ const Home = () => {
                     {/* Overlay buttons */}
                     <div className="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                       <div className="button-container flex flex-col space-y-4">
-                        <FaRegKissWinkHeart
+                        <FaHeart
                           onClick={() => handleMovieFavourite(movie._id)}
                           size={18}
                           className="ml-11 flex items-center justify-center font-bold"
@@ -507,7 +507,7 @@ const Home = () => {
                       {/* Overlay buttons */}
                       <div className="absolute inset-0 flex h-[250px] items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div className="flex flex-col">
-                          <FaRegKissWinkHeart
+                          <FaHeart
                             onClick={() => handleMovieFavourite(movie._id)}
                             size={18}
                             className="ml-11 flex items-center justify-center font-bold"
@@ -561,7 +561,7 @@ const Home = () => {
                   {/* Overlay buttons */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="flex flex-col">
-                      <FaRegKissWinkHeart
+                      <FaHeart
                         onClick={() => handleMovieFavourite(movie._id)}
                         size={18}
                         className="ml-11 flex items-center justify-center font-bold"
@@ -642,11 +642,11 @@ const Home = () => {
                     </h4>
                     <p className="movie-rating">Đánh giá: {movie.rating}</p>
                     <br></br>
-                    <div className="button-container flex flex-col space-y-4">
-                      <FaRegKissWinkHeart
+                    <div className="button-container text-center flex flex-col space-y-4">
+                      <FaHeart
                         onClick={() => handleMovieFavourite(movie._id)}
                         size={18}
-                        className="ml-11 flex items-center justify-center font-bold"
+                        className="ml-11 flex items-center justify-center text-center font-bold"
                       />
                       <button
                         onClick={() => handleTrailerClick(movie?.url_video)}
