@@ -13,7 +13,8 @@ const Profile = () => {
     const { t } = useTranslation();
     const { userId } = useParams();
     const { data: userData } = useGetUserQuery(userId)
-    const { data: idTicketData, } = useGetTicketsByUserIdQuery(userId)
+    const { data: idTicketData } = useGetTicketsByUserIdQuery(userId);
+    console.log('Vé của người dùng:', idTicketData);
 
 
     const fileInputRef = useRef(null);
@@ -488,12 +489,12 @@ const Profile = () => {
                                 {activeTab === 'history' &&
                                     <div>
                                         {idTicketData?.tickets?.length > 0 ? (
-                                            <div className="shadow-sm overflow-hidden">
+                                            <div className="max-h-[500px] overflow-y-auto">
                                                 {idTicketData.tickets.map((ticket) => (
                                                     <div key={ticket._id} className="flex bg-slate-100 rounded-sm mb-3">
                                                         <div className="w-2/12">
                                                             <img
-                                                                src={ticket.showtime_id.movie_id.img || "default_poster_url.jpg"}
+                                                                src={ticket.showtime_id?.movie_id.img || "default_poster_url.jpg"}
                                                                 alt={ticket.movieTitle || "Movie Poster"}
                                                                 className="w-auto m-auto p-2"
                                                             />
